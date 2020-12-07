@@ -36,9 +36,7 @@ public class Generator {
         Configuration config = null;
         try {
             config = cp.parseConfiguration(configFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (XMLParserException e) {
+        } catch (IOException | XMLParserException e) {
             e.printStackTrace();
         }
         DefaultShellCallback callback = new DefaultShellCallback(overwrite);
@@ -50,11 +48,7 @@ public class Generator {
         }
         try {
             myBatisGenerator.generate(null);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (SQLException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }

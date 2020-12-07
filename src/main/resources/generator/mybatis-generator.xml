@@ -48,7 +48,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="ACT_RU_TASK">
+        <table tableName="ACT_HI_TASKINST">
             <!-- <columnOverride column="abstracts" jdbcType="VARCHAR" />-->
         </table>
     </context>
