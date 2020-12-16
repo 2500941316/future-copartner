@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
-  * @author cxy
-  * @date 2020/12/7 17:11
-  * @Description 任务表类
-  * @return
-  */
 public class ActRuTaskExample {
     protected String orderByClause;
 

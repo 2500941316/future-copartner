@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProProjectMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProProject">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="followers" jdbcType="VARCHAR" property="followers" />
+    <result column="isDeleted" jdbcType="CHAR" property="isdeleted" />
+    <result column="isLock" jdbcType="INTEGER" property="islock" />
+    <result column="plan_url" jdbcType="VARCHAR" property="planUrl" />
+    <result column="primaryJob" jdbcType="VARCHAR" property="primaryjob" />
+    <result column="projectName" jdbcType="VARCHAR" property="projectname" />
+    <result column="startTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, creater, description, endTime, followers, isDeleted, isLock, plan_url, primaryJob, 
+    projectName, startTime, status, type, video_url
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProProjectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_PROJECT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_PROJECT
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_PROJECT
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProProjectExample">
+    delete from PRO_PROJECT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProProject">
+    insert into PRO_PROJECT (id, creater, description, 
+      endTime, followers, isDeleted, 
+      isLock, plan_url, primaryJob, 
+      projectName, startTime, status, 
+      type, video_url)
+    values (#{id,jdbcType=BIGINT}, #{creater,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{followers,jdbcType=VARCHAR}, #{isdeleted,jdbcType=CHAR}, 
+      #{islock,jdbcType=INTEGER}, #{planUrl,jdbcType=VARCHAR}, #{primaryjob,jdbcType=VARCHAR}, 
+      #{projectname,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProProject">
+    insert into PRO_PROJECT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="endtime != null">
+        endTime,
+      </if>
+      <if test="followers != null">
+        followers,
+      </if>
+      <if test="isdeleted != null">
+        isDeleted,
+      </if>
+      <if test="islock != null">
+        isLock,
+      </if>
+      <if test="planUrl != null">
+        plan_url,
+      </if>
+      <if test="primaryjob != null">
+        primaryJob,
+      </if>
+      <if test="projectname != null">
+        projectName,
+      </if>
+      <if test="starttime != null">
+        startTime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="videoUrl != null">
+        video_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="followers != null">
+        #{followers,jdbcType=VARCHAR},
+      </if>
+      <if test="isdeleted != null">
+        #{isdeleted,jdbcType=CHAR},
+      </if>
+      <if test="islock != null">
+        #{islock,jdbcType=INTEGER},
+      </if>
+      <if test="planUrl != null">
+        #{planUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="primaryjob != null">
+        #{primaryjob,jdbcType=VARCHAR},
+      </if>
+      <if test="projectname != null">
+        #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null">
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProProjectExample" resultType="java.lang.Long">
+    select count(*) from PRO_PROJECT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_PROJECT
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.creater != null">
+        creater = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endtime != null">
+        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.followers != null">
+        followers = #{record.followers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdeleted != null">
+        isDeleted = #{record.isdeleted,jdbcType=CHAR},
+      </if>
+      <if test="record.islock != null">
+        isLock = #{record.islock,jdbcType=INTEGER},
+      </if>
+      <if test="record.planUrl != null">
+        plan_url = #{record.planUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.primaryjob != null">
+        primaryJob = #{record.primaryjob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectname != null">
+        projectName = #{record.projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starttime != null">
+        startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videoUrl != null">
+        video_url = #{record.videoUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_PROJECT
+    set id = #{record.id,jdbcType=BIGINT},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      followers = #{record.followers,jdbcType=VARCHAR},
+      isDeleted = #{record.isdeleted,jdbcType=CHAR},
+      isLock = #{record.islock,jdbcType=INTEGER},
+      plan_url = #{record.planUrl,jdbcType=VARCHAR},
+      primaryJob = #{record.primaryjob,jdbcType=VARCHAR},
+      projectName = #{record.projectname,jdbcType=VARCHAR},
+      startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      video_url = #{record.videoUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProProject">
+    update PRO_PROJECT
+    <set>
+      <if test="creater != null">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        endTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="followers != null">
+        followers = #{followers,jdbcType=VARCHAR},
+      </if>
+      <if test="isdeleted != null">
+        isDeleted = #{isdeleted,jdbcType=CHAR},
+      </if>
+      <if test="islock != null">
+        isLock = #{islock,jdbcType=INTEGER},
+      </if>
+      <if test="planUrl != null">
+        plan_url = #{planUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="primaryjob != null">
+        primaryJob = #{primaryjob,jdbcType=VARCHAR},
+      </if>
+      <if test="projectname != null">
+        projectName = #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        startTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null">
+        video_url = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProProject">
+    update PRO_PROJECT
+    set creater = #{creater,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      endTime = #{endtime,jdbcType=TIMESTAMP},
+      followers = #{followers,jdbcType=VARCHAR},
+      isDeleted = #{isdeleted,jdbcType=CHAR},
+      isLock = #{islock,jdbcType=INTEGER},
+      plan_url = #{planUrl,jdbcType=VARCHAR},
+      primaryJob = #{primaryjob,jdbcType=VARCHAR},
+      projectName = #{projectname,jdbcType=VARCHAR},
+      startTime = #{starttime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

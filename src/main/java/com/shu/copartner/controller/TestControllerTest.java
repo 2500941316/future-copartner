@@ -1,18 +1,15 @@
 package com.shu.copartner.controller;
 
-import com.shu.copartner.mapper.ActRuTaskMapper;
-import com.shu.copartner.pojo.ActRuTask;
-import com.shu.copartner.pojo.ActRuTaskExample;
-import com.shu.copartner.service.ActivitiService;
-import com.shu.copartner.utils.constance.Constants;
+import com.shu.copartner.mapper.ActHiVarinstMapper;
+import com.shu.copartner.pojo.ActHiVarinst;
+import com.shu.copartner.pojo.ActHiVarinstExample;
+import com.shu.copartner.service.impl.ActivitiServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.lang.invoke.ConstantCallSite;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -25,14 +22,14 @@ import java.util.List;
 public class TestControllerTest {
 
     @Autowired
-    ActivitiService activitiService;
+    ActivitiServiceImpl activitiService;
 
     @Autowired
-    ActRuTaskMapper actRuTaskMapper;
+    ActHiVarinstMapper actRuTaskMapper;
 
     @Test
     public void propsTest() {
-        List<ActRuTask> actRuTasks = actRuTaskMapper.selectByExample(new ActRuTaskExample());
+        List<ActHiVarinst> actRuTasks = actRuTaskMapper.selectByExample(new ActHiVarinstExample());
         System.out.println(actRuTasks);
     }
 

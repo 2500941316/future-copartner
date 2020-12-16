@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ActRuIntegrationMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ActRuIntegration">
+    <id column="ID_" jdbcType="VARCHAR" property="id" />
+    <result column="EXECUTION_ID_" jdbcType="VARCHAR" property="executionId" />
+    <result column="PROCESS_INSTANCE_ID_" jdbcType="VARCHAR" property="processInstanceId" />
+    <result column="PROC_DEF_ID_" jdbcType="VARCHAR" property="procDefId" />
+    <result column="FLOW_NODE_ID_" jdbcType="VARCHAR" property="flowNodeId" />
+    <result column="CREATED_DATE_" jdbcType="TIMESTAMP" property="createdDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID_, EXECUTION_ID_, PROCESS_INSTANCE_ID_, PROC_DEF_ID_, FLOW_NODE_ID_, CREATED_DATE_
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ActRuIntegrationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ACT_RU_INTEGRATION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ACT_RU_INTEGRATION
+    where ID_ = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ACT_RU_INTEGRATION
+    where ID_ = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ActRuIntegrationExample">
+    delete from ACT_RU_INTEGRATION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ActRuIntegration">
+    insert into ACT_RU_INTEGRATION (ID_, EXECUTION_ID_, PROCESS_INSTANCE_ID_, 
+      PROC_DEF_ID_, FLOW_NODE_ID_, CREATED_DATE_
+      )
+    values (#{id,jdbcType=VARCHAR}, #{executionId,jdbcType=VARCHAR}, #{processInstanceId,jdbcType=VARCHAR}, 
+      #{procDefId,jdbcType=VARCHAR}, #{flowNodeId,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ActRuIntegration">
+    insert into ACT_RU_INTEGRATION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID_,
+      </if>
+      <if test="executionId != null">
+        EXECUTION_ID_,
+      </if>
+      <if test="processInstanceId != null">
+        PROCESS_INSTANCE_ID_,
+      </if>
+      <if test="procDefId != null">
+        PROC_DEF_ID_,
+      </if>
+      <if test="flowNodeId != null">
+        FLOW_NODE_ID_,
+      </if>
+      <if test="createdDate != null">
+        CREATED_DATE_,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="executionId != null">
+        #{executionId,jdbcType=VARCHAR},
+      </if>
+      <if test="processInstanceId != null">
+        #{processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="procDefId != null">
+        #{procDefId,jdbcType=VARCHAR},
+      </if>
+      <if test="flowNodeId != null">
+        #{flowNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ActRuIntegrationExample" resultType="java.lang.Long">
+    select count(*) from ACT_RU_INTEGRATION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ACT_RU_INTEGRATION
+    <set>
+      <if test="record.id != null">
+        ID_ = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executionId != null">
+        EXECUTION_ID_ = #{record.executionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processInstanceId != null">
+        PROCESS_INSTANCE_ID_ = #{record.processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.procDefId != null">
+        PROC_DEF_ID_ = #{record.procDefId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowNodeId != null">
+        FLOW_NODE_ID_ = #{record.flowNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdDate != null">
+        CREATED_DATE_ = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ACT_RU_INTEGRATION
+    set ID_ = #{record.id,jdbcType=VARCHAR},
+      EXECUTION_ID_ = #{record.executionId,jdbcType=VARCHAR},
+      PROCESS_INSTANCE_ID_ = #{record.processInstanceId,jdbcType=VARCHAR},
+      PROC_DEF_ID_ = #{record.procDefId,jdbcType=VARCHAR},
+      FLOW_NODE_ID_ = #{record.flowNodeId,jdbcType=VARCHAR},
+      CREATED_DATE_ = #{record.createdDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ActRuIntegration">
+    update ACT_RU_INTEGRATION
+    <set>
+      <if test="executionId != null">
+        EXECUTION_ID_ = #{executionId,jdbcType=VARCHAR},
+      </if>
+      <if test="processInstanceId != null">
+        PROCESS_INSTANCE_ID_ = #{processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="procDefId != null">
+        PROC_DEF_ID_ = #{procDefId,jdbcType=VARCHAR},
+      </if>
+      <if test="flowNodeId != null">
+        FLOW_NODE_ID_ = #{flowNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        CREATED_DATE_ = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID_ = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ActRuIntegration">
+    update ACT_RU_INTEGRATION
+    set EXECUTION_ID_ = #{executionId,jdbcType=VARCHAR},
+      PROCESS_INSTANCE_ID_ = #{processInstanceId,jdbcType=VARCHAR},
+      PROC_DEF_ID_ = #{procDefId,jdbcType=VARCHAR},
+      FLOW_NODE_ID_ = #{flowNodeId,jdbcType=VARCHAR},
+      CREATED_DATE_ = #{createdDate,jdbcType=TIMESTAMP}
+    where ID_ = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

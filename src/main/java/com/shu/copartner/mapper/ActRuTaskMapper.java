@@ -5,12 +5,6 @@ import com.shu.copartner.pojo.ActRuTaskExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-/**
-  * @author cxy
-  * @date 2020/12/7 17:12
-  * @Description 任务表mapper
-  * @return
-  */
 public interface ActRuTaskMapper {
     long countByExample(ActRuTaskExample example);
 

@@ -17,13 +17,18 @@
         <lombok>1.18.4</lombok>
         <fastjson>1.2.51</fastjson>
         <commons-io>2.6</commons-io>
+        <commons-lang3>3.1</commons-lang3>
         <activiti>7.0.0.Beta2</activiti>
         <hibernate-validator>6.0.18.Final</hibernate-validator>
         <swagger>2.9.2</swagger>
         <fastdfs>1.26.2</fastdfs>
         <mybatis>1.3.2</mybatis>
         <generator>1.3.5</generator>
+        <java-mailx>1.5.4</java-mailx>
+        <fastdfs>1.27-SNAPSHOT</fastdfs>
         <mysql-connector>5.1.46</mysql-connector>
+        <pageHelper>5.1.2</pageHelper>
+        <commons-fileupload>1.3.1</commons-fileupload>
     </properties>
 
     <dependencies>
@@ -86,11 +91,21 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjson}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>${pageHelper}</version>
+        </dependency>
 
         <dependency>
-            <groupId>com.github.tobato</groupId>
-            <artifactId>fastdfs-client</artifactId>
+            <groupId>org.csource</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
             <version>${fastdfs}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload}</version>
         </dependency>
 
         <dependency>

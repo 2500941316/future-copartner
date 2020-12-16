@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProUserMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProUser">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="auth" jdbcType="VARCHAR" property="auth" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="followProject" jdbcType="VARCHAR" property="followproject" />
+    <result column="isDeleted" jdbcType="INTEGER" property="isdeleted" />
+    <result column="isLock" jdbcType="INTEGER" property="islock" />
+    <result column="lastDate" jdbcType="TIMESTAMP" property="lastdate" />
+    <result column="loginTime" jdbcType="INTEGER" property="logintime" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="registryDate" jdbcType="TIMESTAMP" property="registrydate" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, auth, description, followProject, isDeleted, isLock, lastDate, loginTime, password, 
+    position, registryDate, type
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_USER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_USER
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_USER
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProUserExample">
+    delete from PRO_USER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProUser">
+    insert into PRO_USER (id, auth, description, 
+      followProject, isDeleted, isLock, 
+      lastDate, loginTime, password, 
+      position, registryDate, type
+      )
+    values (#{id,jdbcType=BIGINT}, #{auth,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{followproject,jdbcType=VARCHAR}, #{isdeleted,jdbcType=INTEGER}, #{islock,jdbcType=INTEGER}, 
+      #{lastdate,jdbcType=TIMESTAMP}, #{logintime,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{registrydate,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProUser">
+    insert into PRO_USER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="auth != null">
+        auth,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="followproject != null">
+        followProject,
+      </if>
+      <if test="isdeleted != null">
+        isDeleted,
+      </if>
+      <if test="islock != null">
+        isLock,
+      </if>
+      <if test="lastdate != null">
+        lastDate,
+      </if>
+      <if test="logintime != null">
+        loginTime,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="registrydate != null">
+        registryDate,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="auth != null">
+        #{auth,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="followproject != null">
+        #{followproject,jdbcType=VARCHAR},
+      </if>
+      <if test="isdeleted != null">
+        #{isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="islock != null">
+        #{islock,jdbcType=INTEGER},
+      </if>
+      <if test="lastdate != null">
+        #{lastdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logintime != null">
+        #{logintime,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="registrydate != null">
+        #{registrydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProUserExample" resultType="java.lang.Long">
+    select count(*) from PRO_USER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_USER
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.auth != null">
+        auth = #{record.auth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.followproject != null">
+        followProject = #{record.followproject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdeleted != null">
+        isDeleted = #{record.isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.islock != null">
+        isLock = #{record.islock,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastdate != null">
+        lastDate = #{record.lastdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.logintime != null">
+        loginTime = #{record.logintime,jdbcType=INTEGER},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null">
+        position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registrydate != null">
+        registryDate = #{record.registrydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_USER
+    set id = #{record.id,jdbcType=BIGINT},
+      auth = #{record.auth,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      followProject = #{record.followproject,jdbcType=VARCHAR},
+      isDeleted = #{record.isdeleted,jdbcType=INTEGER},
+      isLock = #{record.islock,jdbcType=INTEGER},
+      lastDate = #{record.lastdate,jdbcType=TIMESTAMP},
+      loginTime = #{record.logintime,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=VARCHAR},
+      registryDate = #{record.registrydate,jdbcType=TIMESTAMP},
+      type = #{record.type,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProUser">
+    update PRO_USER
+    <set>
+      <if test="auth != null">
+        auth = #{auth,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="followproject != null">
+        followProject = #{followproject,jdbcType=VARCHAR},
+      </if>
+      <if test="isdeleted != null">
+        isDeleted = #{isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="islock != null">
+        isLock = #{islock,jdbcType=INTEGER},
+      </if>
+      <if test="lastdate != null">
+        lastDate = #{lastdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logintime != null">
+        loginTime = #{logintime,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="registrydate != null">
+        registryDate = #{registrydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProUser">
+    update PRO_USER
+    set auth = #{auth,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      followProject = #{followproject,jdbcType=VARCHAR},
+      isDeleted = #{isdeleted,jdbcType=INTEGER},
+      isLock = #{islock,jdbcType=INTEGER},
+      lastDate = #{lastdate,jdbcType=TIMESTAMP},
+      loginTime = #{logintime,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      registryDate = #{registrydate,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

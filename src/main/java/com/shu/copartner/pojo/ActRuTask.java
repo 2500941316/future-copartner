@@ -2,12 +2,7 @@ package com.shu.copartner.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-/**
-  * @author cxy
-  * @date  17:11
-  * @Description 任务表类
-  * @return
-  */
+
 public class ActRuTask implements Serializable {
     private String id;
 

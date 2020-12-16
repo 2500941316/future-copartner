@@ -1,4 +1,4 @@
-package com.shu.copartner.service;
+package com.shu.copartner.service.impl;
 
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @Description:
  */
 @Component
-public class ActivitiService {
+public class ActivitiServiceImpl {
 
     private ProcessEngine processEngine = null;
 

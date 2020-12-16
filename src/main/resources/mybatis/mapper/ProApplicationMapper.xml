@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProApplicationMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProApplication">
+    <id column="applicationId" jdbcType="BIGINT" property="applicationid" />
+    <result column="applicationTime" jdbcType="TIMESTAMP" property="applicationtime" />
+    <result column="applyStatus" jdbcType="INTEGER" property="applystatus" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="isDeleted" jdbcType="INTEGER" property="isdeleted" />
+    <result column="isOutTime" jdbcType="INTEGER" property="isouttime" />
+    <result column="projectId" jdbcType="BIGINT" property="projectid" />
+    <result column="response" jdbcType="VARCHAR" property="response" />
+    <result column="startTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    applicationId, applicationTime, applyStatus, description, endTime, isDeleted, isOutTime, 
+    projectId, response, startTime, title, uid
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProApplicationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_APPLICATION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_APPLICATION
+    where applicationId = #{applicationid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_APPLICATION
+    where applicationId = #{applicationid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProApplicationExample">
+    delete from PRO_APPLICATION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProApplication">
+    insert into PRO_APPLICATION (applicationId, applicationTime, 
+      applyStatus, description, endTime, 
+      isDeleted, isOutTime, projectId, 
+      response, startTime, title, 
+      uid)
+    values (#{applicationid,jdbcType=BIGINT}, #{applicationtime,jdbcType=TIMESTAMP}, 
+      #{applystatus,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{endtime,jdbcType=TIMESTAMP}, 
+      #{isdeleted,jdbcType=INTEGER}, #{isouttime,jdbcType=INTEGER}, #{projectid,jdbcType=BIGINT}, 
+      #{response,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, 
+      #{uid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProApplication">
+    insert into PRO_APPLICATION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="applicationid != null">
+        applicationId,
+      </if>
+      <if test="applicationtime != null">
+        applicationTime,
+      </if>
+      <if test="applystatus != null">
+        applyStatus,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="endtime != null">
+        endTime,
+      </if>
+      <if test="isdeleted != null">
+        isDeleted,
+      </if>
+      <if test="isouttime != null">
+        isOutTime,
+      </if>
+      <if test="projectid != null">
+        projectId,
+      </if>
+      <if test="response != null">
+        response,
+      </if>
+      <if test="starttime != null">
+        startTime,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="applicationid != null">
+        #{applicationid,jdbcType=BIGINT},
+      </if>
+      <if test="applicationtime != null">
+        #{applicationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applystatus != null">
+        #{applystatus,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdeleted != null">
+        #{isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="isouttime != null">
+        #{isouttime,jdbcType=INTEGER},
+      </if>
+      <if test="projectid != null">
+        #{projectid,jdbcType=BIGINT},
+      </if>
+      <if test="response != null">
+        #{response,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProApplicationExample" resultType="java.lang.Long">
+    select count(*) from PRO_APPLICATION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_APPLICATION
+    <set>
+      <if test="record.applicationid != null">
+        applicationId = #{record.applicationid,jdbcType=BIGINT},
+      </if>
+      <if test="record.applicationtime != null">
+        applicationTime = #{record.applicationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.applystatus != null">
+        applyStatus = #{record.applystatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endtime != null">
+        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isdeleted != null">
+        isDeleted = #{record.isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.isouttime != null">
+        isOutTime = #{record.isouttime,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectid != null">
+        projectId = #{record.projectid,jdbcType=BIGINT},
+      </if>
+      <if test="record.response != null">
+        response = #{record.response,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starttime != null">
+        startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_APPLICATION
+    set applicationId = #{record.applicationid,jdbcType=BIGINT},
+      applicationTime = #{record.applicationtime,jdbcType=TIMESTAMP},
+      applyStatus = #{record.applystatus,jdbcType=INTEGER},
+      description = #{record.description,jdbcType=VARCHAR},
+      endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      isDeleted = #{record.isdeleted,jdbcType=INTEGER},
+      isOutTime = #{record.isouttime,jdbcType=INTEGER},
+      projectId = #{record.projectid,jdbcType=BIGINT},
+      response = #{record.response,jdbcType=VARCHAR},
+      startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      title = #{record.title,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProApplication">
+    update PRO_APPLICATION
+    <set>
+      <if test="applicationtime != null">
+        applicationTime = #{applicationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applystatus != null">
+        applyStatus = #{applystatus,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        endTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdeleted != null">
+        isDeleted = #{isdeleted,jdbcType=INTEGER},
+      </if>
+      <if test="isouttime != null">
+        isOutTime = #{isouttime,jdbcType=INTEGER},
+      </if>
+      <if test="projectid != null">
+        projectId = #{projectid,jdbcType=BIGINT},
+      </if>
+      <if test="response != null">
+        response = #{response,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        startTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where applicationId = #{applicationid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProApplication">
+    update PRO_APPLICATION
+    set applicationTime = #{applicationtime,jdbcType=TIMESTAMP},
+      applyStatus = #{applystatus,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      endTime = #{endtime,jdbcType=TIMESTAMP},
+      isDeleted = #{isdeleted,jdbcType=INTEGER},
+      isOutTime = #{isouttime,jdbcType=INTEGER},
+      projectId = #{projectid,jdbcType=BIGINT},
+      response = #{response,jdbcType=VARCHAR},
+      startTime = #{starttime,jdbcType=TIMESTAMP},
+      title = #{title,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=BIGINT}
+    where applicationId = #{applicationid,jdbcType=BIGINT}
+  </update>
+</mapper>
