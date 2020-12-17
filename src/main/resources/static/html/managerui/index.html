@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>会员中心-账户信息</title>
+    <link rel="stylesheet" type="text/css" href="css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="css/hyzx.css"/>
+    <link rel="stylesheet" href="js/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/layui/layui.js"></script>
+
+    <style type="text/css">
+        .layui-table-cell, .layui-table-tool-panel li {
+            overflow: visible !important;
+        }
+    </style>
+</head>
+<body>
+<!--引入页头页面-->
+<div id="headers" style="margin-bottom: 20px"></div>
+
+<div id="hy_con">
+    <div id="con_lf">
+        <h2>管理列表</h2>
+        <ul>
+            <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
+            <li class="lf_li6"><a href="#">用户信息</a></li>
+        </ul>
+    </div>
+    <div id="con_rh">
+        <div class="con_rh_con">
+            <p class="rh_title">申请审批</p>
+
+            <!--引入layui表格-->
+            <table id="demo" lay-filter="test"></table>
+
+        </div>
+    </div>
+</div>
+
+
+<!--引入尾部页面-->
+<div id="footer"></div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#headers").load("/html/webui/header/header.html");
+        $("#footer").load("/html/webui/footer/footer.html");
+    });
+
+
+    layui.use('table', function () {
+        var table = layui.table;
+        var data = [{
+            id: "11221",
+            username: "11"
+        }];
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , height: 580
+            //, url: '/demo/table/user/' //数据接口
+            , data: data
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'id', title: 'ID', sort: true, fixed: 'left'}
+                , {field: 'username', title: '用户名'}
+
+            ]]
+        });
+    });
+
+</script>
+</body>
+</html>

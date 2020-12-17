@@ -2,6 +2,7 @@ package com.shu.copartner.service.impl;
 
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.io.IOException;
  * @Date: 2020/12/16 16:52
  * @Description:
  */
+@Service
 public class FileuploadServiceImpl implements FileuploadService {
     @Override
     public String uploadFile(MultipartFile uploadfile) {
