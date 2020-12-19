@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @description
  */
 @RestController
-@RequestMapping("person/workspace")
+@RequestMapping("user/news")
 @CrossOrigin
 public class UserNewsController {
 }

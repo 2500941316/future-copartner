@@ -1,5 +1,6 @@
 package com.shu.copartner.service;
 
+import com.shu.copartner.utils.returnobj.TableModel;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -14,5 +15,7 @@ public interface FileuploadService {
       * @return java.lang.String
       */
     String uploadFile(MultipartFile uploadfile);
+
+    TableModel managerImageUploadFile(MultipartFile uploadfile);
 
 }

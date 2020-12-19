@@ -33,7 +33,7 @@
 #hy_con #con_lf ul li.lf_li7 a{ background:url(../images/tb_lf.gif) 5px -200px no-repeat;}
 #hy_con #con_lf ul li.lf_li8 a{ background:url(../images/tb_lf.gif) 5px -237px no-repeat;}
 #hy_con #con_rh{ width:810px; float:right; margin-top:-15px; }
-#hy_con #con_rh .con_rh_con{ background:url(../images/rh_bjc.gif) 0px 0px repeat-y;padding:0px 20px 0px 20px; min-height:350px;}
+#hy_con #con_rh .con_rh_con{ background:url(../images/rh_bjc.gif) 0px 0px repeat-y;padding:0px 20px 0px 20px; min-height:350px;height: 950px}
 #hy_con #con_rh .con_rh_con p.rh_title{ line-height:30px; height:35px; border-bottom:1px dashed #ddd; font-size:14px; padding-left:5px;}
 #hy_con #con_rh .con_rh_con .zh_num{ line-height:40px; font-size:14px; padding:10px 0px 0px 10px; height:40px;}
 #hy_con #con_rh .con_rh_con .zh_num span{ font-size:16px; color:#f60; padding:0px 5px 0px 0px;}

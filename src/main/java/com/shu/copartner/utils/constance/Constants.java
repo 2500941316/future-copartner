@@ -17,4 +17,9 @@ public final class Constants {
       * @Description 请假流程的key
       */
     public static final String QJ_KEY = "QJ";
+
+    /**
+     * @Description 文件服务器的前缀
+     */
+    public static final String FILEURL_FIRSTNAME="http://114.55.93.118/";
 }
