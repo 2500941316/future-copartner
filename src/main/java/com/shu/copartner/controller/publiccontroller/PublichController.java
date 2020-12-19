@@ -1,4 +1,4 @@
-package com.shu.copartner.controller;
+package com.shu.copartner.controller.publiccontroller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author
- * @date 2020/12/19 12:07
+ * @date 2020/12/19 12:08
  * @description
  */
 @RestController
-@RequestMapping("manager")
+@RequestMapping("public")
 @CrossOrigin
-public class CompanyController {
+public class PublichController {
+
 }

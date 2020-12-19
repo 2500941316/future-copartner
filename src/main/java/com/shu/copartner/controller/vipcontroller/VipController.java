@@ -1,4 +1,4 @@
-package com.shu.copartner.controller;
+package com.shu.copartner.controller.vipcontroller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,12 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author
- * @date 2020/12/19 12:08
+ * @date 2020/12/19 12:09
  * @description
  */
 @RestController
-@RequestMapping("public")
+@RequestMapping("vip")
 @CrossOrigin
-public class PublichController {
-
+public class VipController {
 }

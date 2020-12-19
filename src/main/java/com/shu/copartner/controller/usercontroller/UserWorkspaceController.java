@@ -1,4 +1,4 @@
-package com.shu.copartner.controller;
+package com.shu.copartner.controller.usercontroller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @description
  */
 @RestController
-@RequestMapping("manager")
+@RequestMapping("person/workspace")
 @CrossOrigin
-public class GroupController {
+public class UserWorkspaceController {
 }

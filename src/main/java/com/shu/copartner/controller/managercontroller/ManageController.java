@@ -1,4 +1,4 @@
-package com.shu.copartner.controller;
+package com.shu.copartner.controller.managercontroller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
