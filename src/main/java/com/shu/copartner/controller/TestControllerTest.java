@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,11 +41,13 @@ public class TestControllerTest {
         List<ActHiVarinst> actRuTasks = actRuTaskMapper.selectByExample(new ActHiVarinstExample());
         System.out.println(actRuTasks);
     }
+   //  MultipartFile
 
     @Test
     public void fileuploadTest() throws FileNotFoundException {
         FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\cxy\\Desktop\\test.jpg"));
         String s = FastDfsClient.uploadFile(inputStream, "test.jpg");
+        // 保存地址，通过该地址访问，地址需要拼接服务器完整地址，然后写入数据库，
         System.out.println(s);
     }
 
