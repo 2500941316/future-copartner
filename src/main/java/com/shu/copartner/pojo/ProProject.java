@@ -32,6 +32,8 @@ public class ProProject implements Serializable {
 
     private String videoUrl;
 
+    private String projectpeople;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -144,5 +146,13 @@ public class ProProject implements Serializable {
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl == null ? null : videoUrl.trim();
+    }
+
+    public String getProjectpeople() {
+        return projectpeople;
+    }
+
+    public void setProjectpeople(String projectpeople) {
+        this.projectpeople = projectpeople == null ? null : projectpeople.trim();
     }
 }

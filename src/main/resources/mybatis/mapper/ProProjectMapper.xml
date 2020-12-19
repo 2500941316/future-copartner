@@ -16,6 +16,7 @@
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="projectPeople" jdbcType="VARCHAR" property="projectpeople" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, creater, description, endTime, followers, isDeleted, isLock, plan_url, primaryJob, 
-    projectName, startTime, status, type, video_url
+    projectName, startTime, status, type, video_url, projectPeople
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProProjectExample" resultMap="BaseResultMap">
     select
@@ -114,12 +115,14 @@
       endTime, followers, isDeleted, 
       isLock, plan_url, primaryJob, 
       projectName, startTime, status, 
-      type, video_url)
+      type, video_url, projectPeople
+      )
     values (#{id,jdbcType=BIGINT}, #{creater,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{endtime,jdbcType=TIMESTAMP}, #{followers,jdbcType=VARCHAR}, #{isdeleted,jdbcType=CHAR}, 
       #{islock,jdbcType=INTEGER}, #{planUrl,jdbcType=VARCHAR}, #{primaryjob,jdbcType=VARCHAR}, 
       #{projectname,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR})
+      #{type,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, #{projectpeople,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProProject">
     insert into PRO_PROJECT
@@ -166,6 +169,9 @@
       <if test="videoUrl != null">
         video_url,
       </if>
+      <if test="projectpeople != null">
+        projectPeople,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -209,6 +215,9 @@
       </if>
       <if test="videoUrl != null">
         #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectpeople != null">
+        #{projectpeople,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -263,6 +272,9 @@
       <if test="record.videoUrl != null">
         video_url = #{record.videoUrl,jdbcType=VARCHAR},
       </if>
+      <if test="record.projectpeople != null">
+        projectPeople = #{record.projectpeople,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,7 +295,8 @@
       startTime = #{record.starttime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
-      video_url = #{record.videoUrl,jdbcType=VARCHAR}
+      video_url = #{record.videoUrl,jdbcType=VARCHAR},
+      projectPeople = #{record.projectpeople,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -330,6 +343,9 @@
       <if test="videoUrl != null">
         video_url = #{videoUrl,jdbcType=VARCHAR},
       </if>
+      <if test="projectpeople != null">
+        projectPeople = #{projectpeople,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -347,7 +363,8 @@
       startTime = #{starttime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
-      video_url = #{videoUrl,jdbcType=VARCHAR}
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      projectPeople = #{projectpeople,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

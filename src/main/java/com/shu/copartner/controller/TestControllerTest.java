@@ -41,14 +41,13 @@ public class TestControllerTest {
         List<ActHiVarinst> actRuTasks = actRuTaskMapper.selectByExample(new ActHiVarinstExample());
         System.out.println(actRuTasks);
     }
+   //  MultipartFile
 
-
-    //https://114.55.93.118/group1/M00/00/00/cjdddl_db_SAFR0fAAADCUFFj74349.txt
     @Test
     public void fileuploadTest() throws FileNotFoundException {
-
-        FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\cxy\\Desktop\\test.txt"));
-        String s = FastDfsClient.uploadFile(inputStream, "test.txt");
+        FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\cxy\\Desktop\\test.jpg"));
+        String s = FastDfsClient.uploadFile(inputStream, "test.jpg");
+        // 保存地址，通过该地址访问，地址需要拼接服务器完整地址，然后写入数据库，
         System.out.println(s);
     }
 

@@ -1044,6 +1044,76 @@ public class ProProjectExample {
             addCriterion("video_url not between", value1, value2, "videoUrl");
             return (Criteria) this;
         }
+
+        public Criteria andProjectpeopleIsNull() {
+            addCriterion("projectPeople is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleIsNotNull() {
+            addCriterion("projectPeople is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleEqualTo(String value) {
+            addCriterion("projectPeople =", value, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleNotEqualTo(String value) {
+            addCriterion("projectPeople <>", value, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleGreaterThan(String value) {
+            addCriterion("projectPeople >", value, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleGreaterThanOrEqualTo(String value) {
+            addCriterion("projectPeople >=", value, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleLessThan(String value) {
+            addCriterion("projectPeople <", value, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleLessThanOrEqualTo(String value) {
+            addCriterion("projectPeople <=", value, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleLike(String value) {
+            addCriterion("projectPeople like", value, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleNotLike(String value) {
+            addCriterion("projectPeople not like", value, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleIn(List<String> values) {
+            addCriterion("projectPeople in", values, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleNotIn(List<String> values) {
+            addCriterion("projectPeople not in", values, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleBetween(String value1, String value2) {
+            addCriterion("projectPeople between", value1, value2, "projectpeople");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectpeopleNotBetween(String value1, String value2) {
+            addCriterion("projectPeople not between", value1, value2, "projectpeople");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
