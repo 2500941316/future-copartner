@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,10 +42,13 @@ public class TestControllerTest {
         System.out.println(actRuTasks);
     }
 
+
+    //https://114.55.93.118/group1/M00/00/00/cjdddl_db_SAFR0fAAADCUFFj74349.txt
     @Test
     public void fileuploadTest() throws FileNotFoundException {
-        FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\cxy\\Desktop\\test.jpg"));
-        String s = FastDfsClient.uploadFile(inputStream, "test.jpg");
+
+        FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\cxy\\Desktop\\test.txt"));
+        String s = FastDfsClient.uploadFile(inputStream, "test.txt");
         System.out.println(s);
     }
 
