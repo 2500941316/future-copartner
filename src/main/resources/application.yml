@@ -3,12 +3,6 @@ server:
   servlet:
     context-path: /
 spring:
-#  datasource:
-#    username: root
-#    password: aaa
-#    url: jdbc:mysql://114.55.93.118:3306/activiti?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-#    driver-class-name: com.mysql.jdbc.Driver
-
   datasource:
       driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://114.55.93.118:3306/activiti?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
@@ -42,13 +36,6 @@ spring:
       login-username: druid
       login-password: druid
 
-  devtools:
-    restart:
-      enabled: true  #设置开启热部署
-      additional-paths: src/main/java #重启目录
-      exclude: WEB-INF/**
-  freemarker:
-    cache: false    #页面不加载缓存，修改即时生效
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
