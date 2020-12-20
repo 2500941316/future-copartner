@@ -228,7 +228,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (data) {
-                    if (data.data.code === 200) {
+                    if (data.code === 200) {
                         layer.msg('发布成功！');
                     } else
                         layer.msg('网络异常，请稍后重试');

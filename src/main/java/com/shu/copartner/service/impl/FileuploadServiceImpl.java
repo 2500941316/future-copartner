@@ -5,6 +5,7 @@ import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
 import com.shu.copartner.utils.returnobj.TableModel;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @Date: 2020/12/16 16:52
  * @Description:
  */
+@Transactional
 @Service
 public class FileuploadServiceImpl implements FileuploadService {
     @Override

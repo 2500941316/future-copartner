@@ -5,6 +5,7 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.Map;
  * @Date: 2020/12/4 16:37
  * @Description:
  */
+@Transactional
 @Component
 public class ActivitiServiceImpl {
 
@@ -61,6 +63,19 @@ public class ActivitiServiceImpl {
                 .name(name)
                 .addClasspathResource(resourcePath)
                 .deploy();
+
+    }
+
+    /**
+     * @return void
+     * @author cxy
+     * @date 2020/12/5 11:30
+     * @Description 删除部署流程
+     */
+    public void deleteDeployment(String id) {
+        RepositoryService repositoryService = processEngine.getRepositoryService();
+        repositoryService.deleteDeployment(id, true);
+
     }
 
     /**
@@ -94,12 +109,28 @@ public class ActivitiServiceImpl {
      * @date 2020/12/5 11:30
      * @Description 完成任务
      */
-    public boolean completeTask(String taskId, Map<String, Object> map) {
+    public boolean completeTask(String taskId, String parameter, Map<String, Object> map) {
         //任务ID
         TaskService taskService = processEngine.getTaskService();
-        taskService.setVariable(taskId, "params", map);
+        if (!map.isEmpty()) {
+            taskService.setVariable(taskId, parameter, map);
+        }
         //提交给谁做审批:根据员工表查询主管
         taskService.complete(taskId);
+        return true;
+    }
+
+    /**
+     * @return void
+     * @author cxy
+     * @date 2020/12/5 11:30
+     * @Description 删除任务
+     */
+    public boolean deleteTask(String taskId) {
+        //任务ID
+        TaskService taskService = processEngine.getTaskService();
+        //提交给谁做审批:根据员工表查询主管
+        taskService.deleteTask(taskId, true);
         return true;
     }
 }
