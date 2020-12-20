@@ -3,54 +3,245 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="/html/webui/js/personal.js"></script>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+
+    <title>个人工作台</title>
+
+
+    <style type="text/css">
+    </style>
 </head>
 
 <body>
+<!--引入页头页面-->
+<div id="header"></div>
 
 <div class="personalBody">
+    <div class="perLeftnav">
+        <div class="NavLeftTop">个人中心</div>
+        <div class="NavLeftMain">
+            <div class="NavLeftBox active">
+                <a onclick="redirecTo('/html/webui/personal/personal_info.html')" class="a1" href="#">用户信息</a>
+            </div>
+            <div class="NavLeftBox twoNav">
+                <a class="a5">项目</a>
+                <span class="up"></span>
+            </div>
+            <ul>
+                <li><a href="/html/webui/personal/personal_project_list.html">我的项目</a></li>
+
+                <li><a onclick="redirecTo('/html/webui/personal/personal_myfollow.html')" href="#">我的关注</a></li>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_followedproject.html')" href="#">谁在关注我</a></li>
+                <li><a href="/html/webui/personal/personal_project_apply.html">创建项目</a></li>
+            </ul>
+            <div class="NavLeftBox twoNav">
+                <a class="a6">新闻</a>
+                <span class="up"></span>
+            </div>
+            <ul>
+                <li><a href="/html/webui/personal/personal_news_apply.html">发布新闻</a></li>
+            </ul>
+            <div class="NavLeftBox twoNav">
+                <a class="a6">邀请</a>
+                <span class="up"></span>
+            </div>
+            <ul>
+                <li><a href="#">项目邀请</a></li>
+                <li><a href="#">我的足迹</a></li>
+            </ul>
+            <div class="NavLeftBox">
+                <a href="#" class="a7">用户设置</a>
+            </div>
+            <div class="NavLeftBox">
+                <a href="#" class="a8">帮助中心</a>
+            </div>
+        </div>
+
+    </div>
     <div class="perRightcon">
+        <div class="perRpart1">
+            <div class="perRpart1_l">
+                <img src="/html/webui/images/per1.jpg" width="80" height="100"/>
+            </div>
+            <div class="perRpart1_r">
+                <div class="PaName">您好！</div>
+                <div class="PaStatus">
+                    <span class="spStatus">上次登录时间：2020/12/17 15：03：11</span>
+                </div>
+                <div class="clear"></div>
+                <div class="PaCon">
+                    <span class="span1">用户名：2500941316@qq.com <a href="#" class="a1">[未认证]</a> <a
+                            href="#" class="a2">修改密码</a></span>
+                    <span class="span2">微信： <a href="" class="a1">[未绑定]</a></span><br/>
+                    <span class="span3">手机号：177*******12 <a href="" class="a3">[已认证]</a> <a
+                            href="#" class="a2">修改</a></span>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="perRpart1_c">
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">谁在关注我</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">我的项目</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">我关注的项目</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">邀请函</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <div class="JlBoxCon">
-            <h1><span>项目经历</span></h1>
+            <h1><span>项目申请</span></h1>
             <div class="JlBoxLeft">
                 <div class="jldiv">
                     <div class="nametxt"><span>*</span>项目名称：</div>
                     <div class="inputtxt">
-                        <input name="" type="text" class="txt3"/>
+                        <input id="projectname" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>项目类别：</div>
+                    <div class="inputtxt">
+                        <select name="" id="type" style="width: 235px;height: 35px;line-height: 35px;border: 1px #DBDBDB solid;border-radius: 4px;">
+                            <option value="none" selected disabled hidden>请选择项目类别</option>
+                            <option value="新零售">新零售</option>
+                            <option value="文创">文创</option>
+                            <option value="科创">科创</option>
+                            <option value="K12">K12</option>
+                            <option value="校园行">校园行</option>
+                            <option value="其他">其他</option>
+                        </select>
                     </div>
                 </div>
                 <div class="clear"></div>
                 <div class="jldiv">
                     <div class="nametxt"><span>*</span>时 间：</div>
                     <div class="inputtxt">
-                        <input name="" type="text" class="txt6"/><span class="zhi">至</span><input name="" type="text" class="txt6"/>
+                        <input id="starttime" name="" type="text" class="txt3" autocomplete="off"/>
+                        <!--<span class="zhi">至</span>
+                        <input id="endtime" name="" type="text" class="txt6" autocomplete="off"/>-->
                     </div>
                 </div>
-                <div class="clear"></div>
                 <div class="jldiv">
-                    <div class="nametxt">项目描述：</div>
+                    <div class="nametxt"><span>*</span>负责人：</div>
                     <div class="inputtxt">
-                        <textarea name="" cols="" rows=""></textarea>
-                        <br /><span>最多可输入1000个字</span>
+                        <input id="mainPeople" name="" type="text" class="txt3" autocomplete="off"/>
                     </div>
                 </div>
                 <div class="clear"></div>
                 <div class="jldiv">
-                    <div class="nametxt">担负责任：</div>
+                    <div class="nametxt">成 员：</div>
                     <div class="inputtxt">
-                        <textarea name="" cols="" rows=""></textarea>
-                        <br /><span>最多可输入200个字</span>
+                        <textarea id="projectPeople" name="" cols="" rows="" autocomplete="off"></textarea>
                     </div>
                 </div>
+                <div class="jldiv">
+                    <div class="nametxt">项目简述：</div>
+                    <div class="inputtxt">
+                        <textarea id="description" name="" cols="" rows="" autocomplete="off"></textarea>
+                        <br /><span>最多可输入100个字</span>
+                    </div>
+                </div>
+
                 <div class="clear"></div>
                 <div class="jldiv">
-                    <a href="" class="save">申请</a>
+                    <a class="save">申请</a>
                 </div>
             </div>
 
         </div>
     </div>
 </div>
+
+<!--引入页脚页面-->
+<div id="footer"></div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("/html/webui/header/header.html");
+        $("#footer").load("/html/webui/footer/footer.html");
+    });
+    function redirecTo(url) {
+        $("#page").load(url);
+    };
+
+    // 时间组件
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#starttime' //指定元素
+        });
+        laydate.render({
+            elem: '#endtime' //指定元素
+        });
+    });
+
+    // 弹出层
+    layui.use('layer', function(){
+        var layer = layui.layer;
+    });
+
+    // 申请提交处理
+    $(".save").click(function () {
+        let data={
+            projectname: $("#projectname").val(),
+            type: $("#type").val(),
+            starttime: $("#starttime").val(),
+            // endtime: $("#endtime").val(),
+            mainPeople: $("#mainPeople").val(),
+            peojectPeople: $("#projectPeople").val(),
+            description: $("#description").val(),
+
+        }
+        console.log(data);
+        /*$.ajax({
+            url: "/user/project/projectApply",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            contentType: "application/json",
+            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+            data: JSON.stringify(data),   //参数值
+            type: "POST",   //请求方式
+            success: function(req) {
+                //请求成功时处理，一般只用到这一个
+                if(req.code == 200){
+                    // 申请返回后，跳转到我的项目界面
+                    window.location.replace("/html/webui/personal/personal_project_list.html")
+                    layer.msg("申请成功，等待审批！")
+                    console.log(req)
+                }
+            },
+            error: function(req) {
+                //请求出错处理
+                console.log(req);
+            }
+        });*/
+    })
+
+
+
+</script>
 
 </body>
 </html>

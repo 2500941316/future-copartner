@@ -34,6 +34,11 @@ public final class Constants {
     public static final String NEWSAPPLY_PROCESS_APPLYNAME = "用户提交新闻申请";
 
     /**
+     * @Description 项目流程key
+     */
+    public static final String PROJECT_PROCESS_PROCESSKEY = "project_Process";
+
+    /**
      * @Description 管理员角色名
      */
     public static final String MANAGER_ROLE = "manager";

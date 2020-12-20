@@ -14,15 +14,15 @@ public class ProProject implements Serializable {
 
     private String followers;
 
-    private String isdeleted;
+    private Integer isDeleted;
 
-    private Integer islock;
+    private Integer isLock;
 
     private String planUrl;
 
     private String primaryjob;
 
-    private String projectname;
+    private String projectName;
 
     private Date starttime;
 
@@ -32,7 +32,9 @@ public class ProProject implements Serializable {
 
     private String videoUrl;
 
-    private String projectpeople;
+    private String projectPeople;
+
+    private String mainPeople;
 
     private static final long serialVersionUID = 1L;
 
@@ -76,20 +78,20 @@ public class ProProject implements Serializable {
         this.followers = followers == null ? null : followers.trim();
     }
 
-    public String getIsdeleted() {
-        return isdeleted;
+    public Integer getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setIsdeleted(String isdeleted) {
-        this.isdeleted = isdeleted == null ? null : isdeleted.trim();
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public Integer getIslock() {
-        return islock;
+    public Integer getIsLock() {
+        return isLock;
     }
 
-    public void setIslock(Integer islock) {
-        this.islock = islock;
+    public void setIsLock(Integer isLock) {
+        this.isLock = isLock;
     }
 
     public String getPlanUrl() {
@@ -108,12 +110,12 @@ public class ProProject implements Serializable {
         this.primaryjob = primaryjob == null ? null : primaryjob.trim();
     }
 
-    public String getProjectname() {
-        return projectname;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setProjectname(String projectname) {
-        this.projectname = projectname == null ? null : projectname.trim();
+    public void setProjectName(String projectName) {
+        this.projectName = projectName == null ? null : projectName.trim();
     }
 
     public Date getStarttime() {
@@ -148,11 +150,41 @@ public class ProProject implements Serializable {
         this.videoUrl = videoUrl == null ? null : videoUrl.trim();
     }
 
-    public String getProjectpeople() {
-        return projectpeople;
+    public String getProjectPeople() {
+        return projectPeople;
     }
 
-    public void setProjectpeople(String projectpeople) {
-        this.projectpeople = projectpeople == null ? null : projectpeople.trim();
+    public void setProjectPeople(String projectPeople) {
+        this.projectPeople = projectPeople == null ? null : projectPeople.trim();
+    }
+
+    public String getMainPeople() {
+        return mainPeople;
+    }
+
+    public void setMainPeople(String mainPeople) {
+        this.mainPeople = mainPeople == null ? null : mainPeople.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "ProProject{" +
+                "id=" + id +
+                ", creater='" + creater + '\'' +
+                ", description='" + description + '\'' +
+                ", endtime=" + endtime +
+                ", followers='" + followers + '\'' +
+                ", isDeleted=" + isDeleted +
+                ", isLock=" + isLock +
+                ", planUrl='" + planUrl + '\'' +
+                ", primaryjob='" + primaryjob + '\'' +
+                ", projectName='" + projectName + '\'' +
+                ", starttime=" + starttime +
+                ", status='" + status + '\'' +
+                ", type='" + type + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", projectPeople='" + projectPeople + '\'' +
+                ", mainPeople='" + mainPeople + '\'' +
+                '}';
     }
 }

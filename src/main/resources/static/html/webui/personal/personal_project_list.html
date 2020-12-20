@@ -1,13 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="/html/webui/js/personal.js"></script>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+
+    <title>个人工作台</title>
 </head>
+
 <body>
-<div class="perRightcon">
+<!--引入页头页面-->
+<div id="header"></div>
+
+<div class="personalBody">
+    <div class="perLeftnav">
+        <div class="NavLeftTop">个人中心</div>
+        <div class="NavLeftMain">
+            <div class="NavLeftBox active">
+                <a onclick="redirecTo('/html/webui/personal/personal_info.html')" class="a1" href="#">用户信息</a>
+            </div>
+            <div class="NavLeftBox twoNav">
+                <a class="a5">项目</a>
+                <span class="up"></span>
+            </div>
+            <ul>
+                <li><a href="/html/webui/personal/personal_project_list.html">我的项目</a></li>
+
+                <li><a onclick="redirecTo('/html/webui/personal/personal_myfollow.html')" href="#">我的关注</a></li>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_followedproject.html')" href="#">谁在关注我</a></li>
+                <li><a href="/html/webui/personal/personal_project_apply.html">我要创建项目</a></li>
+            </ul>
+            <div class="NavLeftBox twoNav">
+                <a class="a6">新闻</a>
+                <span class="up"></span>
+            </div>
+            <ul>
+                <li><a href="/html/webui/personal/personal_news_apply.html">发布新闻</a></li>
+            </ul>
+            <div class="NavLeftBox twoNav">
+                <a class="a6">邀请</a>
+                <span class="up"></span>
+            </div>
+            <ul>
+                <li><a href="#">项目邀请</a></li>
+                <li><a href="#">我的足迹</a></li>
+            </ul>
+            <div class="NavLeftBox">
+                <a href="#" class="a7">用户设置</a>
+            </div>
+            <div class="NavLeftBox">
+                <a href="#" class="a8">帮助中心</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="perRightcon">
+        <div class="perRpart1">
+            <div class="perRpart1_l">
+                <img src="/html/webui/images/per1.jpg" width="80" height="100"/>
+            </div>
+            <div class="perRpart1_r">
+                <div class="PaName">您好！</div>
+                <div class="PaStatus">
+                    <span class="spStatus">上次登录时间：2020/12/17 15：03：11</span>
+                </div>
+                <div class="clear"></div>
+                <div class="PaCon">
+                    <span class="span1">用户名：2500941316@qq.com <a href="#" class="a1">[未认证]</a> <a
+                            href="#" class="a2">修改密码</a></span>
+                    <span class="span2">微信： <a href="" class="a1">[未绑定]</a></span><br/>
+                    <span class="span3">手机号：177*******12 <a href="" class="a3">[已认证]</a> <a
+                            href="#" class="a2">修改</a></span>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="perRpart1_c">
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">谁在关注我</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">我的项目</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">我关注的项目</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">邀请函</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="clear" style="margin-top: 15px"></div>
     <div class="commonTit">
-        <h1 class="fl">我的简历</h1>
+        <h1 class="fl">我的项目</h1>
         <div class="dqzt">
             <label>当前状态：</label>
             <span>目前处于离职状态，可即刻上岗</span>
@@ -21,7 +123,7 @@
             <tr>
                 <td colspan="5">
                     <div class="jlpart1">
-                        <div class="jlName"><a href="personal_jlupdate.html">未完成简历</a></div>
+                        <div class="jlName"><a href="personal_jlupdate.html">项目1</a></div>
                         <div class="jlDate">更新时间：2017-12-28</div>
                         <div class="jlFresh">更新</div>
                     </div>
@@ -32,7 +134,10 @@
                     <div class="jlpart2">
                         <div class="Orange" style="width:40px;"></div>
                     </div>
-                    <div class="jlpart3">中文完整度 20 分 [ <a href="personal_jlupdate.html">修改</a>   <a href="">预览</a>   <a href="">下载</a> ]</div>
+                    <div class="jlpart3">
+                        完整度 20 %
+                        [ <a href="personal_jlupdate.html">修改</a>
+                        <a href="/html/webui/personal/personal_project_detail.html">查看</a>   <a href="">下载</a> ]</div>
                 </td>
                 <td rowspan="2">
                     <div class="jlpart4">
@@ -61,10 +166,10 @@
             </tr>
             <tr>
                 <td width="61%">
-                    <div class="jlpart2">
+                   <!-- <div class="jlpart2">
                         <div class="Orange" style="width:0"></div>
                     </div>
-                    <div class="jlpart3">英文完整度 0 分 [ <a href="personal_jlupdate.html">修改</a>   <a href="">预览</a>   <a href="">下载</a> ]</div>
+                    <div class="jlpart3">英文完整度 0 分 [ <a href="personal_jlupdate.html">修改</a>   <a href="">预览</a>   <a href="">下载</a> ]</div>-->
                 </td>
             </tr>
             <tr>
@@ -207,6 +312,23 @@
             <span class="sp1">下一页</span>
         </div>
     </div>
+    </div>
 </div>
+
+
+
+<!--引入页脚页面-->
+<div id="footer"></div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#header").load("/html/webui/header/header.html");
+        $("#footer").load("/html/webui/footer/footer.html");
+    });
+    function redirecTo(url) {
+        $("#page").load(url);
+    };
+   </script>
+
 </body>
 </html>

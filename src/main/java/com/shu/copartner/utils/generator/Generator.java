@@ -30,7 +30,7 @@ public class Generator {
     public static void main(String[] args) throws FileNotFoundException {
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
-        String genCfg = "D:\\springsource\\copartner\\src\\main\\resources\\generator\\mybatis-generator.xml";
+        String genCfg = "D:\\post\\future-copartner\\src\\main\\resources\\generator\\mybatis-generator.xml";
         File configFile = ResourceUtils.getFile(genCfg);
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = null;
