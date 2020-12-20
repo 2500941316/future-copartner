@@ -15,12 +15,12 @@ public enum Exceptions {
     SERVER_CONNECTION_ERROR("0001", "网络连接异常"),
 
     /**
-     * 网络连接异常
+     * 参数接收异常
      */
     SERVER_PARAMSETTING_ERROR("0002", "参数接收异常"),
 
     /**
-     * 网络连接异常
+     * 身份认证异常
      */
     SERVER_AUTH_ERROR("0003", "身份认证异常"),
 

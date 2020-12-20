@@ -1,5 +1,6 @@
 package com.shu.copartner.exceptions;
 
+import com.shu.copartner.utils.returnobj.TableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -44,6 +45,7 @@ public class ExceptionAdvice {
                 message = Exceptions.SERVER_UNAMEISNULL_ERROR.getEmsg();
                 break;
 
+
             default:
                 message = Exceptions.SERVER_OTHER_ERROR.getEmsg();
                 e.printStackTrace();
@@ -51,34 +53,34 @@ public class ExceptionAdvice {
 
         }
         logger.error(message);
-        return message;
+        return TableModel.error(message);
     }
 
     @ExceptionHandler
     @ResponseBody
     public Object paramsExceptionHandler(BindException e) {
         logger.error(e.getMessage());
-        return Exceptions.SERVER_PARAMSETTING_ERROR.getEmsg();
+        return TableModel.error(Exceptions.SERVER_PARAMSETTING_ERROR.getEmsg());
     }
 
     @ExceptionHandler
     @ResponseBody
     public Object typeExceptionHandler(HttpRequestMethodNotSupportedException e) {
         logger.error(e.getMessage());
-        return Exceptions.SERVER_HTTPTYPE_ERROR.getEmsg();
+        return TableModel.error(Exceptions.SERVER_HTTPTYPE_ERROR.getEmsg());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public Object constraintViolationExceptionHandler(ConstraintViolationException ex) {
         logger.error(ex.getMessage());
-        return "ConstraintViolationException: " + ex.getMessage();
+        return TableModel.error("ConstraintViolationException: " + ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     public Object methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
         logger.error(ex.getMessage());
-        return "参数异常，请检查请求参数是否合法";
+        return TableModel.error("参数异常，请检查请求参数是否合法");
     }
 
 }

@@ -1,5 +1,7 @@
 package com.shu.copartner.exceptions;
 
+import java.util.List;
+
 /**
  * @author cxy
  * @date 2020/12/6 13:17
@@ -9,11 +11,12 @@ package com.shu.copartner.exceptions;
 
 public class BusinessException extends RuntimeException {
 
-    public BusinessException(){
+    public BusinessException() {
         super();
     }
 
-    public BusinessException(String message){
+    public BusinessException(String message) {
         super(message);
     }
+
 }

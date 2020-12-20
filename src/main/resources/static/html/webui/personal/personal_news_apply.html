@@ -208,27 +208,34 @@
             var category = $("#category option:selected").val();
             var isTop = $("#isTop option:selected").val();
 
-            if (title.length === 0 || title.length > 30 || keywords.length === 0 || keywords.length > 30
+            if (title.length === 5 || title.length > 30 || keywords.length === 0 || keywords.length > 30
                 || content.length === 0 || category.length === 0 || isTop.length === 0) {
                 layer.msg('请填写完整信息！');
                 return;
             }
+            var data = {
+                "newsTitle": title,
+                "newsAuthor": "19721631",
+                "newsKeywords": keywords,
+                "newsContent": content,
+                "newsCategory": category,
+                "istopping": isTop
+            };
 
             $.ajax({
                 type: "POST",
                 url: "/user/news/publisNews",
-                data: {
-                    title: title,
-                    keywords: keywords,
-                    content: content,
-                    category: category,
-                    isTop: isTop
-                },
+                contentType: "application/json",
+                data: JSON.stringify(data),
                 success: function (data) {
                     if (data.data.code === 200) {
                         layer.msg('发布成功！');
                     } else
                         layer.msg('网络异常，请稍后重试');
+                },
+                error: function (data) {
+                    console.log(data)
+                    layer.msg('参数异常');
                 }
             });
         })

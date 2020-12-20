@@ -5,11 +5,11 @@ import lombok.Data;
 import java.util.ArrayList;
 
 /**
-  * @author cxy
-  * @date 2020/12/6 14:18
-  * @Description 统一返回类
-  * @return
-  */
+ * @author cxy
+ * @date 2020/12/6 14:18
+ * @Description 统一返回类
+ * @return
+ */
 @Data
 public class TableModel<T> {
     private int code;
@@ -46,6 +46,13 @@ public class TableModel<T> {
         tableModel.setMsg(message);
         tableModel.setCount(0);
 
+        return tableModel;
+    }
+
+    public static TableModel error(Object data) {
+        TableModel tableModel = new TableModel();
+        tableModel.setCode(500);
+        tableModel.setData(data);
         return tableModel;
     }
 

@@ -1,31 +1,37 @@
 package com.shu.copartner.pojo.request;
 
 import lombok.Data;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.util.Date;
+
 /**
  * @author cxy
  */
 @Data
 public class NewsPublishVO {
-    private Integer newsid;
-    @NotBlank(message = "文章名字不能为空")
-    private String newsname;
-    @NotBlank(message = "类型不能为空")
-    private String newstype;
-    @NotBlank(message = "状态不能为空")
-    private String newsstatus;
-    @NotBlank(message = "权限不能为空")
-    private String newsauth;
-    @NotNull
-    private Date newstime;
+    private Long newsId;
 
-    private String newslabel;
+    @NotBlank(message = "新闻标题不能为空")
+    private String newsTitle;
+    @NotBlank(message = "新闻作者不能为空")
+    private String newsAuthor;
+    @NotBlank(message = "新闻类别不能为空")
+    private String newsCategory;
+    @NotBlank(message = "新闻内容不能为空")
+    private String newsContent;
 
-    private Integer havepicture;
+    private Date newsPublistime;
 
-    private String newscontext;
+    private Integer newsBrowsecount;
+    @NotBlank(message = "新闻是否置顶不能为空")
+    private String istopping;
+
+    private String isdeleted;
+    @NotBlank(message = "新闻关键词不能为空")
+    private String newsKeywords;
+
+    private String isaudit;
 
 
 }

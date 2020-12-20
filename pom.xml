@@ -30,6 +30,7 @@
         <pageHelper>5.1.2</pageHelper>
         <commons-fileupload>1.3.1</commons-fileupload>
         <druid>1.0.10</druid>
+        <hibernate-valid>6.0.12.Final</hibernate-valid>
         <pagehelper>5.0.0</pagehelper>
         <pagehelper-spring>1.2.3</pagehelper-spring>
     </properties>
@@ -62,7 +63,11 @@
             <artifactId>mybatis-generator-core</artifactId>
             <version>${generator}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-valid}</version>
+        </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
