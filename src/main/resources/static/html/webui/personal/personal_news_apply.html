@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="/html/webui/js/personal.js"></script>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+
+    <title>个人工作台</title>
+</head>
+
+<body>
+<!--引入页头页面-->
+<div id="header"></div>
+
+<div class="personalBody">
+    <div class="perLeftnav">
+        <div class="NavLeftTop">个人中心</div>
+        <div class="NavLeftMain">
+            <div class="NavLeftBox active">
+                <a onclick="redirecTo('/html/webui/personal/personal_info.html')" class="a1" href="#">用户信息</a>
+            </div>
+            <div class="NavLeftBox twoNav">
+                <a class="a5">项目</a>
+                <span class="up"></span>
+            </div>
+            <ul>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_project_list.html')" href="#">我的项目</a></li>
+
+                <li><a onclick="redirecTo('/html/webui/personal/personal_myfollow.html')" href="#">我的关注</a></li>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_followedproject.html')" href="#">谁在关注我</a></li>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_project_apply.html')" href="#">我要创建项目</a></li>
+            </ul>
+            <div class="NavLeftBox twoNav">
+                <a class="a6">新闻</a>
+                <span class="up"></span>
+            </div>
+            <ul>
+                <li><a href="/html/webui/personal/personal_news_apply.html">发布新闻</a></li>
+            </ul>
+            <div class="NavLeftBox twoNav">
+                <a class="a6">邀请</a>
+                <span class="up"></span>
+            </div>
+            <ul>
+                <li><a href="#">项目邀请</a></li>
+                <li><a href="#">我的足迹</a></li>
+            </ul>
+            <div class="NavLeftBox">
+                <a href="#" class="a7">用户设置</a>
+            </div>
+            <div class="NavLeftBox">
+                <a href="#" class="a8">帮助中心</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="perRightcon">
+        <div class="perRpart1">
+            <div class="perRpart1_l">
+                <img src="/html/webui/images/per1.jpg" width="80" height="100"/>
+            </div>
+            <div class="perRpart1_r">
+                <div class="PaName">您好！</div>
+                <div class="PaStatus">
+                    <span class="spStatus">上次登录时间：2020/12/17 15：03：11</span>
+                </div>
+                <div class="clear"></div>
+                <div class="PaCon">
+                    <span class="span1">用户名：2500941316@qq.com <a href="#" class="a1">[未认证]</a> <a
+                            href="#" class="a2">修改密码</a></span>
+                    <span class="span2">微信： <a href="" class="a1">[未绑定]</a></span><br/>
+                    <span class="span3">手机号：177*******12 <a href="" class="a3">[已认证]</a> <a
+                            href="#" class="a2">修改</a></span>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="perRpart1_c">
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">谁在关注我</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">我的项目</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">我关注的项目</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+                <div class="itemp">
+                    <a href="#">
+                        <span class="Title">邀请函</span>
+                        <span class="Num">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="ydc-column ydc-column-8">
+            <div class="ydc-release-content">
+                <div class="ydc-tabPanel ydc-tabPanel-release">
+                    <div class="ydc-release-tab-head">
+                        <ul>
+                            <li class="hit">发布文章</li>
+                        </ul>
+                    </div>
+                    <div class="ydc-panes">
+                        <div class="ydc-pane" style="display:block;">
+                            <div class="ydc-release-form-group ">
+                                <div class="ydc-warning-default">
+                                    <p>标题字数需在1字到30字之间。</p>
+                                </div>
+                                <div class="ydc-release-form-group-input">
+                                    <input type="text" name="title" lay-verify="title" autocomplete="off" id="title"
+                                           placeholder="请输入标题，为了更好的展示效果，建议标题字数在30个汉字以内"
+                                           onkeyUp="textLimitCheck(this, 30);" class="layui-input">
+                                    <div class="ydc-form-group-jl">
+                                        <span id="messageCount">0</span>
+                                        /30
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ydc-release-form-text">
+                                <textarea class="layui-textarea" id="LAY_demo1"
+                                          style="display: none">新闻内容和图片放入即可</textarea>
+                            </div>
+                            <div class="ydc-release-form-group-input">
+                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                       placeholder="文章关键词控制再30字以内，每个关键词用空格隔开" id="keywords"
+                                       class="layui-input">
+
+                            </div>
+                            <div class="ydc-form-city" style="margin-top: 5px">
+                                <div class="aui-card-form-item">
+                                    <label class="aui-card-form-label">分类:</label>
+                                    <div class="aui-card-form-input">
+                                        <select id="category">
+                                            <option>精彩上大</option>
+                                            <option>每周一文</option>
+                                            <option>项目风采</option>
+                                            <option>学术交流</option>
+                                            <option>人文社科</option>
+                                            <option>活动咨询</option>
+                                            <option>法律法规</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="aui-card-form-item">
+                                    <label class="aui-card-form-label">是否置顶:</label>
+                                    <div class="aui-card-form-input">
+                                        <select id="isTop">
+                                            <option>是</option>
+                                            <option>否</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="ydc-btn">
+                                    <button id="publish" class="btn">发布</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--引入页脚页面-->
+<div id="footer"></div>
+
+<script type="text/javascript">
+
+    layui.use('layedit', function () {
+        var layedit = layui.layedit;
+        layedit.set({
+            uploadImage: {
+                url: '/user/news/newImagesUpload' //接口url
+                , type: 'POST' //默认post
+            }
+        });
+        var editor = layedit.build('LAY_demo1', {
+            tool: ['face', 'link', 'unlink', '|', 'left', 'center', 'right']
+            , height: 400
+        })
+
+        //点击发布按钮的操作
+        $("#publish").click(function () {
+            var title = $("#title").val();
+            var keywords = $("#keywords").val();
+            var content = layedit.getContent(editor);
+            var category = $("#category option:selected").val();
+            var isTop = $("#isTop option:selected").val();
+
+            if (title.length === 0 || title.length > 30 || keywords.length === 0 || keywords.length > 30
+                || content.length === 0 || category.length === 0 || isTop.length === 0) {
+                layer.msg('请填写完整信息！');
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/user/news/publisNews",
+                data: {
+                    title: title,
+                    keywords: keywords,
+                    content: content,
+                    category: category,
+                    isTop: isTop
+                },
+                success: function (data) {
+                    if (data.data.code === 200) {
+                        layer.msg('发布成功！');
+                    } else
+                        layer.msg('网络异常，请稍后重试');
+                }
+            });
+        })
+    });
+
+
+    $(function () {
+        $("#header").load("/html/webui/header/header.html");
+        $("#footer").load("/html/webui/footer/footer.html");
+    });
+
+    function redirecTo(url) {
+        $("#page").load(url);
+    };
+
+    function textLimitCheck(thisArea, maxLength) {
+        if (thisArea.value.length > maxLength) {
+            thisArea.value = thisArea.value.substring(0, 30);
+            thisArea.focus();
+        }
+        messageCount.innerText = thisArea.value.length;
+
+    }
+</script>
+</body>
+</html>

@@ -6,9 +6,7 @@
     <title>个人工作台</title>
     <link rel="stylesheet" type="text/css" href="css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="css/hyzx.css"/>
-    <link rel="stylesheet" href="js/layui/css/layui.css" media="all">
     <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="js/layui/layui.js"></script>
 
     <style type="text/css">
         .layui-table-cell, .layui-table-tool-panel li {
@@ -25,15 +23,35 @@
         <h2>管理列表</h2>
         <ul>
             <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
-            <li class="lf_li6"><a href="/html/managerui/html/news_manager.html">新闻发布</a></li>
+            <li class="lf_li1"><a href="/html/webui/personal/personal_news_apply.html">申请审批</a></li>
         </ul>
     </div>
     <div id="con_rh">
         <div class="con_rh_con">
             <p class="rh_title">申请审批</p>
 
-            <!--引入layui表格-->
-            <table id="demo" lay-filter="test"></table>
+
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">项目申请</li>
+                    <li>新闻申请</li>
+                    <li>申请</li>
+
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <!--引入layui表格-->
+                        <table id="project" lay-filter="test"></table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table id="news" lay-filter="test"></table>
+                    </div>
+                    <div class="layui-tab-item">内容3</div>
+                    <div class="layui-tab-item">内容4</div>
+                    <div class="layui-tab-item">内容5</div>
+                </div>
+            </div>
+
 
         </div>
     </div>
@@ -49,7 +67,20 @@
         $("#footer").load("/html/webui/footer/footer.html");
     });
 
+    //tab标签页引用
+    layui.use('element', function () {
+        var $ = layui.jquery
+            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+        //触发事件
+        var active = {
+            tabChange: function () {
+                //切换到指定Tab项
+                element.tabChange('demo', '22'); //切换到：用户管理
+            }
+        };
+    });
 
+    //项目申请tab表格的使用
     layui.use('table', function () {
         var table = layui.table;
         var data = [{
@@ -58,7 +89,30 @@
         }];
         //第一个实例
         table.render({
-            elem: '#demo'
+            elem: '#project'
+            , height: 580
+            //, url: '/demo/table/user/' //数据接口
+            , data: data
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'id', title: 'ID', sort: true, fixed: 'left'}
+                , {field: 'username', title: '用户名'}
+
+            ]]
+        });
+    });
+
+
+    //新闻申请tab表格的使用
+    layui.use('table', function () {
+        var table = layui.table;
+        var data = [{
+            id: "11221",
+            username: "11"
+        }];
+        //第一个实例
+        table.render({
+            elem: '#news'
             , height: 580
             //, url: '/demo/table/user/' //数据接口
             , data: data

@@ -1,5 +1,6 @@
 package com.shu.copartner.service;
 
+import com.shu.copartner.pojo.request.NewsPublishVO;
 import com.shu.copartner.utils.returnobj.TableModel;
 import org.springframework.web.multipart.MultipartFile;
 

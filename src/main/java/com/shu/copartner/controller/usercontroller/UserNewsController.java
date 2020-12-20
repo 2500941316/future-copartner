@@ -1,8 +1,12 @@
 package com.shu.copartner.controller.usercontroller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.shu.copartner.pojo.request.NewsPublishVO;
+import com.shu.copartner.service.FileuploadService;
+import com.shu.copartner.service.UserNewsService;
+import com.shu.copartner.utils.returnobj.TableModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author
@@ -13,4 +17,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user/news")
 @CrossOrigin
 public class UserNewsController {
+
+    @Autowired
+    FileuploadService uploadService;
+
+    @Autowired
+    UserNewsService userNewsService;
+
+    /**
+      * @author cxy
+      * @date 2020/12/20 13:42
+      * @Description 上传文件的
+      * @return com.shu.copartner.utils.returnobj.TableModel
+      */
+    @PostMapping(value = "newImagesUpload")
+    @ResponseBody
+    public TableModel fileuploadpicture(MultipartFile file) {
+
+        return uploadService.managerImageUploadFile(file);
+    }
+
+    @PostMapping(value = "publisNews")
+    @ResponseBody
+    public TableModel publisNews(@RequestBody NewsPublishVO newsPublishVO) {
+
+        return userNewsService.publisNews(newsPublishVO);
+    }
+
+
 }
