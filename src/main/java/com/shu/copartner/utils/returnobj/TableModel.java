@@ -29,6 +29,17 @@ public class TableModel<T> {
         return tableModel;
     }
 
+    public static TableModel tableSuccess(Object data, int total) {
+        TableModel tableModel = new TableModel();
+
+        tableModel.setCode(0);
+        tableModel.setMsg(null);
+        tableModel.setCount(total);
+        tableModel.setData(data);
+
+        return tableModel;
+    }
+
     public static TableModel success(String msg) {
         TableModel tableModel = new TableModel();
 

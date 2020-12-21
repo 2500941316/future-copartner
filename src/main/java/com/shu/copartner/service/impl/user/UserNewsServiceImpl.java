@@ -1,4 +1,4 @@
-package com.shu.copartner.service.impl;
+package com.shu.copartner.service.impl.user;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -7,6 +7,7 @@ import com.shu.copartner.pojo.ActRuTask;
 import com.shu.copartner.pojo.ActRuTaskExample;
 import com.shu.copartner.pojo.request.NewsPublishVO;
 import com.shu.copartner.service.UserNewsService;
+import com.shu.copartner.service.impl.ActivitiServiceImpl;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +50,7 @@ public class UserNewsServiceImpl implements UserNewsService {
         actRuTaskExample.createCriteria().andAssigneeEqualTo(newsPublishVO.getNewsAuthor()).andNameEqualTo(Constants.NEWSAPPLY_PROCESS_APPLYNAME);
         List<ActRuTask> actRuTasks = actRuTaskMapper.selectByExample(actRuTaskExample);
         //如果查询得任务结果唯一，则完成申请新闻任务，指定审批人为manager身份
-        HashMap<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put(Constants.MANAGER_ROLE, Constants.MANAGER_ROLE);
-        if (actRuTasks.size() == 1 && activitiService.completeTask(actRuTasks.get(0).getId(), Constants.MANAGER_ROLE, paramsMap)) {
+        if (actRuTasks.size() == 1 && activitiService.completeTask(actRuTasks.get(0).getId(), Constants.MANAGER_ROLE, Constants.MANAGER_ROLE, newsPublishVO)) {
             return TableModel.success("发布成功");
         } else {
             return TableModel.error("网络异常");

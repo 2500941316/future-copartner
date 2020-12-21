@@ -1,15 +1,16 @@
 package com.shu.copartner.pojo.request;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author cxy
  */
 @Data
-public class NewsPublishVO {
+public class NewsPublishVO implements Serializable {
     private Long newsId;
 
     @NotBlank(message = "新闻标题不能为空")

@@ -10,11 +10,6 @@
     <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
 
-    <style type="text/css">
-        .layui-table-cell, .layui-table-tool-panel li {
-            overflow: visible !important;
-        }
-    </style>
 </head>
 <body>
 <!--引入页头页面-->
@@ -25,6 +20,8 @@
         <h2>管理列表</h2>
         <ul>
             <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
+            <li class="lf_li1"><a href="#">项目管理</a></li>
+            <li class="lf_li1"><a href="#">新闻管理</a></li>
         </ul>
     </div>
     <div id="con_rh">
@@ -35,8 +32,8 @@
             <div class="layui-tab">
                 <ul class="layui-tab-title">
                     <li class="layui-this">项目申请</li>
-                    <li>新闻申请</li>
-                    <li>申请</li>
+                    <li class="layui-this" onclick="searchNewsApplication()">新闻申请</li>
+                    <li class="layui-this">申请</li>
 
                 </ul>
                 <div class="layui-tab-content">
@@ -44,12 +41,25 @@
                         <!--引入layui表格-->
                         <table id="project" lay-filter="test"></table>
                     </div>
+
+                    <!--新闻审核表-->
                     <div class="layui-tab-item">
-                        <table id="news" lay-filter="test"></table>
+                        <table class="layui-hide" id="new" lay-filter="new"></table>
+                        <script type="text/html" id="switchTpl">
+                            <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="是|否"
+                                   lay-filter="sexDemo" {{ d.id== 10003 ? 'checked' : '' }}>
+                        </script>
+                        <script type="text/html" id="barDemo">
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">查看</a>
+                            <a class="layui-btn layui-btn-xs" lay-event="pass">通过</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reject">驳回</a>
+
+
+                        </script>
+
                     </div>
+
                     <div class="layui-tab-item">内容3</div>
-                    <div class="layui-tab-item">内容4</div>
-                    <div class="layui-tab-item">内容5</div>
                 </div>
             </div>
 
@@ -62,6 +72,7 @@
 <!--引入尾部页面-->
 <div id="footer"></div>
 
+<!--公告跳转模块-->
 <script type="text/javascript">
     $(function () {
         $("#headers").load("/html/webui/header/header.html");
@@ -70,17 +81,13 @@
 
     //tab标签页引用
     layui.use('element', function () {
-        var $ = layui.jquery
-            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
-        //触发事件
-        var active = {
-            tabChange: function () {
-                //切换到指定Tab项
-                element.tabChange('demo', '22'); //切换到：用户管理
-            }
-        };
+        var element = layui.element;
     });
+</script>
 
+
+<!--项目申请的js模块-->
+<script type="text/javascript">
     //项目申请tab表格的使用
     layui.use('table', function () {
         var table = layui.table;
@@ -107,30 +114,86 @@
             ]]
         });
     });
+</script>
 
+
+<!--新闻申请模块的js-->
+<script type="text/javascript">
 
     //新闻申请tab表格的使用
-    layui.use('table', function () {
-        var table = layui.table;
-        var data = [{
-            id: "11221",
-            username: "11"
-        }];
-        //第一个实例
-        table.render({
-            elem: '#news'
-            , height: 580
-            //, url: '/demo/table/user/' //数据接口
-            , data: data
-            , page: true //开启分页
-            , cols: [[ //表头
-                {field: 'id', title: 'ID', sort: true, fixed: 'left'}
-                , {field: 'username', title: '用户名'}
+    function searchNewsApplication() {
+        layui.use('table', function () {
+            var table = layui.table
+                , form = layui.form;
 
-            ]]
+            table.render({
+                elem: '#new'
+                , url: '/manager/news/searchNewsApplication'
+                , cols: [[
+                    {field: 'newsTitle', title: '标题', width: 130, align: 'center'},
+                    {field: 'newsAuthor', title: '发布人', width: 110, align: 'center'},
+                    {field: 'newsCategory', title: '种类', width: 110, align: 'center'},
+                    {field: 'newsPublistime', title: '发布时间', width: 150, sort: true, align: 'center'},
+                    {field: 'istopping', title: '置顶', align: 'center', width: 80, templet: '#switchTpl'},
+                    {fixed: 'right', title: '操作', align: 'center', toolbar: '#barDemo'}
+                ]]
+                , page: true
+            });
+
+            //监听性别操作
+            form.on('switch(sexDemo)', function (obj) {
+                layer.tips("更改置顶项" + obj.othis);
+            });
+
+            //监听行工具事件
+            table.on('tool(new)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'pass') {
+                    layer.confirm('批准该新闻上线？', function (index) {
+                        operateNew(obj, 1, "");
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'reject') {
+                    layer.prompt({
+                        formType: 2
+                        , value: data.email
+                    }, function (value, index) {
+                        operateNew(obj, 0, value);
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'view') {
+                    alert("view")
+                }
+            });
         });
-    });
+    }
+
+
+    //通过或者驳回新闻申请的方法
+    function operateNew(thisNew, status, msg) {
+        var data = {
+            status: status,
+            msg: msg,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/manager/news/operateNew",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (data.code === 200) {
+                    thisNew.del();
+                } else
+                    layer.msg('网络异常，请稍后重试');
+            },
+            error: function (data) {
+                layer.msg('参数异常');
+            }
+        });
+    }
 
 </script>
+
 </body>
 </html>

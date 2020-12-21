@@ -13,6 +13,16 @@ public final class Constants {
     public static final int USERNAME_LENGTH = 8;
 
     /**
+     * @Description 每一页查询的个数
+     */
+    public static final int pageSize = 10;
+
+    /**
+     * @Description 一共显示几个页数选择
+     */
+    public static final int pageView = 5;
+
+    /**
      * @Description 请假流程的key
      */
     public static final String QJ_KEY = "QJ";
@@ -29,9 +39,14 @@ public final class Constants {
 
 
     /**
-     * @Description 新闻发布流程processId,用来查询task表中得任务
+     * @Description 新闻发布流程中,用来查询task表中用户申请的任务
      */
     public static final String NEWSAPPLY_PROCESS_APPLYNAME = "用户提交新闻申请";
+
+    /**
+     * @Description 新闻发布流程中,用来查询task表中管理员审批任务
+     */
+    public static final String NEWSAPPLY_PROCESS_MANAGERNAME = "管理员审批文章";
 
     /**
      * @Description 项目流程key
@@ -42,5 +57,10 @@ public final class Constants {
      * @Description 管理员角色名
      */
     public static final String MANAGER_ROLE = "manager";
+
+    /**
+     * @Description activiti任务间传输object对象的参数名称
+     */
+    public static final String ACTIVITI_OBJECT_NAME = "object";
 
 }

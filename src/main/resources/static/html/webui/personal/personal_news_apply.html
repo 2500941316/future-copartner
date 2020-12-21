@@ -148,10 +148,6 @@
         $("#footer").load("/html/webui/footer/footer.html");
     });
 
-    function redirecTo(url) {
-        $("#page").load(url);
-    };
-
     function textLimitCheck(thisArea, maxLength) {
         if (thisArea.value.length > maxLength) {
             thisArea.value = thisArea.value.substring(0, 30);

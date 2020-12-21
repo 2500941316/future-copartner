@@ -1,5 +1,6 @@
 package com.shu.copartner.service.impl;
 
+import com.shu.copartner.utils.constance.Constants;
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.task.Task;
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 @Transactional
 @Component
-public class ActivitiServiceImpl {
+public class ActivitiServiceImpl<T> {
 
     private ProcessEngine processEngine = null;
 
@@ -95,11 +96,24 @@ public class ActivitiServiceImpl {
      * @date 2020/12/5 11:30
      * @Description 查询任务
      */
-    public List<Task> findMyPersonalTask(String assignee) {
+    public List<Task> findMyPersonalTask(int page, String taskName, String assignee) {
         return processEngine.getTaskService()
                 .createTaskQuery()//创建任务查询对象
                 .taskAssignee(assignee)
-                .list();
+                .taskName(taskName)
+                .listPage(Constants.pageSize * (page - 1), Constants.pageSize);
+    }
+
+
+    /**
+     * @return void
+     * @author cxy
+     * @date 2020/12/5 11:30
+     * @Description 查询任务
+     */
+    public T findTaskObjectParams(String taskId, String paramsName, Class<T> clazz) {
+        TaskService taskService = processEngine.getTaskService();
+        return taskService.getVariable(taskId, paramsName, clazz);
     }
 
 
@@ -109,13 +123,34 @@ public class ActivitiServiceImpl {
      * @date 2020/12/5 11:30
      * @Description 完成任务
      */
-    public boolean completeTask(String taskId, String parameter, Map<String, Object> map) {
+    public boolean completeTask(String taskId, String parameter, String value, Object object) {
         //任务ID
         TaskService taskService = processEngine.getTaskService();
-        if (!map.isEmpty()) {
-            taskService.setVariable(taskId, parameter, map);
+        if (object != null) {
+            //任务间传参数
+            taskService.setVariable(taskId, Constants.ACTIVITI_OBJECT_NAME, object);
         }
-        //提交给谁做审批:根据员工表查询主管
+        //下一个任务的审批人
+        taskService.setVariable(taskId, parameter, value);
+        taskService.complete(taskId);
+        return true;
+    }
+
+
+    /**
+     * @return void
+     * @author cxy
+     * @date 2020/12/5 11:30
+     * @Description 完成任务
+     */
+    public boolean completeTaskWithoutObject(String taskId, String parameter, String value, Object object) {
+        TaskService taskService = processEngine.getTaskService();
+        if (object != null) {
+            //任务间传参数
+            taskService.setVariable(taskId, Constants.ACTIVITI_OBJECT_NAME, object);
+        }
+        //下一个任务的审批人
+        taskService.setVariable(taskId, parameter, value);
         taskService.complete(taskId);
         return true;
     }
