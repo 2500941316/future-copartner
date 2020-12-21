@@ -7,6 +7,7 @@
     <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/html/webui/js/personal.js"></script>
 
+
     <title>个人工作台</title>
 </head>
 
@@ -37,7 +38,7 @@
                 <span class="up"></span>
             </div>
             <ul>
-                <li><a href="/html/webui/personal/personal_news_apply.html">发布新闻</a></li>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_news_apply.html')" href="#">发布新闻</a></li>
             </ul>
             <div class="NavLeftBox twoNav">
                 <a class="a6">邀请</a>
@@ -103,27 +104,30 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 
-<!--引入外部页面-->
-<div class="perRightcon" id="page" style="margin-top: 10px;min-height: 450px"></div>
+<iframe scrolling="no" name="aa" id="iframe" width="72%" frameborder="0"
+        src="#"
+        onload="this.height=0;var fdh=(this.Document?this.Document.body.scrollHeight:this.contentDocument.body.offsetHeight);
+        this.height=(fdh>600?fdh:600)"></iframe>
 
 <!--引入页脚页面-->
 <div id="footer"></div>
 
 <script type="text/javascript">
+
     $(function () {
         redirecTo("/html/webui/personal/personal_info.html");
         $("#header").load("/html/webui/header/header.html");
         $("#footer").load("/html/webui/footer/footer.html");
     });
 
+
     function redirecTo(url) {
-        $("#page").load(url);
-    };
+        /*公共部分：登录弹框*/
+        iframe.src = url;
+    }
 
 </script>
 </body>
