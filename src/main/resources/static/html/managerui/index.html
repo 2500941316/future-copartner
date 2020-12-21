@@ -86,7 +86,9 @@
         var table = layui.table;
         var data = [{
             id: "11221",
-            username: "11"
+            username: "11",
+            projectname: '项目名称',
+            approveType: '申请审批'
         }];
         //第一个实例
         table.render({
@@ -96,8 +98,11 @@
             , data: data
             , page: true //开启分页
             , cols: [[ //表头
-                {field: 'id', title: 'ID', sort: true, fixed: 'left'}
-                , {field: 'username', title: '用户名'}
+                {field: 'id', title: 'ID', sort: true, fixed: 'left'},
+                {field: 'username', title: '用户名'},
+                {field: 'projectname', title: '项目名称'},
+                {field: 'approveType', title: '类型'},
+                {field: 'projectname', title: '操作'},
 
             ]]
         });

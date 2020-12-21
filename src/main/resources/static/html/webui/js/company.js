@@ -1,4 +1,5 @@
 // JavaScript Document
+/*
 $(document).ready(function () {
   //职位搜索-热门搜索选项卡
   var oLihot = document.getElementById("tabcompany").getElementsByTagName("li");
@@ -20,4 +21,4 @@ $(document).ready(function () {
 				 }
 	   }	
    }
-})
+})*/

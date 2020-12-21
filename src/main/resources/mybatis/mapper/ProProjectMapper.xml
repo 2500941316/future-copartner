@@ -5,18 +5,19 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="endTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
     <result column="followers" jdbcType="VARCHAR" property="followers" />
-    <result column="isDeleted" jdbcType="CHAR" property="isdeleted" />
-    <result column="isLock" jdbcType="INTEGER" property="islock" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="is_lock" jdbcType="INTEGER" property="isLock" />
     <result column="plan_url" jdbcType="VARCHAR" property="planUrl" />
-    <result column="primaryJob" jdbcType="VARCHAR" property="primaryjob" />
-    <result column="projectName" jdbcType="VARCHAR" property="projectname" />
-    <result column="startTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="primaryjob" jdbcType="VARCHAR" property="primaryjob" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
-    <result column="projectPeople" jdbcType="VARCHAR" property="projectpeople" />
+    <result column="project_people" jdbcType="VARCHAR" property="projectPeople" />
+    <result column="main_people" jdbcType="VARCHAR" property="mainPeople" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, creater, description, endTime, followers, isDeleted, isLock, plan_url, primaryJob, 
-    projectName, startTime, status, type, video_url, projectPeople
+    id, creater, description, endtime, followers, is_deleted, is_lock, plan_url, primaryjob, 
+    project_name, starttime, status, type, video_url, project_people, main_people
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProProjectExample" resultMap="BaseResultMap">
     select
@@ -112,17 +113,17 @@
   </delete>
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProProject">
     insert into PRO_PROJECT (id, creater, description, 
-      endTime, followers, isDeleted, 
-      isLock, plan_url, primaryJob, 
-      projectName, startTime, status, 
-      type, video_url, projectPeople
-      )
+      endtime, followers, is_deleted, 
+      is_lock, plan_url, primaryjob, 
+      project_name, starttime, status, 
+      type, video_url, project_people, 
+      main_people)
     values (#{id,jdbcType=BIGINT}, #{creater,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{endtime,jdbcType=TIMESTAMP}, #{followers,jdbcType=VARCHAR}, #{isdeleted,jdbcType=CHAR}, 
-      #{islock,jdbcType=INTEGER}, #{planUrl,jdbcType=VARCHAR}, #{primaryjob,jdbcType=VARCHAR}, 
-      #{projectname,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, #{projectpeople,jdbcType=VARCHAR}
-      )
+      #{endtime,jdbcType=TIMESTAMP}, #{followers,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{isLock,jdbcType=INTEGER}, #{planUrl,jdbcType=VARCHAR}, #{primaryjob,jdbcType=VARCHAR}, 
+      #{projectName,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, #{projectPeople,jdbcType=VARCHAR}, 
+      #{mainPeople,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProProject">
     insert into PRO_PROJECT
@@ -137,28 +138,28 @@
         description,
       </if>
       <if test="endtime != null">
-        endTime,
+        endtime,
       </if>
       <if test="followers != null">
         followers,
       </if>
-      <if test="isdeleted != null">
-        isDeleted,
+      <if test="isDeleted != null">
+        is_deleted,
       </if>
-      <if test="islock != null">
-        isLock,
+      <if test="isLock != null">
+        is_lock,
       </if>
       <if test="planUrl != null">
         plan_url,
       </if>
       <if test="primaryjob != null">
-        primaryJob,
+        primaryjob,
       </if>
-      <if test="projectname != null">
-        projectName,
+      <if test="projectName != null">
+        project_name,
       </if>
       <if test="starttime != null">
-        startTime,
+        starttime,
       </if>
       <if test="status != null">
         status,
@@ -169,8 +170,11 @@
       <if test="videoUrl != null">
         video_url,
       </if>
-      <if test="projectpeople != null">
-        projectPeople,
+      <if test="projectPeople != null">
+        project_people,
+      </if>
+      <if test="mainPeople != null">
+        main_people,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -189,11 +193,11 @@
       <if test="followers != null">
         #{followers,jdbcType=VARCHAR},
       </if>
-      <if test="isdeleted != null">
-        #{isdeleted,jdbcType=CHAR},
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
       </if>
-      <if test="islock != null">
-        #{islock,jdbcType=INTEGER},
+      <if test="isLock != null">
+        #{isLock,jdbcType=INTEGER},
       </if>
       <if test="planUrl != null">
         #{planUrl,jdbcType=VARCHAR},
@@ -201,8 +205,8 @@
       <if test="primaryjob != null">
         #{primaryjob,jdbcType=VARCHAR},
       </if>
-      <if test="projectname != null">
-        #{projectname,jdbcType=VARCHAR},
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
       </if>
       <if test="starttime != null">
         #{starttime,jdbcType=TIMESTAMP},
@@ -216,8 +220,11 @@
       <if test="videoUrl != null">
         #{videoUrl,jdbcType=VARCHAR},
       </if>
-      <if test="projectpeople != null">
-        #{projectpeople,jdbcType=VARCHAR},
+      <if test="projectPeople != null">
+        #{projectPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="mainPeople != null">
+        #{mainPeople,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -240,28 +247,28 @@
         description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.endtime != null">
-        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+        endtime = #{record.endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.followers != null">
         followers = #{record.followers,jdbcType=VARCHAR},
       </if>
-      <if test="record.isdeleted != null">
-        isDeleted = #{record.isdeleted,jdbcType=CHAR},
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
       </if>
-      <if test="record.islock != null">
-        isLock = #{record.islock,jdbcType=INTEGER},
+      <if test="record.isLock != null">
+        is_lock = #{record.isLock,jdbcType=INTEGER},
       </if>
       <if test="record.planUrl != null">
         plan_url = #{record.planUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.primaryjob != null">
-        primaryJob = #{record.primaryjob,jdbcType=VARCHAR},
+        primaryjob = #{record.primaryjob,jdbcType=VARCHAR},
       </if>
-      <if test="record.projectname != null">
-        projectName = #{record.projectname,jdbcType=VARCHAR},
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
       </if>
       <if test="record.starttime != null">
-        startTime = #{record.starttime,jdbcType=TIMESTAMP},
+        starttime = #{record.starttime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=VARCHAR},
@@ -272,8 +279,11 @@
       <if test="record.videoUrl != null">
         video_url = #{record.videoUrl,jdbcType=VARCHAR},
       </if>
-      <if test="record.projectpeople != null">
-        projectPeople = #{record.projectpeople,jdbcType=VARCHAR},
+      <if test="record.projectPeople != null">
+        project_people = #{record.projectPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainPeople != null">
+        main_people = #{record.mainPeople,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -285,18 +295,19 @@
     set id = #{record.id,jdbcType=BIGINT},
       creater = #{record.creater,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
-      endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP},
       followers = #{record.followers,jdbcType=VARCHAR},
-      isDeleted = #{record.isdeleted,jdbcType=CHAR},
-      isLock = #{record.islock,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      is_lock = #{record.isLock,jdbcType=INTEGER},
       plan_url = #{record.planUrl,jdbcType=VARCHAR},
-      primaryJob = #{record.primaryjob,jdbcType=VARCHAR},
-      projectName = #{record.projectname,jdbcType=VARCHAR},
-      startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      primaryjob = #{record.primaryjob,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      starttime = #{record.starttime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
       video_url = #{record.videoUrl,jdbcType=VARCHAR},
-      projectPeople = #{record.projectpeople,jdbcType=VARCHAR}
+      project_people = #{record.projectPeople,jdbcType=VARCHAR},
+      main_people = #{record.mainPeople,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -311,28 +322,28 @@
         description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="endtime != null">
-        endTime = #{endtime,jdbcType=TIMESTAMP},
+        endtime = #{endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="followers != null">
         followers = #{followers,jdbcType=VARCHAR},
       </if>
-      <if test="isdeleted != null">
-        isDeleted = #{isdeleted,jdbcType=CHAR},
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
       </if>
-      <if test="islock != null">
-        isLock = #{islock,jdbcType=INTEGER},
+      <if test="isLock != null">
+        is_lock = #{isLock,jdbcType=INTEGER},
       </if>
       <if test="planUrl != null">
         plan_url = #{planUrl,jdbcType=VARCHAR},
       </if>
       <if test="primaryjob != null">
-        primaryJob = #{primaryjob,jdbcType=VARCHAR},
+        primaryjob = #{primaryjob,jdbcType=VARCHAR},
       </if>
-      <if test="projectname != null">
-        projectName = #{projectname,jdbcType=VARCHAR},
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
       </if>
       <if test="starttime != null">
-        startTime = #{starttime,jdbcType=TIMESTAMP},
+        starttime = #{starttime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
@@ -343,8 +354,11 @@
       <if test="videoUrl != null">
         video_url = #{videoUrl,jdbcType=VARCHAR},
       </if>
-      <if test="projectpeople != null">
-        projectPeople = #{projectpeople,jdbcType=VARCHAR},
+      <if test="projectPeople != null">
+        project_people = #{projectPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="mainPeople != null">
+        main_people = #{mainPeople,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -353,18 +367,19 @@
     update PRO_PROJECT
     set creater = #{creater,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      endTime = #{endtime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
       followers = #{followers,jdbcType=VARCHAR},
-      isDeleted = #{isdeleted,jdbcType=CHAR},
-      isLock = #{islock,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      is_lock = #{isLock,jdbcType=INTEGER},
       plan_url = #{planUrl,jdbcType=VARCHAR},
-      primaryJob = #{primaryjob,jdbcType=VARCHAR},
-      projectName = #{projectname,jdbcType=VARCHAR},
-      startTime = #{starttime,jdbcType=TIMESTAMP},
+      primaryjob = #{primaryjob,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
-      projectPeople = #{projectpeople,jdbcType=VARCHAR}
+      project_people = #{projectPeople,jdbcType=VARCHAR},
+      main_people = #{mainPeople,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
