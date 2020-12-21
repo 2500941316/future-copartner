@@ -12,6 +12,7 @@
     <result column="isDeleted" jdbcType="CHAR" property="isdeleted" />
     <result column="news_keywords" jdbcType="VARCHAR" property="newsKeywords" />
     <result column="isAudit" jdbcType="CHAR" property="isaudit" />
+    <result column="news_advice" jdbcType="VARCHAR" property="newsAdvice" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.shu.copartner.pojo.ProNewsWithBLOBs">
     <result column="news_introduction" jdbcType="LONGVARCHAR" property="newsIntroduction" />
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     news_id, news_title, news_author, news_category, news_publisTime, news_browseCount, 
-    isTopping, isDeleted, news_keywords, isAudit
+    isTopping, isDeleted, news_keywords, isAudit, news_advice
   </sql>
   <sql id="Blob_Column_List">
     news_introduction, news_content
@@ -134,13 +135,13 @@
     insert into PRO_NEWS (news_id, news_title, news_author, 
       news_category, news_publisTime, news_browseCount, 
       isTopping, isDeleted, news_keywords, 
-      isAudit, news_introduction, news_content
-      )
+      isAudit, news_advice, news_introduction, 
+      news_content)
     values (#{newsId,jdbcType=BIGINT}, #{newsTitle,jdbcType=VARCHAR}, #{newsAuthor,jdbcType=VARCHAR}, 
       #{newsCategory,jdbcType=VARCHAR}, #{newsPublistime,jdbcType=TIMESTAMP}, #{newsBrowsecount,jdbcType=INTEGER}, 
       #{istopping,jdbcType=CHAR}, #{isdeleted,jdbcType=CHAR}, #{newsKeywords,jdbcType=VARCHAR}, 
-      #{isaudit,jdbcType=CHAR}, #{newsIntroduction,jdbcType=LONGVARCHAR}, #{newsContent,jdbcType=LONGVARCHAR}
-      )
+      #{isaudit,jdbcType=CHAR}, #{newsAdvice,jdbcType=VARCHAR}, #{newsIntroduction,jdbcType=LONGVARCHAR}, 
+      #{newsContent,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProNewsWithBLOBs">
     insert into PRO_NEWS
@@ -174,6 +175,9 @@
       </if>
       <if test="isaudit != null">
         isAudit,
+      </if>
+      <if test="newsAdvice != null">
+        news_advice,
       </if>
       <if test="newsIntroduction != null">
         news_introduction,
@@ -212,6 +216,9 @@
       </if>
       <if test="isaudit != null">
         #{isaudit,jdbcType=CHAR},
+      </if>
+      <if test="newsAdvice != null">
+        #{newsAdvice,jdbcType=VARCHAR},
       </if>
       <if test="newsIntroduction != null">
         #{newsIntroduction,jdbcType=LONGVARCHAR},
@@ -260,6 +267,9 @@
       <if test="record.isaudit != null">
         isAudit = #{record.isaudit,jdbcType=CHAR},
       </if>
+      <if test="record.newsAdvice != null">
+        news_advice = #{record.newsAdvice,jdbcType=VARCHAR},
+      </if>
       <if test="record.newsIntroduction != null">
         news_introduction = #{record.newsIntroduction,jdbcType=LONGVARCHAR},
       </if>
@@ -283,6 +293,7 @@
       isDeleted = #{record.isdeleted,jdbcType=CHAR},
       news_keywords = #{record.newsKeywords,jdbcType=VARCHAR},
       isAudit = #{record.isaudit,jdbcType=CHAR},
+      news_advice = #{record.newsAdvice,jdbcType=VARCHAR},
       news_introduction = #{record.newsIntroduction,jdbcType=LONGVARCHAR},
       news_content = #{record.newsContent,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -300,7 +311,8 @@
       isTopping = #{record.istopping,jdbcType=CHAR},
       isDeleted = #{record.isdeleted,jdbcType=CHAR},
       news_keywords = #{record.newsKeywords,jdbcType=VARCHAR},
-      isAudit = #{record.isaudit,jdbcType=CHAR}
+      isAudit = #{record.isaudit,jdbcType=CHAR},
+      news_advice = #{record.newsAdvice,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -335,6 +347,9 @@
       <if test="isaudit != null">
         isAudit = #{isaudit,jdbcType=CHAR},
       </if>
+      <if test="newsAdvice != null">
+        news_advice = #{newsAdvice,jdbcType=VARCHAR},
+      </if>
       <if test="newsIntroduction != null">
         news_introduction = #{newsIntroduction,jdbcType=LONGVARCHAR},
       </if>
@@ -355,6 +370,7 @@
       isDeleted = #{isdeleted,jdbcType=CHAR},
       news_keywords = #{newsKeywords,jdbcType=VARCHAR},
       isAudit = #{isaudit,jdbcType=CHAR},
+      news_advice = #{newsAdvice,jdbcType=VARCHAR},
       news_introduction = #{newsIntroduction,jdbcType=LONGVARCHAR},
       news_content = #{newsContent,jdbcType=LONGVARCHAR}
     where news_id = #{newsId,jdbcType=BIGINT}
@@ -369,7 +385,8 @@
       isTopping = #{istopping,jdbcType=CHAR},
       isDeleted = #{isdeleted,jdbcType=CHAR},
       news_keywords = #{newsKeywords,jdbcType=VARCHAR},
-      isAudit = #{isaudit,jdbcType=CHAR}
+      isAudit = #{isaudit,jdbcType=CHAR},
+      news_advice = #{newsAdvice,jdbcType=VARCHAR}
     where news_id = #{newsId,jdbcType=BIGINT}
   </update>
 </mapper>

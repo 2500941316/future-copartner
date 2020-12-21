@@ -3,7 +3,6 @@ package com.shu.copartner.controller.managercontroller;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.pojo.request.NewsManagerOperationVO;
-import com.shu.copartner.pojo.request.NewsPublishVO;
 import com.shu.copartner.service.ManagerNewsService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import org.slf4j.Logger;

@@ -143,14 +143,9 @@ public class ActivitiServiceImpl<T> {
      * @date 2020/12/5 11:30
      * @Description 完成任务
      */
-    public boolean completeTaskWithoutObject(String taskId, String parameter, String value, Object object) {
+    public boolean completeTaskWithoutObject(String taskId) {
         TaskService taskService = processEngine.getTaskService();
-        if (object != null) {
-            //任务间传参数
-            taskService.setVariable(taskId, Constants.ACTIVITI_OBJECT_NAME, object);
-        }
         //下一个任务的审批人
-        taskService.setVariable(taskId, parameter, value);
         taskService.complete(taskId);
         return true;
     }

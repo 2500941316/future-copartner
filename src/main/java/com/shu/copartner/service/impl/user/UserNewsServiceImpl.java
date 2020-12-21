@@ -3,19 +3,22 @@ package com.shu.copartner.service.impl.user;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shu.copartner.mapper.ActRuTaskMapper;
+import com.shu.copartner.mapper.ProNewsMapper;
 import com.shu.copartner.pojo.ActRuTask;
 import com.shu.copartner.pojo.ActRuTaskExample;
+import com.shu.copartner.pojo.ProNews;
+import com.shu.copartner.pojo.ProNewsWithBLOBs;
 import com.shu.copartner.pojo.request.NewsPublishVO;
 import com.shu.copartner.service.UserNewsService;
 import com.shu.copartner.service.impl.ActivitiServiceImpl;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +37,9 @@ public class UserNewsServiceImpl implements UserNewsService {
     @Autowired
     ActRuTaskMapper actRuTaskMapper;
 
+    @Autowired
+    ProNewsMapper proNewsMapper;
+
     @Override
     public TableModel publisNews(NewsPublishVO newsPublishVO) {
 
@@ -51,6 +57,13 @@ public class UserNewsServiceImpl implements UserNewsService {
         List<ActRuTask> actRuTasks = actRuTaskMapper.selectByExample(actRuTaskExample);
         //如果查询得任务结果唯一，则完成申请新闻任务，指定审批人为manager身份
         if (actRuTasks.size() == 1 && activitiService.completeTask(actRuTasks.get(0).getId(), Constants.MANAGER_ROLE, Constants.MANAGER_ROLE, newsPublishVO)) {
+            //将新闻插入新闻表中，状态isAuth置为0
+            ProNews proNews = new ProNews();
+            ProNewsWithBLOBs proNewsWithBLOBs = new ProNewsWithBLOBs();
+            BeanUtils.copyProperties(newsPublishVO, proNews);
+            BeanUtils.copyProperties(newsPublishVO, proNewsWithBLOBs);
+            proNewsMapper.updateByPrimaryKey(proNews);
+            proNewsMapper.updateByPrimaryKeySelective(proNewsWithBLOBs);
             return TableModel.success("发布成功");
         } else {
             return TableModel.error("网络异常");

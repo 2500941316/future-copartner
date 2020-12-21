@@ -24,6 +24,8 @@ public class ProNews implements Serializable {
 
     private String isaudit;
 
+    private String newsAdvice;
+
     private static final long serialVersionUID = 1L;
 
     public Long getNewsId() {
@@ -104,5 +106,13 @@ public class ProNews implements Serializable {
 
     public void setIsaudit(String isaudit) {
         this.isaudit = isaudit == null ? null : isaudit.trim();
+    }
+
+    public String getNewsAdvice() {
+        return newsAdvice;
+    }
+
+    public void setNewsAdvice(String newsAdvice) {
+        this.newsAdvice = newsAdvice == null ? null : newsAdvice.trim();
     }
 }

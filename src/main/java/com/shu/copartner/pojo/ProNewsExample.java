@@ -774,6 +774,76 @@ public class ProNewsExample {
             addCriterion("isAudit not between", value1, value2, "isaudit");
             return (Criteria) this;
         }
+
+        public Criteria andNewsAdviceIsNull() {
+            addCriterion("news_advice is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceIsNotNull() {
+            addCriterion("news_advice is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceEqualTo(String value) {
+            addCriterion("news_advice =", value, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceNotEqualTo(String value) {
+            addCriterion("news_advice <>", value, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceGreaterThan(String value) {
+            addCriterion("news_advice >", value, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceGreaterThanOrEqualTo(String value) {
+            addCriterion("news_advice >=", value, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceLessThan(String value) {
+            addCriterion("news_advice <", value, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceLessThanOrEqualTo(String value) {
+            addCriterion("news_advice <=", value, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceLike(String value) {
+            addCriterion("news_advice like", value, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceNotLike(String value) {
+            addCriterion("news_advice not like", value, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceIn(List<String> values) {
+            addCriterion("news_advice in", values, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceNotIn(List<String> values) {
+            addCriterion("news_advice not in", values, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceBetween(String value1, String value2) {
+            addCriterion("news_advice between", value1, value2, "newsAdvice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsAdviceNotBetween(String value1, String value2) {
+            addCriterion("news_advice not between", value1, value2, "newsAdvice");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
