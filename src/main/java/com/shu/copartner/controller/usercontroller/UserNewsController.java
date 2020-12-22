@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 /**
  * @author
@@ -36,7 +37,7 @@ public class UserNewsController {
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 上传文件的
+     * @Description 上传新闻图片
      */
     @PostMapping(value = "newImagesUpload")
     @ResponseBody
@@ -59,6 +60,19 @@ public class UserNewsController {
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
         return userNewsService.publisNews(newsPublishVO);
+    }
+
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
+     * @Description 用户发布文件方法
+     */
+    @GetMapping("searchNewsById")
+    @ResponseBody
+    public TableModel searchNewsById(@Size(min = 1) String newsId) {
+
+        return userNewsService.searchNewsById(newsId);
     }
 
 }

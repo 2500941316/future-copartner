@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shu.copartner.mapper.ActRuTaskMapper;
 import com.shu.copartner.mapper.ProNewsMapper;
-import com.shu.copartner.pojo.ActRuTask;
-import com.shu.copartner.pojo.ActRuTaskExample;
-import com.shu.copartner.pojo.ProNews;
-import com.shu.copartner.pojo.ProNewsWithBLOBs;
+import com.shu.copartner.pojo.*;
 import com.shu.copartner.pojo.request.NewsPublishVO;
 import com.shu.copartner.service.UserNewsService;
 import com.shu.copartner.utils.constance.Constants;
@@ -19,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author cxy
@@ -49,7 +43,9 @@ public class UserNewsServiceImpl implements UserNewsService {
     public TableModel publisNews(NewsPublishVO newsPublishVO) {
 
         //补全用户提交的信息和时间
+
         newsPublishVO.setNewsPublistime(new Date());
+
         //将前端接收的对象之间转为map，map中的参数开启流程
         Map<String, Object> map = new HashMap<>();
         map.put(Constants.NEWSAPPLY_PROCESS_USERALIGN, newsPublishVO.getNewsAuthor());
@@ -74,5 +70,24 @@ public class UserNewsServiceImpl implements UserNewsService {
         } else {
             return TableModel.error("网络异常");
         }
+    }
+
+
+    @Override
+    public TableModel searchNewsById(String newsId) {
+        if (!newsId.isEmpty()) {
+            //先查询当前新闻的详情
+            ProNews proNews = proNewsMapper.selectByPrimaryKey(Long.parseLong(newsId));
+            //再查询10条热点关注
+            ProNewsExample proNewsExample = new ProNewsExample();
+            proNewsExample.setOrderByClause("news_publisTime desc");
+            proNewsExample.createCriteria().andIsauditEqualTo("1");
+            List<ProNews> recently_NewsList = proNewsMapper.selectByExample(proNewsExample);
+            ArrayList<Object> res = new ArrayList<>();
+            res.add(proNews);
+            res.add(recently_NewsList);
+            return TableModel.success(res, 1);
+        }
+        return TableModel.error("网络错误");
     }
 }

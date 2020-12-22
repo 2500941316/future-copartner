@@ -13,8 +13,11 @@ import javax.validation.constraints.NotBlank;
 public class NewsManagerOperationVO {
     @NotBlank(message = "任务id不能为空")
     private String taskId;
-    private String msg;
+
+    @NotBlank(message = "新闻id不能为空")
+    private String newsId;
+    private String newsAdvice;
     @NotBlank(message = "审批状态不能为空")
-    private String status;
+    private String isaudit;
 
 }

@@ -10,4 +10,6 @@ import com.shu.copartner.utils.returnobj.TableModel;
  */
 public interface UserNewsService {
     TableModel publisNews(NewsPublishVO newsPublishVO);
+
+    TableModel searchNewsById(String newsId);
 }

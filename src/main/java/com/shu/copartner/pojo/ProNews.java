@@ -1,11 +1,14 @@
 package com.shu.copartner.pojo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author cxy
  */
+@Data
 public class ProNews implements Serializable {
     private Long newsId;
 

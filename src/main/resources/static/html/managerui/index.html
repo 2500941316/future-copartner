@@ -45,10 +45,6 @@
                     <!--新闻审核表-->
                     <div class="layui-tab-item">
                         <table class="layui-hide" id="new" lay-filter="new"></table>
-                        <script type="text/html" id="switchTpl">
-                            <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="是|否"
-                                   lay-filter="sexDemo" {{ d.id== 10003 ? 'checked' : '' }}>
-                        </script>
                         <script type="text/html" id="barDemo">
                             <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">查看</a>
                             <a class="layui-btn layui-btn-xs" lay-event="pass">通过</a>
@@ -70,7 +66,7 @@
 <!--引入尾部页面-->
 <div id="footer"></div>
 
-<!--公告跳转模块-->
+<!--跳转模块-->
 <script type="text/javascript">
     $(function () {
         $("#headers").load("/html/webui/header/header.html");
@@ -132,7 +128,7 @@
                     {field: 'newsAuthor', title: '发布人', width: 110, align: 'center'},
                     {field: 'newsCategory', title: '种类', width: 110, align: 'center'},
                     {field: 'newsPublistime', title: '发布时间', width: 150, sort: true, align: 'center'},
-                    {field: 'istopping', title: '置顶', align: 'center', width: 80, templet: '#switchTpl'},
+                    {field: 'istopping', title: '置顶', align: 'center', width: 80},
                     {fixed: 'right', title: '操作', align: 'center', toolbar: '#barDemo'}
                 ]]
                 , page: true
@@ -150,30 +146,46 @@
                     layer.confirm('批准该新闻上线？', function (index) {
                         operateNew(obj, 1, "");
                         layer.close(index);
+
                     });
                 } else if (obj.event === 'reject') {
                     layer.prompt({
                         formType: 2
                         , value: data.email
                     }, function (value, index) {
-                        operateNew(obj, 0, value);
+                        operateNew(obj, 2, value);
                         layer.close(index);
                     });
                 } else if (obj.event === 'view') {
-                    alert("view")
+                    viewNew(data.newsId);
                 }
             });
         });
     }
 
+    //点击查看新闻按钮，打开一个对话框
+    function viewNew(newsId) {
+        localStorage.setItem("newsId", newsId);
+        layui.use("layer", function () {
+            var layer = layui.layer;
+            layer.open({
+                type: 2,
+                area: ["90%", "100%"],
+                fixed: false, //不固定
+                maxmin: true,
+                content: "/html/webui/news/news_content.html"
+            });
+        });
+    }
 
-    //通过或者驳回新闻申请的方法
-    function operateNew(thisNew, status, msg) {
-       console.log(thisNew.data.taskId)
+
+    //通过或者驳回新闻申请的方法:通过为1，驳回为2
+    function operateNew(thisNew, isaudit, newsAdvice) {
         var data = {
-            taskId: "1232132",
-            status: status,
-            msg: msg,
+            newsId: thisNew.data.newsId,
+            taskId: thisNew.data.taskId,
+            isaudit: isaudit,
+            newsAdvice: newsAdvice,
         };
 
         $.ajax({
@@ -183,6 +195,9 @@
             data: JSON.stringify(data),
             success: function (data) {
                 if (data.code === 200) {
+
+                    layer.msg('操作成功', function () {
+                    });
                     thisNew.del();
                 } else
                     layer.msg('网络异常，请稍后重试');

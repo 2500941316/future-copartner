@@ -4,6 +4,7 @@ import com.shu.copartner.mapper.ActRuTaskMapper;
 import com.shu.copartner.mapper.ActRuVariableMapper;
 import com.shu.copartner.mapper.ProNewsMapper;
 import com.shu.copartner.pojo.ActRuVariable;
+import com.shu.copartner.pojo.ProNews;
 import com.shu.copartner.pojo.ProNewsExample;
 import com.shu.copartner.pojo.request.NewsManagerOperationVO;
 import com.shu.copartner.pojo.request.NewsPublishVO;
@@ -45,17 +46,22 @@ public class ManagerNewsServiceImpl implements ManagerNewsService {
 
     @Override
     public TableModel searchNewsApplication(int page) {
+        long count = taskService.createTaskQuery().taskAssignee(Constants.MANAGER_ROLE)
+                .taskName(Constants.NEWSAPPLY_PROCESS_MANAGERNAME).count();
         List<Task> taskList = taskService.createTaskQuery()
                 .taskAssignee(Constants.MANAGER_ROLE)
                 .taskName(Constants.NEWSAPPLY_PROCESS_MANAGERNAME)
                 .listPage(Constants.pageSize * (page - 1), Constants.pageSize);
         List<NewsInfoSo> arrayList = new ArrayList<>();
         for (Task task : taskList) {
-            System.out.println(taskService.getVariable(task.getId(), Constants.ACTIVITI_OBJECT_NAME));
-            ActRuVariable actRuVariable = actRuVariableMapper.selectByPrimaryKey(task.getId());
-            System.out.println(actRuVariable.getText());
+            Long variable = taskService.getVariable(task.getId(), Constants.ACTIVITI_OBJECT_NAME, Long.class);
+            ProNews proNews = proNewsMapper.selectByPrimaryKey(variable);
+            NewsInfoSo newsInfoSo = new NewsInfoSo();
+            BeanUtils.copyProperties(proNews, newsInfoSo);
+            newsInfoSo.setTaskId(task.getId());
+            arrayList.add(newsInfoSo);
         }
-        return TableModel.tableSuccess(arrayList, arrayList.size());
+        return TableModel.tableSuccess(arrayList, (int) count);
     }
 
 
@@ -63,10 +69,11 @@ public class ManagerNewsServiceImpl implements ManagerNewsService {
     public TableModel operateNew(NewsManagerOperationVO newsManagerOperationVO) {
         //如果完成了审批任务，则将结果直接存入news表，同意的和拒绝的
         taskService.complete(newsManagerOperationVO.getTaskId());
-        //更新新闻状态
-        if (newsManagerOperationVO.getStatus().equals("1")) {
-            ProNewsExample proNewsExample = new ProNewsExample();
-        }
-        return null;
+        //更新新闻状态:如果status值为1，则表示同意否则就是驳回
+        ProNews proNews = new ProNews();
+        BeanUtils.copyProperties(newsManagerOperationVO, proNews);
+        proNews.setNewsId(Long.parseLong(newsManagerOperationVO.getNewsId()));
+        proNewsMapper.updateByPrimaryKeySelective(proNews);
+        return TableModel.success("success");
     }
 }
