@@ -48,16 +48,20 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-<!--        <table schema="" tableName="PRO_APPLICATION"></table>-->
-<!--        <table schema="" tableName="PRO_COMPANY"></table>-->
-<!--        <table schema="" tableName="PRO_GROUP"></table>-->
-<!--        <table schema="" tableName="PRO_PERSON"></table>-->
-<!--        <table schema="" tableName="PRO_PROJECT"></table>-->
-<!--        <table schema="" tableName="PRO_USER"></table>-->
-<!--        <table schema="" tableName="ACT_RU_TASK"></table>-->
-<!--        <table schema="" tableName="ACT_HI_TASKINST"></table>-->
-<!--        <table schema="" tableName="ACT_HI_VARINST"></table>-->
-<!--        <table schema="" tableName="ACT_RE_DEPLOYMENT"></table>-->
-        <table schema="" tableName="PRO_NEWS"></table>
+        <!--        <table schema="" tableName="PRO_APPLICATION"></table>-->
+        <!--        <table schema="" tableName="PRO_COMPANY"></table>-->
+        <!--        <table schema="" tableName="PRO_GROUP"></table>-->
+        <!--        <table schema="" tableName="PRO_PERSON"></table>-->
+        <!--        <table schema="" tableName="PRO_PROJECT"></table>-->
+        <!--        <table schema="" tableName="PRO_USER"></table>-->
+        <!--        <table schema="" tableName="ACT_RU_TASK"></table>-->
+        <!--        <table schema="" tableName="ACT_HI_TASKINST"></table>-->
+        <!--        <table schema="" tableName="ACT_HI_VARINST"></table>-->
+        <!--        <table schema="" tableName="ACT_RE_DEPLOYMENT"></table>-->
+        <table schema="" tableName="PRO_NEWS">
+            <columnOverride column="news_introduction" jdbcType="VARCHAR"/>
+            <columnOverride column="news_content" jdbcType="VARCHAR"/>
+        </table>
+
     </context>
 </generatorConfiguration>

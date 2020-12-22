@@ -34,5 +34,11 @@ public class NewsPublishVO implements Serializable {
 
     private String isaudit;
 
+    NewsPublishVO() {
+        this.newsBrowsecount = 0;
+        this.isdeleted = "0";
+        this.isaudit = "0";
+    }
+
 
 }

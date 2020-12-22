@@ -1,16 +1,19 @@
 package com.shu.copartner.service.impl.manager;
 
+import com.shu.copartner.mapper.ActRuTaskMapper;
+import com.shu.copartner.mapper.ActRuVariableMapper;
 import com.shu.copartner.mapper.ProNewsMapper;
-import com.shu.copartner.pojo.ProNews;
+import com.shu.copartner.pojo.ActRuVariable;
 import com.shu.copartner.pojo.ProNewsExample;
-import com.shu.copartner.pojo.ProNewsWithBLOBs;
 import com.shu.copartner.pojo.request.NewsManagerOperationVO;
 import com.shu.copartner.pojo.request.NewsPublishVO;
 import com.shu.copartner.pojo.response.NewsInfoSo;
 import com.shu.copartner.service.ManagerNewsService;
-import com.shu.copartner.service.impl.ActivitiServiceImpl;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,13 @@ import java.util.List;
 public class ManagerNewsServiceImpl implements ManagerNewsService {
 
     @Autowired
-    ActivitiServiceImpl<NewsPublishVO> activitiService;
+    private RuntimeService runtimeService;
+
+    @Autowired
+    private ActRuVariableMapper actRuVariableMapper;
+
+    @Autowired
+    private TaskService taskService;
 
     @Autowired
     ProNewsMapper proNewsMapper;
@@ -36,19 +45,15 @@ public class ManagerNewsServiceImpl implements ManagerNewsService {
 
     @Override
     public TableModel searchNewsApplication(int page) {
-
-        activitiService.init();
-        List<Task> taskList = activitiService.findMyPersonalTask(page, Constants.NEWSAPPLY_PROCESS_MANAGERNAME, Constants.MANAGER_ROLE);
-        //创建返回的list
-        List<NewsInfoSo> arrayList = new ArrayList();
+        List<Task> taskList = taskService.createTaskQuery()
+                .taskAssignee(Constants.MANAGER_ROLE)
+                .taskName(Constants.NEWSAPPLY_PROCESS_MANAGERNAME)
+                .listPage(Constants.pageSize * (page - 1), Constants.pageSize);
+        List<NewsInfoSo> arrayList = new ArrayList<>();
         for (Task task : taskList) {
-            NewsPublishVO taskObjectParams = activitiService.findTaskObjectParams(task.getId(), Constants.ACTIVITI_OBJECT_NAME, NewsPublishVO.class);
-            if (taskObjectParams != null) {
-                NewsInfoSo newsInfoSo = new NewsInfoSo();
-                BeanUtils.copyProperties(taskObjectParams, newsInfoSo);
-                newsInfoSo.setTaskId(task.getId());
-                arrayList.add(newsInfoSo);
-            }
+            System.out.println(taskService.getVariable(task.getId(), Constants.ACTIVITI_OBJECT_NAME));
+            ActRuVariable actRuVariable = actRuVariableMapper.selectByPrimaryKey(task.getId());
+            System.out.println(actRuVariable.getText());
         }
         return TableModel.tableSuccess(arrayList, arrayList.size());
     }
@@ -56,15 +61,11 @@ public class ManagerNewsServiceImpl implements ManagerNewsService {
 
     @Override
     public TableModel operateNew(NewsManagerOperationVO newsManagerOperationVO) {
-        //完成taskid的审批任务
-        activitiService.init();
         //如果完成了审批任务，则将结果直接存入news表，同意的和拒绝的
-        if (activitiService.completeTaskWithoutObject(newsManagerOperationVO.getTaskId())) {
-            //更新新闻状态
-            if (newsManagerOperationVO.getStatus().equals("1")) {
-                ProNewsExample proNewsExample = new ProNewsExample();
-
-            }
+        taskService.complete(newsManagerOperationVO.getTaskId());
+        //更新新闻状态
+        if (newsManagerOperationVO.getStatus().equals("1")) {
+            ProNewsExample proNewsExample = new ProNewsExample();
         }
         return null;
     }

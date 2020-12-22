@@ -37,14 +37,18 @@ public final class Constants {
      */
     public static final String NEWSAPPLY_PROCESSKEY = "newApply_Process";
 
+    /**
+     * @Description 新闻发布流程中，用户的身份
+     */
+    public static final String NEWSAPPLY_PROCESS_USERALIGN = "newsAuthor";
 
     /**
-     * @Description 新闻发布流程中,用来查询task表中用户申请的任务
+     * @Description 新闻发布流程中, 用来查询task表中用户申请的任务
      */
     public static final String NEWSAPPLY_PROCESS_APPLYNAME = "用户提交新闻申请";
 
     /**
-     * @Description 新闻发布流程中,用来查询task表中管理员审批任务
+     * @Description 新闻发布流程中, 用来查询task表中管理员审批任务
      */
     public static final String NEWSAPPLY_PROCESS_MANAGERNAME = "管理员审批文章";
 
@@ -52,6 +56,7 @@ public final class Constants {
      * @Description 项目流程key
      */
     public static final String PROJECT_PROCESS_PROCESSKEY = "project_Process";
+
 
     /**
      * @Description 管理员角色名

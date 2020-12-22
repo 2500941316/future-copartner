@@ -13,6 +13,7 @@ public class ProNewsWithBLOBs extends ProNews implements Serializable {
         return newsIntroduction;
     }
 
+    @Override
     public void setNewsIntroduction(String newsIntroduction) {
         this.newsIntroduction = newsIntroduction == null ? null : newsIntroduction.trim();
     }
