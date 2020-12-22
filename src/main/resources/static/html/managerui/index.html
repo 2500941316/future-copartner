@@ -31,7 +31,7 @@
 
             <div class="layui-tab">
                 <ul class="layui-tab-title">
-                    <li class="layui-this">项目申请</li>
+                    <li class="layui-this"  onclick="searchProjectApplication()">项目申请</li>
                     <li class="layui-this" onclick="searchNewsApplication()">新闻申请</li>
                     <li class="layui-this">申请</li>
 
@@ -45,6 +45,10 @@
                     <!--新闻审核表-->
                     <div class="layui-tab-item">
                         <table class="layui-hide" id="new" lay-filter="new"></table>
+                        <script type="text/html" id="switchTpl">
+                            <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="是|否"
+                                   lay-filter="sexDemo" {{ d.id== 10003 ? 'checked' : '' }} >
+                        </script>
                         <script type="text/html" id="barDemo">
                             <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">查看</a>
                             <a class="layui-btn layui-btn-xs" lay-event="pass">通过</a>
@@ -66,7 +70,7 @@
 <!--引入尾部页面-->
 <div id="footer"></div>
 
-<!--跳转模块-->
+<!--公告跳转模块-->
 <script type="text/javascript">
     $(function () {
         $("#headers").load("/html/webui/header/header.html");
@@ -82,32 +86,73 @@
 
 <!--项目申请的js模块-->
 <script type="text/javascript">
-    //项目申请tab表格的使用
-    layui.use('table', function () {
-        var table = layui.table;
-        var data = [{
-            id: "11221",
-            username: "11",
-            projectname: '项目名称',
-            approveType: '申请审批'
-        }];
-        //第一个实例
-        table.render({
-            elem: '#project'
-            , height: 580
-            //, url: '/demo/table/user/' //数据接口
-            , data: data
-            , page: true //开启分页
-            , cols: [[ //表头
-                {field: 'id', title: 'ID', sort: true, fixed: 'left'},
-                {field: 'username', title: '用户名'},
-                {field: 'projectname', title: '项目名称'},
-                {field: 'approveType', title: '类型'},
-                {field: 'projectname', title: '操作'},
 
-            ]]
+    function searchProjectApplication() {
+        //项目申请tab表格的使用
+        layui.use('table', function () {
+            var table = layui.table;
+            var data = [{
+                id: "11221",
+                projectName: '项目名称',
+                type: '测试是否溢出表格1111111111111',
+                description: '测试是否溢出表格11111111111'
+            }];
+            // 项目申请审批表格
+            table.render({
+                elem: '#project'
+                , url: '/manager/project/searchProject'
+                , height: 580
+                //   ,data: data
+                , title: '项目审批表格'
+                , cols: [[
+                    {field: 'id', title: 'ID', fixed: 'left', unresize: true, sort: true}
+                    , {field: 'projectName', title: '项目名'}
+                    , {field: 'creater', title: '创建人', width: 80}
+                    , {field: 'type', title: '类型', width: 80, sort: true}
+                    , {field: 'description', title: '项目简述', overflow: 'hidden'}
+                    , {field: 'status', title: '状态', width: 80, sort: true}
+                    , {field: 'starttime', title: '开始时间'}
+                    , {fixed: 'right', title: '操作', toolbar: '#projectOperate', width: 180, align: 'center'}
+                ]]
+                , page: true
+            });
+            //监听工具条
+            table.on('tool(projectTable)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'detail') {
+                    layer.alert('详情：<br>' + JSON.stringify(data))
+                } else if (obj.event === 'pass') {
+                    layer.confirm('通过该项目申请？', function (index) {
+                        operateProject(obj, 1,"");
+                        layer.close(index);
+                    });
+                }else if(obj.event === 'reject'){
+                    layer.prompt({
+                        formType: 2,
+                        value: ' ',
+                        title: '请输入驳回原因'
+                       // area: ['800px', '350px'] //自定义文本域宽高
+                    }, function(value, index){
+                        alert(value); //得到value
+                        operateProject(obj, 0, value);
+                        layer.close(index);
+                    });
+                }
+            });
         });
-    });
+    }
+
+    // 通过或者驳回项目申请
+    function operateProject(currentProject,status, msg){
+
+        if(status === 1){
+            layer.msg(currentProject.data.projectName+currentProject.data.taskId+"通过")
+        }else{
+            layer.msg(currentProject.data.projectName+"驳回")
+        }
+
+
+    }
 </script>
 
 
@@ -128,7 +173,7 @@
                     {field: 'newsAuthor', title: '发布人', width: 110, align: 'center'},
                     {field: 'newsCategory', title: '种类', width: 110, align: 'center'},
                     {field: 'newsPublistime', title: '发布时间', width: 150, sort: true, align: 'center'},
-                    {field: 'istopping', title: '置顶', align: 'center', width: 80},
+                    {field: 'istopping', title: '置顶', align: 'center', width: 80, templet: '#switchTpl'},
                     {fixed: 'right', title: '操作', align: 'center', toolbar: '#barDemo'}
                 ]]
                 , page: true
@@ -146,18 +191,17 @@
                     layer.confirm('批准该新闻上线？', function (index) {
                         operateNew(obj, 1, "");
                         layer.close(index);
-
                     });
                 } else if (obj.event === 'reject') {
                     layer.prompt({
                         formType: 2
                         , value: data.email
                     }, function (value, index) {
-                        operateNew(obj, 2, value);
+                        operateNew(obj, 0, value);
                         layer.close(index);
                     });
                 } else if (obj.event === 'view') {
-                    viewNew(data.newsId);
+                    alert("view")
                 }
             });
         });
@@ -182,10 +226,9 @@
     //通过或者驳回新闻申请的方法:通过为1，驳回为2
     function operateNew(thisNew, isaudit, newsAdvice) {
         var data = {
-            newsId: thisNew.data.newsId,
-            taskId: thisNew.data.taskId,
-            isaudit: isaudit,
-            newsAdvice: newsAdvice,
+            taskId: "1232132",
+            status: status,
+            msg: msg,
         };
 
         $.ajax({
