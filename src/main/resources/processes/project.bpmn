@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1607780287275" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="project_process" isClosed="false" isExecutable="true" name="项目流程" processType="None">
-    <userTask activiti:assignee="user" activiti:exclusive="true" id="addPeople" name="人员加入"/>
-    <userTask activiti:assignee="user" activiti:exclusive="true" id="uploadProjectVideo" name="上传项目视频"/>
-    <userTask activiti:assignee="user" activiti:exclusive="true" id="uploadProjectPaper" name="上传项目计划书"/>
+  <process id="project_Process" isClosed="false" isExecutable="true" name="项目流程" processType="None">
+    <userTask activiti:assignee="user" activiti:exclusive="true" id="addPeople" name="用户提交人员加入"/>
+    <userTask activiti:assignee="user" activiti:exclusive="true" id="uploadProjectVideo" name="用户上传项目视频"/>
+    <userTask activiti:assignee="user" activiti:exclusive="true" id="uploadProjectPaper" name="用户上传项目计划书"/>
     <userTask activiti:assignee="user" activiti:exclusive="true" id="projectMilestone" name="项目里程碑"/>
     <userTask activiti:assignee="user" activiti:exclusive="true" id="projectComplete" name="项目结束"/>
     <endEvent id="projectEnd" name="项目结束终止"/>
     <sequenceFlow id="_28" sourceRef="projectMilestone" targetRef="projectComplete"/>
     <sequenceFlow id="_29" sourceRef="projectComplete" targetRef="projectEnd"/>
-    <userTask activiti:assignee="admin" activiti:exclusive="true" id="approveAddPeople" name="审批人员加入"/>
-    <userTask activiti:assignee="admin" activiti:exclusive="true" id="approveProjectVideo" name="审批项目视频"/>
-    <userTask activiti:assignee="admin" activiti:exclusive="true" id="approveProjectPaper" name="审批项目计划书"/>
+    <userTask activiti:assignee="admin" activiti:exclusive="true" id="approveAddPeople" name="管理员审批人员加入"/>
+    <userTask activiti:assignee="admin" activiti:exclusive="true" id="approveProjectVideo" name="管理员审批项目视频"/>
+    <userTask activiti:assignee="admin" activiti:exclusive="true" id="approveProjectPaper" name="管理员审批项目计划书"/>
     <sequenceFlow id="_21" sourceRef="addPeople" targetRef="approveAddPeople"/>
     <sequenceFlow id="_22" sourceRef="approveAddPeople" targetRef="uploadProjectVideo"/>
     <sequenceFlow id="_23" sourceRef="uploadProjectVideo" targetRef="approveProjectVideo"/>
     <sequenceFlow id="_24" sourceRef="approveProjectVideo" targetRef="uploadProjectPaper"/>
     <sequenceFlow id="_25" sourceRef="uploadProjectPaper" targetRef="approveProjectPaper"/>
     <sequenceFlow id="_26" sourceRef="approveProjectPaper" targetRef="projectMilestone"/>
-    <userTask activiti:assignee="user" activiti:exclusive="true" id="projectApply" name="项目申请"/>
-    <userTask activiti:assignee="admin" activiti:exclusive="true" id="approveApply" name="审批项目申请"/>
+    <userTask activiti:assignee="user" activiti:exclusive="true" id="projectApply" name="用户提交项目申请"/>
+    <userTask activiti:assignee="admin" activiti:exclusive="true" id="approveApply" name="管理员审批项目申请"/>
     <sequenceFlow id="_11" sourceRef="projectApply" targetRef="approveApply"/>
     <sequenceFlow id="_12" sourceRef="approveApply" targetRef="addPeople"/>
     <startEvent id="projectStart" name="项目流程开始"/>
@@ -39,7 +39,7 @@
     </textAnnotation>
   </process>
   <bpmndi:BPMNDiagram documentation="background=#FFFFFF;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
-    <bpmndi:BPMNPlane bpmnElement="project_process">
+    <bpmndi:BPMNPlane bpmnElement="project_Process">
       <bpmndi:BPMNShape bpmnElement="_5" id="Shape-_5">
         <omgdc:Bounds height="35.0" width="80.0" x="305.0" y="30.0"/>
         <bpmndi:BPMNLabel>

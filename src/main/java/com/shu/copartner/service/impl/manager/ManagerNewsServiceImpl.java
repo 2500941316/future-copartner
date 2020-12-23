@@ -12,6 +12,7 @@ import com.shu.copartner.pojo.response.NewsInfoSo;
 import com.shu.copartner.service.ManagerNewsService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
+import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -28,6 +29,7 @@ import java.util.List;
  * @Date: 2020/12/21 15:19
  * @Description:
  */
+@Slf4j
 @Service
 public class ManagerNewsServiceImpl implements ManagerNewsService {
 
@@ -46,15 +48,21 @@ public class ManagerNewsServiceImpl implements ManagerNewsService {
 
     @Override
     public TableModel searchNewsApplication(int page) {
+
         long count = taskService.createTaskQuery().taskAssignee(Constants.MANAGER_ROLE)
                 .taskName(Constants.NEWSAPPLY_PROCESS_MANAGERNAME).count();
         List<Task> taskList = taskService.createTaskQuery()
                 .taskAssignee(Constants.MANAGER_ROLE)
                 .taskName(Constants.NEWSAPPLY_PROCESS_MANAGERNAME)
                 .listPage(Constants.pageSize * (page - 1), Constants.pageSize);
+
+
         List<NewsInfoSo> arrayList = new ArrayList<>();
         for (Task task : taskList) {
+            long startTime = System.currentTimeMillis(); //获取开始时间
             Long variable = taskService.getVariable(task.getId(), Constants.ACTIVITI_OBJECT_NAME, Long.class);
+            long endTime = System.currentTimeMillis(); //获取结束时间
+            log.info("get程序运行时间：" + (endTime - startTime) + "ms"); //输出程序运行时间
             ProNews proNews = proNewsMapper.selectByPrimaryKey(variable);
             NewsInfoSo newsInfoSo = new NewsInfoSo();
             BeanUtils.copyProperties(proNews, newsInfoSo);

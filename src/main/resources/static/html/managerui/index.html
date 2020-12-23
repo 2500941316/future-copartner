@@ -39,7 +39,14 @@
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
                         <!--引入layui表格-->
-                        <table id="project" lay-filter="test"></table>
+                        <table id="project" lay-filter="projectTable"></table>
+
+                        <script type="text/html" id="projectOperate">
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                            <a class="layui-btn layui-btn-xs" lay-event="pass">通过</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reject">驳回</a>
+                        </script>
+
                     </div>
 
                     <!--新闻审核表-->

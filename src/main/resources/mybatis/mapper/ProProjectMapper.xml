@@ -111,7 +111,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.shu.copartner.pojo.ProProject">
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProProject" keyProperty="id" useGeneratedKeys="true">
     insert into PRO_PROJECT (id, creater, description, 
       endtime, followers, is_deleted, 
       is_lock, plan_url, primaryjob, 
