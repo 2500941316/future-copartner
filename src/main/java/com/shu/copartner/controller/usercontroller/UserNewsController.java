@@ -50,7 +50,7 @@ public class UserNewsController {
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 用户发布文件方法
+     * @Description 用户发布文件方法！！
      */
     @PostMapping("publisNews")
     @ResponseBody
