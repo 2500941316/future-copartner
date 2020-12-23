@@ -58,9 +58,9 @@
         <!--        <table schema="" tableName="ACT_HI_TASKINST"></table>-->
         <!--        <table schema="" tableName="ACT_HI_VARINST"></table>-->
         <!--        <table schema="" tableName="ACT_RE_DEPLOYMENT"></table>-->
-        <table schema="" tableName="PRO_NEWS">
-            <columnOverride column="news_introduction" jdbcType="VARCHAR"/>
-            <columnOverride column="news_content" jdbcType="VARCHAR"/>
+        <table schema="" tableName="PRO_TASK_PARAMETER">
+<!--            <columnOverride column="news_introduction" jdbcType="VARCHAR"/>-->
+<!--            <columnOverride column="news_content" jdbcType="VARCHAR"/>-->
         </table>
 
     </context>
