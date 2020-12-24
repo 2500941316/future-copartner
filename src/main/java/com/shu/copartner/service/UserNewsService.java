@@ -13,9 +13,9 @@ public interface UserNewsService {
 
     TableModel searchNewsById(String newsId);
 
-    TableModel getNewsIndexInfo_byCatagories();
+    TableModel getNewsIndexInfo();
 
-    TableModel getNewsIndexInfo_mostClickTimes();
+    TableModel searchNewsByCatagories(int page,String catagory);
 
-    TableModel getNewsIndexInfo_topNews();
+    TableModel searchNewsByKeywords(int page,String keywords);
 }

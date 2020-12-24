@@ -50,7 +50,7 @@ public class UserNewsController {
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 用户发布文件方法！！
+     * @Description 用户发布文件方法
      */
     @PostMapping("publisNews")
     @ResponseBody
@@ -79,37 +79,36 @@ public class UserNewsController {
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 用户查询新闻主页的各个种类的消息
+     * @Description 用户查询新闻主页的所有信息的方法
      */
-    @GetMapping("getNewsIndexInfo_byCatagories")
+    @GetMapping("getNewsIndexInfo")
     @ResponseBody
-    public TableModel getNewsIndexInfo_byCatagories() {
-        return userNewsService.getNewsIndexInfo_byCatagories();
+    public TableModel getNewsIndexInfo() {
+        return userNewsService.getNewsIndexInfo();
     }
 
 
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 用户查询新闻主页的热门信息
+     * @Description 分类结果查询
      */
-    @GetMapping("getNewsIndexInfo_mostClickTimes")
+    @GetMapping("searchNewsByCatagories")
     @ResponseBody
-    public TableModel getNewsIndexInfo_mostClickTimes() {
-        return userNewsService.getNewsIndexInfo_mostClickTimes();
+    public TableModel searchNewsByCatagories(@Size(min = 1) @RequestParam int page, @Size(min = 4) @RequestParam String catagory) {
+        return userNewsService.searchNewsByCatagories(page, catagory);
     }
 
 
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 用户查询新闻主页的top消息
+     * @Description 安装关键字查询新闻
      */
-    @GetMapping("getNewsIndexInfo_topNews")
+    @GetMapping("searchNewsByKeywords")
     @ResponseBody
-    public TableModel getNewsIndexInfo_topNews() {
-        return userNewsService.getNewsIndexInfo_topNews();
+    public TableModel searchNewsByKeywords(@Size(min = 1) @RequestParam int page, @Size(min = 1) @RequestParam String catagory) {
+        return userNewsService.searchNewsByKeywords(page, catagory);
     }
-
 
 }
