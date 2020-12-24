@@ -174,7 +174,7 @@ table.listtab tr.xxdetail.none{ display:none}
 
 /*就业资讯*/
 .jobnewsDiv{ width:1100px; margin:0 auto; padding-top:10px;}
-.jobnewsDiv .part1{height: 70px;padding-bottom: 12px;}
+.jobnewsDiv .part1{height: 140px;padding-bottom: 12px;}
 .jobnewsDiv .part2{width: 1070px;border: 1px solid #e3e7ea;line-height: 28px;background: rgb(251,251,251);padding: 15px;}
 .jobnewsDiv .part2 .part2L{ width:600px; float:left}
 .jobnewsDiv .part2 .part2L .newsbox{ border-bottom: 1px dotted #e3e7ea; height:100px; width:600px; overflow:hidden;}

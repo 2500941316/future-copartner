@@ -50,7 +50,7 @@ public class UserNewsController {
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 用户发布文件方法！！
+     * @Description 用户发布文件方法
      */
     @PostMapping("publisNews")
     @ResponseBody
@@ -66,13 +66,49 @@ public class UserNewsController {
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 用户发布文件方法
+     * @Description 用户根据新闻id查询新闻的方法
      */
     @GetMapping("searchNewsById")
     @ResponseBody
     public TableModel searchNewsById(@Size(min = 1) String newsId) {
 
         return userNewsService.searchNewsById(newsId);
+    }
+
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
+     * @Description 用户查询新闻主页的所有信息的方法
+     */
+    @GetMapping("getNewsIndexInfo")
+    @ResponseBody
+    public TableModel getNewsIndexInfo() {
+        return userNewsService.getNewsIndexInfo();
+    }
+
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
+     * @Description 分类结果查询
+     */
+    @GetMapping("searchNewsByCatagories")
+    @ResponseBody
+    public TableModel searchNewsByCatagories(@Size(min = 1) @RequestParam int page, @Size(min = 4) @RequestParam String catagory) {
+        return userNewsService.searchNewsByCatagories(page, catagory);
+    }
+
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
+     * @Description 安装关键字查询新闻
+     */
+    @GetMapping("searchNewsByKeywords")
+    @ResponseBody
+    public TableModel searchNewsByKeywords(@Size(min = 1) @RequestParam int page, @Size(min = 1) @RequestParam String catagory) {
+        return userNewsService.searchNewsByKeywords(page, catagory);
     }
 
 }

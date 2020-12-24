@@ -2,15 +2,12 @@ package com.shu.copartner.service.impl.manager;
 
 import com.shu.copartner.mapper.ActRuVariableMapper;
 import com.shu.copartner.mapper.ProNewsMapper;
-import com.shu.copartner.pojo.ActRuVariable;
-import com.shu.copartner.pojo.ActRuVariableExample;
 import com.shu.copartner.pojo.ProNews;
 import com.shu.copartner.pojo.request.NewsManagerOperationVO;
 import com.shu.copartner.pojo.response.NewsInfoSo;
 import com.shu.copartner.service.ManagerNewsService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.BeanUtils;
@@ -19,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author cxy
@@ -29,8 +25,6 @@ import java.util.Map;
 @Service
 public class ManagerNewsServiceImpl implements ManagerNewsService {
 
-    @Autowired
-    private RuntimeService runtimeService;
 
     @Autowired
     private ActRuVariableMapper actRuVariableMapper;
@@ -52,11 +46,9 @@ public class ManagerNewsServiceImpl implements ManagerNewsService {
                 .listPage(Constants.pageSize * (page - 1), Constants.pageSize);
         List<NewsInfoSo> arrayList = new ArrayList<>();
         for (Task task : taskList) {
-            ActRuVariableExample actRuVariableExample = new ActRuVariableExample();
-            actRuVariableExample.createCriteria().andExecutionIdEqualTo(task.getProcessInstanceId()).andLongIsNotNull();
-            List<ActRuVariable> actRuVariables = actRuVariableMapper.selectByExample(actRuVariableExample);
-            if (actRuVariables.size() == 1) {
-                ProNews proNews = proNewsMapper.selectByPrimaryKey(actRuVariables.get(0).getLong());
+            Object variable = taskService.getVariable(task.getId(), Constants.ACTIVITI_OBJECT_NAME);
+            if (variable != null) {
+                ProNews proNews = proNewsMapper.selectByPrimaryKey((Long) variable);
                 NewsInfoSo newsInfoSo = new NewsInfoSo();
                 BeanUtils.copyProperties(proNews, newsInfoSo);
                 newsInfoSo.setTaskId(task.getId());

@@ -1,7 +1,7 @@
 package com.shu.copartner.service.impl.user;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shu.copartner.mapper.ActRuTaskMapper;
 import com.shu.copartner.mapper.ProNewsMapper;
 import com.shu.copartner.pojo.*;
@@ -41,11 +41,8 @@ public class UserNewsServiceImpl implements UserNewsService {
 
     @Override
     public TableModel publisNews(NewsPublishVO newsPublishVO) {
-
         //补全用户提交的信息和时间
-
         newsPublishVO.setNewsPublistime(new Date());
-
         //将前端接收的对象之间转为map，map中的参数开启流程
         Map<String, Object> map = new HashMap<>();
         map.put(Constants.NEWSAPPLY_PROCESS_USERALIGN, newsPublishVO.getNewsAuthor());
@@ -82,6 +79,7 @@ public class UserNewsServiceImpl implements UserNewsService {
             ProNewsExample proNewsExample = new ProNewsExample();
             proNewsExample.setOrderByClause("news_publisTime desc");
             proNewsExample.createCriteria().andIsauditEqualTo("1");
+            PageHelper.startPage(1, Constants.pageSize);
             List<ProNews> recently_NewsList = proNewsMapper.selectByExample(proNewsExample);
             ArrayList<Object> res = new ArrayList<>();
             res.add(proNews);
@@ -89,5 +87,107 @@ public class UserNewsServiceImpl implements UserNewsService {
             return TableModel.success(res, 1);
         }
         return TableModel.error("网络错误");
+    }
+
+
+    @Override
+    public TableModel getNewsIndexInfo() {
+
+        List<String> news_catagories = Arrays.asList(Constants.NEWS_CATAGORIES);
+        Map<String, Object> news_titleMap = new HashMap<>();
+        //根据分类查询3个新闻标题
+        List<List<ProNews>> categoriesNewsList = new ArrayList<>();
+        for (String newsCatagory : news_catagories) {
+            ProNewsExample proNewsExample = new ProNewsExample();
+            proNewsExample.setOrderByClause("news_publisTime desc");
+            proNewsExample.createCriteria().andIsauditEqualTo("1").andNewsCategoryEqualTo(newsCatagory);
+            PageHelper.startPage(1, 3);
+            List<ProNews> proNews = proNewsMapper.selectByExample(proNewsExample);
+            for (ProNews proNew : proNews) {
+                proNew.setNewsContent(null);
+            }
+            categoriesNewsList.add(proNews);
+        }
+
+        //查询最新的两个置顶的新闻和新闻内容
+        ProNewsExample proNewsExample = new ProNewsExample();
+        ProNewsExample recentNewsExample = new ProNewsExample();
+        PageHelper.startPage(1, 2);
+        proNewsExample.createCriteria().andIsauditEqualTo("1").andIstoppingEqualTo("是");
+        List<ProNews> topNewsList = proNewsMapper.selectByExample(proNewsExample);
+        for (ProNews proNews : topNewsList) {
+            if (proNews.getNewsContent().length() > 90) {
+                proNews.setNewsContent(proNews.getNewsContent().substring(0, 90));
+            }
+        }
+
+        //查询最新的10个热点新闻
+        recentNewsExample.setOrderByClause("news_publisTime desc");
+        recentNewsExample.createCriteria().andIsauditEqualTo("1");
+        PageHelper.startPage(1, Constants.pageSize);
+        List<ProNews> recently_NewsList = proNewsMapper.selectByExample(recentNewsExample);
+        for (ProNews proNews : recently_NewsList) {
+            proNews.setNewsContent(null);
+        }
+        news_titleMap.put("topNewsList", topNewsList);
+        news_titleMap.put("recently_NewsList", recently_NewsList);
+        news_titleMap.put("categoriesNewsList", categoriesNewsList);
+        return TableModel.success(news_titleMap, news_titleMap.size());
+    }
+
+
+    @Override
+    public TableModel searchNewsByCatagories(int page, String catagory) {
+        ArrayList<List<ProNews>> resList = new ArrayList<>();
+        ProNewsExample proNewsExample = new ProNewsExample();
+        proNewsExample.setOrderByClause("news_publisTime desc");
+        proNewsExample.createCriteria().andNewsCategoryEqualTo(catagory).andIsauditEqualTo("1");
+        PageHelper.startPage(page, Constants.pageSize);
+        List<ProNews> proNews = proNewsMapper.selectByExample(proNewsExample);
+        PageInfo pageInfo = new PageInfo(proNews, 5);
+        for (ProNews proNew : proNews) {
+            proNew.setNewsContent(null);
+        }
+
+        //查询最新的10条记录
+        ProNewsExample recentNewsExample = new ProNewsExample();
+        recentNewsExample.setOrderByClause("news_publisTime desc");
+        recentNewsExample.createCriteria().andIsauditEqualTo("1");
+        PageHelper.startPage(1, 10);
+        List<ProNews> recentlyNewsList = proNewsMapper.selectByExample(recentNewsExample);
+        for (ProNews news : recentlyNewsList) {
+            news.setNewsContent(null);
+        }
+
+        resList.add(proNews);
+        resList.add(recentlyNewsList);
+        return TableModel.success(resList, (int) pageInfo.getTotal());
+    }
+
+
+    @Override
+    public TableModel searchNewsByKeywords(int page, String keywords) {
+        ArrayList<List<ProNews>> resList = new ArrayList<>();
+        ProNewsExample proNewsExample = new ProNewsExample();
+        proNewsExample.createCriteria().andNewsTitleLike("%" + keywords + "%");
+        PageHelper.startPage(page, Constants.pageSize);
+        List<ProNews> proNews = proNewsMapper.selectByExample(proNewsExample);
+        for (ProNews proNew : proNews) {
+            proNew.setNewsContent(null);
+        }
+
+        //查询最新的10条记录
+        ProNewsExample recentNewsExample = new ProNewsExample();
+        recentNewsExample.setOrderByClause("news_publisTime desc");
+        recentNewsExample.createCriteria().andIsauditEqualTo("1");
+        PageHelper.startPage(1, 10);
+        List<ProNews> recentlyNewsList = proNewsMapper.selectByExample(recentNewsExample);
+        for (ProNews news : recentlyNewsList) {
+            news.setNewsContent(null);
+        }
+
+        resList.add(proNews);
+        resList.add(recentlyNewsList);
+        return TableModel.success(resList, resList.size());
     }
 }
