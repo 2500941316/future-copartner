@@ -66,7 +66,7 @@ public class UserNewsController {
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 用户发布文件方法
+     * @Description 用户根据新闻id查询新闻的方法
      */
     @GetMapping("searchNewsById")
     @ResponseBody
@@ -74,5 +74,42 @@ public class UserNewsController {
 
         return userNewsService.searchNewsById(newsId);
     }
+
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
+     * @Description 用户查询新闻主页的各个种类的消息
+     */
+    @GetMapping("getNewsIndexInfo_byCatagories")
+    @ResponseBody
+    public TableModel getNewsIndexInfo_byCatagories() {
+        return userNewsService.getNewsIndexInfo_byCatagories();
+    }
+
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
+     * @Description 用户查询新闻主页的热门信息
+     */
+    @GetMapping("getNewsIndexInfo_mostClickTimes")
+    @ResponseBody
+    public TableModel getNewsIndexInfo_mostClickTimes() {
+        return userNewsService.getNewsIndexInfo_mostClickTimes();
+    }
+
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
+     * @Description 用户查询新闻主页的top消息
+     */
+    @GetMapping("getNewsIndexInfo_topNews")
+    @ResponseBody
+    public TableModel getNewsIndexInfo_topNews() {
+        return userNewsService.getNewsIndexInfo_topNews();
+    }
+
 
 }

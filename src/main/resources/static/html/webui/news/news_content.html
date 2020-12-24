@@ -34,7 +34,7 @@
                 <div class="tit">热点关注</div>
                 <div class="con">
                     <div class="conl"></div>
-                    <div id="latestNews" class="conr" >
+                    <div id="latestNews" class="conr">
 
                     </div>
                 </div>
@@ -92,14 +92,12 @@
         const $active = $("#latestNews");
         $active.html("");
         $.each(arrParO, function (i, obj) {
-            const $children = $('<a href="jobnews_xq.html">求知的时候如何描述个人综合能力</a>');
-            const $children1 = $('<a href="jobnews_xq.html">求知的时候如何描述个人综合能力</a>');
-            const $children2 = $('<a href="jobnews_xq.html">求知的时候如何描述个人综合能力</a>');
+            const $children = $('<a href="#" onclick="getNewsById(' + obj.newsId + ')">' + obj.newsTitle + '</a>');
+
             $active.append($children);
-            $active.append($children1);
-            $active.append($children2);
         });
     }
+
 
 </script>
 </body>

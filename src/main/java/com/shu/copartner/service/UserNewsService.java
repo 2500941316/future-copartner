@@ -12,4 +12,10 @@ public interface UserNewsService {
     TableModel publisNews(NewsPublishVO newsPublishVO);
 
     TableModel searchNewsById(String newsId);
+
+    TableModel getNewsIndexInfo_byCatagories();
+
+    TableModel getNewsIndexInfo_mostClickTimes();
+
+    TableModel getNewsIndexInfo_topNews();
 }

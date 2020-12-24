@@ -1,5 +1,8 @@
 package com.shu.copartner.utils.constance;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author cxy
  * @Date: 2020/12/6 14:36
@@ -53,6 +56,11 @@ public final class Constants {
     public static final String NEWSAPPLY_PROCESS_MANAGERNAME = "管理员审批文章";
 
     /**
+     * @Description 新闻种类的列表
+     */
+    public static final String[] NEWS_CATAGORIES = new String[]{"精彩上大", "每周一文", "项目风采", "学术交流", "人文社科", "活动咨询", "法律法规"};
+
+    /**
      * @Description 项目流程key
      */
     public static final String PROJECT_PROCESS_PROCESSKEY = "project_Process";
@@ -67,5 +75,6 @@ public final class Constants {
      * @Description activiti任务间传输object对象的参数名称
      */
     public static final String ACTIVITI_OBJECT_NAME = "object";
+
 
 }

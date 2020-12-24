@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author cxy
@@ -29,8 +28,6 @@ import java.util.Map;
 @Service
 public class ManagerNewsServiceImpl implements ManagerNewsService {
 
-    @Autowired
-    private RuntimeService runtimeService;
 
     @Autowired
     private ActRuVariableMapper actRuVariableMapper;
