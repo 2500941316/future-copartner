@@ -177,7 +177,7 @@ function renderNewsPage_mostClickTimes(arrParO) {
 //新闻首页根据数据来渲染catagory_news
 function renderNewsPage_byCatagories(arrParO) {
     const catagory = [
-        "人文社科", "学术交流", "每周一文", "活动咨询", "精彩上大", "项目风采"
+        "精彩上大", "每周一文", "项目风采", "学术交流", "人文社科", "活动咨询", "法律法规"
     ];
     for (let i = 0; i < arrParO.length; i++) {
         const $active0 = $("#" + catagory[i]);
