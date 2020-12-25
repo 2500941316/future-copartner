@@ -35,6 +35,11 @@ public enum Exceptions {
     SERVER_HTTPTYPE_ERROR("0005", "请求类型异常"),
 
     /**
+     * 请求类型异常
+     */
+    SERVER_DATASOURCE_ERROR("0006", "数据库查询异常"),
+
+    /**
      * 未知异常
      */
     SERVER_OTHER_ERROR("0099", "未知异常");

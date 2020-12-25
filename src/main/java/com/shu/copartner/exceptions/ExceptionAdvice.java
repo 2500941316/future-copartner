@@ -45,6 +45,13 @@ public class ExceptionAdvice {
                 message = Exceptions.SERVER_UNAMEISNULL_ERROR.getEmsg();
                 break;
 
+            case "0005":
+                message = Exceptions.SERVER_HTTPTYPE_ERROR.getEmsg();
+                break;
+
+            case "0006":
+                message = Exceptions.SERVER_DATASOURCE_ERROR.getEmsg();
+                break;
 
             default:
                 message = Exceptions.SERVER_OTHER_ERROR.getEmsg();

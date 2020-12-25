@@ -15,7 +15,5 @@ public interface UserNewsService {
 
     TableModel getNewsIndexInfo();
 
-    TableModel searchNewsByCatagories(int page,String catagory);
-
     TableModel searchNewsByKeywords(int page,String keywords);
 }

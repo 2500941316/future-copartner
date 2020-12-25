@@ -5,8 +5,7 @@ import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.pojo.request.NewsManagerOperationVO;
 import com.shu.copartner.service.ManagerNewsService;
 import com.shu.copartner.utils.returnobj.TableModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +21,8 @@ import javax.validation.constraints.Size;
 @RestController
 @RequestMapping("manager/news")
 @CrossOrigin
+@Slf4j
 public class ManageNewsController {
-
-    private static Logger logger = LoggerFactory.getLogger(ManageNewsController.class);
 
     @Autowired
     ManagerNewsService managerNewsService;
@@ -36,12 +34,8 @@ public class ManageNewsController {
     @GetMapping(value = "searchNewsApplication")
     @ResponseBody
     public TableModel searchNewsApplication(@Size(min = 1) @RequestParam int page) {
-        if (page <= 0) {
-            throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
-        }
         return managerNewsService.searchNewsApplication(page);
     }
-
 
 
     /**
@@ -52,7 +46,7 @@ public class ManageNewsController {
     @ResponseBody
     public TableModel operateNew(@RequestBody @Valid NewsManagerOperationVO newsManagerOperationVO, BindingResult result) {
         if (result.hasErrors()) {
-            logger.error(result.getAllErrors().toString());
+            log.error(result.getAllErrors().toString());
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
         return managerNewsService.operateNew(newsManagerOperationVO);

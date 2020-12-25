@@ -61,6 +61,27 @@ public final class Constants {
     public static final String[] NEWS_CATAGORIES = new String[]{"精彩上大", "每周一文", "项目风采", "学术交流", "人文社科", "活动咨询", "法律法规"};
 
     /**
+     * @Description 新闻是否审核标志位
+     */
+    public static final String NEW_AUTHED = "1";
+
+    /**
+     * @Description 新闻是否置顶标志位
+     */
+    public static final String NEW_ISTOP = "是";
+
+    /**
+     * @Description 新闻关键字查询前缀
+     */
+    public static final String NEW_FIRSTKEY = "s_";
+
+    /**
+     * @Description 新闻按照时间排序查询条件
+     */
+    public static final String NEW_DESCBYDATE = "news_publisTime desc";
+
+
+    /**
      * @Description 项目流程key
      */
     public static final String PROJECT_PROCESS_PROCESSKEY = "project_Process";

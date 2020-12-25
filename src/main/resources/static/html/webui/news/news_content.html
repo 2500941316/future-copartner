@@ -6,12 +6,12 @@
     <title>新闻内容</title>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/searchJob.css"/>
     <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="/html/webui/js/news.js"></script>
 </head>
 
 <body>
 <!--引入页头页面-->
-<div id="headers" style="margin-bottom: 20px"></div>
-
+<div id="header" style="margin-bottom: 20px"></div>
 <div class="jobnewsDiv_xq">
     <div class="XQcontent">
         <div class="XQleft">
@@ -24,8 +24,6 @@
             </div>
             <div class="XQcon" id="news_content">
                 <!--新闻内容开始-->
-
-
                 <!--新闻内容结束-->
             </div>
         </div>
@@ -35,7 +33,6 @@
                 <div class="con">
                     <div class="conl"></div>
                     <div id="latestNews" class="conr">
-
                     </div>
                 </div>
             </div>
@@ -46,59 +43,5 @@
 
 <!--引入尾部页面-->
 <div id="footer"></div>
-
-<script type="text/javascript">
-    $(function () {
-        $("#headers").load("/html/webui/header/header.html");
-        $("#footer").load("/html/webui/footer/footer.html");
-
-        getNewsById(localStorage.getItem("newsId"));
-    });
-
-    //根据newsId去查找新闻
-    function getNewsById(newsId) {
-        if (newsId != null) {
-            $.ajax({
-                type: "GET",
-                url: "/user/news/searchNewsById",
-                data: "newsId=" + newsId,
-                success: function (data) {
-                    if (data.code === 200) {
-                        fillPage(data.data[0]);
-                        doData(data.data[1]);
-                    }
-                },
-                error: function (data) {
-                    layer.msg('网络异常');
-                }
-            });
-        }
-    }
-
-    //根据新闻对象渲染页面
-    function fillPage(news) {
-        document.getElementById("news_title").innerText = news.newsTitle;
-        document.getElementById("news_category").innerText = news.newsCategory;
-        document.getElementById("news_date").innerText = news.newsPublistime;
-        document.getElementById("news_clickTimes").innerText = news.newsBrowsecount;
-        document.getElementById("news_content").innerHTML = news.newsContent;
-        document.getElementById("news_writer").innerText = news.newsAuthor;
-    }
-
-
-    //渲染html
-    ///根据ajax数据进行渲染
-    function doData(arrParO) {
-        const $active = $("#latestNews");
-        $active.html("");
-        $.each(arrParO, function (i, obj) {
-            const $children = $('<a href="#" onclick="getNewsById(' + obj.newsId + ')">' + obj.newsTitle + '</a>');
-
-            $active.append($children);
-        });
-    }
-
-
-</script>
 </body>
 </html>

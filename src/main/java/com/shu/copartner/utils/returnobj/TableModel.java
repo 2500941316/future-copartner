@@ -40,21 +40,19 @@ public class TableModel<T> {
         return tableModel;
     }
 
-    public static TableModel success(String msg) {
+    public static TableModel success() {
         TableModel tableModel = new TableModel();
 
         tableModel.setCode(200);
-        tableModel.setMsg(msg);
         tableModel.setCount(0);
 
         return tableModel;
     }
 
-    public static TableModel error(String message) {
+    public static TableModel error() {
         TableModel tableModel = new TableModel();
         tableModel.setCode(500);
         tableModel.setData(new ArrayList<>());
-        tableModel.setMsg(message);
         tableModel.setCount(0);
 
         return tableModel;

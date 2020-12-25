@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/html/managerui/js/layui/css/layui.css"/>
     <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+    <script type="text/javascript" src="/html/webui/js/news.js"></script>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/searchJob.css"/>
 </head>
 
@@ -57,107 +58,5 @@
 
 <!--引入页脚页面-->
 <div id="footer"></div>
-
-<script type="text/javascript">
-    var pageCount;
-    $(function () {
-        $("#header").load("/html/webui/header/header.html");
-        $("#footer").load("/html/webui/footer/footer.html");
-        initPage();
-        initCatagoryNews(1);
-    });
-
-    //初始化分页
-    function initPage() {
-        layui.use(['laypage', 'layer'], function () {
-            var laypage = layui.laypage
-                , layer = layui.layer;
-            //自定义每页条数的选择项
-            laypage.render({
-                elem: 'page'
-                , count: 15
-                , layout: ['prev', 'page', 'next']
-                , jump: function (obj, first) {
-                    if (first) {
-                        return;
-                    }
-                    initCatagoryNews(obj.curr);
-                }
-            });
-        });
-    }
-
-
-    //初始化分类新闻页的方法
-    function initCatagoryNews(page) {
-        var keyword = localStorage.getItem("news_catagory");
-        var url = "/user/news/searchNewsByCatagories";
-        if (keyword.substr(0, 2) === "s_") {
-            keyword = keyword.substr(2, keyword.length - 1);
-            url = "/user/news/searchNewsByKeywords";
-        }
-        $.ajax({
-            type: "GET",
-            url: url,
-            data: {
-                page: page,
-                catagory: keyword
-            },
-            success: function (data) {
-                if (data.code === 200) {
-                    pageCount = data.count;
-                    renderNews_news(data.data[0]);
-                    renderNewsPage_mostClickTimes(data.data[1]);
-                }
-            },
-            error: function (data) {
-                layer.msg('网络异常');
-            }
-        });
-    }
-
-
-    function renderNews_news(arrParO) {
-        const $active = $("#newsTable");
-        $active.html("");
-        $.each(arrParO, function (i, obj) {
-            const $children = $(
-                '<tr>\n' +
-                '        <td><a onclick="getNewsById(' + obj.newsId + ')" href="#" class="listtit">' + obj.newsTitle + '</a></td>\n' +
-                '        <td><span class="listly">' + obj.newsAuthor + '</span></td>\n' +
-                '        <td><span class="liatdate">' + obj.newsPublistime + '</span></td>\n' +
-                '        </tr>');
-            $active.append($children);
-        });
-    }
-
-
-    function renderNewsPage_mostClickTimes(arrParO) {
-        ///根据ajax数据进行渲染
-        const $active = $("#click_TimesNews");
-        $active.html("");
-        $.each(arrParO, function (i, obj) {
-            const $children = $('<a href="#" onclick="getNewsById(' + obj.newsId + ')">' + obj.newsTitle + '</a>');
-            $active.append($children);
-        });
-    }
-
-    //根据newsId去查找新闻
-    function getNewsById(newsId) {
-        localStorage.setItem("newsId", newsId);
-        window.location.href = "/html/webui/news/news_content.html";
-    }
-
-
-    //点击了新闻搜索按钮
-    function searchNew() {
-        var value = $("#keywords").val();
-        if (value.length > 0) {
-            localStorage.setItem("news_catagory", "s_" + value);
-            window.location.href = "/html/webui/news/news_catalog.html";
-        }
-    }
-
-</script>
 </body>
 </html>

@@ -62,7 +62,7 @@ public class UserProjectController {
 //        Map<String,Object> map = JSONObject.parseObject(JSON.toJSONString(proProject));
 //        activitiService.startProcessInstance(map, Constants.PROJECT_PROCESS_PROCESSKEY);
 
-        return TableModel.success("success");
+        return TableModel.success();
     }
 
 }
