@@ -5,11 +5,11 @@ $(function () {
     $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
     //如果是首页
-    if (url === "/html/webui/news.html") {
+    if (url === "/html/webui/news/news.html") {
         news_index_init();
     } else if (url === "/html/webui/news/news_content.html") {
         news_content_init();
-    } else {
+    } else if (url === "/html/webui/news/news_catalog.html") {
         initPage();
         initCatagoryNews(1);
     }
@@ -177,7 +177,7 @@ function renderNewsPage_mostClickTimes(arrParO) {
 //新闻首页根据数据来渲染catagory_news
 function renderNewsPage_byCatagories(arrParO) {
     const catagory = [
-        "精彩上大", "每周一文", "项目风采", "学术交流", "人文社科", "活动咨询", "法律法规"
+        "精彩上大", "每周一文", "项目风采", "人文社科", "活动咨询", "法律法规"
     ];
     for (let i = 0; i < arrParO.length; i++) {
         const $active0 = $("#" + catagory[i]);

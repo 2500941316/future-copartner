@@ -58,7 +58,7 @@ public final class Constants {
     /**
      * @Description 新闻种类的列表
      */
-    public static final String[] NEWS_CATAGORIES = new String[]{"精彩上大", "每周一文", "项目风采", "学术交流", "人文社科", "活动咨询", "法律法规"};
+    public static final String[] NEWS_CATAGORIES = new String[]{"精彩上大", "每周一文", "项目风采", "人文社科", "活动咨询", "法律法规"};
 
     /**
      * @Description 新闻是否审核标志位

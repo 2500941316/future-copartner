@@ -164,7 +164,7 @@ public class UserNewsServiceImpl implements UserNewsService {
         PageHelper.startPage(page, Constants.pageSize);
 
         //判断keyword的前两个字符判断是根据种类查询还是根据关键字查询
-        if (keywords.substring(0, 2).equals(Constants.NEW_FIRSTKEY)) {
+        if (keywords!=null && keywords.substring(0, 2).equals(Constants.NEW_FIRSTKEY)) {
             proNewsExample.createCriteria().andNewsTitleLike("%" + keywords.substring(2, keywords.length() - 1) + "%").andIsauditEqualTo(Constants.NEW_AUTHED);
         } else {
             proNewsExample.createCriteria().andNewsCategoryEqualTo(keywords).andIsauditEqualTo(Constants.NEW_AUTHED);

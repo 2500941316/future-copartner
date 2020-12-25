@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProLeassonMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProLeasson">
+    <id column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="course_type" jdbcType="VARCHAR" property="courseType" />
+    <result column="course_status" jdbcType="CHAR" property="courseStatus" />
+    <result column="course_teacher" jdbcType="VARCHAR" property="courseTeacher" />
+    <result column="course_totalTime" jdbcType="VARCHAR" property="courseTotaltime" />
+    <result column="course_description" jdbcType="VARCHAR" property="courseDescription" />
+    <result column="course_totalBlocks" jdbcType="INTEGER" property="courseTotalblocks" />
+    <result column="course_clickTime" jdbcType="INTEGER" property="courseClicktime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    course_id, course_name, course_type, course_status, course_teacher, course_totalTime, 
+    course_description, course_totalBlocks, course_clickTime
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProLeassonExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_LEASSON
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_LEASSON
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_LEASSON
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProLeassonExample">
+    delete from PRO_LEASSON
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProLeasson">
+    insert into PRO_LEASSON (course_id, course_name, course_type, 
+      course_status, course_teacher, course_totalTime, 
+      course_description, course_totalBlocks, course_clickTime
+      )
+    values (#{courseId,jdbcType=BIGINT}, #{courseName,jdbcType=VARCHAR}, #{courseType,jdbcType=VARCHAR}, 
+      #{courseStatus,jdbcType=CHAR}, #{courseTeacher,jdbcType=VARCHAR}, #{courseTotaltime,jdbcType=VARCHAR}, 
+      #{courseDescription,jdbcType=VARCHAR}, #{courseTotalblocks,jdbcType=INTEGER}, #{courseClicktime,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLeasson">
+    insert into PRO_LEASSON
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="courseType != null">
+        course_type,
+      </if>
+      <if test="courseStatus != null">
+        course_status,
+      </if>
+      <if test="courseTeacher != null">
+        course_teacher,
+      </if>
+      <if test="courseTotaltime != null">
+        course_totalTime,
+      </if>
+      <if test="courseDescription != null">
+        course_description,
+      </if>
+      <if test="courseTotalblocks != null">
+        course_totalBlocks,
+      </if>
+      <if test="courseClicktime != null">
+        course_clickTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseType != null">
+        #{courseType,jdbcType=VARCHAR},
+      </if>
+      <if test="courseStatus != null">
+        #{courseStatus,jdbcType=CHAR},
+      </if>
+      <if test="courseTeacher != null">
+        #{courseTeacher,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTotaltime != null">
+        #{courseTotaltime,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDescription != null">
+        #{courseDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTotalblocks != null">
+        #{courseTotalblocks,jdbcType=INTEGER},
+      </if>
+      <if test="courseClicktime != null">
+        #{courseClicktime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProLeassonExample" resultType="java.lang.Long">
+    select count(*) from PRO_LEASSON
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_LEASSON
+    <set>
+      <if test="record.courseId != null">
+        course_id = #{record.courseId,jdbcType=BIGINT},
+      </if>
+      <if test="record.courseName != null">
+        course_name = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseType != null">
+        course_type = #{record.courseType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseStatus != null">
+        course_status = #{record.courseStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.courseTeacher != null">
+        course_teacher = #{record.courseTeacher,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseTotaltime != null">
+        course_totalTime = #{record.courseTotaltime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseDescription != null">
+        course_description = #{record.courseDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseTotalblocks != null">
+        course_totalBlocks = #{record.courseTotalblocks,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseClicktime != null">
+        course_clickTime = #{record.courseClicktime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_LEASSON
+    set course_id = #{record.courseId,jdbcType=BIGINT},
+      course_name = #{record.courseName,jdbcType=VARCHAR},
+      course_type = #{record.courseType,jdbcType=VARCHAR},
+      course_status = #{record.courseStatus,jdbcType=CHAR},
+      course_teacher = #{record.courseTeacher,jdbcType=VARCHAR},
+      course_totalTime = #{record.courseTotaltime,jdbcType=VARCHAR},
+      course_description = #{record.courseDescription,jdbcType=VARCHAR},
+      course_totalBlocks = #{record.courseTotalblocks,jdbcType=INTEGER},
+      course_clickTime = #{record.courseClicktime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProLeasson">
+    update PRO_LEASSON
+    <set>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseType != null">
+        course_type = #{courseType,jdbcType=VARCHAR},
+      </if>
+      <if test="courseStatus != null">
+        course_status = #{courseStatus,jdbcType=CHAR},
+      </if>
+      <if test="courseTeacher != null">
+        course_teacher = #{courseTeacher,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTotaltime != null">
+        course_totalTime = #{courseTotaltime,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDescription != null">
+        course_description = #{courseDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTotalblocks != null">
+        course_totalBlocks = #{courseTotalblocks,jdbcType=INTEGER},
+      </if>
+      <if test="courseClicktime != null">
+        course_clickTime = #{courseClicktime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProLeasson">
+    update PRO_LEASSON
+    set course_name = #{courseName,jdbcType=VARCHAR},
+      course_type = #{courseType,jdbcType=VARCHAR},
+      course_status = #{courseStatus,jdbcType=CHAR},
+      course_teacher = #{courseTeacher,jdbcType=VARCHAR},
+      course_totalTime = #{courseTotaltime,jdbcType=VARCHAR},
+      course_description = #{courseDescription,jdbcType=VARCHAR},
+      course_totalBlocks = #{courseTotalblocks,jdbcType=INTEGER},
+      course_clickTime = #{courseClicktime,jdbcType=INTEGER}
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </update>
+</mapper>

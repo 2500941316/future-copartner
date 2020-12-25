@@ -14,9 +14,9 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://114.55.93.118:3306/activiti?useSSL=false"
-                        userId="root"
-                        password="aaa">
+                        connectionURL="jdbc:mysql://202.120.117.43:3306/activiti?useSSL=false"
+                        userId="cxy"
+                        password="Yanglao123">
         </jdbcConnection>
 
         <!--
@@ -58,9 +58,10 @@
         <!--        <table schema="" tableName="ACT_HI_TASKINST"></table>-->
         <!--        <table schema="" tableName="ACT_HI_VARINST"></table>-->
         <!--        <table schema="" tableName="ACT_RE_DEPLOYMENT"></table>-->
-        <table schema="" tableName="PRO_TASK_PARAMETER">
-<!--            <columnOverride column="news_introduction" jdbcType="VARCHAR"/>-->
-<!--            <columnOverride column="news_content" jdbcType="VARCHAR"/>-->
+        <table schema="" tableName="PRO_LEASSON">
+            <columnOverride column="course_description" jdbcType="VARCHAR"/>
+        </table>
+        <table schema="" tableName="PRO_LEASSON_VEDIO">
         </table>
 
     </context>

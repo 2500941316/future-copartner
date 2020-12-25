@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProLeassonVedioMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProLeassonVedio">
+    <id column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="course_vedio_number" jdbcType="INTEGER" property="courseVedioNumber" />
+    <result column="course_vedio_introduction" jdbcType="VARCHAR" property="courseVedioIntroduction" />
+    <result column="course_vedio_url" jdbcType="VARCHAR" property="courseVedioUrl" />
+    <result column="course_vedio_name" jdbcType="VARCHAR" property="courseVedioName" />
+    <result column="course_vedio_clickTime" jdbcType="INTEGER" property="courseVedioClicktime" />
+    <result column="course_vedio_duringTime" jdbcType="VARCHAR" property="courseVedioDuringtime" />
+    <result column="course_vedio_status" jdbcType="CHAR" property="courseVedioStatus" />
+    <result column="course_vedio_ppt_url" jdbcType="VARCHAR" property="courseVedioPptUrl" />
+    <result column="course_vedio_catalog" jdbcType="VARCHAR" property="courseVedioCatalog" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    course_id, course_vedio_number, course_vedio_introduction, course_vedio_url, course_vedio_name, 
+    course_vedio_clickTime, course_vedio_duringTime, course_vedio_status, course_vedio_ppt_url, 
+    course_vedio_catalog
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProLeassonVedioExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_LEASSON_VEDIO
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_LEASSON_VEDIO
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_LEASSON_VEDIO
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProLeassonVedioExample">
+    delete from PRO_LEASSON_VEDIO
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProLeassonVedio">
+    insert into PRO_LEASSON_VEDIO (course_id, course_vedio_number, course_vedio_introduction, 
+      course_vedio_url, course_vedio_name, course_vedio_clickTime, 
+      course_vedio_duringTime, course_vedio_status, 
+      course_vedio_ppt_url, course_vedio_catalog)
+    values (#{courseId,jdbcType=BIGINT}, #{courseVedioNumber,jdbcType=INTEGER}, #{courseVedioIntroduction,jdbcType=VARCHAR}, 
+      #{courseVedioUrl,jdbcType=VARCHAR}, #{courseVedioName,jdbcType=VARCHAR}, #{courseVedioClicktime,jdbcType=INTEGER}, 
+      #{courseVedioDuringtime,jdbcType=VARCHAR}, #{courseVedioStatus,jdbcType=CHAR}, 
+      #{courseVedioPptUrl,jdbcType=VARCHAR}, #{courseVedioCatalog,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLeassonVedio">
+    insert into PRO_LEASSON_VEDIO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="courseVedioNumber != null">
+        course_vedio_number,
+      </if>
+      <if test="courseVedioIntroduction != null">
+        course_vedio_introduction,
+      </if>
+      <if test="courseVedioUrl != null">
+        course_vedio_url,
+      </if>
+      <if test="courseVedioName != null">
+        course_vedio_name,
+      </if>
+      <if test="courseVedioClicktime != null">
+        course_vedio_clickTime,
+      </if>
+      <if test="courseVedioDuringtime != null">
+        course_vedio_duringTime,
+      </if>
+      <if test="courseVedioStatus != null">
+        course_vedio_status,
+      </if>
+      <if test="courseVedioPptUrl != null">
+        course_vedio_ppt_url,
+      </if>
+      <if test="courseVedioCatalog != null">
+        course_vedio_catalog,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="courseVedioNumber != null">
+        #{courseVedioNumber,jdbcType=INTEGER},
+      </if>
+      <if test="courseVedioIntroduction != null">
+        #{courseVedioIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioUrl != null">
+        #{courseVedioUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioName != null">
+        #{courseVedioName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioClicktime != null">
+        #{courseVedioClicktime,jdbcType=INTEGER},
+      </if>
+      <if test="courseVedioDuringtime != null">
+        #{courseVedioDuringtime,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioStatus != null">
+        #{courseVedioStatus,jdbcType=CHAR},
+      </if>
+      <if test="courseVedioPptUrl != null">
+        #{courseVedioPptUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioCatalog != null">
+        #{courseVedioCatalog,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProLeassonVedioExample" resultType="java.lang.Long">
+    select count(*) from PRO_LEASSON_VEDIO
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_LEASSON_VEDIO
+    <set>
+      <if test="record.courseId != null">
+        course_id = #{record.courseId,jdbcType=BIGINT},
+      </if>
+      <if test="record.courseVedioNumber != null">
+        course_vedio_number = #{record.courseVedioNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseVedioIntroduction != null">
+        course_vedio_introduction = #{record.courseVedioIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseVedioUrl != null">
+        course_vedio_url = #{record.courseVedioUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseVedioName != null">
+        course_vedio_name = #{record.courseVedioName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseVedioClicktime != null">
+        course_vedio_clickTime = #{record.courseVedioClicktime,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseVedioDuringtime != null">
+        course_vedio_duringTime = #{record.courseVedioDuringtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseVedioStatus != null">
+        course_vedio_status = #{record.courseVedioStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.courseVedioPptUrl != null">
+        course_vedio_ppt_url = #{record.courseVedioPptUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseVedioCatalog != null">
+        course_vedio_catalog = #{record.courseVedioCatalog,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_LEASSON_VEDIO
+    set course_id = #{record.courseId,jdbcType=BIGINT},
+      course_vedio_number = #{record.courseVedioNumber,jdbcType=INTEGER},
+      course_vedio_introduction = #{record.courseVedioIntroduction,jdbcType=VARCHAR},
+      course_vedio_url = #{record.courseVedioUrl,jdbcType=VARCHAR},
+      course_vedio_name = #{record.courseVedioName,jdbcType=VARCHAR},
+      course_vedio_clickTime = #{record.courseVedioClicktime,jdbcType=INTEGER},
+      course_vedio_duringTime = #{record.courseVedioDuringtime,jdbcType=VARCHAR},
+      course_vedio_status = #{record.courseVedioStatus,jdbcType=CHAR},
+      course_vedio_ppt_url = #{record.courseVedioPptUrl,jdbcType=VARCHAR},
+      course_vedio_catalog = #{record.courseVedioCatalog,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProLeassonVedio">
+    update PRO_LEASSON_VEDIO
+    <set>
+      <if test="courseVedioNumber != null">
+        course_vedio_number = #{courseVedioNumber,jdbcType=INTEGER},
+      </if>
+      <if test="courseVedioIntroduction != null">
+        course_vedio_introduction = #{courseVedioIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioUrl != null">
+        course_vedio_url = #{courseVedioUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioName != null">
+        course_vedio_name = #{courseVedioName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioClicktime != null">
+        course_vedio_clickTime = #{courseVedioClicktime,jdbcType=INTEGER},
+      </if>
+      <if test="courseVedioDuringtime != null">
+        course_vedio_duringTime = #{courseVedioDuringtime,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioStatus != null">
+        course_vedio_status = #{courseVedioStatus,jdbcType=CHAR},
+      </if>
+      <if test="courseVedioPptUrl != null">
+        course_vedio_ppt_url = #{courseVedioPptUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioCatalog != null">
+        course_vedio_catalog = #{courseVedioCatalog,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProLeassonVedio">
+    update PRO_LEASSON_VEDIO
+    set course_vedio_number = #{courseVedioNumber,jdbcType=INTEGER},
+      course_vedio_introduction = #{courseVedioIntroduction,jdbcType=VARCHAR},
+      course_vedio_url = #{courseVedioUrl,jdbcType=VARCHAR},
+      course_vedio_name = #{courseVedioName,jdbcType=VARCHAR},
+      course_vedio_clickTime = #{courseVedioClicktime,jdbcType=INTEGER},
+      course_vedio_duringTime = #{courseVedioDuringtime,jdbcType=VARCHAR},
+      course_vedio_status = #{courseVedioStatus,jdbcType=CHAR},
+      course_vedio_ppt_url = #{courseVedioPptUrl,jdbcType=VARCHAR},
+      course_vedio_catalog = #{courseVedioCatalog,jdbcType=VARCHAR}
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </update>
+</mapper>
