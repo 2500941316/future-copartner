@@ -265,13 +265,13 @@
         });
     }
 
-
     //通过或者驳回新闻申请的方法:通过为1，驳回为2
     function operateNew(thisNew, isaudit, newsAdvice) {
         var data = {
-            taskId: "1232132",
-            status: status,
-            msg: msg,
+            newsId: thisNew.data.newsId,
+            taskId: thisNew.data.taskId,
+            isaudit: isaudit,
+            newsAdvice: newsAdvice,
         };
 
         $.ajax({
@@ -293,6 +293,7 @@
             }
         });
     }
+
 
 </script>
 
