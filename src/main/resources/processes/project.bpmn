@@ -101,7 +101,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="approveAddPeople" id="Shape-approveAddPeople">
-        <omgdc:Bounds height="55.0" width="85.0" x="310.0" y="235.0"/>
+        <omgdc:Bounds height="55.0" width="85.0" x="310.0" y="195.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
@@ -151,7 +151,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_22" id="BPMNEdge__22" sourceElement="approveAddPeople" targetElement="uploadProjectVideo">
-        <omgdi:waypoint x="310.0" y="262.5"/>
+        <omgdi:waypoint x="310.0" y="222.5"/>
         <omgdi:waypoint x="250.0" y="317.5"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
@@ -159,7 +159,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_21" id="BPMNEdge__21" sourceElement="addPeople" targetElement="approveAddPeople">
         <omgdi:waypoint x="250.0" y="207.5"/>
-        <omgdi:waypoint x="310.0" y="262.5"/>
+        <omgdi:waypoint x="310.0" y="222.5"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>

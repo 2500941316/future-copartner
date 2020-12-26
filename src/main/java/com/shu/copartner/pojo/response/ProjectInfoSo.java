@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -12,18 +14,18 @@ import java.util.Date;
  */
 @Data
 public class ProjectInfoSo {
-    private Long id;
-
     // 用于传到前端，然后后端接受来判断具体的审批项
     private String taskId;
 
-    private String creater;
+    private Long projectId;
+
+    private String projectCreater;
 
     private String description;
 
     private Date endtime;
 
-    private String followers;
+    private String projectFollowers;
 
     private Integer isDeleted;
 
@@ -31,20 +33,47 @@ public class ProjectInfoSo {
 
     private String planUrl;
 
-    private String primaryjob;
+    private String primaryJob;
+
 
     private String projectName;
 
     private Date starttime;
 
-    private String status;
+    private String projectStatus;
 
-    private String type;
+    private String projectType;
 
     private String videoUrl;
 
     private String projectPeople;
 
     private String mainPeople;
+
+    private String projectTeacher;
+
+    private String projectNeed;
+
+    private String projectMatch;
+
+    private String projectCooperation;
+
+    private String projectActivity;
+
+    private String projectService;
+
+    private String projectFinance;
+
+    private String projectIncome;
+
+    private String projectCompany;
+
+    private String projectElseInfo;
+
+    private String projectActivitiState;
+
+    private String isAudit;
+
+    private String projectAuditMsg;
 
 }

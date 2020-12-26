@@ -101,16 +101,16 @@
             table.render({
                 elem: '#project'
                 , url: '/manager/project/searchProject'
-                , height: 580
+                //   , height: 580
                 //   ,data: data
                 , title: '项目审批表格'
                 , cols: [[
-                    {field: 'id', title: 'ID', fixed: 'left', unresize: true, sort: true}
+                    {field: 'projectId', title: 'ID', fixed: 'left', unresize: true, sort: true}
                     , {field: 'projectName', title: '项目名'}
-                    , {field: 'creater', title: '创建人', width: 80}
-                    , {field: 'type', title: '类型', width: 80, sort: true}
+                    , {field: 'projectCreater', title: '创建人', width: 80}
+                    , {field: 'projectType', title: '类型', width: 80, sort: true}
                     , {field: 'description', title: '项目简述', overflow: 'hidden'}
-                    , {field: 'status', title: '状态', width: 80, sort: true}
+                    , {field: 'projectStatus', title: '状态', width: 80, sort: true}
                     , {field: 'starttime', title: '开始时间'}
                     , {fixed: 'right', title: '操作', toolbar: '#projectOperate', width: 180, align: 'center'}
                 ]]
@@ -120,7 +120,8 @@
             table.on('tool(projectTable)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'detail') {
-                    layer.alert('详情：<br>' + JSON.stringify(data))
+                    viewProject(obj.data.projectId)
+                    // layer.alert('详情：&lt;br>' + JSON.stringify(data))
                 } else if (obj.event === 'pass') {
                     layer.confirm('通过该项目申请？', function (index) {
                         operateProject(obj, 1,"");
@@ -131,10 +132,10 @@
                         formType: 2,
                         value: ' ',
                         title: '请输入驳回原因'
-                       // area: ['800px', '350px'] //自定义文本域宽高
+                        // area: ['800px', '350px'] //自定义文本域宽高
                     }, function(value, index){
                         alert(value); //得到value
-                        operateProject(obj, 0, value);
+                        operateProject(obj, 2, value);
                         layer.close(index);
                     });
                 }
@@ -142,14 +143,55 @@
         });
     }
 
+    //查看项目申请内容
+    function viewProject(projectId) {
+        localStorage.setItem("projectId", projectId);
+        layui.use("layer", function () {
+            var layer = layui.layer;
+            var index = layer.open({
+                type: 2,
+                title: ['项目详情', 'font-size:18px; color:orange;'],//数组第二项可以写任意css样式；如果你不想显示标题栏，你可以title: false
+                content: '/html/webui/project/project_apply_info.html',
+                area: ["50%", "50%"],
+                btn: ['返回'],
+                yes: function(index, layero){
+                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                }
+            });
+        })
+    }
+
     // 通过或者驳回项目申请
     function operateProject(currentProject,status, msg){
-
-        if(status === 1){
-            layer.msg(currentProject.data.projectName+currentProject.data.taskId+"通过")
-        }else{
-            layer.msg(currentProject.data.projectName+"驳回")
+        let operation ={
+            taskId: currentProject.data.taskId,
+            projectId: currentProject.data.projectId,
+            isAudit: status,
+            projectAuditMsg: msg
         }
+        console.log(operation);
+
+        $.ajax({
+            url: "/manager/project/operateProjectApply",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            contentType: "application/json",
+            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+            data: JSON.stringify(operation),   //参数值
+            type: "POST",   //请求方式
+            success: function(res) {
+                //请求成功时处理，一般只用到这一个
+                if(res.code == 200){
+                    layer.msg("审核完成！")
+                }else{
+                    layer.msg("网络异常，请稍后重试！")
+                }
+            },
+            error: function(req) {
+                //请求出错处理
+                console.log(req);
+                layer.msg('参数异常');
+            }
+        });
 
 
     }

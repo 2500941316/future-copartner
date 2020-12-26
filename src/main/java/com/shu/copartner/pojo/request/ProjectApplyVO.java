@@ -14,15 +14,15 @@ import java.util.Date;
  */
 @Data
 public class ProjectApplyVO implements Serializable {
-    private Long id;
+    private Long projectId;
 
-    private String creater;
+    private String projectCreater;
 
     private String description;
 
     private Date endtime;
 
-    private String followers;
+    private String projectFollowers;
 
     private Integer isDeleted;
 
@@ -30,7 +30,7 @@ public class ProjectApplyVO implements Serializable {
 
     private String planUrl;
 
-    private String primaryjob;
+    private String primaryJob;
 
     @NotBlank(message = "项目名称不能为空")
     private String projectName;
@@ -38,10 +38,10 @@ public class ProjectApplyVO implements Serializable {
     @NotNull(message = "开始时间不能为空")
     private Date starttime;
 
-    private String status;
+    private String projectStatus;
 
     @NotBlank(message = "类型不能为空")
-    private String type;
+    private String projectType;
 
     private String videoUrl;
 
@@ -50,25 +50,29 @@ public class ProjectApplyVO implements Serializable {
     @NotBlank(message = "负责人不能为空")
     private String mainPeople;
 
-    @Override
-    public String toString() {
-        return "ProjectApplyVO{" +
-                "id=" + id +
-                ", creater='" + creater + '\'' +
-                ", description='" + description + '\'' +
-                ", endtime=" + endtime +
-                ", followers='" + followers + '\'' +
-                ", isDeleted=" + isDeleted +
-                ", isLock=" + isLock +
-                ", planUrl='" + planUrl + '\'' +
-                ", primaryjob='" + primaryjob + '\'' +
-                ", projectName='" + projectName + '\'' +
-                ", starttime=" + starttime +
-                ", status='" + status + '\'' +
-                ", type='" + type + '\'' +
-                ", videoUrl='" + videoUrl + '\'' +
-                ", projectPeople='" + projectPeople + '\'' +
-                ", mainPeople='" + mainPeople + '\'' +
-                '}';
-    }
+    private String projectTeacher;
+
+    private String projectNeed;
+
+    private String projectMatch;
+
+    private String projectCooperation;
+
+    private String projectActivity;
+
+    private String projectService;
+
+    private String projectFinance;
+
+    private String projectIncome;
+
+    private String projectCompany;
+
+    private String projectElseInfo;
+
+    private String projectActivitiState;
+
+    private String isAudit;
+
+    private String projectAuditMsg;
 }

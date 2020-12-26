@@ -10,7 +10,7 @@
     <script type="text/javascript" src="/html/webui/js/personal.js"></script>
     <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
 
-    <title>个人工作台</title>
+    <title>创建项目</title>
 
 
     <style type="text/css">
@@ -26,13 +26,13 @@
                 <div class="jldiv">
                     <div class="nametxt"><span>*</span>项目名称：</div>
                     <div class="inputtxt">
-                        <input id="projectname" name="" type="text" class="txt3" autocomplete="off"/>
+                        <input id="projectName" name="" type="text" class="txt3" autocomplete="off"/>
                     </div>
                 </div>
                 <div class="jldiv">
                     <div class="nametxt"><span>*</span>项目类别：</div>
                     <div class="inputtxt">
-                        <select name="" id="type" style="width: 235px;height: 35px;line-height: 35px;border: 1px #DBDBDB solid;border-radius: 4px;">
+                        <select name="" id="projectType" style="width: 235px;height: 35px;line-height: 35px;border: 1px #DBDBDB solid;border-radius: 4px;">
                             <option value="none" selected disabled hidden>请选择项目类别</option>
                             <option value="新零售">新零售</option>
                             <option value="文创">文创</option>
@@ -103,22 +103,22 @@
 
     // 申请提交处理
     $(".save").click(function () {
-        var projectname= $("#projectname").val()
-            var type= $("#type").val()
+        var projectName= $("#projectName").val()
+            var projectType= $("#projectType").val()
             var starttime =  $("#starttime").val()
             // endtime: $("#endtime").val(),
             var mainPeople =  $("#mainPeople").val()
             var projectPeople=$("#projectPeople").val()
             var description=$("#description").val()
 
-        if (type.length === 0 || starttime.length === 0 || mainPeople.length === 0 || projectname.length === 0) {
+        if (projectType.length === 0 || starttime.length === 0 || mainPeople.length === 0 || projectName.length === 0) {
             layer.msg('请填写完整信息！');
             return;
         }
 
         let data={
-            projectName: $("#projectname").val(),
-            type: $("#type").val(),
+            projectName: $("#projectName").val(),
+            projectType: $("#type").val(),
             starttime: $("#starttime").val(),
             // endtime: $("#endtime").val(),
             mainPeople: $("#mainPeople").val(),

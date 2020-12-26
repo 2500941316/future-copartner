@@ -1,7 +1,6 @@
 package com.shu.copartner.service;
 
 import com.shu.copartner.pojo.ProProject;
-import com.shu.copartner.pojo.request.NewsPublishVO;
 import com.shu.copartner.pojo.request.ProjectApplyVO;
 import com.shu.copartner.utils.returnobj.TableModel;
 
@@ -13,6 +12,10 @@ import com.shu.copartner.utils.returnobj.TableModel;
 public interface ProProjectService {
     int insert(ProProject record);
 
+    TableModel selectByCreater(String projectCreater);
+
     TableModel projectApply(ProjectApplyVO projectApplyVO, String creater);
+
+    TableModel searchProjectById(String projectId);
 
 }

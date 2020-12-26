@@ -1,6 +1,7 @@
 package com.shu.copartner.service;
 
 import com.shu.copartner.pojo.request.NewsManagerOperationVO;
+import com.shu.copartner.pojo.request.ProjectManagerOperationVO;
 import com.shu.copartner.utils.returnobj.TableModel;
 
 /**
@@ -11,5 +12,5 @@ import com.shu.copartner.utils.returnobj.TableModel;
 public interface ManagerProjectService {
     TableModel searchProject(int page);
 
-   // TableModel operateNew(NewsManagerOperationVO newsManagerOperationVO);
+    TableModel operateProjectApply(ProjectManagerOperationVO projectManagerOperationVO);
 }
