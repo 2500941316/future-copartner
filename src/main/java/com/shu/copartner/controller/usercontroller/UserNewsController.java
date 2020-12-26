@@ -6,8 +6,7 @@ import com.shu.copartner.pojo.request.NewsPublishVO;
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.UserNewsService;
 import com.shu.copartner.utils.returnobj.TableModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +23,9 @@ import javax.validation.constraints.Size;
 @RestController
 @RequestMapping("user/news")
 @CrossOrigin
+@Slf4j
 public class UserNewsController {
 
-    private static Logger logger = LoggerFactory.getLogger(UserNewsController.class);
 
     @Autowired
     FileuploadService uploadService;
@@ -56,7 +55,7 @@ public class UserNewsController {
     @ResponseBody
     public TableModel publisNews(@RequestBody @Valid NewsPublishVO newsPublishVO, BindingResult result) {
         if (result.hasErrors()) {
-            logger.error(result.getAllErrors().toString());
+            log.error(result.getAllErrors().toString());
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
         return userNewsService.publisNews(newsPublishVO);
@@ -71,7 +70,6 @@ public class UserNewsController {
     @GetMapping("searchNewsById")
     @ResponseBody
     public TableModel searchNewsById(@Size(min = 1) String newsId) {
-
         return userNewsService.searchNewsById(newsId);
     }
 
@@ -91,24 +89,12 @@ public class UserNewsController {
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 分类结果查询
-     */
-    @GetMapping("searchNewsByCatagories")
-    @ResponseBody
-    public TableModel searchNewsByCatagories(@Size(min = 1) @RequestParam int page, @Size(min = 4) @RequestParam String catagory) {
-        return userNewsService.searchNewsByCatagories(page, catagory);
-    }
-
-
-    /**
-     * @author cxy
-     * @date 2020/12/20 13:42
      * @Description 安装关键字查询新闻
      */
     @GetMapping("searchNewsByKeywords")
     @ResponseBody
-    public TableModel searchNewsByKeywords(@Size(min = 1) @RequestParam int page, @Size(min = 1) @RequestParam String catagory) {
-        return userNewsService.searchNewsByKeywords(page, catagory);
+    public TableModel searchNewsByKeywords(@Size(min = 1) @RequestParam int page, @Size(min = 1) @RequestParam String keyword) {
+        return userNewsService.searchNewsByKeywords(page, keyword);
     }
 
 }

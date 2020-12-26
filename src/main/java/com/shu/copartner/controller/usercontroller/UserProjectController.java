@@ -62,5 +62,17 @@ public class UserProjectController {
     public TableModel selectByCreater() {
         log.info("selectByCreater");
         return proProjectService.selectByCreater(creater);
+        //3.部署流程
+        //Deployment deployment = activitiService.deploy("项目流程","processes/project.bpmn");
+        //输出部署信息
+//        log.info("流程名称：" + deployment.getName());
+//        log.info("流程ID：" + deployment.getId());
+//        log.info("流程Key：" + deployment.getKey());
+
+        //4.启动流程
+//        Map<String,Object> map = JSONObject.parseObject(JSON.toJSONString(proProject));
+//        activitiService.startProcessInstance(map, Constants.PROJECT_PROCESS_PROCESSKEY);
+
+        return TableModel.success();
     }
 }

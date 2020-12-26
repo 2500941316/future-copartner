@@ -2,8 +2,8 @@ package com.shu.copartner.controller.managercontroller;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
-import com.shu.copartner.pojo.request.NewsManagerOperationVO;
-import com.shu.copartner.service.ManagerNewsService;
+import com.shu.copartner.pojo.request.LeassonApplyVO;
+import com.shu.copartner.service.ManagerLeassonService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Size;
 
 /**
  * @author
@@ -19,36 +18,26 @@ import javax.validation.constraints.Size;
  * @description
  */
 @RestController
-@RequestMapping("manager/news")
+@RequestMapping("manager/leasson")
 @CrossOrigin
 @Slf4j
-public class ManageNewsController {
+public class ManageLeassonController {
 
     @Autowired
-    ManagerNewsService managerNewsService;
-
-    /**
-     * @date 2020/12/21 15:21
-     * @Description 管理端界面查询要审批的新闻的方法
-     */
-    @GetMapping(value = "searchNewsApplication")
-    @ResponseBody
-    public TableModel searchNewsApplication(@Size(min = 1) @RequestParam int page) {
-        return managerNewsService.searchNewsApplication(page);
-    }
-
+    ManagerLeassonService managerLeassonService;
 
     /**
      * @date 2020/12/21 15:21
      * @Description 管理端界面审批新闻的方法
      */
-    @PostMapping(value = "operateNew")
+    @PostMapping(value = "applyLeasson")
     @ResponseBody
-    public TableModel operateNew(@RequestBody @Valid NewsManagerOperationVO newsManagerOperationVO, BindingResult result) {
+    public TableModel applyLeasson(@RequestBody @Valid LeassonApplyVO leassonApplyVO, BindingResult result) {
         if (result.hasErrors()) {
             log.error(result.getAllErrors().toString());
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
-        return managerNewsService.operateNew(newsManagerOperationVO);
+        return managerLeassonService.operateNew(leassonApplyVO);
     }
+
 }

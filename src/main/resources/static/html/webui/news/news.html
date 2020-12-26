@@ -6,26 +6,24 @@
     <title>新闻</title>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/searchJob.css"/>
     <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="/html/webui/js/news.js"></script>
 </head>
 
 <body>
 <!--引入页头页面-->
 <div id="header"></div>
-
 <div class="jobnewsDiv">
     <div class="part1">
-        <a href="javascript:void()"><img width="100%" src="/html/webui/images/img1.png"/></a>
+        <a href="#"><img width="100%" src="/html/webui/images/img1.png"/></a>
     </div>
     <div class="part2">
         <div class="part2L" id="topNews">
-
         </div>
         <div class="part2R">
-            <img src="images/img1.gif" width="430" height="163"/>
+            <img src="../images/img1.gif" width="430" height="163"/>
         </div>
         <div class="clear"></div>
     </div>
-
     <div class="clear"></div>
     <div class="part4">
         <div class="part4L">
@@ -36,7 +34,6 @@
                     </div>
                     <div class="clear"></div>
                 </div>
-
                 <div class="part4L_2">
                     <div class="tit">
                         <span>人文社科</span>
@@ -45,15 +42,16 @@
                     <div class="con" id="人文社科">
                     </div>
                 </div>
-
                 <div class="part4L_2">
                     <div class="tit">
-                        <span>学术交流</span>
-                        <a href="#" onclick="redirecTo('学术交流')">更多>></a>
+                        <span>法律法规</span>
+                        <a href="#" onclick="redirecTo('法律法规')">更多>></a>
                     </div>
-                    <div class="con" id="学术交流">
+                    <div class="con" id="法律法规">
                     </div>
                 </div>
+
+
 
                 <div class="part4L_2">
                     <div class="tit">
@@ -64,7 +62,6 @@
                     </div>
                 </div>
 
-
                 <div class="part4L_2">
                     <div class="tit">
                         <span>活动咨询</span>
@@ -73,7 +70,6 @@
                     <div class="con" id="活动咨询">
                     </div>
                 </div>
-
                 <div class="part4L_2">
                     <div class="tit">
                         <span>精彩上大</span>
@@ -82,7 +78,6 @@
                     <div class="con" id="精彩上大">
                     </div>
                 </div>
-
                 <div class="part4L_2">
                     <div class="tit">
                         <span>项目风采</span>
@@ -91,6 +86,7 @@
                     <div class="con" id="项目风采">
                     </div>
                 </div>
+
 
             </div>
             <div class="clear"></div>
@@ -116,7 +112,6 @@
                 <div class="con">
                     <div class="conl"></div>
                     <div class="conr" id="click_TimesNews">
-
                     </div>
                 </div>
             </div>
@@ -126,103 +121,5 @@
 
 <!--引入页脚页面-->
 <div id="footer"></div>
-
-<script type="text/javascript">
-    $(function () {
-        $("#header").load("/html/webui/header/header.html");
-        $("#footer").load("/html/webui/footer/footer.html");
-        getNewsIndexInfo();
-    });
-
-
-    //新闻首页查询各个种类的新闻方法
-    function getNewsIndexInfo() {
-        $.ajax({
-            type: "GET",
-            url: "/user/news/getNewsIndexInfo",
-            success: function (data) {
-                if (data.code === 200) {
-                    renderNewsPage_topNews(data.data.topNewsList);
-                    renderNewsPage_mostClickTimes(data.data.recently_NewsList);
-                    renderNewsPage_byCatagories(data.data.categoriesNewsList);
-                }
-            },
-            error: function (data) {
-                layer.msg('网络异常');
-            }
-        });
-    }
-
-
-    //根据数据来渲染新闻主页
-    function renderNewsPage_topNews(arrParO) {
-        ///根据ajax数据进行渲染
-        const $active = $("#topNews");
-        $active.html("");
-        $.each(arrParO, function (i, obj) {
-            const $children = $("    <div onclick=\"getNewsById(" + obj.newsId + ")\" class=\"newsbox\">\n" +
-                "                <div class=\"tit\"><a href=\"#\">" + obj.newsTitle + "</a></div>\n" +
-                "                <div class=\"con\">" + obj.newsContent + "... <a\n" +
-                "                        href=\"#\">继续阅读>></a>\n" +
-                "                </div>\n" +
-                "            </div>");
-
-            $active.append($children);
-        });
-    }
-
-    function renderNewsPage_mostClickTimes(arrParO) {
-        ///根据ajax数据进行渲染
-        const $active = $("#click_TimesNews");
-        $active.html("");
-        $.each(arrParO, function (i, obj) {
-            const $children = $('<a href="#" onclick="getNewsById(' + obj.newsId + ')">' + obj.newsTitle + '</a>');
-
-            $active.append($children);
-        });
-    }
-
-
-    function renderNewsPage_byCatagories(arrParO) {
-        const catagory = [
-            "人文社科", "学术交流", "每周一文", "活动咨询", "精彩上大", "项目风采"
-        ];
-        for (let i = 0; i < arrParO.length; i++) {
-            const $active0 = $("#" + catagory[i]);
-            $.each(arrParO[i], function (i, obj) {
-                const $children = $('<span onclick="getNewsById(' + obj.newsId + ')"><img src="images/01.gif"/><a href="#">' + obj.newsTitle + '</a></span>');
-                $active0.append($children);
-            });
-        }
-    }
-
-
-    //根据newsId去查找新闻
-    function getNewsById(newsId) {
-        localStorage.setItem("newsId", newsId);
-        window.location.href = "/html/webui/news/news_content.html";
-    }
-
-
-    //点击了更多按钮，进入分类详情页面
-    function redirecTo(catagory) {
-        if (catagory.length >= 2) {
-            localStorage.setItem("news_catagory", catagory);
-            window.location.href = "/html/webui/news/news_catalog.html";
-        }
-    }
-
-
-    //点击了新闻搜索按钮
-    function searchNew() {
-        var value = $("#keywords").val();
-        if (value.length > 0) {
-            localStorage.setItem("news_catagory", "s_" + value);
-            window.location.href = "/html/webui/news/news_catalog.html";
-        }
-    }
-
-</script>
-
 </body>
 </html>
