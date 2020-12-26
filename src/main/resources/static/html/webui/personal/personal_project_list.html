@@ -26,70 +26,8 @@
         </div>-->
         <div class="clear"></div>
     </div>
-    <div class="jianliBox">
-        <table id="myProjectTable" width="100%" border="0" cellpadding="0" cellspacing="5">
-            <!--<tbody>-->
-            <tr id="first-tr">
-                <td colspan="5">
-                    <div class="jlpart1">
-                         <div class="jlName"><a href="personal_jlupdate.html"><span id="projectName">项目1</span></a></div>
-                         <div class="jlDate">开始时间：<span id="starttime">2017-12-28</span></div>
-                         <div class="jlDate">状态：<span id="projectStatus">申请审批中</span></div>
-                         <div class="jlFresh">更新</div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="second-tr" > <!--style="display: none"-->
-                <td width="61%">
-                    <div class="jlpart2">
-                        <div class="Orange" style="width:40px;"></div>
-                    </div>
-                    <div class="jlpart3">
-                        完整度 20 %
-                        [ <a href="/html/webui/project/project_concret_info.html" target = "blank">修改</a>
-                        <a href="/html/webui/project/project_details_info.html" target = "blank">查看</a>
-                        <a href="/html/webui/project/project_search.html" target = "blank">下载</a> ]</div>
-                </td>
-              <!--  <td rowspan="2">
-                    <div class="jlpart4">
-                        <div class="red">0</div>
-                        <div class="tdname">被浏览</div>
-                    </div>
-                </td>
-                <td rowspan="2">
-                    <div class="jlpart4">
-                        <div class="statusjl on"></div>
-                        <div class="tdname">姓名已公开</div>
-                    </div>
-                </td>
-                <td rowspan="2">
-                    <div class="jlpart4">
-                        <div class="statusjl on"></div>
-                        <div class="tdname">简历已公开</div>
-                    </div>
-                </td>-->
-                <td rowspan="2">
-                    <div class="jlpart4">
-                        <div class="delicon"></div>
-                        <div class="tdname">删除</div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="third-tr">
-                <td width="61%">
-                   <!-- <div class="jlpart2">
-                        <div class="Orange" style="width:0"></div>
-                    </div>
-                    <div class="jlpart3">英文完整度 0 分 [ <a href="personal_jlupdate.html">修改</a>   <a href="">预览</a>   <a href="">下载</a> ]</div>-->
-                </td>
-            </tr>
-            <tr id="fourth-tr">
-                <td colspan="5">
-                    <div class="divline"></div>
-                </td>
-            </tr>
-       <!--     </tbody>-->
-        </table>
+    <div class="jianliBox" id="tableDiv">
+
     </div>
     <div class="clear"></div>
     <div class="addJl">
@@ -213,22 +151,53 @@
                 starttime: '2020-12-25',
                 projectType: '申请审批中',
             }]*/
-          const $active = $("#myProjectTable");
-          const $secondtr = $("#second-tr");
-          const $thirdtr = $("#third-tr");
-          const $fourthtr = $("#fourth-tr");
+          const $active = $("#tableDiv");
           $active.html("");
           for(var i in projectData){
               var $children = $(
-                  '<tr><td>\n'+
-                      '<div class="jlpart1">\n' +
-                      '<div class="jlName"><a href="personal_jlupdate.html"><span id="projectName">'+projectData[i].projectName+ '</span></a></div> \n'+
-                      '<div class="jlDate">开始时间：<span id="starttime">' +projectData[i].starttime+ '</span></div> \n'+
-                      '<div class="jlDate">状态：<span id="projectStatus">' +projectData[i].projectStatushuoqu+ '</span></div> \n'+
-                      '<div class="jlFresh"><a href="personal_project_list.html">'+'更新'+'</a></div></div> \n'+
-                  '</td></tr>'
+                  ' <table id="myProjectTable" width="100%" border="0" cellpadding="0" cellspacing="5">\n' +
+                  '            <tr id="first-tr">\n' +
+                  '                <td colspan="5">\n' +
+                  '                    <div class="jlpart1">\n' +
+                  '                         <div class="jlName"><a href="personal_jlupdate.html"><span id="projectName">项目1</span></a></div>\n' +
+                  '                         <div class="jlDate">开始时间：<span id="starttime">2017-12-28</span></div>\n' +
+                  '                         <div class="jlDate">状态：<span id="projectStatus">申请审批中</span></div>\n' +
+                  '                         <div class="jlFresh">更新</div>\n' +
+                  '                    </div>\n' +
+                  '                </td>\n' +
+                  '            </tr>\n' +
+                  '            <tr id="second-tr" >\n' +
+                  '                <td width="61%">\n' +
+                  '                    <div class="jlpart2">\n' +
+                  '                        <div class="Orange" style="width:40px;"></div>\n' +
+                  '                    </div>\n' +
+                  '                    <div class="jlpart3">\n' +
+                  '                        完整度 20 %\n' +
+                  '                        [ <a href="/html/webui/project/project_concret_info.html" target = "blank">修改</a>\n' +
+                  '                        <a href="/html/webui/project/project_details_info.html" target = "blank">查看</a>\n' +
+                  '                        <a href="/html/webui/project/project_search.html" target = "blank">下载</a> ]</div>\n' +
+                  '                </td>\n' +
+                  '                <td rowspan="2">\n' +
+                  '                    <div class="jlpart4">\n' +
+                  '                        <div class="delicon"></div>\n' +
+                  '                        <div class="tdname">删除</div>\n' +
+                  '                    </div>\n' +
+                  '                </td>\n' +
+                  '            </tr>\n' +
+                  '            <tr id="third-tr">\n' +
+                  '                <td width="61%">\n' +
+                  '                </td>\n' +
+                  '            </tr>\n' +
+                  '            <tr id="fourth-tr">\n' +
+                  '                <td colspan="5">\n' +
+                  '                    <div class="divline"></div>\n' +
+                  '                </td>\n' +
+                  '            </tr>\n' +
+                  '\n' +
+                  '        </table>'
+
            );
-              $active.append($children).append($secondtr).append($thirdtr).append($fourthtr);  //.append($secondtr).append($thirdtr).append($fourthtr)
+              $active.append($children);
           }
 
     }

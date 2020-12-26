@@ -95,7 +95,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             taskService.setVariable(taskId, Constants.MANAGER_ROLE, Constants.MANAGER_ROLE);
             taskService.setVariable(taskId, Constants.ACTIVITI_OBJECT_NAME, proProject.getProjectId());
             taskService.complete(taskId);
-            return TableModel.success("申请成功");
+            return TableModel.success();
         } else {
             return TableModel.error("网络异常");
         }

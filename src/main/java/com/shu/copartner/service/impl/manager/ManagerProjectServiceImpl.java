@@ -93,7 +93,7 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         }
         proProject.setProjectId(Long.parseLong(projectManagerOperationVO.getProjectId()));
         proProjectMapper.updateByPrimaryKeySelective(proProject);
-        return TableModel.success("success");
+        return TableModel.success();
     }
 
 
