@@ -10,7 +10,7 @@ public interface ProLeassonVedioMapper {
 
     int deleteByExample(ProLeassonVedioExample example);
 
-    int deleteByPrimaryKey(Long courseId);
+    int deleteByPrimaryKey(Long courseVedioId);
 
     int insert(ProLeassonVedio record);
 
@@ -18,7 +18,7 @@ public interface ProLeassonVedioMapper {
 
     List<ProLeassonVedio> selectByExample(ProLeassonVedioExample example);
 
-    ProLeassonVedio selectByPrimaryKey(Long courseId);
+    ProLeassonVedio selectByPrimaryKey(Long courseVedioId);
 
     int updateByExampleSelective(@Param("record") ProLeassonVedio record, @Param("example") ProLeassonVedioExample example);
 

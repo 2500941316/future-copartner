@@ -104,6 +104,66 @@ public class ProLeassonVedioExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
+        public Criteria andCourseVedioIdIsNull() {
+            addCriterion("course_vedio_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdIsNotNull() {
+            addCriterion("course_vedio_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdEqualTo(Long value) {
+            addCriterion("course_vedio_id =", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdNotEqualTo(Long value) {
+            addCriterion("course_vedio_id <>", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdGreaterThan(Long value) {
+            addCriterion("course_vedio_id >", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("course_vedio_id >=", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdLessThan(Long value) {
+            addCriterion("course_vedio_id <", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdLessThanOrEqualTo(Long value) {
+            addCriterion("course_vedio_id <=", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdIn(List<Long> values) {
+            addCriterion("course_vedio_id in", values, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdNotIn(List<Long> values) {
+            addCriterion("course_vedio_id not in", values, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdBetween(Long value1, Long value2) {
+            addCriterion("course_vedio_id between", value1, value2, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdNotBetween(Long value1, Long value2) {
+            addCriterion("course_vedio_id not between", value1, value2, "courseVedioId");
+            return (Criteria) this;
+        }
+
         public Criteria andCourseIdIsNull() {
             addCriterion("course_id is null");
             return (Criteria) this;

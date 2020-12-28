@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 /**
  * @author
@@ -38,6 +39,18 @@ public class ManageLeassonController {
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
         return managerLeassonService.operateNew(leassonApplyVO);
+    }
+
+
+    /**
+     * @date 2020/12/21 15:21
+     * @Description 管理端查询所有的课程的方法
+     */
+    @GetMapping(value = "getLeassonInfo")
+    @ResponseBody
+    public TableModel getLeassonInfo(@Size(min = 1) @RequestParam int page) {
+
+        return managerLeassonService.getLeassonInfo(page);
     }
 
 }

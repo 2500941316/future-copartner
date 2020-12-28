@@ -58,9 +58,6 @@
         <!--        <table schema="" tableName="ACT_HI_TASKINST"></table>-->
         <!--        <table schema="" tableName="ACT_HI_VARINST"></table>-->
         <!--        <table schema="" tableName="ACT_RE_DEPLOYMENT"></table>-->
-        <table schema="" tableName="PRO_LEASSON">
-            <columnOverride column="course_description" jdbcType="VARCHAR"/>
-        </table>
         <table schema="" tableName="PRO_LEASSON_VEDIO">
         </table>
 

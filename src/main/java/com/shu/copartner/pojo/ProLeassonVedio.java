@@ -3,6 +3,8 @@ package com.shu.copartner.pojo;
 import java.io.Serializable;
 
 public class ProLeassonVedio implements Serializable {
+    private Long courseVedioId;
+
     private Long courseId;
 
     private Integer courseVedioNumber;
@@ -24,6 +26,14 @@ public class ProLeassonVedio implements Serializable {
     private String courseVedioCatalog;
 
     private static final long serialVersionUID = 1L;
+
+    public Long getCourseVedioId() {
+        return courseVedioId;
+    }
+
+    public void setCourseVedioId(Long courseVedioId) {
+        this.courseVedioId = courseVedioId;
+    }
 
     public Long getCourseId() {
         return courseId;

@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shu.copartner.mapper.ProLeassonVedioMapper">
   <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProLeassonVedio">
-    <id column="course_id" jdbcType="BIGINT" property="courseId" />
+    <id column="course_vedio_id" jdbcType="BIGINT" property="courseVedioId" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
     <result column="course_vedio_number" jdbcType="INTEGER" property="courseVedioNumber" />
     <result column="course_vedio_introduction" jdbcType="VARCHAR" property="courseVedioIntroduction" />
     <result column="course_vedio_url" jdbcType="VARCHAR" property="courseVedioUrl" />
@@ -72,9 +73,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    course_id, course_vedio_number, course_vedio_introduction, course_vedio_url, course_vedio_name, 
-    course_vedio_clickTime, course_vedio_duringTime, course_vedio_status, course_vedio_ppt_url, 
-    course_vedio_catalog
+    course_vedio_id, course_id, course_vedio_number, course_vedio_introduction, course_vedio_url, 
+    course_vedio_name, course_vedio_clickTime, course_vedio_duringTime, course_vedio_status, 
+    course_vedio_ppt_url, course_vedio_catalog
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProLeassonVedioExample" resultMap="BaseResultMap">
     select
@@ -94,11 +95,11 @@
     select 
     <include refid="Base_Column_List" />
     from PRO_LEASSON_VEDIO
-    where course_id = #{courseId,jdbcType=BIGINT}
+    where course_vedio_id = #{courseVedioId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_LEASSON_VEDIO
-    where course_id = #{courseId,jdbcType=BIGINT}
+    where course_vedio_id = #{courseVedioId,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProLeassonVedioExample">
     delete from PRO_LEASSON_VEDIO
@@ -107,18 +108,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProLeassonVedio">
-    insert into PRO_LEASSON_VEDIO (course_id, course_vedio_number, course_vedio_introduction, 
-      course_vedio_url, course_vedio_name, course_vedio_clickTime, 
+    insert into PRO_LEASSON_VEDIO (course_vedio_id, course_id, course_vedio_number, 
+      course_vedio_introduction, course_vedio_url, 
+      course_vedio_name, course_vedio_clickTime, 
       course_vedio_duringTime, course_vedio_status, 
       course_vedio_ppt_url, course_vedio_catalog)
-    values (#{courseId,jdbcType=BIGINT}, #{courseVedioNumber,jdbcType=INTEGER}, #{courseVedioIntroduction,jdbcType=VARCHAR}, 
-      #{courseVedioUrl,jdbcType=VARCHAR}, #{courseVedioName,jdbcType=VARCHAR}, #{courseVedioClicktime,jdbcType=INTEGER}, 
+    values (#{courseVedioId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}, #{courseVedioNumber,jdbcType=INTEGER}, 
+      #{courseVedioIntroduction,jdbcType=VARCHAR}, #{courseVedioUrl,jdbcType=VARCHAR}, 
+      #{courseVedioName,jdbcType=VARCHAR}, #{courseVedioClicktime,jdbcType=INTEGER}, 
       #{courseVedioDuringtime,jdbcType=VARCHAR}, #{courseVedioStatus,jdbcType=CHAR}, 
       #{courseVedioPptUrl,jdbcType=VARCHAR}, #{courseVedioCatalog,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLeassonVedio">
     insert into PRO_LEASSON_VEDIO
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseVedioId != null">
+        course_vedio_id,
+      </if>
       <if test="courseId != null">
         course_id,
       </if>
@@ -151,6 +157,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseVedioId != null">
+        #{courseVedioId,jdbcType=BIGINT},
+      </if>
       <if test="courseId != null">
         #{courseId,jdbcType=BIGINT},
       </if>
@@ -192,6 +201,9 @@
   <update id="updateByExampleSelective" parameterType="map">
     update PRO_LEASSON_VEDIO
     <set>
+      <if test="record.courseVedioId != null">
+        course_vedio_id = #{record.courseVedioId,jdbcType=BIGINT},
+      </if>
       <if test="record.courseId != null">
         course_id = #{record.courseId,jdbcType=BIGINT},
       </if>
@@ -229,7 +241,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update PRO_LEASSON_VEDIO
-    set course_id = #{record.courseId,jdbcType=BIGINT},
+    set course_vedio_id = #{record.courseVedioId,jdbcType=BIGINT},
+      course_id = #{record.courseId,jdbcType=BIGINT},
       course_vedio_number = #{record.courseVedioNumber,jdbcType=INTEGER},
       course_vedio_introduction = #{record.courseVedioIntroduction,jdbcType=VARCHAR},
       course_vedio_url = #{record.courseVedioUrl,jdbcType=VARCHAR},
@@ -246,6 +259,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProLeassonVedio">
     update PRO_LEASSON_VEDIO
     <set>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=BIGINT},
+      </if>
       <if test="courseVedioNumber != null">
         course_vedio_number = #{courseVedioNumber,jdbcType=INTEGER},
       </if>
@@ -274,11 +290,12 @@
         course_vedio_catalog = #{courseVedioCatalog,jdbcType=VARCHAR},
       </if>
     </set>
-    where course_id = #{courseId,jdbcType=BIGINT}
+    where course_vedio_id = #{courseVedioId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProLeassonVedio">
     update PRO_LEASSON_VEDIO
-    set course_vedio_number = #{courseVedioNumber,jdbcType=INTEGER},
+    set course_id = #{courseId,jdbcType=BIGINT},
+      course_vedio_number = #{courseVedioNumber,jdbcType=INTEGER},
       course_vedio_introduction = #{courseVedioIntroduction,jdbcType=VARCHAR},
       course_vedio_url = #{courseVedioUrl,jdbcType=VARCHAR},
       course_vedio_name = #{courseVedioName,jdbcType=VARCHAR},
@@ -287,6 +304,6 @@
       course_vedio_status = #{courseVedioStatus,jdbcType=CHAR},
       course_vedio_ppt_url = #{courseVedioPptUrl,jdbcType=VARCHAR},
       course_vedio_catalog = #{courseVedioCatalog,jdbcType=VARCHAR}
-    where course_id = #{courseId,jdbcType=BIGINT}
+    where course_vedio_id = #{courseVedioId,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -82,6 +82,22 @@ public final class Constants {
 
 
     /**
+     * @Description 课程资料上传的状态
+     */
+    public static final String LEASSON_FILESTATUS_NOPPT = "资料不完整";
+
+    /**
+     * @Description 课程资料上传的状态
+     */
+    public static final String LEASSON_FILESTATUS_FINE = "资料完整";
+
+    /**
+     * @Description 课程按照章节排序查询条件
+     */
+    public static final String LEASSON_DESCBYNUMBER = "course_vedio_number asc";
+
+
+    /**
      * @Description 项目流程key
      */
     public static final String PROJECT_PROCESS_PROCESSKEY = "project_Process";

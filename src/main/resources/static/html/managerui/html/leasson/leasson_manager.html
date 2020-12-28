@@ -65,7 +65,7 @@
                                                 <div class="ydc-release-form-group-input">
                                                     <input type="text" name="title" lay-verify="title"
                                                            autocomplete="off"
-                                                           placeholder="请输入上课老师" id="keywords"
+                                                           placeholder="请输入上课老师" id="teacher"
                                                            class="layui-input">
 
                                                 </div>
@@ -83,7 +83,7 @@
                                                     <div class="aui-card-form-item">
                                                         <label class="aui-card-form-label">子模块个数:</label>
                                                         <div class="aui-card-form-input">
-                                                            <input type="text" style="width: 150px" required
+                                                            <input type="text" style="width: 150px" required id="number"
                                                                    lay-verify="required" placeholder="子模块个数"
                                                                    autocomplete="off" class="layui-input">
                                                         </div>
@@ -91,7 +91,7 @@
                                                     <div class="aui-card-form-item">
                                                         <label class="aui-card-form-label">课程总时长:</label>
                                                         <div class="aui-card-form-input">
-                                                            <input type="text" style="width: 150px" required
+                                                            <input type="text" style="width: 150px" required id="time"
                                                                    lay-verify="required" placeholder="课程总时长（分钟）"
                                                                    autocomplete="off" class="layui-input">
                                                         </div>
@@ -108,8 +108,10 @@
                         </div>
                     </div>
 
+                    <!--课程视频管理模块-->
                     <div class="layui-tab-item">
-                        table
+                        <table id="table1" class="layui-table" lay-filter="table1"></table>
+
                     </div>
                 </div>
             </div>
@@ -120,6 +122,13 @@
 
 <!--引入尾部页面-->
 <div id="footer"></div>
+
+<!-- 操作列 -->
+<script type="text/html" id="oper-col">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="ppt">ppt</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="vedio">视频</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" style="" lay-event="del">删除</a>
+</script>
 
 <!--跳转模块-->
 <script type="text/javascript">
@@ -148,28 +157,29 @@
         //点击发布按钮的操作
         $("#publish").click(function () {
             var title = $("#title").val();
-            var keywords = $("#keywords").val();
-            var content = layedit.getContent(editor);
+            var teacher = $("#teacher").val();
+            var introduction = layedit.getContent(editor);
             var category = $("#category option:selected").val();
-            var isTop = $("#isTop option:selected").val();
+            var number = $("#number").val();
+            var time = $("#time").val();
 
-            if (title.length === 5 || title.length > 30 || keywords.length === 0 || keywords.length > 30
-                || content.length === 0 || category.length === 0 || isTop.length === 0) {
+            if (title.length === 5 || title.length > 30 || teacher.length === 0 || teacher.length > 20
+                || introduction.length === 0 || category.length === 0 || number.length === 0 || time.length === 0) {
                 layer.msg('请填写完整信息！');
                 return;
             }
             var data = {
-                "newsTitle": title,
-                "newsAuthor": "19721631",
-                "newsKeywords": keywords,
-                "newsContent": content,
-                "newsCategory": category,
-                "istopping": isTop
+                "courseName": title,
+                "courseTotalblocks": number,
+                "courseTeacher": teacher,
+                "courseType": category,
+                "courseTotaltime": time,
+                "courseDescription": introduction
             };
 
             $.ajax({
                 type: "POST",
-                url: "/user/news/publisNews",
+                url: "/manager/leasson/applyLeasson",
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (data) {
@@ -193,6 +203,85 @@
         }
         messageCount.innerText = thisArea.value.length;
     }
+
+
+    //课程视频管理模块
+    layui.config({
+        base: '/html/managerui/js/layui/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['layer', 'table', 'treetable'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var layer = layui.layer;
+        var treetable = layui.treetable;
+
+        //ajax请求数据获得data，开始渲染
+        var renderTable = function () {
+            $.ajax
+            ({
+                type: "GET",
+                url: "/manager/leasson/getLeassonInfo",
+                data: {
+                    page: 1
+                },
+                success: function (data) {
+                    console.log(data.data)
+                    treetable.render({
+                        treeColIndex: 0,
+                        treeSpid: -1,
+                        treeIdName: 'name',
+                        treePidName: 'name',
+                        treeDefaultClose: true,
+                        treeLinkage: false,
+
+                        elem: '#table1',
+                        data: data.data,
+                        page: true,
+                        cols: [[
+                            {field: 'courseName', title: '课程名称'},
+                            {field: 'courseVedioName', title: '章节名称'},
+                            {field: 'status', title: '状态'},
+                            {templet: '#oper-col', align: "center", title: '操作'}
+                        ]]
+                    });
+
+                },
+                error: function (data) {
+                    layer.msg('参数异常');
+                }
+            });
+        }
+
+        renderTable();
+
+        //监听工具条
+        table.on('tool(table1)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+
+            if (layEvent === 'del') {
+                layer.msg('删除' + data);
+            } else if (layEvent === 'ppt') {
+                layer.msg('ppt' + data);
+            } else if (layEvent === 'vedio') {
+                layer.msg('视频' + data);
+            }
+        });
+
+        //监听行单击事件
+        table.on('row(table1)', function (obj) {
+            console.log(obj.tr) //得到当前行元素对象
+            console.log(obj.data) //得到当前行数据
+            //obj.del(); //删除当前行
+            //obj.update(fields) //修改当前行数据
+        });
+
+//监听行双击事件
+        table.on('rowDouble(table1)', function (obj) {
+            //obj 同上
+        });
+    });
 
 </script>
 
