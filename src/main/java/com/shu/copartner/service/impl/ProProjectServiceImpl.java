@@ -1,10 +1,14 @@
 package com.shu.copartner.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.jayway.jsonpath.Criteria;
 import com.shu.copartner.mapper.ActRuTaskMapper;
 import com.shu.copartner.mapper.ProProjectMapper;
 import com.shu.copartner.pojo.ActRuTask;
 import com.shu.copartner.pojo.ActRuTaskExample;
 import com.shu.copartner.pojo.ProProject;
+import com.shu.copartner.pojo.ProProjectExample;
 import com.shu.copartner.pojo.request.ProjectApplyVO;
 import com.shu.copartner.service.ProProjectService;
 import com.shu.copartner.utils.constance.Constants;
@@ -16,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import springfox.documentation.schema.Example;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +70,7 @@ public class ProProjectServiceImpl implements ProProjectService {
         return TableModel.success(projectData,projectData.size());
     }
 
-    @Override
+   /* @Override
     public TableModel projectApply(ProjectApplyVO projectApplyVO, String creater) {
 
         //补全项目信息
@@ -99,8 +104,41 @@ public class ProProjectServiceImpl implements ProProjectService {
         } else {
             return TableModel.error("网络异常");
         }
+    }*/
+
+    /**
+     * 处理项目申请
+     * @param projectApplyVO
+     * @param creater
+     * @return
+     */
+    @Override
+    public TableModel projectApply(ProjectApplyVO projectApplyVO, String creater) {
+        //补全项目信息
+        projectApplyVO.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("5")); // 状态设置为 '审批项目申请'
+        projectApplyVO.setProjectStateToken("5");
+        projectApplyVO.setIsLock(0); // 默认未锁定
+        projectApplyVO.setIsDeleted(0); // 默认未删除
+        projectApplyVO.setProjectCreater(creater); // 设置当前项目申请者
+
+        if (StringUtils.isNotEmpty(projectApplyVO.getProjectName())) {
+            //将项目信息插入到项目表中
+            ProProject proProject = new ProProject();
+            BeanUtils.copyProperties(projectApplyVO, proProject);
+            //插入项目信息
+            proProjectMapper.insert(proProject);
+            log.info("新增项目的id："+proProject.getProjectId());
+            return TableModel.success();
+        } else {
+            return TableModel.error("网络异常");
+        }
     }
 
+    /**
+     * 根据id查询项目
+     * @param projectId
+     * @return
+     */
     @Override
     public TableModel searchProjectById(String projectId) {
         if(StringUtils.isNotEmpty(projectId)){
@@ -113,5 +151,117 @@ public class ProProjectServiceImpl implements ProProjectService {
             return  TableModel.error("网络异常");
         }
     }
+
+    /**
+     * 根据输入的值搜索
+     * @param projectName
+     * @param projectType
+     * @param projectCreater
+     * @param projectTwoStatus
+     * @return
+     */
+    @Override
+    public TableModel searchProjectByFour(int currentPage,String projectName, String projectType, String projectCreater, String projectTwoStatus) {
+        ProProjectExample proProjectExample = new ProProjectExample();
+        PageHelper.startPage(currentPage, 5);
+        /*proProjectExample.createCriteria().andProjectStatusEqualTo(projectTwoStatus).andProjectNameEqualTo(projectName).andProjectTypeEqualTo(projectType)
+                .andProjectCreaterEqualTo(projectCreater);*/
+        ProProjectExample.Criteria criteria = proProjectExample.createCriteria();
+        // 如果搜索值非空，就加上该搜索条件
+        if(StringUtils.isNotEmpty(projectName)){
+            criteria.andProjectNameEqualTo(projectName);
+        }else if(StringUtils.isNotEmpty(projectType)){
+            criteria.andProjectTypeEqualTo(projectType);
+        }else if(StringUtils.isNotEmpty(projectCreater)){
+            criteria.andProjectCreaterEqualTo(projectCreater);
+        }
+        criteria.andProjectStatusEqualTo(projectTwoStatus);
+        List<ProProject> proProjects = proProjectMapper.selectByExample(proProjectExample);
+        PageInfo<ProProject> pageInfo = new PageInfo<>(proProjects);
+        log.info("search:"+pageInfo.getTotal());
+        return TableModel.success(proProjects,(int)pageInfo.getTotal());
+    }
+
+    /**
+     * 查询其他项目数据
+     * @param projectId
+     * @return
+     */
+    /*@Override
+    public TableModel searchOtherProjectById(String projectId) {
+        if(StringUtils.isNotEmpty(projectId)){
+            //根据id查询出数据添加到数组返回
+            List<ProProject> proProjects = this.proProjectMapper.selectOtherProjectById(Long.parseLong(projectId));
+            return TableModel.success(proProjects,proProjects.size());
+        }else{
+            return  TableModel.error("网络异常");
+        }
+    }*/
+
+    @Override
+    public TableModel searchOtherProjectById(int currentPage,String projectId) {
+        if(StringUtils.isNotEmpty(projectId)){
+            //根据id查询出数据添加到数组返回
+            ProProjectExample proProjectExample = new ProProjectExample();
+            PageHelper.startPage(currentPage, 3);
+            proProjectExample.createCriteria().andProjectIdNotEqualTo(Long.parseLong(projectId));
+            List<ProProject>  topNewsList = proProjectMapper.selectByExample(proProjectExample);
+
+            PageInfo<ProProject> pageInfo = new PageInfo<>(topNewsList);
+            log.info("pageInfo-total:"+pageInfo.getTotal());
+            log.info(topNewsList.toString());
+
+            return TableModel.success(topNewsList,(int)pageInfo.getTotal());
+        }else{
+            return  TableModel.error("网络异常");
+        }
+    }
+
+    /**
+     * 查询所有项目
+     * @return
+     */
+    @Override
+    public TableModel searchAllProject() {
+        List<ProProject> proProjects = proProjectMapper.selectAllProject();
+        return TableModel.success(proProjects,proProjects.size());
+    }
+
+    /**
+     * 上传计划书
+     * @param planUrl
+     * @param projectId
+     */
+    @Override
+    public boolean uploadProjectPlan(String planUrl, String projectId) {
+        ProProject proProject = new ProProject();
+        // 设置项目的状态
+        proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("51"));// 状态设置为 ’项目计划书审批中‘
+        proProject.setProjectStateToken("51");
+        proProject.setPlanUrl(planUrl); // 计划书路径
+        proProject.setProjectId(Long.parseLong(projectId));
+        // 更新数据库
+        int update =  proProjectMapper.updateByPrimaryKeySelective(proProject);
+        return update > 0 ? true : false;
+    }
+
+    /**
+     * 上传视频
+     * @param videoUrl
+     * @param projectId
+     */
+    @Override
+    public boolean uploadProjectVideo(String videoUrl, String projectId) {
+        ProProject proProject = new ProProject();
+        // 设置项目的状态
+        proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("41"));// 状态设置为 ’项目视频审批中‘
+        proProject.setProjectStateToken("41");
+        proProject.setVideoUrl(videoUrl); // 计划书路径
+        proProject.setProjectId(Long.parseLong(projectId));
+        // 更新数据库
+        int update =  proProjectMapper.updateByPrimaryKeySelective(proProject);
+        return update > 0 ? true : false;
+    }
+
 
 }

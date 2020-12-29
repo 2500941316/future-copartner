@@ -2,8 +2,6 @@ package com.shu.copartner.controller.managercontroller;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
-import com.shu.copartner.pojo.ProProject;
-import com.shu.copartner.pojo.request.NewsManagerOperationVO;
 import com.shu.copartner.pojo.request.ProjectManagerOperationVO;
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.ManagerProjectService;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 /**
  * @author

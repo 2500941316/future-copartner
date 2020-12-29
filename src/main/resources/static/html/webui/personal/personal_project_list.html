@@ -11,6 +11,12 @@
     <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
 
     <title>我的项目</title>
+
+   <!-- <style type="text/css">
+        .plan{
+            cursor: pointer;
+        }
+    </style>-->
 </head>
 
 <body>
@@ -26,9 +32,10 @@
         </div>-->
         <div class="clear"></div>
     </div>
-    <div class="jianliBox" id="tableDiv">
 
-    </div>
+        <div class="jianliBox" id="tableDiv">
+                <!--展示数据-->
+        </div>
     <div class="clear"></div>
     <div class="addJl">
         <a href="personal_project_apply.html">
@@ -37,76 +44,7 @@
         </a>
     </div>
     <div class="clear"></div>
-   <!-- <div class="commonTit">
-        <h1 class="fl">屏蔽公司</h1>
-        <span class="ShieldTip">不允许包含屏蔽关键词的企业主动查看我的简历</span>
-    </div>
-    <div class="PBcom">
-        <div class="PBcomtit">
-            <span class="sp1">公司名称关键词：</span>
-            <input name="" type="text" />
-            <span class="sp2">看一下有哪些企业</span>
-            <span class="sp3">屏蔽该关键词</span>
-        </div>
-        <div class="PBcomcon">
-            <ul>
-                <li>
-                    <span>[山东] </span>
-                    <a href="company.html">·爱玛客服务产业（中国）有限公司莱芜分公司</a>
-                </li>
-                <li>
-                    <span>[河北] </span>
-                    <a href="company.html">·秦皇岛市恒正会计服务有限公司</a>
-                </li>
-                <li>
-                    <span>[广西] </span>
-                    <a href="company.html">·南宁市瑞高文化商务服务中心</a>
-                </li>
-                <li>
-                    <span>[上海] </span>
-                    <a href="company.html">·上海点瀚展览服务有限公司</a>
-                </li>
-                <li>
-                    <span>[江苏] </span>
-                    <a href="company.html">·重庆天骄爱生活服务股份有限公司镇江分公司</a>
-                </li>
-                <li>
-                    <span>[江苏] </span>
-                    <a href="company.html">·苏州精确万分商务服务有限公司</a>
-                </li>
-                <li>
-                    <span>[山东] </span>
-                    <a href="company.html">·山东镇洋物业服务有限公司</a>
-                </li>
-                <li>
-                    <span>[河北] </span>
-                    <a href="company.html">·秦皇岛市恒正会计服务有限公司</a>
-                </li>
-                <li>
-                    <span>[广西] </span>
-                    <a href="company.html">·南宁市瑞高文化商务服务中心</a>
-                </li>
-                <li>
-                    <span>[上海] </span>
-                    <a href="company.html">·上海点瀚展览服务有限公司</a>
-                </li>
-            </ul>
-        </div>
-        <div class="clear"></div>
-        <div class="PBpage1">
-            <span>共50条 第1/5页</span>
-        </div>
-        <div class="PBpage2">
-            <span class="sp1">上一页</span>
-            <span class="sp2 on">1</span>
-            <span class="sp2">2</span>
-            <span class="sp2">3</span>
-            <span class="sp2">4</span>
-            <span class="sp2">5</span>
-            <span class="sp1">下一页</span>
-        </div>
-    </div>
-    </div>-->
+
 </div>
 
 <script type="text/javascript">
@@ -140,17 +78,6 @@
     })
 
     function fillProjectInfo (projectData) {
-      /*  let projectData =[ {
-            projectName: 'projectName',
-            starttime: '2020-12-25',
-            projectType: '申请审批中',
-
-        },
-            {
-                projectName: 'projectName',
-                starttime: '2020-12-25',
-                projectType: '申请审批中',
-            }]*/
           const $active = $("#tableDiv");
           $active.html("");
           for(var i in projectData){
@@ -159,10 +86,10 @@
                   '            <tr id="first-tr">\n' +
                   '                <td colspan="5">\n' +
                   '                    <div class="jlpart1">\n' +
-                  '                         <div class="jlName"><a href="personal_jlupdate.html"><span id="projectName">项目1</span></a></div>\n' +
-                  '                         <div class="jlDate">开始时间：<span id="starttime">2017-12-28</span></div>\n' +
-                  '                         <div class="jlDate">状态：<span id="projectStatus">申请审批中</span></div>\n' +
-                  '                         <div class="jlFresh">更新</div>\n' +
+                  '                         <div class="jlName"><a href="personal_jlupdate.html"><span id="projectName">'+ projectData[i].projectName +'</span></a></div>\n' +
+                  '                         <div class="jlDate">开始时间：<span id="starttime">'+ projectData[i].starttime +'</span></div>\n' +
+                  '                         <div class="jlDate">状态：<span id="projectStatus" style="font: bold">'+ projectData[i].projectStatus +'</span></div>\n' +
+                  '                         <div class="jlFresh"><a href="/html/webui/personal/personal_project_list.html">更新</a></div>\n' +
                   '                    </div>\n' +
                   '                </td>\n' +
                   '            </tr>\n' +
@@ -174,15 +101,28 @@
                   '                    <div class="jlpart3">\n' +
                   '                        完整度 20 %\n' +
                   '                        [ <a href="/html/webui/project/project_concret_info.html" target = "blank">修改</a>\n' +
-                  '                        <a href="/html/webui/project/project_details_info.html" target = "blank">查看</a>\n' +
+                  '                        <a onclick="viewProjectDetail('+projectData[i].projectId+')" href="#">查看</a>\n' +
                   '                        <a href="/html/webui/project/project_search.html" target = "blank">下载</a> ]</div>\n' +
                   '                </td>\n' +
+                  '            <td rowspan="2">\n' +
+                  '                       <div class="jlpart4">\n' +
+                  '                          <div class="red"><i class="layui-icon layui-icon-video"></i>  </div>\n' +
+                  '                          <div class="tdname"><button type="button" style="border-style: none; outline: none;background: none; cursor: pointer" id="upVideo"><span id="currentVideoId" style="display:none;">'+projectData[i].projectId+'</span>上传视频</button></div>\n' +
+                  '                       </div>\n' +
+                  '                </td>\n'+
+                  '            <td rowspan="2">\n' +
+                  '                       <div class="jlpart4">\n' +
+                  '                          <div class="red"><i class="layui-icon layui-icon-upload-drag"></i>  </div>\n' +
+                  '                          <div class="tdname"><button type="button" style="border-style: none; outline: none;background: none; cursor: pointer" id="upPlan"><span id="currentPlanId" style="display:none;">'+projectData[i].projectId+'</span>上传计划书</button></div>\n' +
+                  '                       </div>\n' +
+                  '                </td>\n'+
                   '                <td rowspan="2">\n' +
                   '                    <div class="jlpart4">\n' +
                   '                        <div class="delicon"></div>\n' +
                   '                        <div class="tdname">删除</div>\n' +
                   '                    </div>\n' +
                   '                </td>\n' +
+
                   '            </tr>\n' +
                   '            <tr id="third-tr">\n' +
                   '                <td width="61%">\n' +
@@ -199,8 +139,54 @@
            );
               $active.append($children);
           }
+    }
+
+    function viewProjectDetail(projectId) {
+           layer.msg("projectId:"+projectId);
+        localStorage.setItem("projectId",projectId);
+        //window.open("/html/webui/project/project_details_info.html");
+        window.location.href = "/html/webui/project/project_details_info.html";
 
     }
+
+    layui.use(['upload','layer'], function() {
+        var layer = layui.layer;
+        //  layer.msg("ssssss");
+        var upload = layui.upload;
+        //上传视频
+        upload.render({
+            elem: '#upVideo'
+            ,url: '/user/project/uploadVideo'
+            ,data: {projectId: function(){return document.getElementById("currentVideoId").innerText;}}
+            ,accept: 'video' //视频
+            ,done: function(res){
+                if(res.code == 200){
+                    layer.msg('上传成功');
+                    console.log(res);
+                }else{
+                    layer.msg('网络异常');
+                    console.log(res);
+                }
+            }
+        });
+
+        // 上传计划书
+        upload.render({
+            elem: '#upPlan'
+            ,url: '/user/project/uploadPlan'
+            ,data: {projectId: function(){return document.getElementById("currentPlanId").innerText;}}
+            ,accept: 'file' //普通文件
+            ,done: function(res){
+                if(res.code == 200){
+                    layer.msg('上传成功');
+                    console.log(res);
+                }else{
+                    layer.msg('网络异常');
+                    console.log(res);
+                }
+            }
+        });
+    })
 
 
 </script>

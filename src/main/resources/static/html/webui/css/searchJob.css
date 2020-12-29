@@ -43,13 +43,13 @@ input{ border:0; outline:0}
 .searchDiv{ width:1100px; margin:0 auto;}
 .searchDiv .search1{ border: 1px solid #D3D3D4;width: 1098px;height: 57px; background: #F2F2F3;border-bottom: none; margin-top:10px}
 .searchDiv .search1 .sea1_1{background: #FFF;border: 1px #C4C4C4 solid;width: 350px;height: 35px;float: left;cursor: pointer;margin-top: 10px;margin-left: 27px;}
-.searchDiv .search1 .sea1_1 input.keyword{color: #898989;padding-left: 35px;background: url(../images/7.png) 8px 8px no-repeat;line-height: 33px;height: 33px;width: 275px;cursor: auto;}
+.searchDiv .search1 .sea1_1 input.keyword{color: #898989;padding-left: 35px;line-height: 33px;height: 33px;width: 275px;cursor: auto;} /*background: url(../images/7.png) 8px 8px no-repeat;*/
 .searchDiv .search1 span.jiantou{background: url(../images/8.png) 5px 13px no-repeat;width: 29px;height: 35px;float: right;}
-.searchDiv .search1 .sea1_2{background: #FFF;border: 1px #C4C4C4 solid;width: 153px;height: 35px;float: left;cursor: pointer;margin-top: 10px;margin-left: 15px;}
-.searchDiv .search1 .sea1_2 input.addtxt{background: url(../images/8.png) right 13px no-repeat; width:130px;height: 35px; padding-left:15px}
+.searchDiv .search1 .sea1_2{background: #FFF;border: 1px #C4C4C4 solid;width: 228px;height: 35px;float: left;cursor: pointer;margin-top: 10px;margin-left: 15px;}
+.searchDiv .search1 .sea1_2 input.addtxt{ width:220px;height: 35px; padding-left:15px}/*background: url(../images/8.png) right 13px no-repeat;*/
 .searchDiv .search1 .sea1_3{background: #FFF;border: 1px #C4C4C4 solid;width: 228px;height: 35px;float: left;cursor: pointer;margin-top: 10px;margin-left: 15px;}
-.searchDiv .search1 .sea1_3 input.hytxt{background: url(../images/8.png) right 13px no-repeat; width:203px;height: 35px; padding-left:15px}
-.searchDiv .search1 .sea1_4{ float:left;height: 37px;width: 116px; line-height:37px; margin-left: 11px;font-family: "微软雅黑"; font-size: 16px;text-align: center;background: #50BA8C;border-radius: 4px; margin-top: 10px;}
+.searchDiv .search1 .sea1_3 input.hytxt{ width:203px;height: 35px; padding-left:15px}/*background: url(../images/8.png) right 13px no-repeat;*/
+.searchDiv .search1 .sea1_4{ float:left;height: 37px;width: 116px; line-height:37px; margin-left: 11px;font-family: "微软雅黑"; font-size: 16px; cursor: pointer;text-align: center;background: #50BA8C;border-radius: 4px; margin-top: 10px;}
 .searchDiv .search1 .sea1_4 a{ color: #FFF;}
 .searchDiv .search1 .sea1_5{ float:left}
 .searchDiv .search1 .sea1_5 span.span1{ float:left; display:block;cursor: pointer;background: url(../images/9.png) 2px no-repeat;padding-left: 20px;margin-left: 13px;height: 20px;line-height: 20px; margin-top: 19px;}
@@ -123,7 +123,7 @@ table.listtab tr.xxdetail.none{ display:none}
 
 /*招聘会*/
 .meetingDiv{ width:1100px; margin:0 auto; padding-top:10px; color:#000; font-size:14px; font-family:"微软雅黑"}
-.meetingDiv .part1{height: 70px;padding-bottom: 12px;}
+.meetingDiv .part1{height: 140px;padding-bottom: 12px;}
 .meetingDiv .part2{background: #FFFCF5;border: 1px #FFD088 solid;font-size: 14px;}
 .meetingDiv .part2 .part2main{padding: 10px 20px;}
 .meetingDiv .part2 .part2main .meetsx{ width:100%; height:40px; border-bottom:1px #E8E6E9 dotted;}
@@ -142,7 +142,9 @@ table.listtab tr.xxdetail.none{ display:none}
 .meetingDiv .part3 .part3L .zph{}
 .meetingDiv .part3 .part3L .zph ul#tabmeet{ padding-bottom:10px;}
 .meetingDiv .part3 .part3L .zph ul#tabmeet li{ float:left;width: 102px; display: inline-block;height: 39px; cursor: pointer;text-align: center;line-height: 39px; color: #000;}
+/*.meetingDiv .part3 .part3L .zph ul#tabmeet li#current{color: #F95E0E;border-bottom: 2px solid #F95E0E;font-weight: bold;}*/
 .meetingDiv .part3 .part3L .zph ul#tabmeet li.current{color: #F95E0E;border-bottom: 2px solid #F95E0E;font-weight: bold;}
+
 .meetingDiv .part3 .part3L .zph #contentmeet{ width:100%;}
 .meetingDiv .part3 .part3L .zph #contentmeet ul{ display:none}
 .meetingDiv .part3 .part3L .zph #contentmeet .item{width: 790px;padding: 10px 5px 10px 15px; display: inline-block;}
@@ -152,7 +154,7 @@ table.listtab tr.xxdetail.none{ display:none}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .iteml span.span2{color: #9f9f9f;font-size: 14px;font-family: 微软雅黑;}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .iteml span.span3{color: #9f9f9f;font-size: 24px;font-family: 微软雅黑;}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr{ float:left;width: 600px;padding-top: 5px;padding-left: 15px;}
-.meetingDiv .part3 .part3L .zph #contentmeet .item .itemr a{ color: #3364cb;}
+.meetingDiv .part3 .part3L .zph #contentmeet .item .itemr a{ color: #3364cb;cursor: pointer;}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr span.schoolicon{ background:url(../images/23.png) no-repeat;width: 35px;height: 18px; display: inline-block;vertical-align:middle}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr .sub{ font-size:12px; margin-top:10px; font-family:"宋体";}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr .sub span{ padding-right:8px}
@@ -166,7 +168,7 @@ table.listtab tr.xxdetail.none{ display:none}
 .meetingDiv .part3 .part3R .part3_2 h1{border-left: 4px #FA6D01 solid;padding-left: 10px;font-size: 16px;font-weight: normal;color: #F88601;}
 .meetingDiv .part3 .part3R .part3_2 .con{font-family: "宋体";font-size: 12px;margin-top: 12px;}
 .meetingDiv .part3 .part3R .part3_2 .con span{display: block;font-weight: bold;line-height: 25px;}
-.meetingDiv .part3 .part3R .part3_2 .con a{color: #000;line-height: 30px; display: inline-block;}
+.meetingDiv .part3 .part3R .part3_2 .con a{color: #000;line-height: 30px; display: inline-block;cursor: pointer;}
 .meetingDiv .part3 .part3R .part3_3{ padding:20px; background: #F8F8F8;margin-top: 10px;}
 .meetingDiv .part3 .part3R .part3_3 .title{font-size: 16px;color: #F66C01;border-bottom: 2px #F66C01 solid;width: 78px;margin: 0 auto;text-align: center;padding-bottom:3px;}
 .meetingDiv .part3 .part3R .part3_3 .content{margin-top: 15px;}

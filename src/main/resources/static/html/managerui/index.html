@@ -106,13 +106,13 @@
                 //   ,data: data
                 , title: '项目审批表格'
                 , cols: [[
-                    {field: 'projectId', title: 'ID', fixed: 'left', unresize: true, sort: true}
-                    , {field: 'projectName', title: '项目名'}
-                    , {field: 'projectCreater', title: '创建人', width: 80}
-                    , {field: 'projectType', title: '类型', width: 80, sort: true}
-                    , {field: 'description', title: '项目简述', overflow: 'hidden'}
-                    , {field: 'projectStatus', title: '状态', width: 80, sort: true}
-                    , {field: 'starttime', title: '开始时间'}
+                    {field: 'projectId', title: 'ID', fixed: 'left', unresize: true, sort: true, align: 'center'}
+                    , {field: 'projectName', title: '项目名', align: 'center'}
+                    , {field: 'projectCreater', title: '创建人', width: 80, align: 'center'}
+                    , {field: 'projectType', title: '类型', width: 80, sort: true, align: 'center'}
+               //     , {field: 'description', title: '项目简述', overflow: 'hidden', align: 'center'}
+                    , {field: 'projectStatus', title: '状态', width: 100, sort: true, align: 'center'}
+                    , {field: 'starttime', title: '开始时间', align: 'center'}
                     , {fixed: 'right', title: '操作', toolbar: '#projectOperate', width: 180, align: 'center'}
                 ]]
                 , page: true
@@ -135,7 +135,6 @@
                         title: '请输入驳回原因'
                         // area: ['800px', '350px'] //自定义文本域宽高
                     }, function(value, index){
-                        alert(value); //得到value
                         operateProject(obj, 2, value);
                         layer.close(index);
                     });
@@ -165,10 +164,12 @@
     // 通过或者驳回项目申请
     function operateProject(currentProject,status, msg){
         let operation ={
-            taskId: currentProject.data.taskId,
+        //    taskId: currentProject.data.taskId,
             projectId: currentProject.data.projectId,
-            isAudit: status,
+            projectStateToken: currentProject.data.projectStateToken,
+            isPass: status,
             projectAuditMsg: msg
+
         }
         console.log(operation);
 
@@ -183,6 +184,8 @@
                 //请求成功时处理，一般只用到这一个
                 if(res.code == 200){
                     layer.msg("审核完成！")
+                    location.reload()
+                    this.currentProject.del();
                 }else{
                     layer.msg("网络异常，请稍后重试！")
                 }

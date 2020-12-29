@@ -13,4 +13,5 @@ public interface ManagerProjectService {
     TableModel searchProject(int page);
 
     TableModel operateProjectApply(ProjectManagerOperationVO projectManagerOperationVO);
+
 }

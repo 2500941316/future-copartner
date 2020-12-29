@@ -12,12 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author
@@ -40,7 +42,12 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
     @Autowired
     private ProProjectMapper proProjectMapper;
 
-    @Override
+    /**
+     * 查询待审批项目
+     * @param page
+     * @return
+     */
+/*    @Override
     public TableModel searchProject(int page) {
         long count = taskService.createTaskQuery().taskAssignee("admin") // Constants.MANAGER_ROLE
                 .taskName(Constants.PROJECTAPPLY_PROCESS_MANAGERNAME).count();
@@ -57,8 +64,8 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
             ActRuVariableExample actRuVariableExample = new ActRuVariableExample();
             actRuVariableExample.createCriteria().andExecutionIdEqualTo(task.getProcessInstanceId()).andLongIsNotNull();
             List<ActRuVariable> actRuVariables = actRuVariableMapper.selectByExample(actRuVariableExample);
-   /* Long endtime = System.currentTimeMillis(); // 获取截止时间
-            log.info("程序运行时间："+(endtime-starttime)+" ms");*/
+   *//* Long endtime = System.currentTimeMillis(); // 获取截止时间
+            log.info("程序运行时间："+(endtime-starttime)+" ms");*//*
 
             if (actRuVariables.size() == 1) {
                 // 根据Long列存储的项目记录id查询出项目信息，
@@ -71,6 +78,14 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
             }
         }
         return TableModel.tableSuccess(arrayList, (int)count);
+    }*/
+
+    @Override
+    public TableModel searchProject(int page) {
+        // 查询出所有待审批的项目数据
+        String[] tokes = {"21","31","41","51"};
+        List<ProProject> auditProject = proProjectMapper.selectProjectByToken(tokes);
+        return TableModel.tableSuccess(auditProject, (int)auditProject.size());
     }
 
 /**
@@ -79,10 +94,8 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
      * @return
      */
 
-    @Override
+    /*@Override
     public TableModel operateProjectApply(ProjectManagerOperationVO projectManagerOperationVO) {
-        // 完成审核
-     //   taskService.complete(projectManagerOperationVO.getTaskId());
         //更新项目状态
         ProProject proProject = new ProProject();
         BeanUtils.copyProperties(projectManagerOperationVO, proProject);
@@ -94,8 +107,58 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         proProject.setProjectId(Long.parseLong(projectManagerOperationVO.getProjectId()));
         proProjectMapper.updateByPrimaryKeySelective(proProject);
         return TableModel.success();
-    }
+    }*/
 
+    /**
+     * 审批项目
+     * @param projectManagerOperationVO
+     * @return
+     */
+    @Override
+    public TableModel operateProjectApply(ProjectManagerOperationVO projectManagerOperationVO) {
+        // 根据审批状态值，将转换审批状态，然后根据不同的情况写入数据库
+        int isPass = Integer.parseInt(projectManagerOperationVO.getIsPass());
+        int stateToken = Integer.parseInt(projectManagerOperationVO.getProjectStateToken());
+        // 审批后状态标志值，通过就+1，驳回就+2
+        String nextToken =Integer.toString(isPass + stateToken);
+        //更新项目状态
+        ProProject proProject = new ProProject();
+        BeanUtils.copyProperties(projectManagerOperationVO, proProject);
+        //设置审批后的状态 和 状态值 和 id
+        proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get(nextToken));
+        proProject.setProjectStateToken(nextToken);
+        proProject.setProjectId(Long.parseLong(projectManagerOperationVO.getProjectId()));
+
+        // 根据状态标签值判断审批的是哪一项
+        String tempStateToken = null;
+        for(Map.Entry<String,String> entry : Constants.PROJECT_STATE_TOKEN.entrySet()){
+            if(projectManagerOperationVO.getProjectStateToken().equals(entry.getKey())){
+                tempStateToken = entry.getKey();
+            }
+        }
+        if(tempStateToken.equals("21")){
+            // 审批项目申请，通过或者驳回，直接更新数据库状态
+            proProjectMapper.updateByPrimaryKeySelective(proProject);
+            return TableModel.success();
+        }else if(tempStateToken.equals("41")){
+            // 审批项目视频，如果驳回则将视频路径置空
+            if(isPass == 2){
+                proProject.setVideoUrl(null);
+            }
+            // 写到数据库中
+            proProjectMapper.updateByPrimaryKeySelective(proProject);
+            return TableModel.success();
+        }else if(tempStateToken.equals("41")){
+            // 审批项目计划书，如果驳回则将计划书路径置空
+            if(isPass == 2){
+                proProject.setPlanUrl(null);
+            }
+            // 写到数据库中
+            proProjectMapper.updateByPrimaryKeySelective(proProject);
+            return TableModel.success();
+        }else
+        return TableModel.error("网络异常");
+    }
 
 
 

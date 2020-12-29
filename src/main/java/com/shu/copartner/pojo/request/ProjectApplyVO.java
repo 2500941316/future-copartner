@@ -72,7 +72,8 @@ public class ProjectApplyVO implements Serializable {
 
     private String projectActivitiState;
 
-    private String isAudit;
+    private String projectStateToken;
 
     private String projectAuditMsg;
+
 }
