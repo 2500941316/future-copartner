@@ -2,7 +2,7 @@ package com.shu.copartner.pojo.request;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 
 @Data
 public class LeassonApplyVO {
@@ -19,15 +19,16 @@ public class LeassonApplyVO {
     private String courseTotaltime;
     @NotBlank(message = "课程描述不能为空")
     private String courseDescription;
-    @NotBlank(message = "课程总的blocks不能为空")
+    @Min(1)
     private Integer courseTotalblocks;
 
     private Integer courseClicktime;
 
+    private String courseIsdeleted;
+
     LeassonApplyVO() {
         this.courseStatus = "1";
         this.courseClicktime = 0;
+        courseIsdeleted = "0";
     }
-
-
 }

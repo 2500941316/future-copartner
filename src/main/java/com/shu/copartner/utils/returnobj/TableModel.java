@@ -33,7 +33,7 @@ public class TableModel<T> {
         TableModel tableModel = new TableModel();
 
         tableModel.setCode(0);
-        tableModel.setMsg(null);
+        tableModel.setMsg("ok");
         tableModel.setCount(total);
         tableModel.setData(data);
 

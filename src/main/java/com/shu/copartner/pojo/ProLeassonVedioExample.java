@@ -104,6 +104,66 @@ public class ProLeassonVedioExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
+        public Criteria andCourseVedioIdIsNull() {
+            addCriterion("course_vedio_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdIsNotNull() {
+            addCriterion("course_vedio_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdEqualTo(Long value) {
+            addCriterion("course_vedio_id =", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdNotEqualTo(Long value) {
+            addCriterion("course_vedio_id <>", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdGreaterThan(Long value) {
+            addCriterion("course_vedio_id >", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("course_vedio_id >=", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdLessThan(Long value) {
+            addCriterion("course_vedio_id <", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdLessThanOrEqualTo(Long value) {
+            addCriterion("course_vedio_id <=", value, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdIn(List<Long> values) {
+            addCriterion("course_vedio_id in", values, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdNotIn(List<Long> values) {
+            addCriterion("course_vedio_id not in", values, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdBetween(Long value1, Long value2) {
+            addCriterion("course_vedio_id between", value1, value2, "courseVedioId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIdNotBetween(Long value1, Long value2) {
+            addCriterion("course_vedio_id not between", value1, value2, "courseVedioId");
+            return (Criteria) this;
+        }
+
         public Criteria andCourseIdIsNull() {
             addCriterion("course_id is null");
             return (Criteria) this;
@@ -771,6 +831,76 @@ public class ProLeassonVedioExample {
 
         public Criteria andCourseVedioCatalogNotBetween(String value1, String value2) {
             addCriterion("course_vedio_catalog not between", value1, value2, "courseVedioCatalog");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedIsNull() {
+            addCriterion("course_vedio_isDeleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedIsNotNull() {
+            addCriterion("course_vedio_isDeleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedEqualTo(String value) {
+            addCriterion("course_vedio_isDeleted =", value, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedNotEqualTo(String value) {
+            addCriterion("course_vedio_isDeleted <>", value, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedGreaterThan(String value) {
+            addCriterion("course_vedio_isDeleted >", value, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedGreaterThanOrEqualTo(String value) {
+            addCriterion("course_vedio_isDeleted >=", value, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedLessThan(String value) {
+            addCriterion("course_vedio_isDeleted <", value, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedLessThanOrEqualTo(String value) {
+            addCriterion("course_vedio_isDeleted <=", value, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedLike(String value) {
+            addCriterion("course_vedio_isDeleted like", value, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedNotLike(String value) {
+            addCriterion("course_vedio_isDeleted not like", value, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedIn(List<String> values) {
+            addCriterion("course_vedio_isDeleted in", values, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedNotIn(List<String> values) {
+            addCriterion("course_vedio_isDeleted not in", values, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedBetween(String value1, String value2) {
+            addCriterion("course_vedio_isDeleted between", value1, value2, "courseVedioIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseVedioIsdeletedNotBetween(String value1, String value2) {
+            addCriterion("course_vedio_isDeleted not between", value1, value2, "courseVedioIsdeleted");
             return (Criteria) this;
         }
     }

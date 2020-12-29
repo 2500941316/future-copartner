@@ -1,9 +1,16 @@
 package com.shu.copartner.service.impl;
 
+import com.shu.copartner.exceptions.BusinessException;
+import com.shu.copartner.exceptions.Exceptions;
+import com.shu.copartner.mapper.ProLeassonVedioMapper;
+import com.shu.copartner.pojo.ProLeassonVedio;
+import com.shu.copartner.pojo.ProLeassonVedioExample;
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
 import com.shu.copartner.utils.returnobj.TableModel;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,11 +26,17 @@ import java.util.Map;
  */
 @Transactional
 @Service
+@Slf4j
 public class FileuploadServiceImpl implements FileuploadService {
+
+    @Autowired
+    ProLeassonVedioMapper proLeassonVedioMapper;
+
     @Override
-    public String uploadFile(MultipartFile uploadfile) {
+    public TableModel uploadFile(MultipartFile uploadfile) {
         try {
-            return FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String imageUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            return TableModel.success(imageUrl, 1);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -46,9 +59,30 @@ public class FileuploadServiceImpl implements FileuploadService {
             tableModel.setCode(0);
             tableModel.setData(map);
             return tableModel;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    @Override
+    public TableModel leassonVedioUpload(MultipartFile file, Long course_vedio_id, String fileUpload_type) {
+        try {
+            String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(file.getInputStream(), file.getOriginalFilename());
+
+            //更新数据库
+            ProLeassonVedio proLeassonVedio = new ProLeassonVedio();
+            proLeassonVedio.setCourseVedioId(course_vedio_id);
+            if (fileUpload_type.equals(Constants.LEASSON_FILETYPE_VEDIO)) {
+                proLeassonVedio.setCourseVedioUrl(fileUrl);
+            } else if (fileUpload_type.equals(Constants.LEASSON_FILETYPE_PPT)) {
+                proLeassonVedio.setCourseVedioPptUrl(fileUrl);
+            }
+            proLeassonVedioMapper.updateByPrimaryKeySelective(proLeassonVedio);
+            return TableModel.success();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
     }
 }
