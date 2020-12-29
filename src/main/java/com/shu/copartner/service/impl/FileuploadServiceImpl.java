@@ -4,12 +4,13 @@ import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProLeassonVedioMapper;
 import com.shu.copartner.pojo.ProLeassonVedio;
-import com.shu.copartner.pojo.ProLeassonVedioExample;
 import com.shu.copartner.service.FileuploadService;
+import com.shu.copartner.service.ProProjectService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,19 +25,21 @@ import java.util.Map;
  * @Date: 2020/12/16 16:52
  * @Description:
  */
+@Slf4j
 @Transactional
 @Service
-@Slf4j
 public class FileuploadServiceImpl implements FileuploadService {
+
+    @Autowired
+    private ProProjectService proProjectService;
 
     @Autowired
     ProLeassonVedioMapper proLeassonVedioMapper;
 
     @Override
-    public TableModel uploadFile(MultipartFile uploadfile) {
+    public String uploadFile(MultipartFile uploadfile) {
         try {
-            String imageUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
-            return TableModel.success(imageUrl, 1);
+            return FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -59,9 +62,9 @@ public class FileuploadServiceImpl implements FileuploadService {
             tableModel.setCode(0);
             tableModel.setData(map);
             return tableModel;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -83,6 +86,57 @@ public class FileuploadServiceImpl implements FileuploadService {
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 上传计划书
+     * @param uploadfile
+     * @return
+     */
+    @Override
+    public TableModel managerPlanUploadFile(MultipartFile uploadfile,String projectId) throws IOException {
+        TableModel tableModel = new TableModel();
+        if(StringUtils.isNotEmpty(projectId)){
+            log.info("文件名："+uploadfile.getOriginalFilename());
+            log.info("projectId:"+projectId);
+            // 上传计划书，返回其存放路径
+            //String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String planUrl = uploadfile.getOriginalFilename();
+            // 文件存储路径加上服务器前缀
+            String finalPlanUrl = Constants.FILEURL_FIRSTNAME + planUrl;
+            // 项目状态更新处理
+            proProjectService.uploadProjectPlan(finalPlanUrl,projectId);
+
+            Map<String, String> map = new HashMap<>();
+            map.put("planUrl", Constants.FILEURL_FIRSTNAME + planUrl);
+            map.put("title", uploadfile.getOriginalFilename());
+            return tableModel.success(map,map.size());
+        }else{
+            return tableModel.error("网络异常");
+        }
+    }
+
+    @Override
+    public TableModel managerVideoUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
+        TableModel tableModel = new TableModel();
+        if(StringUtils.isNotEmpty(projectId)){
+            log.info("文件名："+uploadfile.getOriginalFilename());
+            log.info("projectId:"+projectId);
+            // 上传视频，返回其存放路径
+            //String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String planUrl = uploadfile.getOriginalFilename();
+            // 文件存储路径加上服务器前缀
+            String finalPlanUrl = Constants.FILEURL_FIRSTNAME + planUrl;
+            // 项目状态更新处理
+            proProjectService.uploadProjectVideo(finalPlanUrl,projectId);
+
+            Map<String, String> map = new HashMap<>();
+            map.put("VideoUrl", Constants.FILEURL_FIRSTNAME + planUrl);
+            map.put("title", uploadfile.getOriginalFilename());
+            return tableModel.success(map,map.size());
+        }else{
+            return tableModel.error("网络异常");
         }
     }
 }

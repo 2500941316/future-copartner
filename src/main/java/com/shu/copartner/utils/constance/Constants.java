@@ -1,7 +1,9 @@
 package com.shu.copartner.utils.constance;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author cxy
@@ -152,6 +154,41 @@ public final class Constants {
      * @Description activiti任务间传输object对象的参数名称
      */
     public static final String ACTIVITI_OBJECT_NAME = "object";
+
+    /**
+     * @Description 项目状态对应的标志
+     */
+    public static final Map<String,String> PROJECT_STATE_TOKEN = new HashMap<String,String>(){
+        {
+            put("11","项目申请待提交");
+            put("12","人员加入待提交");
+            put("13","项目视频待上传");
+            put("14","项目计划书待上传");
+
+            put("21","项目申请审批中");
+            put("22","项目申请审批已通过");
+            put("23","项目申请审批已驳回");
+
+            put("31","人员加入审批中");
+            put("32","人员加入审批已通过");
+            put("33","人员加入审批已驳回");
+
+            put("41","项目视频审批中");
+            put("42","项目视频审批已通过");
+            put("43","项目视频审批已驳回");
+
+            put("51","项目计划书审批中");
+            put("52","项目计划书审批已通过");
+            put("53","项目计划书审批已驳回");
+
+            put("10","项目里程碑");
+            put("0","项目未开始");
+            put("1","项目已完成");
+            put("2","在创");
+            put("3","可选");
+
+        }
+    };
 
 
 }
