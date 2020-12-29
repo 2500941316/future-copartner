@@ -24,8 +24,11 @@ public class LeassonApplyVO {
 
     private Integer courseClicktime;
 
+    private String courseIsdeleted;
+
     LeassonApplyVO() {
         this.courseStatus = "1";
         this.courseClicktime = 0;
+        courseIsdeleted = "0";
     }
 }

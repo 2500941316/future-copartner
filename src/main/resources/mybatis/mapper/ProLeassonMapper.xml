@@ -11,6 +11,7 @@
     <result column="course_description" jdbcType="VARCHAR" property="courseDescription" />
     <result column="course_totalBlocks" jdbcType="INTEGER" property="courseTotalblocks" />
     <result column="course_clickTime" jdbcType="INTEGER" property="courseClicktime" />
+    <result column="course_isDeleted" jdbcType="CHAR" property="courseIsdeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List">
     course_id, course_name, course_type, course_status, course_teacher, course_totalTime, 
-    course_description, course_totalBlocks, course_clickTime
+    course_description, course_totalBlocks, course_clickTime, course_isDeleted
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProLeassonExample" resultMap="BaseResultMap">
     select
@@ -104,15 +105,15 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.shu.copartner.pojo.ProLeasson">
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProLeasson" keyProperty="courseId" useGeneratedKeys="true">
     insert into PRO_LEASSON (course_id, course_name, course_type, 
       course_status, course_teacher, course_totalTime, 
-      course_description, course_totalBlocks, course_clickTime
-      )
+      course_description, course_totalBlocks, course_clickTime, 
+      course_isDeleted)
     values (#{courseId,jdbcType=BIGINT}, #{courseName,jdbcType=VARCHAR}, #{courseType,jdbcType=VARCHAR}, 
       #{courseStatus,jdbcType=CHAR}, #{courseTeacher,jdbcType=VARCHAR}, #{courseTotaltime,jdbcType=VARCHAR}, 
-      #{courseDescription,jdbcType=VARCHAR}, #{courseTotalblocks,jdbcType=INTEGER}, #{courseClicktime,jdbcType=INTEGER}
-      )
+      #{courseDescription,jdbcType=VARCHAR}, #{courseTotalblocks,jdbcType=INTEGER}, #{courseClicktime,jdbcType=INTEGER}, 
+      #{courseIsdeleted,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLeasson">
     insert into PRO_LEASSON
@@ -144,6 +145,9 @@
       <if test="courseClicktime != null">
         course_clickTime,
       </if>
+      <if test="courseIsdeleted != null">
+        course_isDeleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="courseId != null">
@@ -172,6 +176,9 @@
       </if>
       <if test="courseClicktime != null">
         #{courseClicktime,jdbcType=INTEGER},
+      </if>
+      <if test="courseIsdeleted != null">
+        #{courseIsdeleted,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -211,6 +218,9 @@
       <if test="record.courseClicktime != null">
         course_clickTime = #{record.courseClicktime,jdbcType=INTEGER},
       </if>
+      <if test="record.courseIsdeleted != null">
+        course_isDeleted = #{record.courseIsdeleted,jdbcType=CHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -226,7 +236,8 @@
       course_totalTime = #{record.courseTotaltime,jdbcType=VARCHAR},
       course_description = #{record.courseDescription,jdbcType=VARCHAR},
       course_totalBlocks = #{record.courseTotalblocks,jdbcType=INTEGER},
-      course_clickTime = #{record.courseClicktime,jdbcType=INTEGER}
+      course_clickTime = #{record.courseClicktime,jdbcType=INTEGER},
+      course_isDeleted = #{record.courseIsdeleted,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -258,6 +269,9 @@
       <if test="courseClicktime != null">
         course_clickTime = #{courseClicktime,jdbcType=INTEGER},
       </if>
+      <if test="courseIsdeleted != null">
+        course_isDeleted = #{courseIsdeleted,jdbcType=CHAR},
+      </if>
     </set>
     where course_id = #{courseId,jdbcType=BIGINT}
   </update>
@@ -270,7 +284,8 @@
       course_totalTime = #{courseTotaltime,jdbcType=VARCHAR},
       course_description = #{courseDescription,jdbcType=VARCHAR},
       course_totalBlocks = #{courseTotalblocks,jdbcType=INTEGER},
-      course_clickTime = #{courseClicktime,jdbcType=INTEGER}
+      course_clickTime = #{courseClicktime,jdbcType=INTEGER},
+      course_isDeleted = #{courseIsdeleted,jdbcType=CHAR}
     where course_id = #{courseId,jdbcType=BIGINT}
   </update>
 </mapper>

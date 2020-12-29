@@ -28,72 +28,16 @@
             </a>
         </div>
         <div class="floor-side-right">
-            <div class="layui-tab">
+            <div class="layui-tab" lay-filter="demo">
                 <ul class="layui-tab-title">
-                    <li class="layui-this">课程</li>
-                    <li>视频</li>
+                    <li class="layui-this" lay-id="0">课程</li>
+                    <li lay-id="1">视频</li>
                 </ul>
-                <div class="layui-tab-content" style="height: 1200px;">
+                <div class="layui-tab-content" style="height: 500px;">
                     <div class="layui-tab-item layui-show">
                         <div class="bd floor-side-body">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <div class="image-ti">
-                                            <img src="/html/webui/images/ad001.jpg" alt="">
-                                        </div>
-                                        <p class="slide-title">焊工特种作业操作证</p>
-                                        <p class="slide-body">
-                                        <span class="slide-body-nub">
-                                            <i class="slide-body-nub-icon"></i>
-                                            450
-                                        </span>
-                                            <span class="slide-body-nup">
-                                            <i class="slide-body-nup-icon"></i>
-                                            230
-                                        </span>
-                                            <span class="slide-body-price">¥1050.00</span>
-                                        </p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="image-ti">
-                                            <img src="/html/webui/images/ad001.jpg" alt="">
-                                        </div>
-                                        <p class="slide-title">焊工特种作业操作证</p>
-                                        <p class="slide-body">
-                                        <span class="slide-body-nub">
-                                            <i class="slide-body-nub-icon"></i>
-                                            450
-                                        </span>
-                                            <span class="slide-body-nup">
-                                            <i class="slide-body-nup-icon"></i>
-                                            230
-                                        </span>
-                                            <span class="slide-body-price">¥1050.00</span>
-                                        </p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="image-ti">
-                                            <img src="/html/webui/images/ad001.jpg" alt="">
-                                        </div>
-                                        <p class="slide-title">焊工特种作业操作证</p>
-                                        <p class="slide-body">
-                                        <span class="slide-body-nub">
-                                            <i class="slide-body-nub-icon"></i>
-                                            450
-                                        </span>
-                                            <span class="slide-body-nup">
-                                            <i class="slide-body-nup-icon"></i>
-                                            230
-                                        </span>
-                                            <span class="slide-body-price">¥1050.00</span>
-                                        </p>
-                                    </a>
-                                </li>
+                            <ul id="leassons">
+
                             </ul>
                         </div>
                     </div>
@@ -107,7 +51,7 @@
                                         <div class="content-side middle-sidebar layui-col-md8">
                                             <!-- Sec Title -->
                                             <div class="sec-title">
-                                                <h4>Learn IOS development</h4>
+                                                <h4 id="course_title"></h4>
                                             </div>
                                             <!-- Video Box -->
                                             <div class="video-box">
@@ -122,760 +66,28 @@
                                             <div class="video-info-boxed">
                                                 <div class="clearfix">
                                                     <div class="pull-left">
-                                                        <h6>Learn IOS development, Website design, Freelancing</h6>
-                                                        <div class="author">
-                                                            <div class="user-image"><img
-                                                                    src="images/resource/author-10.jpg" alt=""/></div>
-                                                            Kerry Oaky
-                                                        </div>
+                                                        <h6 style="text-align: center;display:inline-block"
+                                                            id="course_title2"></h6>
                                                         <!-- Follow -->
-                                                        <div class="follow"><a href="#">+ Follow</a></div>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <ul class="social-box">
-                                                            <li class="share">Share now on</li>
-                                                            <li class="facebook"><a href="#" class="fa fa-facebook"></a>
-                                                            </li>
-                                                            <li class="google"><a href="#" class="fa fa-google"></a>
-                                                            </li>
-                                                            <li class="twitter"><a href="#" class="fa fa-twitter"></a>
-                                                            </li>
-                                                        </ul>
+                                                        <div class="follow"><a href="#">+ 关注</a></div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- End Video Info Boxed -->
 
                                             <!-- Course Info Tabs-->
-                                            <div class="course-info-tabs">
-                                                <!-- Course Tabs-->
-                                                <div class="course-tabs tabs-box">
-
-                                                    <!-- Tab Btns -->
-                                                    <ul class="tab-btns tab-buttons clearfix">
-                                                        <li data-tab="#prod-class" class="active-btn tab-btn">Class
-                                                            Details
-                                                        </li>
-                                                        <li data-tab="#prod-curriculum" class="tab-btn">Curriculum</li>
-                                                        <li data-tab="#prod-review" class="tab-btn">Reviews</li>
-                                                    </ul>
-
-                                                    <!-- Tabs Container -->
-                                                    <div class="tabs-content">
-
-                                                        <!-- Tab / Active Tab -->
-                                                        <div class="tab active-tab" id="prod-class">
-                                                            <div class="content">
-                                                                <!-- Class Detail Content -->
-                                                                <div class="class-detail-content">
-                                                                    <h4>25 That Prevent Job Seekers From Overcoming
-                                                                        Failure</h4>
-                                                                    <div class="text">Phasellus enim magna, varius et
-                                                                        commodo ut, ultricies vitae velit. Ut nulla
-                                                                        tellus, eleifend euismod pellentesque vel,
-                                                                        sagittis vel justo. In libero urna, venenatis
-                                                                        sit amet ornare non, suscipit nec risus. Sed
-                                                                        consequat justo non mauris pretium at tempor
-                                                                        justo sodales. Quisque tincidunt.
-                                                                    </div>
-                                                                    <h6>What you’ll learn?</h6>
-                                                                    <ul class="list-style-one">
-                                                                        <li>Phasellus enim magna, up above the most like
-                                                                            varius et commodo ut.
-                                                                        </li>
-                                                                        <li>Sed consequat justo non profit us mauris
-                                                                            pretium at tempor justo.
-                                                                        </li>
-                                                                        <li>Ut nulla tellus, eleifend euismod
-                                                                            pellentesque most of the vel, sagitti
-                                                                        </li>
-                                                                        <li>Phasellus enim magna, varius et commodo
-                                                                            ut.
-                                                                        </li>
-                                                                        <li>Sed consequat justo non mauris recent
-                                                                            pretium at tempor justo.
-                                                                        </li>
-                                                                        <li>Ut nulla tellus, eleifend euismod
-                                                                            pellentesque vel, sagitti
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Tab -->
-                                                        <div class="tab" id="prod-curriculum">
-                                                            <div class="content">
-                                                                <!-- Accordion Box -->
-                                                                <ul class="accordion-box">
-                                                                    <!-- Block -->
-                                                                    <li class="accordion block">
-                                                                        <div class="acc-btn active">
-                                                                            <div class="icon-outer"><span
-                                                                                    class="icon icon-plus flaticon-down-arrow"></span>
-                                                                            </div>
-                                                                            1. UI/ UX Introduction
-                                                                        </div>
-                                                                        <div class="acc-content current">
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"><i
-                                                                                                class="ripple"></i></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-
-                                                                    <!-- Block -->
-                                                                    <li class="accordion block">
-                                                                        <div class="acc-btn">
-                                                                            <div class="icon-outer"><span
-                                                                                    class="icon icon-plus flaticon-down-arrow"></span>
-                                                                            </div>
-                                                                            2. UI/ UX Introduction
-                                                                        </div>
-                                                                        <div class="acc-content">
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"><i
-                                                                                                class="ripple"></i></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-
-                                                                    <!-- Block -->
-                                                                    <li class="accordion block">
-                                                                        <div class="acc-btn">
-                                                                            <div class="icon-outer"><span
-                                                                                    class="icon icon-plus flaticon-down-arrow"></span>
-                                                                            </div>
-                                                                            3. UI/ UX Introduction
-                                                                        </div>
-                                                                        <div class="acc-content">
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"><i
-                                                                                                class="ripple"></i></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-
-                                                                    <!-- Block -->
-                                                                    <li class="accordion block">
-                                                                        <div class="acc-btn">
-                                                                            <div class="icon-outer"><span
-                                                                                    class="icon icon-plus flaticon-down-arrow"></span>
-                                                                            </div>
-                                                                            4. UI/ UX Introduction
-                                                                        </div>
-                                                                        <div class="acc-content">
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"><i
-                                                                                                class="ripple"></i></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-
-                                                                    <!-- Block -->
-                                                                    <li class="accordion block">
-                                                                        <div class="acc-btn">
-                                                                            <div class="icon-outer"><span
-                                                                                    class="icon icon-plus flaticon-down-arrow"></span>
-                                                                            </div>
-                                                                            5. UI/ UX Introduction
-                                                                        </div>
-                                                                        <div class="acc-content">
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"><i
-                                                                                                class="ripple"></i></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-
-                                                                    <!-- Block -->
-                                                                    <li class="accordion block">
-                                                                        <div class="acc-btn">
-                                                                            <div class="icon-outer"><span
-                                                                                    class="icon icon-plus flaticon-down-arrow"></span>
-                                                                            </div>
-                                                                            6. UI/ UX Introduction
-                                                                        </div>
-                                                                        <div class="acc-content">
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"><i
-                                                                                                class="ripple"></i></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="clearfix">
-                                                                                    <div class="pull-left">
-                                                                                        <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                                                           class="lightbox-image play-icon"><span
-                                                                                                class="fa fa-play"></span>What
-                                                                                            is UI/ UX Design?</a>
-                                                                                    </div>
-                                                                                    <div class="pull-right">
-                                                                                        <div class="minutes">35
-                                                                                            Minutes
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-
-                                                                </ul>
-
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Tab -->
-                                                        <div class="tab" id="prod-review">
-                                                            <div class="content">
-                                                                <div class="student-review-box">
-                                                                    <h6>Student Feedback</h6>
-
-                                                                    <!-- Inner Student Review Box -->
-                                                                    <div class="inner-student-review-box">
-                                                                        <div class="row clearfix">
-
-                                                                            <!-- Rating Column -->
-                                                                            <div class="rating-column col-lg-3 col-md-6 col-sm-12">
-                                                                                <div class="inner-column">
-                                                                                    <div class="total-rating">4.2</div>
-                                                                                    <div class="rating">
-                                                                                        <span class="fa fa-star"></span>
-                                                                                        <span class="fa fa-star"></span>
-                                                                                        <span class="fa fa-star"></span>
-                                                                                        <span class="fa fa-star"></span>
-                                                                                        <span class="fa light fa-star-o"></span>
-                                                                                    </div>
-                                                                                    <div class="title">Course Rating
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <!-- Graph Column -->
-                                                                            <div class="graph-column col-lg-6 col-md-12 col-sm-12">
-
-                                                                                <!-- Skills -->
-                                                                                <div class="skills">
-
-                                                                                    <!-- Skill Item -->
-                                                                                    <div class="skill-item">
-                                                                                        <div class="skill-header clearfix">
-                                                                                            <div class="skill-percentage">
-                                                                                                <div class="count-box">
-                                                                                                    <span class="count-text"
-                                                                                                          data-speed="2000"
-                                                                                                          data-stop="78">0</span>%
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="skill-bar">
-                                                                                            <div class="bar-inner">
-                                                                                                <div class="bar progress-line"
-                                                                                                     data-width="78"></div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <!-- Skill Item -->
-                                                                                    <div class="skill-item">
-                                                                                        <div class="skill-header clearfix">
-                                                                                            <div class="skill-percentage">
-                                                                                                <div class="count-box">
-                                                                                                    <span class="count-text"
-                                                                                                          data-speed="2000"
-                                                                                                          data-stop="60">0</span>%
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="skill-bar">
-                                                                                            <div class="bar-inner">
-                                                                                                <div class="bar progress-line"
-                                                                                                     data-width="60"></div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <!-- Skill Item -->
-                                                                                    <div class="skill-item">
-                                                                                        <div class="skill-header clearfix">
-                                                                                            <div class="skill-percentage">
-                                                                                                <div class="count-box">
-                                                                                                    <span class="count-text"
-                                                                                                          data-speed="2000"
-                                                                                                          data-stop="45">0</span>%
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="skill-bar">
-                                                                                            <div class="bar-inner">
-                                                                                                <div class="bar progress-line"
-                                                                                                     data-width="45"></div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <!-- Skill Item -->
-                                                                                    <div class="skill-item">
-                                                                                        <div class="skill-header clearfix">
-                                                                                            <div class="skill-percentage">
-                                                                                                <div class="count-box">
-                                                                                                    <span class="count-text"
-                                                                                                          data-speed="2000"
-                                                                                                          data-stop="15">0</span>%
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="skill-bar">
-                                                                                            <div class="bar-inner">
-                                                                                                <div class="bar progress-line"
-                                                                                                     data-width="15"></div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <!-- Skill Item -->
-                                                                                    <div class="skill-item">
-                                                                                        <div class="skill-header clearfix">
-                                                                                            <div class="skill-percentage">
-                                                                                                <div class="count-box">
-                                                                                                    <span class="count-text"
-                                                                                                          data-speed="2000"
-                                                                                                          data-stop="1">0</span>%
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="skill-bar">
-                                                                                            <div class="bar-inner">
-                                                                                                <div class="bar progress-line"
-                                                                                                     data-width="1"></div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <!-- Stars Column -->
-                                                                            <div class="stars-column col-lg-3 col-md-6 col-sm-12">
-
-                                                                                <div class="rating">
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa light fa-star-o"></span>
-                                                                                    <i>78%</i>
-                                                                                </div>
-
-                                                                                <div class="rating">
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa light fa-star-o"></span>
-                                                                                    <i>60%</i>
-                                                                                </div>
-
-                                                                                <div class="rating">
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa light fa-star-o"></span>
-                                                                                    <i>45%</i>
-                                                                                </div>
-
-                                                                                <div class="rating">
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa light fa-star-o"></span>
-                                                                                    <i>15%</i>
-                                                                                </div>
-
-                                                                                <div class="rating">
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa fa-star"></span>
-                                                                                    <span class="fa light fa-star-o"></span>
-                                                                                    <i>1%</i>
-                                                                                </div>
-
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <!-- Review Comments Box -->
-                                                                <div class="review-comments-box">
-                                                                    <h6>Reviews</h6>
-
-                                                                    <!-- Reviewer Comment Box -->
-                                                                    <div class="reviewer-comment-box">
-                                                                        <h4>Anna Sthesia</h4>
-                                                                        <div class="rating">
-                                                                            <span class="total-rating">4.0</span> <span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="light fa fa-star-o"></span>&ensp;
-                                                                            3 days ago
-                                                                        </div>
-                                                                        <div class="text">Lorem ipsum dolor sit amet,
-                                                                            consectetur adipisicing elit, sed do eiusmod
-                                                                            tempor incididunt ut labore et dolore magna
-                                                                            aliqua. Ut enim ad minim veniam, quis
-                                                                            nostrud exercitation
-                                                                        </div>
-                                                                        <div class="helpful">Was this review helpful?
-                                                                        </div>
-                                                                        <ul class="like-option">
-                                                                            <li><span
-                                                                                    class="icon fa fa-thumbs-o-up"></span>
-                                                                            </li>
-                                                                            <li><span
-                                                                                    class="icon fa fa-thumbs-o-down"></span>
-                                                                            </li>
-                                                                            <li class="report">Report</li>
-                                                                        </ul>
-                                                                    </div>
-
-                                                                    <!-- Reviewer Comment Box -->
-                                                                    <div class="reviewer-comment-box">
-                                                                        <h4>Stephane Smith</h4>
-                                                                        <div class="rating">
-                                                                            <span class="total-rating">4.0</span> <span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="light fa fa-star-o"></span>&ensp;
-                                                                            3 days ago
-                                                                        </div>
-                                                                        <div class="text">Lorem ipsum dolor sit amet,
-                                                                            consectetur adipisicing elit, sed do eiusmod
-                                                                            tempor incididunt ut labore et dolore magna
-                                                                            aliqua. Ut enim ad minim veniam, quis
-                                                                            nostrud exercitation
-                                                                        </div>
-                                                                        <div class="helpful">Was this review helpful?
-                                                                        </div>
-                                                                        <ul class="like-option">
-                                                                            <li><span
-                                                                                    class="icon fa fa-thumbs-o-up"></span>
-                                                                            </li>
-                                                                            <li><span
-                                                                                    class="icon fa fa-thumbs-o-down"></span>
-                                                                            </li>
-                                                                            <li class="report">Report</li>
-                                                                        </ul>
-                                                                    </div>
-
-                                                                    <!-- Reviewer Comment Box -->
-                                                                    <div class="reviewer-comment-box">
-                                                                        <h4>Anna Mull</h4>
-                                                                        <div class="rating">
-                                                                            <span class="total-rating">4.0</span> <span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="light fa fa-star-o"></span>&ensp;
-                                                                            3 days ago
-                                                                        </div>
-                                                                        <div class="text">Lorem ipsum dolor sit amet,
-                                                                            consectetur adipisicing elit, sed do eiusmod
-                                                                            tempor incididunt ut labore et dolore magna
-                                                                            aliqua. Ut enim ad minim veniam, quis
-                                                                            nostrud exercitation
-                                                                        </div>
-                                                                        <div class="helpful">Was this review helpful?
-                                                                        </div>
-                                                                        <ul class="like-option">
-                                                                            <li><span
-                                                                                    class="icon fa fa-thumbs-o-up"></span>
-                                                                            </li>
-                                                                            <li><span
-                                                                                    class="icon fa fa-thumbs-o-down"></span>
-                                                                            </li>
-                                                                            <li class="report">Report</li>
-                                                                        </ul>
-                                                                    </div>
-
-                                                                    <!-- Reviewer Comment Box -->
-                                                                    <div class="reviewer-comment-box">
-                                                                        <h4>Paul Molive</h4>
-                                                                        <div class="rating">
-                                                                            <span class="total-rating">4.0</span> <span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="fa fa-star"></span><span
-                                                                                class="light fa fa-star-o"></span>&ensp;
-                                                                            3 days ago
-                                                                        </div>
-                                                                        <div class="text">Lorem ipsum dolor sit amet,
-                                                                            consectetur adipisicing elit, sed do eiusmod
-                                                                            tempor incididunt ut labore et dolore magna
-                                                                            aliqua. Ut enim ad minim veniam, quis
-                                                                            nostrud exercitation
-                                                                        </div>
-                                                                        <div class="helpful">Was this review helpful?
-                                                                        </div>
-                                                                        <ul class="like-option">
-                                                                            <li><span
-                                                                                    class="icon fa fa-thumbs-o-up"></span>
-                                                                            </li>
-                                                                            <li><span
-                                                                                    class="icon fa fa-thumbs-o-down"></span>
-                                                                            </li>
-                                                                            <li class="report">Report</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
+                                            <div class="layui-tab">
+                                                <ul class="layui-tab-title">
+                                                    <li class="layui-this">概述</li>
+                                                    <li>目录</li>
+                                                    <li>任务</li>
+                                                </ul>
+                                                <div class="layui-tab-content">
+                                                    <div class="layui-tab-item layui-show" id="course_introduction"></div>
+                                                    <div class="layui-tab-item">内容2</div>
+                                                    <div class="layui-tab-item">内容3</div>
+                                                    <div class="layui-tab-item">内容4</div>
+                                                    <div class="layui-tab-item">内容5</div>
                                                 </div>
                                             </div>
 
@@ -1006,6 +218,7 @@
     $(function () {
         $("#header").load("/html/webui/header/header.html");
         $("#footer").load("/html/webui/footer/footer.html");
+        getLeassonInfo();
     });
 
     jQuery(".floor-side-right").slide({
@@ -1015,12 +228,99 @@
         delayTime: 700
     });
 
-    //初始化tab表单
     layui.use('element', function () {
         var $ = layui.jquery
             , element = layui.element;
+
+        //一些事件监听
+        element.on('tab(demo)', function (data) {
+            if (data.index === 1) {
+                $.ajax({
+                    type: "GET",
+                    url: "/user/leasson/getcourseInfo_vedio",
+                    data: {
+                        courseId: localStorage.getItem("courseId")
+                    },
+                    success: function (data) {
+                        renderVedioPage(data.data);
+                    }
+                });
+            }
+        });
     });
 
+
+    //查询所有的课程信息
+    function getLeassonInfo() {
+        $.ajax({
+            type: "GET",
+            url: "/user/leasson/getLeassonInfo",
+            success: function (data) {
+                if (data.code === 200) {
+                    //设置默认的视频id
+                    if (data.data[0] != null) {
+                        localStorage.setItem("courseId", data.data[0].courseId);
+                    }
+                    renderLeassons(data.data)
+                } else
+                    layer.msg('网络异常，请稍后重试');
+            },
+            error: function (data) {
+                layer.msg('参数异常');
+            }
+        });
+    }
+
+
+    //渲染课程页
+    function renderLeassons(arrParO) {
+        const $active = $("#leassons");
+        $active.html("");
+        $.each(arrParO, function (i, obj) {
+            const $children = $('   <li onclick="redirecToVedio(' + obj.courseId + ')">\n' +
+                '                                    <a href="#">\n' +
+                '                                        <div class="image-ti">\n' +
+                '                                            <img src="/html/webui/images/ad020.jpg" alt="">\n' +
+                '                                        </div>\n' +
+                '                                        <p class="slide-title">' + obj.courseName + '</p>\n' +
+                '                                        <p class="slide-body">\n' +
+                '                                        <span class="slide-body-nub">\n' +
+                '                                            <i class="slide-body-nub-icon"></i>\n' +
+                '                                            0\n' +
+                '                                        </span>\n' +
+                '                                            <span class="slide-body-nup">\n' +
+                '                                            <i class="slide-body-nup-icon"></i>\n' +
+                '                                            0\n' +
+                '                                        </span>\n' +
+                '                                            <span class="slide-body-price">免费</span>\n' +
+                '                                        </p>\n' +
+                '                                    </a>\n' +
+                '                                </li>');
+            $active.append($children);
+        });
+    }
+
+
+    //渲染视频播放页
+    function renderVedioPage(data) {
+        var courseList = data.clickCourseList;
+        var vedioList = data.vedioList;
+
+        document.getElementById("course_title").innerHTML = data.courseName;
+        document.getElementById("course_title2").innerText = data.courseName;
+        document.getElementById("course_introduction").innerHTML = data.courseDescription;
+    }
+
+    //跳转到视频页的方法
+    function redirecToVedio(courseId) {
+        layui.use('element', function () {
+            var $ = layui.jquery
+                , element = layui.element;
+            localStorage.setItem("courseId", courseId);
+            element.tabChange('demo', '1');
+
+        });
+    }
 </script>
 
 </body>

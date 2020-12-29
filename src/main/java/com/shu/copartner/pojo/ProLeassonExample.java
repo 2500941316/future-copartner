@@ -703,6 +703,76 @@ public class ProLeassonExample {
             addCriterion("course_clickTime not between", value1, value2, "courseClicktime");
             return (Criteria) this;
         }
+
+        public Criteria andCourseIsdeletedIsNull() {
+            addCriterion("course_isDeleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedIsNotNull() {
+            addCriterion("course_isDeleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedEqualTo(String value) {
+            addCriterion("course_isDeleted =", value, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedNotEqualTo(String value) {
+            addCriterion("course_isDeleted <>", value, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedGreaterThan(String value) {
+            addCriterion("course_isDeleted >", value, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedGreaterThanOrEqualTo(String value) {
+            addCriterion("course_isDeleted >=", value, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedLessThan(String value) {
+            addCriterion("course_isDeleted <", value, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedLessThanOrEqualTo(String value) {
+            addCriterion("course_isDeleted <=", value, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedLike(String value) {
+            addCriterion("course_isDeleted like", value, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedNotLike(String value) {
+            addCriterion("course_isDeleted not like", value, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedIn(List<String> values) {
+            addCriterion("course_isDeleted in", values, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedNotIn(List<String> values) {
+            addCriterion("course_isDeleted not in", values, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedBetween(String value1, String value2) {
+            addCriterion("course_isDeleted between", value1, value2, "courseIsdeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsdeletedNotBetween(String value1, String value2) {
+            addCriterion("course_isDeleted not between", value1, value2, "courseIsdeleted");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

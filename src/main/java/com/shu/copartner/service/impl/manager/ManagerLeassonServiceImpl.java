@@ -11,6 +11,7 @@ import com.shu.copartner.pojo.ProLeassonExample;
 import com.shu.copartner.pojo.ProLeassonVedio;
 import com.shu.copartner.pojo.ProLeassonVedioExample;
 import com.shu.copartner.pojo.request.LeassonApplyVO;
+import com.shu.copartner.pojo.request.LeassonVedioUpdateVO;
 import com.shu.copartner.pojo.response.LeassonVedioInfoSo;
 import com.shu.copartner.service.ManagerLeassonService;
 import com.shu.copartner.utils.constance.Constants;
@@ -19,11 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 @Slf4j
 public class ManagerLeassonServiceImpl implements ManagerLeassonService {
 
@@ -39,6 +42,15 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
             ProLeasson proLeasson = new ProLeasson();
             BeanUtils.copyProperties(leassonApplyVO, proLeasson);
             proLeassonMapper.insert(proLeasson);
+            //在vedio表中创建对应的子记录
+            for (Integer i = 1; i <= proLeasson.getCourseTotalblocks(); i++) {
+                ProLeassonVedio proLeassonVedio = new ProLeassonVedio();
+                proLeassonVedio.setCourseId(proLeasson.getCourseId());
+                proLeassonVedio.setCourseVedioNumber(i);
+                proLeassonVedio.setCourseVedioStatus("1");
+                proLeassonVedioMapper.insert(proLeassonVedio);
+            }
+
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
@@ -52,8 +64,9 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
         PageHelper.startPage(page, Constants.pageSize);
         try {
             int index = 0;
-            int capter = 0;
-            List<ProLeasson> proLeassons = proLeassonMapper.selectByExample(new ProLeassonExample());
+            ProLeassonExample newProLeassonExample = new ProLeassonExample();
+            newProLeassonExample.createCriteria().andCourseIsdeletedEqualTo(Constants.LEASSON_ISDELETED);
+            List<ProLeasson> proLeassons = proLeassonMapper.selectByExample(newProLeassonExample);
             List<LeassonVedioInfoSo> leassonInfoSoList = new ArrayList<>();
             PageInfo pageInfo = new PageInfo(proLeassons);
             for (ProLeasson proLeasson : proLeassons) {
@@ -62,12 +75,11 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
                 leassonVedioInfoSo.setId(++index);
                 leassonVedioInfoSo.setPid(-1);
                 leassonInfoSoList.add(leassonVedioInfoSo);
-                capter = proLeasson.getCourseTotalblocks();
 
                 //根据leasson列表去获取每个课程下面的信息
                 ProLeassonVedioExample proLeassonExample = new ProLeassonVedioExample();
                 //按照章节号排序
-                proLeassonExample.setOrderByClause(Constants.LEASSON_DESCBYNUMBER);
+                proLeassonExample.setOrderByClause(Constants.LEASSON_ASCBYNUMBER);
                 proLeassonExample.createCriteria().andCourseIdEqualTo(leassonVedioInfoSo.getCourseId());
                 List<ProLeassonVedio> proLeassonVedios = proLeassonVedioMapper.selectByExample(proLeassonExample);
 
@@ -77,35 +89,34 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
                     BeanUtils.copyProperties(proLeassonVedio, vedioInfoSo);
 
                     //处理状态信息
-                    if (!vedioInfoSo.getCourseVedioPptUrl().isEmpty() && !vedioInfoSo.getCourseVedioUrl().isEmpty()) {
+                    if (vedioInfoSo.getCourseVedioPptUrl() != null && vedioInfoSo.getCourseVedioUrl() != null) {
                         vedioInfoSo.setStatus(Constants.LEASSON_FILESTATUS_FINE);
                     } else {
                         vedioInfoSo.setStatus(Constants.LEASSON_FILESTATUS_NOPPT);
                     }
-
-
                     vedioInfoSo.setPid(index);
                     vedioInfoSo.setId(null);
                     leassonInfoSoList.add(vedioInfoSo);
-                    capter--;
-                }
-
-                //如果已经存在的章节数不足，则填充满
-                while (capter > 0) {
-                    LeassonVedioInfoSo vedioInfoSo = new LeassonVedioInfoSo();
-                    BeanUtils.copyProperties(leassonVedioInfoSo, vedioInfoSo);
-                    vedioInfoSo.setPid(index);
-                    vedioInfoSo.setId(null);
-                    leassonInfoSoList.add(vedioInfoSo);
-                    vedioInfoSo.setStatus(Constants.LEASSON_FILESTATUS_NOPPT);
-                    capter--;
                 }
             }
-
             return TableModel.tableSuccess(leassonInfoSoList, (int) pageInfo.getTotal());
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
+    }
+
+
+    @Override
+    public TableModel updateLeasson(LeassonVedioUpdateVO leassonVedioUpdateVO) {
+        try {
+            ProLeassonVedio proLeassonVedio = new ProLeassonVedio();
+            BeanUtils.copyProperties(leassonVedioUpdateVO, proLeassonVedio);
+            proLeassonVedioMapper.updateByPrimaryKeySelective(proLeassonVedio);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+        return TableModel.success();
     }
 }

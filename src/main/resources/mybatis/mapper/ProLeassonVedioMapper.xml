@@ -13,6 +13,7 @@
     <result column="course_vedio_status" jdbcType="CHAR" property="courseVedioStatus" />
     <result column="course_vedio_ppt_url" jdbcType="VARCHAR" property="courseVedioPptUrl" />
     <result column="course_vedio_catalog" jdbcType="VARCHAR" property="courseVedioCatalog" />
+    <result column="course_vedio_isDeleted" jdbcType="CHAR" property="courseVedioIsdeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +76,7 @@
   <sql id="Base_Column_List">
     course_vedio_id, course_id, course_vedio_number, course_vedio_introduction, course_vedio_url, 
     course_vedio_name, course_vedio_clickTime, course_vedio_duringTime, course_vedio_status, 
-    course_vedio_ppt_url, course_vedio_catalog
+    course_vedio_ppt_url, course_vedio_catalog, course_vedio_isDeleted
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProLeassonVedioExample" resultMap="BaseResultMap">
     select
@@ -112,12 +113,14 @@
       course_vedio_introduction, course_vedio_url, 
       course_vedio_name, course_vedio_clickTime, 
       course_vedio_duringTime, course_vedio_status, 
-      course_vedio_ppt_url, course_vedio_catalog)
+      course_vedio_ppt_url, course_vedio_catalog, 
+      course_vedio_isDeleted)
     values (#{courseVedioId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}, #{courseVedioNumber,jdbcType=INTEGER}, 
       #{courseVedioIntroduction,jdbcType=VARCHAR}, #{courseVedioUrl,jdbcType=VARCHAR}, 
       #{courseVedioName,jdbcType=VARCHAR}, #{courseVedioClicktime,jdbcType=INTEGER}, 
       #{courseVedioDuringtime,jdbcType=VARCHAR}, #{courseVedioStatus,jdbcType=CHAR}, 
-      #{courseVedioPptUrl,jdbcType=VARCHAR}, #{courseVedioCatalog,jdbcType=VARCHAR})
+      #{courseVedioPptUrl,jdbcType=VARCHAR}, #{courseVedioCatalog,jdbcType=VARCHAR}, 
+      #{courseVedioIsdeleted,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLeassonVedio">
     insert into PRO_LEASSON_VEDIO
@@ -155,6 +158,9 @@
       <if test="courseVedioCatalog != null">
         course_vedio_catalog,
       </if>
+      <if test="courseVedioIsdeleted != null">
+        course_vedio_isDeleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="courseVedioId != null">
@@ -189,6 +195,9 @@
       </if>
       <if test="courseVedioCatalog != null">
         #{courseVedioCatalog,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVedioIsdeleted != null">
+        #{courseVedioIsdeleted,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -234,6 +243,9 @@
       <if test="record.courseVedioCatalog != null">
         course_vedio_catalog = #{record.courseVedioCatalog,jdbcType=VARCHAR},
       </if>
+      <if test="record.courseVedioIsdeleted != null">
+        course_vedio_isDeleted = #{record.courseVedioIsdeleted,jdbcType=CHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -251,7 +263,8 @@
       course_vedio_duringTime = #{record.courseVedioDuringtime,jdbcType=VARCHAR},
       course_vedio_status = #{record.courseVedioStatus,jdbcType=CHAR},
       course_vedio_ppt_url = #{record.courseVedioPptUrl,jdbcType=VARCHAR},
-      course_vedio_catalog = #{record.courseVedioCatalog,jdbcType=VARCHAR}
+      course_vedio_catalog = #{record.courseVedioCatalog,jdbcType=VARCHAR},
+      course_vedio_isDeleted = #{record.courseVedioIsdeleted,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -289,6 +302,9 @@
       <if test="courseVedioCatalog != null">
         course_vedio_catalog = #{courseVedioCatalog,jdbcType=VARCHAR},
       </if>
+      <if test="courseVedioIsdeleted != null">
+        course_vedio_isDeleted = #{courseVedioIsdeleted,jdbcType=CHAR},
+      </if>
     </set>
     where course_vedio_id = #{courseVedioId,jdbcType=BIGINT}
   </update>
@@ -303,7 +319,8 @@
       course_vedio_duringTime = #{courseVedioDuringtime,jdbcType=VARCHAR},
       course_vedio_status = #{courseVedioStatus,jdbcType=CHAR},
       course_vedio_ppt_url = #{courseVedioPptUrl,jdbcType=VARCHAR},
-      course_vedio_catalog = #{courseVedioCatalog,jdbcType=VARCHAR}
+      course_vedio_catalog = #{courseVedioCatalog,jdbcType=VARCHAR},
+      course_vedio_isDeleted = #{courseVedioIsdeleted,jdbcType=CHAR}
     where course_vedio_id = #{courseVedioId,jdbcType=BIGINT}
   </update>
 </mapper>

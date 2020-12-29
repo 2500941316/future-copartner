@@ -3,14 +3,19 @@ package com.shu.copartner.controller.managercontroller;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.pojo.request.LeassonApplyVO;
+import com.shu.copartner.pojo.request.LeassonVedioUpdateVO;
+import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.ManagerLeassonService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -26,6 +31,9 @@ public class ManageLeassonController {
 
     @Autowired
     ManagerLeassonService managerLeassonService;
+
+    @Autowired
+    FileuploadService uploadService;
 
     /**
      * @date 2020/12/21 15:21
@@ -44,6 +52,21 @@ public class ManageLeassonController {
 
     /**
      * @date 2020/12/21 15:21
+     * @Description 管理端界面更新视频的方法
+     */
+    @PostMapping(value = "updateLeasson")
+    @ResponseBody
+    public TableModel updateLeasson(@RequestBody @Valid LeassonVedioUpdateVO leassonVedioUpdateVO, BindingResult result) {
+        if (result.hasErrors()) {
+            log.error(result.getAllErrors().toString());
+            throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
+        }
+        return managerLeassonService.updateLeasson(leassonVedioUpdateVO);
+    }
+
+
+    /**
+     * @date 2020/12/21 15:21
      * @Description 管理端查询所有的课程的方法
      */
     @GetMapping(value = "getLeassonInfo")
@@ -53,4 +76,16 @@ public class ManageLeassonController {
         return managerLeassonService.getLeassonInfo(page);
     }
 
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
+     * @Description 上传课程视频的方法
+     */
+    @PostMapping(value = "leassonVedioUpload")
+    @ResponseBody
+    public TableModel leassonVedioUpload(MultipartFile file, Long course_vedio_id, String fileUpload_type) {
+
+        return uploadService.leassonVedioUpload(file, course_vedio_id, fileUpload_type);
+    }
 }

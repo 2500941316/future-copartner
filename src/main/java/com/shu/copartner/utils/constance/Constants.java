@@ -94,8 +94,34 @@ public final class Constants {
     /**
      * @Description 课程按照章节排序查询条件
      */
-    public static final String LEASSON_DESCBYNUMBER = "course_vedio_number asc";
+    public static final String LEASSON_ASCBYNUMBER = "course_vedio_number asc";
 
+
+    /**
+     * @Description 推荐课程模块查询的数量
+     */
+    public static final Integer LEASSON_CLICKNUMBER = 5;
+
+    /**
+     * @Description 课程页面按照点击数来排序
+     */
+    public static final String LEASSON_DESCBYCLICKTIMES = "course_clickTime desc";
+
+    /**
+     * @Description 课程上传材料的类型
+     */
+    public static final String LEASSON_FILETYPE_PPT = "ppt";
+
+    /**
+     * @Description 课程上传材料的类型
+     */
+    public static final String LEASSON_FILETYPE_VEDIO = "vedio";
+
+
+    /**
+     * @Description 课程是否删除标识位
+     */
+    public static final String LEASSON_ISDELETED = "0";
 
     /**
      * @Description 项目流程key

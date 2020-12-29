@@ -21,6 +21,8 @@ public class ProLeasson implements Serializable {
 
     private Integer courseClicktime;
 
+    private String courseIsdeleted;
+
     private static final long serialVersionUID = 1L;
 
     public Long getCourseId() {
@@ -93,5 +95,13 @@ public class ProLeasson implements Serializable {
 
     public void setCourseClicktime(Integer courseClicktime) {
         this.courseClicktime = courseClicktime;
+    }
+
+    public String getCourseIsdeleted() {
+        return courseIsdeleted;
+    }
+
+    public void setCourseIsdeleted(String courseIsdeleted) {
+        this.courseIsdeleted = courseIsdeleted == null ? null : courseIsdeleted.trim();
     }
 }

@@ -28,7 +28,7 @@
     <div id="con_rh">
         <div class="con_rh_con">
             <p class="rh_title">课程管理</p>
-            <div class="layui-tab">
+            <div class="layui-tab" lay-filter="demo">
                 <ul class="layui-tab-title">
                     <li class="layui-this">课程发布</li>
                     <li class="layui-this">课程管理</li>
@@ -119,7 +119,8 @@
     </div>
 </div>
 
-
+<input style="display: none" type="file" name="file" id="vedio">
+<input style="display: none" type="file" name="file" id="ppt">
 <!--引入尾部页面-->
 <div id="footer"></div>
 
@@ -137,11 +138,150 @@
         $("#footer").load("/html/webui/footer/footer.html");
     });
 
+    layui.config({
+        base: '/html/managerui/js/layui/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    });
+
+
     //tab标签页引用
-    layui.use('element', function () {
+    layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
         var $ = layui.jquery
             , element = layui.element;
+        var table = layui.table;
+        var upload = layui.upload;
+        var layer = layui.layer;
+        var treetable = layui.treetable;
+
+        //一些事件监听
+        element.on('tab(demo)', function (data) {
+            if (data.index === 1) {
+                $.ajax({
+                    type: "GET",
+                    url: "/manager/leasson/getLeassonInfo",
+                    data: {
+                        page: 1
+                    },
+                    success: function (data) {
+                        treetable.render({
+                            treeColIndex: 0,
+                            treeSpid: -1,
+                            treeIdName: 'name',
+                            treePidName: 'name',
+                            treeDefaultClose: true,
+                            treeLinkage: false,
+
+                            elem: '#table1',
+                            data: data.data,
+                            page: true,
+                            cols: [[
+                                {field: 'courseName', title: '课程名称'},
+                                {field: 'courseVedioName', edit: 'text', align: "center", title: '章节名称'},
+                                {field: 'status', align: "center", width: 120, title: '状态'},
+                                {field: 'courseVedioDuringtime', edit: 'text', width: 80, align: "center", title: '时长'},
+                                {templet: '#oper-col', align: "center", title: '操作'}
+                            ]]
+                        });
+                    },
+                    error: function (data) {
+                        layer.msg('参数异常');
+                    }
+                });
+            }
+        });
+
+        //上传vedio
+        upload.render({
+            elem: '#vedio'
+            , url: '/manager/leasson/leassonVedioUpload' //改成您自己的上传接口
+            , data: {
+                course_vedio_id: localStorage.getItem("course_vedio_id"),
+                fileUpload_type: "vedio"
+            }
+            , accept: 'file',
+            before: function (obj) {
+                layer.load(2);
+            },
+            done: function (res) {
+                layer.closeAll('loading');
+                layer.msg('视频上传成功', {
+                    offset: 't',
+                    anim: 6
+                });
+            }
+        });
+
+        //上传ppt
+        upload.render({
+            elem: '#ppt'
+            , url: '/manager/leasson/leassonVedioUpload' //改成您自己的上传接口
+            , data: {
+                course_vedio_id: localStorage.getItem("course_vedio_id"),
+                fileUpload_type: "ppt"
+            },
+            accept: 'file',
+            before: function (obj) {
+                layer.load(2);
+            },
+            done: function (res) {
+                layer.closeAll('loading');
+                layer.msg('ppt上传成功', {
+                    offset: 't',
+                    anim: 6
+                });
+            }
+        });
+
+
+        //监听工具条
+        table.on('tool(table1)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (obj.data.courseVedioId != null) {
+                localStorage.setItem("course_vedio_id", obj.data.courseVedioId);
+                if (layEvent === 'del') {
+                    layer.msg('删除' + data);
+                } else if (layEvent === 'ppt') {
+                    $("#ppt").click();
+                } else if (layEvent === 'vedio') {
+                    $("#vedio").click();
+                }
+            }
+        });
+
+
+        //监听单元格编辑
+        table.on('edit(table1)', function (obj) {
+            update(obj);
+        });
+
+        function update(obj) {
+            if (obj.data.courseVedioId != null) {
+                $.ajax({
+                    type: "POST",
+                    url: "/manager/leasson/updateLeasson",
+                    contentType: "application/json",
+                    data: JSON.stringify(obj.data),
+                    success: function (data) {
+                        if (data.code === 200) {
+                            layer.msg('更新成功', {
+                                icon: 16
+                                , shade: 0.01
+                            });
+                        } else
+                            layer.msg('网络异常，请稍后重试');
+                    },
+                    error: function (data) {
+                        layer.msg('参数异常');
+                    }
+                });
+            }
+        }
     });
+
+
+    //课程说明图片上传方法
     layui.use('layedit', function () {
         var layedit = layui.layedit;
         layedit.set({
@@ -184,12 +324,14 @@
                 data: JSON.stringify(data),
                 success: function (data) {
                     if (data.code === 200) {
-                        layer.msg('发布成功！');
+                        layer.msg('发布成功', {
+                            icon: 16
+                            , shade: 0.01
+                        });
                     } else
                         layer.msg('网络异常，请稍后重试');
                 },
                 error: function (data) {
-                    console.log(data)
                     layer.msg('参数异常');
                 }
             });
@@ -204,84 +346,6 @@
         messageCount.innerText = thisArea.value.length;
     }
 
-
-    //课程视频管理模块
-    layui.config({
-        base: '/html/managerui/js/layui/'
-    }).extend({
-        treetable: 'treetable-lay/treetable'
-    }).use(['layer', 'table', 'treetable'], function () {
-        var $ = layui.jquery;
-        var table = layui.table;
-        var layer = layui.layer;
-        var treetable = layui.treetable;
-
-        //ajax请求数据获得data，开始渲染
-        var renderTable = function () {
-            $.ajax
-            ({
-                type: "GET",
-                url: "/manager/leasson/getLeassonInfo",
-                data: {
-                    page: 1
-                },
-                success: function (data) {
-                    console.log(data.data)
-                    treetable.render({
-                        treeColIndex: 0,
-                        treeSpid: -1,
-                        treeIdName: 'name',
-                        treePidName: 'name',
-                        treeDefaultClose: true,
-                        treeLinkage: false,
-
-                        elem: '#table1',
-                        data: data.data,
-                        page: true,
-                        cols: [[
-                            {field: 'courseName', title: '课程名称'},
-                            {field: 'courseVedioName', title: '章节名称'},
-                            {field: 'status', title: '状态'},
-                            {templet: '#oper-col', align: "center", title: '操作'}
-                        ]]
-                    });
-
-                },
-                error: function (data) {
-                    layer.msg('参数异常');
-                }
-            });
-        }
-
-        renderTable();
-
-        //监听工具条
-        table.on('tool(table1)', function (obj) {
-            var data = obj.data;
-            var layEvent = obj.event;
-
-            if (layEvent === 'del') {
-                layer.msg('删除' + data);
-            } else if (layEvent === 'ppt') {
-                layer.msg('ppt' + data);
-            } else if (layEvent === 'vedio') {
-                layer.msg('视频' + data);
-            }
-        });
-
-        //监听行单击事件
-        table.on('row(table1)', function (obj) {
-            console.log(obj.tr) //得到当前行元素对象
-            console.log(obj.data) //得到当前行数据
-            //obj.del(); //删除当前行
-            //obj.update(fields) //修改当前行数据
-        });
-
-//监听行双击事件
-        table.on('rowDouble(table1)', function (obj) {
-            //obj 同上
-        });
-    });
 
 </script>
 
