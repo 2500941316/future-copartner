@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+   <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
+   <link type="text/css" rel="stylesheet" href="/html/webui/css/company.css" />
+   <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
+  <!-- <script type="text/javascript" src="/html/webui/js/company.js"></script>-->
+   <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+
+<title>项目详情</title>
+
+   <style type="text/css">
+      .divJob_2_1{
+         cursor: pointer;
+      }
+   </style>
+</head>
+
+
+<body>
+<!--引入页头页面-->
+<div id="header"></div>
+
+<div class="jobtypeBox">
+   <div class="DivLeft">
+      <div class="DivCompany">
+         <div class="DivCompany_img"><img src="/html/webui/images/company.gif" width="180"/></div>
+         <h1><a href="project_details_info.html"><span id="projectName2">项目名称</span></a><img src="/html/webui/images/16.png" /></h1>
+         <div class="DivLeft_1">
+            <div class="gz1"><span  id="follow">+关注</span></div>  <!--onclick="clickFollow()"-->
+            <div class="gz2">答复率<span>100.0%</span></div>
+         </div>
+         <div class="clear"></div>
+         <div class="DivLeft_2">
+            <p>创建人：<span id="projectCreater2"></span></p>
+            <p>负责人：<span id="mainPeople2"></span></p>
+            <p>辅导老师：<span id="projectTeacher2"></span></p>
+            <p>成员：<span id="projectPeople2"></span></p>
+            <p>项目类型：<span id="projectType2"></span></p>
+            <p>开始时间：<span id="starttime2"></span></p>
+            <p>项目视频：<span id="videoUrl2"></span></p>
+            <p>项目计划书：<span id="planUrl2"></span></p>
+            <p>状态：<span id="projectStatus2"></span></p>
+            <p>项目简述：<span id="description2"></span></p>
+         </div>
+         <div class="clear"></div>
+       <!--  <div class="DivLeft_3">
+            <h2><span></span>风险提示</h2>
+            <p>最近登录时间：2017/12/05 17:06</p>
+            <p>最近登录IP：58.63.3.*</p>
+            <p>[广东省广州市番禺区]</p>
+            <p>本单位基本资料已通过<a href="">网站证实</a></p>
+            <p>以上资料仅供参考，请求职者<a href="">规避求职风险</a></p>
+         </div>
+         <div class="clear"></div>-->
+         <div class="DivLeft_4">
+            <h2><span></span>猜你感兴趣</h2>
+            <div id="interestProject">
+               <p><a href="searchJob_new.html">项目1</a></p>
+               <p><a href="searchJob_new.html">项目2</a></p>
+               <p><a href="searchJob_new.html">项目3</a></p>
+               <p><a href="searchJob_new.html">项目4</a></p>
+               <p><a href="searchJob_new.html">项目5</a></p>
+               <p><a href="searchJob_new.html">项目6</a></p>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="DivRight">
+      <div class="DivRight_1">
+         <a href="/index.html">>>首页</a></div>
+      <div class="DivRight_2">
+
+         <div class="divJob_1">
+            <div class="divJob_l">
+               <div class="tit">
+                  <h2> <span id="projectName">项目名称</span></h2>
+                  <!--<div class="ly">
+                    <a href="">给HR留言</a>
+                  </div>-->
+                  <div class="clear"></div>
+               </div>
+               <div class="bqbox">
+                  <label><span id="description">项目简述</span></label>
+                 <!-- <label>节日福利</label>
+                  <label>双休</label>
+                  <label>8小时工作制</label>
+                  <label>带薪年假</label>
+                  <label>交通补贴</label>-->
+                  <div class="clear"></div>
+               </div>
+               <div class="jobsub">项目创建人： <span id="projectCreater"></span></div>
+               <div class="jobsub">项目负责人： <span id="mainPeople"> </span></div>
+               <div class="jobsub">项目辅导老师： <span id="projectTeacher"></span></div>
+               <div class="jobsub">项目成员： <span id="projectPeople"></span></div>
+               <div class="jobsub">项目类型： <span id="projectType"></span></div>
+               <div class="jobsub">开始时间： <span id="starttime"></span></div>
+               <div class="jobsub">项目计划书： <span id="planUrl"></span></div>
+               <div class="jobsub">项目视频： <span id="videoUrl"></span></div>
+               <div class="jobsub">项目状态： <span id="projectStatus"></span></div>
+
+            <!--   <div class="jobsub"></div>
+               <div class="jobsub"> </div>-->
+            </div>
+         </div>
+         <div class="clear"></div>
+         <div class="divJob_2">
+            <div class="divJob_2_1"><span  id="follow2" href="#">立即关注</span></div> <!--onclick="clickFollow()"-->
+            <!--<div class="divJob_2_2" class="divJob_2_3">关注</div>-->
+           <!-- <div style="margin-right: 20px"><button type="button" class="divJob_2_1" id="test3"><i class="layui-icon"></i>上传视频</button></div>-->
+            <!--<div ><button type="button" class="divJob_2_1" style="margin-left: 20px;" id="test4"><i class="layui-icon"></i>上传计划书</button></div>-->
+         </div>
+         <div class="clear"></div>
+         <div class="divJob_3">
+            <b>项目里程碑：</b><br />
+            <div class="con">
+                1、执行公司的贸易业务，实施贸易规程，开拓市场；<br />
+                2、负责联系客户、编制报价、参与商务谈判，签订合同；<br />
+                3、负责生产跟踪、发货、现场监装；<br />
+                4、负责单证审核、报关、结算、售后服务等工作；<br />
+                5、客户的拓展与维护；<br />
+                6、业务相关资料的整理和归档；<br />
+                7、相关业务工作的汇报。 
+            </div>
+         </div>
+         <div class="clear"></div>
+         <div class="jobotherlist">
+            <div class="title">其他项目</div>
+         </div>
+         <div id="otherProject">
+            <div class="jobotherlist">
+               <div class="jobtype">
+                  <div class="jobtypel">
+                     <p><a href="jobtype.html">项目名称</a> [类型]</p>
+                     <p><span class="red">项目简述-项目简述-项目简述-项目简述</span></p>
+                  </div>
+                  <div class="jobtyper">
+                     <p>在创</p>
+                  </div>
+                  <div class="clear"></div>
+               </div>
+            </div>
+         </div>
+         <!--分页-->
+         <div>
+            <div id="page"></div>
+         </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="clear"></div>
+
+<!--引入页脚页面-->
+<div id="footer"></div>
+
+<script type="text/javascript">
+   // 跳出当前iframe
+   if(top.location!=self.location)top.location=self.location;
+
+   $(function () {
+      $("#header").load("/html/webui/header/header.html");
+      $("#footer").load("/html/webui/footer/footer.html");
+
+      getProjectData();
+     // getOtherProjectData();
+      initLayPage();
+
+   });
+
+
+
+ /*  layui.use(['upload','layer'], function() {
+      var layer = layui.layer;
+    //  layer.msg("ssssss");
+      var upload = layui.upload;
+      //上传视频
+      upload.render({
+         elem: '#test3'
+         ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+         ,accept: 'video' //普通文件
+         ,done: function(res){
+            layer.msg('上传成功');
+            console.log(res);
+         }
+      });
+
+      // 上传计划书
+      upload.render({
+         elem: '#test4'
+         ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+         ,accept: 'file' //普通文件
+         ,done: function(res){
+            layer.msg('上传成功');
+            console.log(res);
+         }
+      });
+   })*/
+
+   /**
+    * 根据id请求当前项目数据
+    */
+   function getProjectData() {
+      var projectId = localStorage.getItem("projectId");
+      $.ajax({
+         url: "/user/project/getProjectById",
+         async: true,
+         data: "projectId=" + projectId,
+         type: "GET",   //请求方式
+         success: function (req) {
+            if (req.code == 200) {
+               console.log(req)
+               fillProjectInfo(req.data)
+            } else {
+               layer.msg("网络异常，请稍后重试！")
+            }
+         },
+         error: function (req) {
+            //请求出错处理
+            console.log(req);
+            layer.msg("参数异常");
+         }
+       })
+   }
+
+   /**
+    * 填充当前项目数据
+    * @param projectInfo
+    */
+   function fillProjectInfo(projectInfo) {
+      document.getElementById("projectName").innerText = projectInfo[0].projectName;
+      document.getElementById("projectName2").innerText = projectInfo[0].projectName;
+
+      document.getElementById("projectCreater").innerText = projectInfo[0].projectCreater;
+      document.getElementById("projectCreater2").innerText = projectInfo[0].projectCreater;
+
+      document.getElementById("mainPeople").innerText = projectInfo[0].mainPeople;
+      document.getElementById("mainPeople2").innerText = projectInfo[0].mainPeople;
+
+     // document.getElementById("projectTeacher").innerText = projectInfo[0].projectTeacher;
+      document.getElementById("projectTeacher2").innerText = projectInfo[0].projectTeacher;
+      typeof (projectInfo[0].projectTeacher) == "undefined" ?
+              document.getElementById("projectTeacher").innerText = "待填写" :
+              document.getElementById("projectTeacher").innerText = projectInfo[0].projectTeacher;
+
+      document.getElementById("projectPeople").innerText = projectInfo[0].projectPeople;
+      document.getElementById("projectPeople2").innerText = projectInfo[0].projectPeople;
+
+      document.getElementById("projectType").innerText = projectInfo[0].projectType;
+      document.getElementById("projectType2").innerText = projectInfo[0].projectType;
+
+      document.getElementById("starttime").innerText = projectInfo[0].starttime;
+      document.getElementById("starttime2").innerText = projectInfo[0].starttime;
+
+      typeof (projectInfo[0].planUrl) == "undefined" ?
+              document.getElementById("planUrl").innerText = "待上传" :
+              document.getElementById("planUrl").innerText = projectInfo[0].planUrl;
+      document.getElementById("planUrl2").innerText = projectInfo[0].planUrl;
+
+      document.getElementById("videoUrl2").innerText = projectInfo[0].videoUrl;
+      typeof (projectInfo[0].videoUrl) == "undefined" ?
+              document.getElementById("videoUrl").innerText = "待上传" :
+              document.getElementById("videoUrl").innerText = projectInfo[0].videoUrl;
+
+      document.getElementById("projectStatus").innerText = projectInfo[0].projectStatus;
+      document.getElementById("projectStatus2").innerText = projectInfo[0].projectStatus;
+
+      document.getElementById("description").innerText = projectInfo[0].description;
+      document.getElementById("description2").innerText = projectInfo[0].description;
+   }
+
+   $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').click(function () {
+      if(document.getElementById("follow").innerText == "+关注" && document.getElementById("follow2").innerText == "立即关注"){
+         $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').css('background', 'grey');
+         document.getElementById("follow").innerText = "已关注";
+         document.getElementById("follow2").innerText = "已关注";
+      }else{
+         document.getElementById("follow").innerText = "+关注";
+         $('.DivLeft_1 .gz1').css('background', '#50BA8C');
+         $('.divJob_2 .divJob_2_1').css('background', '#F96B2D');
+         document.getElementById("follow2").innerText = "立即关注";
+      }
+   })
+   // 关注
+/*   function clickFollow() {
+      if(document.getElementById("follow").innerText == "+关注" && document.getElementById("follow2").innerText == "立即关注"){
+         document.getElementById("follow").innerText = "已关注";
+         document.getElementById("follow2").innerText = "已关注";
+      }else{
+         document.getElementById("follow").innerText = "+关注";
+         document.getElementById("follow2").innerText = "立即关注";
+      }
+   }*/
+
+   /**
+    * 请求其他项目数据
+    */
+   function getOtherProjectData() {
+      var projectId = localStorage.getItem("projectId");
+
+      $.ajax({
+         url: "/user/project/getOtherProjectById",
+         async: true,
+         data: "projectId=" + projectId,
+         type: "GET",   //请求方式
+         success: function (req) {
+            if (req.code == 200) {
+               console.log(req)
+               fillOtherProjectInfo(req.data)
+            } else {
+               layer.msg("网络异常，请稍后重试！")
+            }
+         },
+         error: function (req) {
+            //请求出错处理
+            console.log(req);
+            layer.msg("参数异常");
+         }
+      })
+   }
+
+   /**
+    * 填充其他项目数据
+    * @param otherProjectInfo
+    */
+   function fillOtherProjectInfo(otherProjectInfo) {
+      const $active = $("#otherProject");
+      $active.html("");
+      const $active2 = $("#interestProject");
+      $active2.html("");
+      for(var i in otherProjectInfo){
+            var $children = $(
+                ' <div class="jobotherlist">\n' +
+                    '               <div class="jobtype">\n' +
+                    '                  <div class="jobtypel">\n' +
+                    '                     <p><a href="#" onclick="viewProjectDetail('+otherProjectInfo[i].projectId+')">'+otherProjectInfo[i].projectName+'</a> ['+otherProjectInfo[i].projectType+']</p>\n' +
+                    '                     <p><span class="red">'+otherProjectInfo[i].description+'</span></p>\n' +
+                    '                  </div>\n' +
+                    '                  <div class="jobtyper">\n' +
+                    '                     <p>'+otherProjectInfo[i].projectStatus+'</p>\n' +
+                    '                  </div>\n' +
+                    '                  <div class="clear"></div>\n' +
+                    '               </div>\n' +
+                    '            </div>'
+
+            );
+         $active.append($children);
+
+         // 左侧 ‘猜你喜欢’ 栏目显示的其他项目名称
+         var $children2 = $(
+                 '<p><a href="#" onclick="viewProjectDetail('+otherProjectInfo[i].projectId+')">'+otherProjectInfo[i].projectName+'</a></p>'
+         );
+         $active2.append($children2);
+      }
+   }
+
+   /**
+    * 查看其他项目
+    * @param projectId
+    */
+   function viewProjectDetail(projectId) {
+      layer.msg("projectId:"+projectId);
+      localStorage.setItem("projectId",projectId);
+      //window.open("/html/webui/project/project_details_info.html");
+      window.location.href = "/html/webui/project/project_details_info.html";
+   }
+
+   /**
+    * 初始化layui分页
+    */
+   function initLayPage(pageConf) {
+      if (!pageConf) {
+         pageConf = {};
+         pageConf.pageSize = 3;
+         pageConf.currentPage = 1;
+         pageConf.projectId = localStorage.getItem("projectId");
+      }
+      $.get("/user/project/getOtherProjectById", pageConf, function (data) {
+         console.log(data);
+         layui.use(['laypage', 'layer'], function () {
+            var page = layui.laypage;
+            page.render({
+               elem: 'page',
+               count: data.count,
+               curr: pageConf.currentPage,
+               limit: pageConf.pageSize,
+               first: "首页",
+               last: "尾页",
+               layout: ['count', 'prev', 'page', 'next', 'skip'],// 'limit',
+               jump: function (obj, first) {
+                  if (!first) {
+                     pageConf.currentPage = obj.curr;
+                     pageConf.pageSize = obj.limit;
+                     initLayPage(pageConf);
+                  }
+                  fillOtherProjectInfo(data.data); //页面填充
+               }
+            });
+
+         })
+      });
+   }
+
+
+</script>
+
+
+</body>
+</html>
