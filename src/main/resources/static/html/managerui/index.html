@@ -30,7 +30,7 @@
             <p class="rh_title">申请审批</p>
             <div class="layui-tab">
                 <ul class="layui-tab-title">
-                    <li class="layui-this"  onclick="searchProjectApplication()">项目申请</li>
+                    <li class="layui-this" onclick="searchProjectApplication()">项目申请</li>
                     <li class="layui-this" onclick="searchNewsApplication()">新闻申请</li>
                     <li class="layui-this">申请</li>
                 </ul>
@@ -110,7 +110,7 @@
                     , {field: 'projectName', title: '项目名', align: 'center'}
                     , {field: 'projectCreater', title: '创建人', width: 80, align: 'center'}
                     , {field: 'projectType', title: '类型', width: 80, sort: true, align: 'center'}
-               //     , {field: 'description', title: '项目简述', overflow: 'hidden', align: 'center'}
+                    //     , {field: 'description', title: '项目简述', overflow: 'hidden', align: 'center'}
                     , {field: 'projectStatus', title: '状态', width: 100, sort: true, align: 'center'}
                     , {field: 'starttime', title: '开始时间', align: 'center'}
                     , {fixed: 'right', title: '操作', toolbar: '#projectOperate', width: 180, align: 'center'}
@@ -125,16 +125,16 @@
                     // layer.alert('详情：&lt;br>' + JSON.stringify(data))
                 } else if (obj.event === 'pass') {
                     layer.confirm('通过该项目申请？', function (index) {
-                        operateProject(obj, 1,"");
+                        operateProject(obj, 1, "");
                         layer.close(index);
                     });
-                }else if(obj.event === 'reject'){
+                } else if (obj.event === 'reject') {
                     layer.prompt({
                         formType: 2,
                         value: ' ',
                         title: '请输入驳回原因'
                         // area: ['800px', '350px'] //自定义文本域宽高
-                    }, function(value, index){
+                    }, function (value, index) {
                         operateProject(obj, 2, value);
                         layer.close(index);
                     });
@@ -154,7 +154,7 @@
                 content: '/html/webui/project/project_apply_info.html',
                 area: ["50%", "50%"],
                 btn: ['返回'],
-                yes: function(index, layero){
+                yes: function (index, layero) {
                     layer.close(index); //如果设定了yes回调，需进行手工关闭
                 }
             });
@@ -162,9 +162,9 @@
     }
 
     // 通过或者驳回项目申请
-    function operateProject(currentProject,status, msg){
-        let operation ={
-        //    taskId: currentProject.data.taskId,
+    function operateProject(currentProject, status, msg) {
+        let operation = {
+            //    taskId: currentProject.data.taskId,
             projectId: currentProject.data.projectId,
             projectStateToken: currentProject.data.projectStateToken,
             isPass: status,
@@ -180,17 +180,17 @@
             async: true, //请求是否异步，默认为异步，这也是ajax重要特性
             data: JSON.stringify(operation),   //参数值
             type: "POST",   //请求方式
-            success: function(res) {
+            success: function (res) {
                 //请求成功时处理，一般只用到这一个
-                if(res.code == 200){
+                if (res.code == 200) {
                     layer.msg("审核完成！")
                     location.reload()
                     this.currentProject.del();
-                }else{
+                } else {
                     layer.msg("网络异常，请稍后重试！")
                 }
             },
-            error: function(req) {
+            error: function (req) {
                 //请求出错处理
                 console.log(req);
                 layer.msg('参数异常');
@@ -219,7 +219,7 @@
                     {field: 'newsAuthor', title: '发布人', width: 110, align: 'center'},
                     {field: 'newsCategory', title: '种类', width: 110, align: 'center'},
                     {field: 'newsPublistime', title: '发布时间', width: 150, sort: true, align: 'center'},
-                    {field: 'istopping', title: '置顶', align: 'center', width: 80, templet: '#switchTpl'},
+                    {field: 'istopping', title: '置顶', align: 'center', width: 80},
                     {fixed: 'right', title: '操作', align: 'center', toolbar: '#barDemo'}
                 ]]
                 , page: true
@@ -243,11 +243,11 @@
                         formType: 2
                         , value: data.email
                     }, function (value, index) {
-                        operateNew(obj, 0, value);
+                        operateNew(obj, 2, value);
                         layer.close(index);
                     });
                 } else if (obj.event === 'view') {
-                    alert("view")
+                    viewNew(data.newsId);
                 }
             });
         });
