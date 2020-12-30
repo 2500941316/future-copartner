@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProProjectMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProProject">
+    <id column="project_id" jdbcType="BIGINT" property="projectId" />
+    <result column="project_creater" jdbcType="VARCHAR" property="projectCreater" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="project_followers" jdbcType="VARCHAR" property="projectFollowers" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="is_lock" jdbcType="INTEGER" property="isLock" />
+    <result column="plan_url" jdbcType="VARCHAR" property="planUrl" />
+    <result column="primary_job" jdbcType="VARCHAR" property="primaryJob" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="project_status" jdbcType="VARCHAR" property="projectStatus" />
+    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="project_people" jdbcType="VARCHAR" property="projectPeople" />
+    <result column="main_people" jdbcType="VARCHAR" property="mainPeople" />
+    <result column="project_teacher" jdbcType="VARCHAR" property="projectTeacher" />
+    <result column="project_need" jdbcType="VARCHAR" property="projectNeed" />
+    <result column="project_match" jdbcType="VARCHAR" property="projectMatch" />
+    <result column="project_cooperation" jdbcType="VARCHAR" property="projectCooperation" />
+    <result column="project_activity" jdbcType="VARCHAR" property="projectActivity" />
+    <result column="project_service" jdbcType="VARCHAR" property="projectService" />
+    <result column="project_finance" jdbcType="VARCHAR" property="projectFinance" />
+    <result column="project_income" jdbcType="VARCHAR" property="projectIncome" />
+    <result column="project_company" jdbcType="VARCHAR" property="projectCompany" />
+    <result column="project_else_info" jdbcType="VARCHAR" property="projectElseInfo" />
+    <result column="project_activiti_state" jdbcType="VARCHAR" property="projectActivitiState" />
+    <result column="project_state_token" jdbcType="VARCHAR" property="projectStateToken" />
+    <result column="project_audit_msg" jdbcType="VARCHAR" property="projectAuditMsg" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    project_id, project_creater, description, endtime, project_followers, is_deleted, 
+    is_lock, plan_url, primary_job, project_name, starttime, project_status, project_type, 
+    video_url, project_people, main_people, project_teacher, project_need, project_match, 
+    project_cooperation, project_activity, project_service, project_finance, project_income, 
+    project_company, project_else_info, project_activiti_state, project_state_token, 
+    project_audit_msg
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProProjectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_PROJECT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_PROJECT
+    where project_id = #{projectId,jdbcType=BIGINT}
+  </select>
+
+  <!--根据projectId查询除当前项目的其他项目数据-->
+  <select id="selectOtherProjectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_PROJECT
+    where project_id != #{projectId,jdbcType=BIGINT}
+  </select>
+
+  <!--根据创建人查询项目信息-->
+  <select id="selectByCreater" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_PROJECT
+    where project_creater = #{projectCreater,jdbcType=VARCHAR}
+  </select>
+
+  <!--根据标志值查询素有待审批项目-->
+  <select id="selectProjectByToken" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_PROJECT
+    where project_state_token in
+    <foreach collection="tokens" item="token" open="(" close=")" separator=",">
+      #{token}
+    </foreach>
+  </select>
+
+  <!--查询所有项目-->
+  <select id="selectAllProject" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_PROJECT
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_PROJECT
+    where project_id = #{projectId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProProjectExample">
+    delete from PRO_PROJECT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProProject">
+    insert into PRO_PROJECT (project_id, project_creater, description, 
+      endtime, project_followers, is_deleted, 
+      is_lock, plan_url, primary_job, 
+      project_name, starttime, project_status, 
+      project_type, video_url, project_people, 
+      main_people, project_teacher, project_need, 
+      project_match, project_cooperation, project_activity, 
+      project_service, project_finance, project_income, 
+      project_company, project_else_info, project_activiti_state, 
+      project_state_token, project_audit_msg)
+    values (#{projectId,jdbcType=BIGINT}, #{projectCreater,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{projectFollowers,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{isLock,jdbcType=INTEGER}, #{planUrl,jdbcType=VARCHAR}, #{primaryJob,jdbcType=VARCHAR}, 
+      #{projectName,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{projectStatus,jdbcType=VARCHAR}, 
+      #{projectType,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, #{projectPeople,jdbcType=VARCHAR}, 
+      #{mainPeople,jdbcType=VARCHAR}, #{projectTeacher,jdbcType=VARCHAR}, #{projectNeed,jdbcType=VARCHAR}, 
+      #{projectMatch,jdbcType=VARCHAR}, #{projectCooperation,jdbcType=VARCHAR}, #{projectActivity,jdbcType=VARCHAR}, 
+      #{projectService,jdbcType=VARCHAR}, #{projectFinance,jdbcType=VARCHAR}, #{projectIncome,jdbcType=VARCHAR}, 
+      #{projectCompany,jdbcType=VARCHAR}, #{projectElseInfo,jdbcType=VARCHAR}, #{projectActivitiState,jdbcType=VARCHAR}, 
+      #{projectStateToken,jdbcType=VARCHAR}, #{projectAuditMsg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProProject" useGeneratedKeys="true" keyProperty="project_id">
+    insert into PRO_PROJECT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="projectCreater != null">
+        project_creater,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="endtime != null">
+        endtime,
+      </if>
+      <if test="projectFollowers != null">
+        project_followers,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="isLock != null">
+        is_lock,
+      </if>
+      <if test="planUrl != null">
+        plan_url,
+      </if>
+      <if test="primaryJob != null">
+        primary_job,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="starttime != null">
+        starttime,
+      </if>
+      <if test="projectStatus != null">
+        project_status,
+      </if>
+      <if test="projectType != null">
+        project_type,
+      </if>
+      <if test="videoUrl != null">
+        video_url,
+      </if>
+      <if test="projectPeople != null">
+        project_people,
+      </if>
+      <if test="mainPeople != null">
+        main_people,
+      </if>
+      <if test="projectTeacher != null">
+        project_teacher,
+      </if>
+      <if test="projectNeed != null">
+        project_need,
+      </if>
+      <if test="projectMatch != null">
+        project_match,
+      </if>
+      <if test="projectCooperation != null">
+        project_cooperation,
+      </if>
+      <if test="projectActivity != null">
+        project_activity,
+      </if>
+      <if test="projectService != null">
+        project_service,
+      </if>
+      <if test="projectFinance != null">
+        project_finance,
+      </if>
+      <if test="projectIncome != null">
+        project_income,
+      </if>
+      <if test="projectCompany != null">
+        project_company,
+      </if>
+      <if test="projectElseInfo != null">
+        project_else_info,
+      </if>
+      <if test="projectActivitiState != null">
+        project_activiti_state,
+      </if>
+      <if test="projectStateToken != null">
+        project_state_token,
+      </if>
+      <if test="projectAuditMsg != null">
+        project_audit_msg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="projectId != null">
+        #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="projectCreater != null">
+        #{projectCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectFollowers != null">
+        #{projectFollowers,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="isLock != null">
+        #{isLock,jdbcType=INTEGER},
+      </if>
+      <if test="planUrl != null">
+        #{planUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="primaryJob != null">
+        #{primaryJob,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectStatus != null">
+        #{projectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null">
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectPeople != null">
+        #{projectPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="mainPeople != null">
+        #{mainPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTeacher != null">
+        #{projectTeacher,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNeed != null">
+        #{projectNeed,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMatch != null">
+        #{projectMatch,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCooperation != null">
+        #{projectCooperation,jdbcType=VARCHAR},
+      </if>
+      <if test="projectActivity != null">
+        #{projectActivity,jdbcType=VARCHAR},
+      </if>
+      <if test="projectService != null">
+        #{projectService,jdbcType=VARCHAR},
+      </if>
+      <if test="projectFinance != null">
+        #{projectFinance,jdbcType=VARCHAR},
+      </if>
+      <if test="projectIncome != null">
+        #{projectIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCompany != null">
+        #{projectCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="projectElseInfo != null">
+        #{projectElseInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectActivitiState != null">
+        #{projectActivitiState,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStateToken != null">
+        #{projectStateToken,jdbcType=VARCHAR},
+      </if>
+      <if test="projectAuditMsg != null">
+        #{projectAuditMsg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProProjectExample" resultType="java.lang.Long">
+    select count(*) from PRO_PROJECT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_PROJECT
+    <set>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=BIGINT},
+      </if>
+      <if test="record.projectCreater != null">
+        project_creater = #{record.projectCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endtime != null">
+        endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.projectFollowers != null">
+        project_followers = #{record.projectFollowers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.isLock != null">
+        is_lock = #{record.isLock,jdbcType=INTEGER},
+      </if>
+      <if test="record.planUrl != null">
+        plan_url = #{record.planUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.primaryJob != null">
+        primary_job = #{record.primaryJob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starttime != null">
+        starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.projectStatus != null">
+        project_status = #{record.projectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectType != null">
+        project_type = #{record.projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videoUrl != null">
+        video_url = #{record.videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectPeople != null">
+        project_people = #{record.projectPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainPeople != null">
+        main_people = #{record.mainPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectTeacher != null">
+        project_teacher = #{record.projectTeacher,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectNeed != null">
+        project_need = #{record.projectNeed,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectMatch != null">
+        project_match = #{record.projectMatch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCooperation != null">
+        project_cooperation = #{record.projectCooperation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectActivity != null">
+        project_activity = #{record.projectActivity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectService != null">
+        project_service = #{record.projectService,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectFinance != null">
+        project_finance = #{record.projectFinance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectIncome != null">
+        project_income = #{record.projectIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCompany != null">
+        project_company = #{record.projectCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectElseInfo != null">
+        project_else_info = #{record.projectElseInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectActivitiState != null">
+        project_activiti_state = #{record.projectActivitiState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectStateToken != null">
+        project_state_token = #{record.projectStateToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectAuditMsg != null">
+        project_audit_msg = #{record.projectAuditMsg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_PROJECT
+    set project_id = #{record.projectId,jdbcType=BIGINT},
+      project_creater = #{record.projectCreater,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      project_followers = #{record.projectFollowers,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      is_lock = #{record.isLock,jdbcType=INTEGER},
+      plan_url = #{record.planUrl,jdbcType=VARCHAR},
+      primary_job = #{record.primaryJob,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      project_status = #{record.projectStatus,jdbcType=VARCHAR},
+      project_type = #{record.projectType,jdbcType=VARCHAR},
+      video_url = #{record.videoUrl,jdbcType=VARCHAR},
+      project_people = #{record.projectPeople,jdbcType=VARCHAR},
+      main_people = #{record.mainPeople,jdbcType=VARCHAR},
+      project_teacher = #{record.projectTeacher,jdbcType=VARCHAR},
+      project_need = #{record.projectNeed,jdbcType=VARCHAR},
+      project_match = #{record.projectMatch,jdbcType=VARCHAR},
+      project_cooperation = #{record.projectCooperation,jdbcType=VARCHAR},
+      project_activity = #{record.projectActivity,jdbcType=VARCHAR},
+      project_service = #{record.projectService,jdbcType=VARCHAR},
+      project_finance = #{record.projectFinance,jdbcType=VARCHAR},
+      project_income = #{record.projectIncome,jdbcType=VARCHAR},
+      project_company = #{record.projectCompany,jdbcType=VARCHAR},
+      project_else_info = #{record.projectElseInfo,jdbcType=VARCHAR},
+      project_activiti_state = #{record.projectActivitiState,jdbcType=VARCHAR},
+      project_state_token = #{record.projectStateToken,jdbcType=VARCHAR},
+      project_audit_msg = #{record.projectAuditMsg,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProProject">
+    update PRO_PROJECT
+    <set>
+      <if test="projectCreater != null">
+        project_creater = #{projectCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectFollowers != null">
+        project_followers = #{projectFollowers,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="isLock != null">
+        is_lock = #{isLock,jdbcType=INTEGER},
+      </if>
+      <if test="planUrl != null">
+        plan_url = #{planUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="primaryJob != null">
+        primary_job = #{primaryJob,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectStatus != null">
+        project_status = #{projectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        project_type = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null">
+        video_url = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectPeople != null">
+        project_people = #{projectPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="mainPeople != null">
+        main_people = #{mainPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTeacher != null">
+        project_teacher = #{projectTeacher,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNeed != null">
+        project_need = #{projectNeed,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMatch != null">
+        project_match = #{projectMatch,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCooperation != null">
+        project_cooperation = #{projectCooperation,jdbcType=VARCHAR},
+      </if>
+      <if test="projectActivity != null">
+        project_activity = #{projectActivity,jdbcType=VARCHAR},
+      </if>
+      <if test="projectService != null">
+        project_service = #{projectService,jdbcType=VARCHAR},
+      </if>
+      <if test="projectFinance != null">
+        project_finance = #{projectFinance,jdbcType=VARCHAR},
+      </if>
+      <if test="projectIncome != null">
+        project_income = #{projectIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCompany != null">
+        project_company = #{projectCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="projectElseInfo != null">
+        project_else_info = #{projectElseInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectActivitiState != null">
+        project_activiti_state = #{projectActivitiState,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStateToken != null">
+        project_state_token = #{projectStateToken,jdbcType=VARCHAR},
+      </if>
+      <if test="projectAuditMsg != null">
+        project_audit_msg = #{projectAuditMsg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where project_id = #{projectId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProProject">
+    update PRO_PROJECT
+    set project_creater = #{projectCreater,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      project_followers = #{projectFollowers,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      is_lock = #{isLock,jdbcType=INTEGER},
+      plan_url = #{planUrl,jdbcType=VARCHAR},
+      primary_job = #{primaryJob,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      project_status = #{projectStatus,jdbcType=VARCHAR},
+      project_type = #{projectType,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      project_people = #{projectPeople,jdbcType=VARCHAR},
+      main_people = #{mainPeople,jdbcType=VARCHAR},
+      project_teacher = #{projectTeacher,jdbcType=VARCHAR},
+      project_need = #{projectNeed,jdbcType=VARCHAR},
+      project_match = #{projectMatch,jdbcType=VARCHAR},
+      project_cooperation = #{projectCooperation,jdbcType=VARCHAR},
+      project_activity = #{projectActivity,jdbcType=VARCHAR},
+      project_service = #{projectService,jdbcType=VARCHAR},
+      project_finance = #{projectFinance,jdbcType=VARCHAR},
+      project_income = #{projectIncome,jdbcType=VARCHAR},
+      project_company = #{projectCompany,jdbcType=VARCHAR},
+      project_else_info = #{projectElseInfo,jdbcType=VARCHAR},
+      project_activiti_state = #{projectActivitiState,jdbcType=VARCHAR},
+      project_state_token = #{projectStateToken,jdbcType=VARCHAR},
+      project_audit_msg = #{projectAuditMsg,jdbcType=VARCHAR}
+    where project_id = #{projectId,jdbcType=BIGINT}
+  </update>
+</mapper>
