@@ -233,7 +233,7 @@ h1.fl{ float:left; margin-right:10px}
 .jianliBox .jlpart4 .red{color: #D84C09;font-weight: bold;height: 30px; line-height:30px}
 .jianliBox .jlpart4 .statusjl{background: url(../images/per23.png) 3px 6px no-repeat;width:60px;height: 30px; cursor:pointer; margin:0 auto}
 .jianliBox .jlpart4 .statusjl.on{background: url(../images/per24.png) 3px 6px no-repeat;width: 60px;height: 30px; cursor:pointer}
-.jianliBox .jlpart4 .delicon{background: url(../images/per35.png) 19px 6px no-repeat;width: 60px;height: 30px;cursor:pointer; margin:0 auto}
+.jianliBox .jlpart4 .delicon{background: url(../images/per35.png) 19px 6px no-repeat;width: 60px;height: 30px;margin:0 auto}   /*cursor:pointer;*/
 .jianliBox .divline{margin: 10px 0px;background: #E2E2E2;height: 1px;width: 100%;}
 
 
@@ -277,7 +277,7 @@ h1.fl{ float:left; margin-right:10px}
 .JlBoxCon h1 a.update{background:url(../images/per33.png) 1px no-repeat;color: #0f72a4; float:right;padding-left:20px;height: 20px;line-height: 20px; font-weight:normal;font-size: 12px;margin-right: 10px;}
 .JlBoxCon .JlBoxLeft{ float:left; width:80%}
 .JlBoxCon .JlBoxLeft .jldiv{ height:50px; width:100%;}
-.JlBoxCon .JlBoxLeft .jldiv .nametxt{ float:left;height:50px; line-height:50px; display:block;text-align: right; width:19%;padding-right:5px;font-weight: normal;}
+.JlBoxCon .JlBoxLeft .jldiv .nametxt{ float:left;height:50px; line-height:50px; display:block;text-align: right; width:20%;padding-right:5px;font-weight: normal;}
 .JlBoxCon .JlBoxLeft .jldiv .nametxt span{color: #f25b16;margin-right: 10px;}
 .JlBoxCon .JlBoxLeft .jldiv .inputtxt{padding: 7px 10px; width:75%; float:left}
 .JlBoxCon .JlBoxLeft .jldiv .inputtxt label{vertical-align: middle;word-break: break-all;height: 35px;line-height: 35px;}
@@ -288,7 +288,7 @@ h1.fl{ float:left; margin-right:10px}
 .JlBoxCon .JlBoxLeft .jldiv .inputtxt .ycname{vertical-align: middle;display: inline-block;}
 .JlBoxCon .JlBoxLeft .jldiv .inputtxt .sex{ float:left;width: 47px;height: 32px;line-height: 30px;text-align: center;border: 1px solid #D9DBD8;background: #FFF;border-radius: 2px;cursor: pointer; margin-right: 5px;}
 .JlBoxCon .JlBoxLeft .jldiv .inputtxt .sex.on{background:url(../images/log29.png) no-repeat;color: #0BC10A; border:none;width: 47px;height: 31px;}
-.JlBoxCon .JlBoxLeft .jldiv .inputtxt input.txt2{width: 220px;height: 37px;border-radius: 4px;border: 1px solid #DBDBDB;padding-left: 10px;text-align: left;background: url(../images/per32.png) 210px no-repeat #FFF;cursor: pointer;vertical-align: middle;}
+.JlBoxCon .JlBoxLeft .jldiv .inputtxt input.txt2{width: 220px;height: 37px;border-radius: 4px;border: 1px solid #DBDBDB;padding-left: 10px;text-align: left;background: url(../images/per32.png) 210px no-repeat #FFF;vertical-align: middle;}/*cursor: pointer;*/
 .JlBoxCon .JlBoxLeft .jldiv .inputtxt span{height: 35px;line-height: 35px;}
 .JlBoxCon .JlBoxLeft .jldiv .inputtxt a.updateph{ margin-left:10px;padding-left: 18px;height: 16px;line-height: 16px;display: inline-block;text-decoration: none;background:url(../images/per33.png) 1px no-repeat;color: #0f72a4;}
 .JlBoxCon .JlBoxLeft .jldiv .inputtxt input.txt3{width: 220px;}

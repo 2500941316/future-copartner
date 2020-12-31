@@ -29,7 +29,6 @@ import java.util.Map;
 @Transactional
 @Service
 public class FileuploadServiceImpl implements FileuploadService {
-
     @Autowired
     private ProProjectService proProjectService;
 
@@ -117,6 +116,13 @@ public class FileuploadServiceImpl implements FileuploadService {
         }
     }
 
+    /**
+     * 上传视视频
+     * @param uploadfile
+     * @param projectId
+     * @return
+     * @throws IOException
+     */
     @Override
     public TableModel managerVideoUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
         TableModel tableModel = new TableModel();

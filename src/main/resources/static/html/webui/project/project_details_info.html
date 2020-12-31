@@ -40,21 +40,13 @@
             <p>成员：<span id="projectPeople2"></span></p>
             <p>项目类型：<span id="projectType2"></span></p>
             <p>开始时间：<span id="starttime2"></span></p>
-            <p>项目视频：<span id="videoUrl2"></span></p>
-            <p>项目计划书：<span id="planUrl2"></span></p>
+            <p>项目视频：<a id="videoUrl2" target="_blank" style="color: #0f72a4">点击查看</a></p>
+            <p>项目计划书：<a id="planUrl2" target="_blank" style="color: #0f72a4">点击查看</a></p>
             <p>状态：<span id="projectStatus2"></span></p>
             <p>项目简述：<span id="description2"></span></p>
          </div>
          <div class="clear"></div>
-       <!--  <div class="DivLeft_3">
-            <h2><span></span>风险提示</h2>
-            <p>最近登录时间：2017/12/05 17:06</p>
-            <p>最近登录IP：58.63.3.*</p>
-            <p>[广东省广州市番禺区]</p>
-            <p>本单位基本资料已通过<a href="">网站证实</a></p>
-            <p>以上资料仅供参考，请求职者<a href="">规避求职风险</a></p>
-         </div>
-         <div class="clear"></div>-->
+
          <div class="DivLeft_4">
             <h2><span></span>猜你感兴趣</h2>
             <div id="interestProject">
@@ -97,8 +89,8 @@
                <div class="jobsub">项目成员： <span id="projectPeople"></span></div>
                <div class="jobsub">项目类型： <span id="projectType"></span></div>
                <div class="jobsub">开始时间： <span id="starttime"></span></div>
-               <div class="jobsub">项目计划书： <span id="planUrl"></span></div>
-               <div class="jobsub">项目视频： <span id="videoUrl"></span></div>
+               <div class="jobsub">项目计划书： <a id="planUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
+               <div class="jobsub">项目视频： <a id="videoUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
                <div class="jobsub">项目状态： <span id="projectStatus"></span></div>
 
             <!--   <div class="jobsub"></div>
@@ -115,14 +107,17 @@
          <div class="clear"></div>
          <div class="divJob_3">
             <b>项目里程碑：</b><br />
-            <div class="con">
-                1、执行公司的贸易业务，实施贸易规程，开拓市场；<br />
-                2、负责联系客户、编制报价、参与商务谈判，签订合同；<br />
-                3、负责生产跟踪、发货、现场监装；<br />
-                4、负责单证审核、报关、结算、售后服务等工作；<br />
-                5、客户的拓展与维护；<br />
-                6、业务相关资料的整理和归档；<br />
-                7、相关业务工作的汇报。 
+            <div id="projectLandmark" class="con">
+               <span  id="projectPeopleNew" style="display: none">新成员加入：<span id="new"></span></span>
+               <span  id="projectMatch" style="display: none">项目比赛：<span id="match"></span></span>
+               <span  id="projectCooperation" style="display: none">项目合作：<span id="cooperation"></span></span>
+               <span  id="projectActivity" style="display: none">项目重要市场活动：<span id="activity"></span></span>
+               <span  id="projectService" style="display: none">项目服务与产品研发：<span id="service"></span></span>
+               <span  id="projectFinance" style="display: none">项目融资：<span id="finance"></span></span>
+               <span  id="projectIncome" style="display: none">项目产生营收：<span id="income"></span></span>
+               <span  id="projectCompany" style="display: none">项目注册公司：<span id="company"></span></span>
+               <span  id="projectElseInfo" style="display: none">其他：<span id="elseInfo"></span></span>
+
             </div>
          </div>
          <div class="clear"></div>
@@ -169,36 +164,10 @@
      // getOtherProjectData();
       initLayPage();
 
+
+
+
    });
-
-
-
- /*  layui.use(['upload','layer'], function() {
-      var layer = layui.layer;
-    //  layer.msg("ssssss");
-      var upload = layui.upload;
-      //上传视频
-      upload.render({
-         elem: '#test3'
-         ,url: 'https://httpbin.org/post' //改成您自己的上传接口
-         ,accept: 'video' //普通文件
-         ,done: function(res){
-            layer.msg('上传成功');
-            console.log(res);
-         }
-      });
-
-      // 上传计划书
-      upload.render({
-         elem: '#test4'
-         ,url: 'https://httpbin.org/post' //改成您自己的上传接口
-         ,accept: 'file' //普通文件
-         ,done: function(res){
-            layer.msg('上传成功');
-            console.log(res);
-         }
-      });
-   })*/
 
    /**
     * 根据id请求当前项目数据
@@ -255,21 +224,62 @@
       document.getElementById("starttime").innerText = projectInfo[0].starttime;
       document.getElementById("starttime2").innerText = projectInfo[0].starttime;
 
-      typeof (projectInfo[0].planUrl) == "undefined" ?
+      projectInfo[0].planUrl== "null" ?
               document.getElementById("planUrl").innerText = "待上传" :
-              document.getElementById("planUrl").innerText = projectInfo[0].planUrl;
-      document.getElementById("planUrl2").innerText = projectInfo[0].planUrl;
+              document.getElementById("planUrl").href = projectInfo[0].planUrl;
+      projectInfo[0].planUrl == "null" ?
+              document.getElementById("planUrl2").innerText = "待上传" :
+              document.getElementById("planUrl2").href = projectInfo[0].planUrl;
 
-      document.getElementById("videoUrl2").innerText = projectInfo[0].videoUrl;
-      typeof (projectInfo[0].videoUrl) == "undefined" ?
+      projectInfo[0].videoUrl == "null" ?
               document.getElementById("videoUrl").innerText = "待上传" :
-              document.getElementById("videoUrl").innerText = projectInfo[0].videoUrl;
+              document.getElementById("videoUrl").href = projectInfo[0].videoUrl;
+      projectInfo[0].videoUrl == "null" ?
+              document.getElementById("videoUrl2").innerText = "待上传" :
+              document.getElementById("videoUrl2").href = projectInfo[0].videoUrl;
 
       document.getElementById("projectStatus").innerText = projectInfo[0].projectStatus;
       document.getElementById("projectStatus2").innerText = projectInfo[0].projectStatus;
 
       document.getElementById("description").innerText = projectInfo[0].description;
       document.getElementById("description2").innerText = projectInfo[0].description;
+
+      // 填充项目里程碑信息
+      if(projectInfo[0].projectPeopleNew != null){
+         document.getElementById("projectPeopleNew").style.display = "block";
+         document.getElementById("new").innerText = projectInfo[0].projectPeopleNew;
+
+      }
+      if(projectInfo[0].projectMatch != null){
+         document.getElementById("projectMatch").style.display = "block";
+         document.getElementById("match").innerText = projectInfo[0].projectMatch;
+      }
+      if(projectInfo[0].projectCooperation != null){
+         document.getElementById("projectCooperation").style.display = "block";
+         document.getElementById("cooperation").innerText = projectInfo[0].projectCooperation;
+      }
+      if(projectInfo[0].projectActivity != null){
+         document.getElementById("projectActivity").style.display = "block";
+         document.getElementById("activity").innerText = projectInfo[0].projectActivity;
+      }
+      if(projectInfo[0].projectService != null){
+         document.getElementById("projectService").style.display = "block";
+         document.getElementById("service").innerText = projectInfo[0].projectService;
+      }
+      if(projectInfo[0].projectFinance != null){
+         document.getElementById("projectFinance").style.display = "block";
+         document.getElementById("finance").innerText = projectInfo[0].projectFinance;
+      }
+      if(projectInfo[0].projectIncome != null){
+         document.getElementById("projectIncome").style.display = "block";
+         document.getElementById("income").innerText = projectInfo[0].projectIncome;
+      }if(projectInfo[0].projectCompany != null){
+         document.getElementById("projectCompany").style.display = "block";
+         document.getElementById("company").innerText = projectInfo[0].projectCompany;
+      }if(projectInfo[0].projectElseInfo != null){
+         document.getElementById("projectElseInfo").style.display = "block";
+         document.getElementById("elseInfo").innerText = projectInfo[0].projectElseInfo;
+      }
    }
 
    $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').click(function () {
@@ -282,6 +292,7 @@
          $('.DivLeft_1 .gz1').css('background', '#50BA8C');
          $('.divJob_2 .divJob_2_1').css('background', '#F96B2D');
          document.getElementById("follow2").innerText = "立即关注";
+         console.log(localStorage.getItem("projectId"));
       }
    })
    // 关注

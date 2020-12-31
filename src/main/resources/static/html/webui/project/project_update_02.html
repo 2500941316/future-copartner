@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css" />
+   <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
+<script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/html/webui/js/personal.js"></script>
+   <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+
+
+<title>修改项目信息</title>
+</head>
+
+<body>
+   <div class="perRightcon">
+      <div class="JlBoxCon">
+         <h1><span>项目信息</span><div><a onclick="submitUpdateProject()" class="update" style="cursor: pointer;">提交修改</a></div></h1>
+         <div class="JlBoxLeft">
+            <div class="jldiv">
+               <div class="nametxt"><span>*</span>项目名称：</div>
+               <div class="inputtxt">
+                  <input id="projectName" name="" type="text" class="txt3" autocomplete="off"/>
+               </div>
+            </div>
+            <div class="jldiv">
+               <div class="nametxt"><span>*</span>项目类别：</div>
+               <div class="inputtxt">
+                  <select name="" id="projectType" style="width: 235px;height: 35px;line-height: 35px;border: 1px #DBDBDB solid;border-radius: 4px;">
+                     <option value="" selected disabled hidden>请选择项目类别</option>
+                     <option value="新零售">新零售</option>
+                     <option value="文创">文创</option>
+                     <option value="科创">科创</option>
+                     <option value="K12">K12</option>
+                     <option value="校园行">校园行</option>
+                     <option value="其他">其他</option>
+                  </select>
+               </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+               <div class="nametxt"><span>*</span>时 间：</div>
+               <div class="inputtxt">
+                  <input id="starttime" name="" type="text" class="txt3" autocomplete="off"/>
+               </div>
+            </div>
+            <div class="jldiv">
+               <div class="nametxt"><span>*</span>负责人：</div>
+               <div class="inputtxt">
+                  <input id="mainPeople" name="" type="text" class="txt3" autocomplete="off"/>
+               </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+               <div class="nametxt">辅导教师：</div>
+               <div class="inputtxt">
+                  <input id="projectTeacher" name="" type="text" class="txt3" autocomplete="off"/>
+               </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+               <div class="nametxt">成 员：</div>
+               <div class="inputtxt">
+                  <textarea id="projectPeople" name="" cols="" rows="" autocomplete="off"></textarea>
+               </div>
+            </div>
+            <div class="jldiv">
+               <div class="nametxt">项目简述：</div>
+               <div class="inputtxt">
+                  <textarea id="description" name="" cols="" rows="" autocomplete="off"></textarea>
+                  <br /><span>最多可输入100个字</span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="clear"></div>
+      <div class="JlBoxCon">
+         <h1><span>项目里程碑</span><div><a onclick="updateLandmark()" href="#" class="update">提交修改</a></div></h1>
+         <div class="JlBoxLeft">
+            <div class="jldiv">
+               <div class="nametxt">新加入成员：</div>
+               <div class="inputtxt">
+                  <input name="" id="projectPeopleNew" type="text" class="txt3"/>
+                  <input name="" id="peopleTime" type="text" class="txt2" placeHolder="加入时间" autocomplete="off"/>
+               </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+               <div class="nametxt">项目比赛：</div>
+               <div class="inputtxt">
+                  <input name="" id="projectMatch" type="text" class="txt3" />
+                  <input name="" id="matchTime" type="text" class="txt2" placeHolder="更新时间" autocomplete="off"/>
+               </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+               <div class="nametxt">项目合作：</div>
+               <div class="inputtxt">
+                  <input name="" id="projectCooperation" type="text" class="txt3" />
+                  <input name="" id="cooperationTime" type="text" class="txt2" placeHolder="合作时间" autocomplete="off"/>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+               <div class="nametxt">项目重要市场活动：</div>
+               <div class="inputtxt">
+                  <textarea  name="" id="projectActivity" cols="" rows="2" autocomplete="off" style="width: 450px"></textarea>
+                  <input name="" id="activityTime" type="text" class="txt2" placeHolder="活动时间" style="margin-top: 5px;" autocomplete="off"/>
+               </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+               <div class="nametxt">项目服务产品开发：</div>
+               <div class="inputtxt">
+                  <input name="" id="projectService" type="text" class="txt3"/>
+                  <input name="" id="serviceTime" type="text" class="txt2" placeHolder="更新时间" autocomplete="off"/>
+               </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+               <div class="nametxt">项目融资：</div>
+               <div class="inputtxt">
+                  <input name="" id="projectFinance" type="text" class="txt3"/>
+                  <input name="" id="financeTime" type="text" class="txt2" placeHolder="更新时间" autocomplete="off"/>
+               </div>
+            </div>
+            <div class="clear"></div>
+               <div class="jldiv">
+                  <div class="nametxt">项目产生营收：</div>
+                  <div class="inputtxt">
+                     <input name="" id="projectIncome" type="text" class="txt3"/>
+                     <input name="" id="incomeTime" type="text" class="txt2" placeHolder="更新时间" autocomplete="off"/>
+                  </div>
+               </div>
+
+               <div class="clear"></div>
+               <div class="jldiv">
+                  <div class="nametxt">项目注册公司：</div>
+                  <div class="inputtxt">
+                     <input name="" id="projectCompany" type="text" class="txt3" />
+                     <input name="" id="companyTime" type="text" class="txt2" placeHolder="注册时间" autocomplete="off"/>
+                  </div>
+               </div>
+
+               <div class="clear"></div>
+               <div class="jldiv">
+                  <div class="nametxt">其他：</div>
+                  <div class="inputtxt">
+                     <input name="" id="projectElseInfo"  type="text" class="txt3" />
+                     <input name="" id="elseInfoTime" type="text" class="txt2" placeHolder="时间" autocomplete="off"/>
+                  </div>
+               </div>
+         </div>
+      </div>
+   </div>
+   </div>
+
+<script type="text/javascript">
+   $(function () {
+      getProjectData();
+   })
+
+   // 弹出层
+   layui.use('layer',function () {
+      var layer = layui.layer;
+     // top.layer.msg("在哪里")
+   })
+
+   // 时间组件
+   layui.use('laydate', function(){
+      var laydate = layui.laydate;
+      //执行一个laydate实例
+      laydate.render({
+         elem: '#peopleTime' //指定元素
+      });
+      laydate.render({
+         elem: '#matchTime'
+      });
+      laydate.render({
+         elem: '#cooperationTime'
+      });
+      laydate.render({
+         elem: '#activityTime'
+         ,trigger: 'click'
+      });
+      laydate.render({
+         elem: '#serviceTime'
+         ,trigger: 'click'
+      });
+      laydate.render({
+         elem: '#financeTime'
+         ,trigger: 'click'
+      });
+      laydate.render({
+         elem: '#incomeTime'
+         ,trigger: 'click'
+      });
+      laydate.render({
+         elem: '#companyTime'
+         ,trigger: 'click'
+      });
+      laydate.render({
+         elem: '#elseInfoTime'
+         ,trigger: 'click'
+      });
+   });
+
+
+   /**
+    * 根据id请求当前项目数据
+    */
+   function getProjectData() {
+      var projectId = localStorage.getItem("projectId");
+      $.ajax({
+         url: "/user/project/getProjectById",
+         async: true,
+         data: "projectId=" + projectId,
+         type: "GET",   //请求方式
+         success: function (req) {
+            if (req.code == 200) {
+               fillProjectInfo(req.data)
+            } else {
+               layer.msg("网络异常，请稍后重试！")
+            }
+         },
+         error: function (req) {
+            //请求出错处理
+            console.log(req);
+            layer.msg("参数异常");
+         }
+      })
+   }
+
+   /**
+    * 填充当前项目数据
+    * @param projectInfo
+    */
+   function fillProjectInfo(projectInfo) {
+      // 基本信息
+      $("#projectName").val(projectInfo[0].projectName);
+      $("#projectCreater").val(projectInfo[0].projectCreater);
+      $("#mainPeople").val(projectInfo[0].mainPeople);
+      $("#projectTeacher").val(projectInfo[0].projectTeacher);
+      $("#projectPeople").val(projectInfo[0].projectPeople);
+      $("#projectType").val(projectInfo[0].projectType);
+      $("#starttime").val(projectInfo[0].starttime);
+      $("#projectStatus").val(projectInfo[0].projectStatus);
+      $("#description").val(projectInfo[0].description);
+      $("#projectTeacher").val(projectInfo[0].projectTeacher);
+
+      // 里程碑信息
+        $("#projectPeopleNew").val(projectInfo[0].projectPeopleNew),
+        $("#projectMatch").val(projectInfo[0].projectMatch),
+        $("#projectCooperation").val(projectInfo[0].projectCooperation),
+        $("#projectActivity").val(projectInfo[0].projectActivity),
+        $("#projectService").val(projectInfo[0].projectService),
+        $("#projectFinance").val(projectInfo[0].projectFinance),
+        $("#projectIncome").val(projectInfo[0].projectIncome),
+        $("#projectCompany").val(projectInfo[0].projectCompany),
+        $("#projectElseInfo").val(projectInfo[0].projectElseInfo)
+
+        $("#matchTime").val(projectInfo[0].matchTime)
+        $("#peopleTime").val(projectInfo[0].peopleTime)
+        $("#cooperationTime").val(projectInfo[0].cooperationTime)
+        $("#activityTime").val(projectInfo[0].activityTime)
+        $("#serviceTime").val(projectInfo[0].serviceTime)
+        $("#financeTime").val(projectInfo[0].financeTime)
+        $("#incomeTime").val(projectInfo[0].incomeTime)
+        $("#companyTime").val(projectInfo[0].companyTime)
+        $("#elseInfoTime").val(projectInfo[0].elseInfoTime)
+   }
+
+   /**
+    * 提交修改
+    */
+   function submitUpdateProject(){
+      var projectId = localStorage.getItem("projectId");
+
+      var updataProject = {
+         projectId : projectId,
+         projectName : $("#projectName").val(),
+         mainPeople : $("#mainPeople").val(),
+         projectTeacher : $("#projectTeacher").val(),
+         projectPeople : $("#projectPeople").val(),
+         projectType : $("#projectType").val(),
+         starttime : $("#starttime").val(),
+         projectStatus : $("#projectStatus").val(),
+         description :  $("#description").val(),
+         projectTeacher :  $("#projectTeacher").val()
+      }
+      console.log(updataProject)
+      $.ajax({
+         url: "/user/project/updateProject",
+         dataType: "json",
+         contentType: "application/json",
+         data: JSON.stringify(updataProject),
+         type: "POST",
+         success: function(req) {
+            if(req.code == 200){
+               top.layer.msg("修改成功！")
+            }else{
+               top.layer.msg("网络异常，请稍后重试！")
+            }
+         },
+         error: function(req) {
+            //请求出错处理
+            console.log(req);
+            layer.msg('参数异常');
+         }
+      });
+   }
+
+   /**
+    * 更新项目里程碑
+    */
+   function updateLandmark() {
+      var projectId = localStorage.getItem("projectId");
+
+      var landmarkData = {
+         projectId: projectId,
+         // 基本信息
+         projectName : $("#projectName").val(),
+         mainPeople : $("#mainPeople").val(),
+         projectType : $("#projectType").val(),
+         starttime : $("#starttime").val(),
+         // 里程碑信息
+         projectPeopleNew: $("#projectPeopleNew").val(),
+         projectMatch: $("#projectMatch").val(),
+         projectCooperation: $("#projectCooperation").val(),
+         projectActivity: $("#projectActivity").val(),
+         projectService: $("#projectService").val(),
+         projectFinance: $("#projectFinance").val(),
+         projectIncome: $("#projectIncome").val(),
+         projectCompany: $("#projectCompany").val(),
+         projectElseInfo: $("#projectElseInfo").val(),
+
+         peopleTime: $("#peopleTime").val(),
+         matchTime: $("#matchTime").val(),
+         cooperationTime: $("#cooperationTime").val(),
+         activityTime: $("#activityTime").val(),
+         serviceTime: $("#serviceTime").val(),
+         financeTime: $("#financeTime").val(),
+         incomeTime: $("#incomeTime").val(),
+         companyTime: $("#companyTime").val(),
+         elseInfoTime: $("#elseInfoTime").val(),
+      }
+      console.log(landmarkData)
+      $.ajax({
+         url: "/user/project/updateProject",
+         dataType: "json",
+         contentType: "application/json",
+         data: JSON.stringify(landmarkData),
+         type: "POST",
+         success: function(req) {
+            if(req.code == 200){
+               top.layer.msg("修改成功！")
+            }else{
+               top.layer.msg("网络异常，请稍后重试！")
+            }
+         },
+         error: function(req) {
+            //请求出错处理
+            console.log(req);
+            layer.msg('参数异常');
+         }
+      });
+   }
+
+</script>
+</body>
+</html>

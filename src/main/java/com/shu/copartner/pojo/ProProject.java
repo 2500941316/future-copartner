@@ -62,6 +62,28 @@ public class ProProject implements Serializable {
 
     private String projectAuditMsg;
 
+    private Date peopleTime;
+
+    private Date matchTime;
+
+    private Date cooperationTime;
+
+    private Date activityTime;
+
+    private Date serviceTime;
+
+    private Date financeTime;
+
+    private Date incomeTime;
+
+    private Date companyTime;
+
+    private Date elseInfoTime;
+
+    private String projectPeopleNew;
+
+    private String isGoing;
+
     private static final long serialVersionUID = 1L;
 
     public Long getProjectId() {
@@ -296,6 +318,94 @@ public class ProProject implements Serializable {
         this.projectAuditMsg = projectAuditMsg == null ? null : projectAuditMsg.trim();
     }
 
+    public Date getPeopleTime() {
+        return peopleTime;
+    }
+
+    public void setPeopleTime(Date peopleTime) {
+        this.peopleTime = peopleTime;
+    }
+
+    public Date getMatchTime() {
+        return matchTime;
+    }
+
+    public void setMatchTime(Date matchTime) {
+        this.matchTime = matchTime;
+    }
+
+    public Date getCooperationTime() {
+        return cooperationTime;
+    }
+
+    public void setCooperationTime(Date cooperationTime) {
+        this.cooperationTime = cooperationTime;
+    }
+
+    public Date getActivityTime() {
+        return activityTime;
+    }
+
+    public void setActivityTime(Date activityTime) {
+        this.activityTime = activityTime;
+    }
+
+    public Date getServiceTime() {
+        return serviceTime;
+    }
+
+    public void setServiceTime(Date serviceTime) {
+        this.serviceTime = serviceTime;
+    }
+
+    public Date getFinanceTime() {
+        return financeTime;
+    }
+
+    public void setFinanceTime(Date financeTime) {
+        this.financeTime = financeTime;
+    }
+
+    public Date getIncomeTime() {
+        return incomeTime;
+    }
+
+    public void setIncomeTime(Date incomeTime) {
+        this.incomeTime = incomeTime;
+    }
+
+    public Date getCompanyTime() {
+        return companyTime;
+    }
+
+    public void setCompanyTime(Date companyTime) {
+        this.companyTime = companyTime;
+    }
+
+    public Date getElseInfoTime() {
+        return elseInfoTime;
+    }
+
+    public void setElseInfoTime(Date elseInfoTime) {
+        this.elseInfoTime = elseInfoTime;
+    }
+
+    public String getProjectPeopleNew() {
+        return projectPeopleNew;
+    }
+
+    public void setProjectPeopleNew(String projectPeopleNew) {
+        this.projectPeopleNew = projectPeopleNew == null ? null : projectPeopleNew.trim();
+    }
+
+    public String getIsGoing() {
+        return isGoing;
+    }
+
+    public void setIsGoing(String isGoing) {
+        this.isGoing = isGoing == null ? null : isGoing.trim();
+    }
+
     @Override
     public String toString() {
         return "ProProject{" +
@@ -328,6 +438,17 @@ public class ProProject implements Serializable {
                 ", projectActivitiState='" + projectActivitiState + '\'' +
                 ", projectStateToken='" + projectStateToken + '\'' +
                 ", projectAuditMsg='" + projectAuditMsg + '\'' +
+                ", peopleTime=" + peopleTime +
+                ", matchTime=" + matchTime +
+                ", cooperationTime=" + cooperationTime +
+                ", activityTime=" + activityTime +
+                ", serviceTime=" + serviceTime +
+                ", financeTime=" + financeTime +
+                ", incomeTime=" + incomeTime +
+                ", companyTime=" + companyTime +
+                ", elseInfoTime=" + elseInfoTime +
+                ", projectPeopleNew='" + projectPeopleNew + '\'' +
+                ", isGoing='" + isGoing + '\'' +
                 '}';
     }
 }

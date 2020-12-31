@@ -12,11 +12,14 @@
 
     <title>我的项目</title>
 
-   <!-- <style type="text/css">
-        .plan{
-            cursor: pointer;
+    <style type="text/css">
+        .tdname1:hover{
+            color: red;
         }
-    </style>-->
+        .tdname2:hover{
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -36,6 +39,12 @@
         <div class="jianliBox" id="tableDiv">
                 <!--展示数据-->
         </div>
+
+        <!--分页-->
+        <div style="float: right">
+            <div id="page"></div>
+        </div>
+
     <div class="clear"></div>
     <div class="addJl">
         <a href="personal_project_apply.html">
@@ -49,34 +58,53 @@
 
 <script type="text/javascript">
     // 弹出层
-    layui.use('layer', function(){
+    layui.use(['upload','layer'], function(){
         var layer = layui.layer;
+        var upload = layui.upload;
     });
 
        $(function () {
-           $.ajax({
-               url: "/user/project/selectByCreater",    //请求的url地址
-               dataType: "json",   //返回格式为json
-               contentType: "application/json",
-               async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-             //  data: JSON.stringify(data),   //参数值
-               type: "GET",   //请求方式
-               success: function(req) {
-                   if(req.code == 200){
-                       console.log(req)
-                       fillProjectInfo(req.data)
-                   }else{
-                       layer.msg("网络异常，请稍后重试！")
-                   }
-               },
-               error: function(req) {
-                   //请求出错处理
-                   console.log(req);
-                   layer.msg('参数异常');
-               }
-           });
+           searchProjectByCreater();
     })
 
+    /**
+     * 根据输入的值搜索项目
+     */
+    function searchProjectByCreater(pageConf) {
+        if (!pageConf) {
+            pageConf = {};
+            pageConf.pageSize = 4; // 每页显示条数
+            pageConf.currentPage = 1; // 当前页
+        }
+        $.get("/user/project/selectByCreater", pageConf, function (data) {
+            layui.use(['laypage', 'layer'], function () {
+                var page = layui.laypage;
+                page.render({
+                    elem: 'page',
+                    count: data.count,
+                    curr: pageConf.currentPage,
+                    limit: pageConf.pageSize,
+                    first: "首页",
+                    last: "尾页",
+                    layout: ['count', 'prev', 'page', 'next', 'skip'],// 'limit',
+                    jump: function (obj, first) {
+                        if (!first) {
+                            pageConf.currentPage = obj.curr;
+                            pageConf.pageSize = obj.limit;
+                            searchProjectByCreater(pageConf);
+                        }
+                        fillProjectInfo(data.data); //页面填充
+                    }
+                });
+            })
+        })
+    }
+
+    /**
+     * 填充我的项目
+     * 注意每个项目上传按钮需要单独动态绑定，一个按钮对应一个id属性
+     * @param projectData
+     */
     function fillProjectInfo (projectData) {
           const $active = $("#tableDiv");
           $active.html("");
@@ -100,26 +128,26 @@
                   '                    </div>\n' +
                   '                    <div class="jlpart3">\n' +
                   '                        完整度 20 %\n' +
-                  '                        [ <a href="/html/webui/project/project_concret_info.html" target = "blank">修改</a>\n' +
+                  '                        [ <a onclick="updateProjectInfo('+projectData[i].projectId+')" href="#">修改</a>\n' +
                   '                        <a onclick="viewProjectDetail('+projectData[i].projectId+')" href="#">查看</a>\n' +
-                  '                        <a href="/html/webui/project/project_search.html" target = "blank">下载</a> ]</div>\n' +
+                  '                        <a href="#">下载</a> ]</div>\n' +
                   '                </td>\n' +
                   '            <td rowspan="2">\n' +
                   '                       <div class="jlpart4">\n' +
                   '                          <div class="red"><i class="layui-icon layui-icon-video"></i>  </div>\n' +
-                  '                          <div class="tdname"><button type="button" style="border-style: none; outline: none;background: none; cursor: pointer" id="upVideo"><span id="currentVideoId" style="display:none;">'+projectData[i].projectId+'</span>上传视频</button></div>\n' +
+                  '                          <div class="tdname"><span id="currentVideoId" style="display:none;">'+projectData[i].projectId+'</span><button type="button" class="tdname1" style="border-style: none; outline: none;background: none; cursor: pointer" id="'+5+i+'">上传视频</button></div>\n' +
                   '                       </div>\n' +
                   '                </td>\n'+
                   '            <td rowspan="2">\n' +
                   '                       <div class="jlpart4">\n' +
                   '                          <div class="red"><i class="layui-icon layui-icon-upload-drag"></i>  </div>\n' +
-                  '                          <div class="tdname"><button type="button" style="border-style: none; outline: none;background: none; cursor: pointer" id="upPlan"><span id="currentPlanId" style="display:none;">'+projectData[i].projectId+'</span>上传计划书</button></div>\n' +
+                  '                          <div class="tdname"><span id="currentPlanId" style="display:none;">'+projectData[i].projectId+'</span> <button type="button"  class="tdname1" style="border-style: none; outline: none;background: none; cursor: pointer"  id="'+1+i+'" >上传计划书</button></div>\n' +
                   '                       </div>\n' +
                   '                </td>\n'+
                   '                <td rowspan="2">\n' +
                   '                    <div class="jlpart4">\n' +
                   '                        <div class="delicon"></div>\n' +
-                  '                        <div class="tdname">删除</div>\n' +
+                  '                        <div class="tdname2" onclick="deleteProject('+projectData[i].projectId+')" style="cursor: pointer;">删除</div>\n' +
                   '                    </div>\n' +
                   '                </td>\n' +
 
@@ -138,9 +166,80 @@
 
            );
               $active.append($children);
+              // 将上传按钮渲染到每个循环的项目中,注意要与上传所在的button标签的id值对应
+              uploadPlan(1+i,projectData[i].projectId);
+              uploadVideo(5+i,projectData[i].projectId)
           }
     }
 
+    /**
+     * 上传计划书
+     * 动态绑定上传按钮，每个上传按钮都对应不同的id值
+     */
+    function uploadPlan(elemId,currentProjectId) {
+       // console.log(elemId+" : "+currentProjectId)
+        // 加上 # 作为动态绑定按钮的 elem值。
+         elemId = "#"+elemId;
+
+        layui.use(['upload','layer'], function() {
+            var layer = layui.layer;
+            var upload = layui.upload;
+            // 上传计划书
+            upload.render({
+                elem: elemId
+                , url: '/user/project/uploadPlan'
+                , data: {
+                    projectId: currentProjectId
+                }
+                , accept: 'file' //普通文件
+                , done: function (res) {
+                    if (res.code == 200) {
+                        top.layer.msg('上传成功');
+                        console.log(res);
+                    } else {
+                        top.layer.msg('网络异常');
+                        console.log(res);
+                    }
+                }
+            });
+        });
+    }
+
+    /**
+     * 上传视频
+     * 动态绑定上传按钮，每个上传按钮都对应不同的id值
+     */
+    function uploadVideo(elemId,currentProjectId) {
+        // 加上 # 作为动态绑定按钮的 elem值。
+        elemId = "#"+elemId;
+
+        layui.use(['upload','layer'], function() {
+            var layer = layui.layer;
+            var upload = layui.upload;
+            //上传视频
+            upload.render({
+                elem: elemId
+                ,url: '/user/project/uploadVideo'
+                ,data: {projectId: function(){return document.getElementById(currentProjectId).innerText;}}
+                ,accept: 'video' //视频
+                ,done: function(res){
+                    if(res.code == 200){
+                        top.layer.msg('上传成功');
+                        console.log(res);
+                    }else{
+                        top.layer.msg('网络异常');
+                        console.log(res);
+                    }
+                }
+            });
+        });
+    }
+
+
+    /**
+     * 查看项目详情
+     * @param projectId
+     */
     function viewProjectDetail(projectId) {
            layer.msg("projectId:"+projectId);
         localStorage.setItem("projectId",projectId);
@@ -149,44 +248,40 @@
 
     }
 
-    layui.use(['upload','layer'], function() {
-        var layer = layui.layer;
-        //  layer.msg("ssssss");
-        var upload = layui.upload;
-        //上传视频
-        upload.render({
-            elem: '#upVideo'
-            ,url: '/user/project/uploadVideo'
-            ,data: {projectId: function(){return document.getElementById("currentVideoId").innerText;}}
-            ,accept: 'video' //视频
-            ,done: function(res){
-                if(res.code == 200){
-                    layer.msg('上传成功');
-                    console.log(res);
-                }else{
-                    layer.msg('网络异常');
-                    console.log(res);
+    /**
+     * 修改项目信息
+     */
+    function updateProjectInfo(projectId){
+        localStorage.setItem("projectId", projectId);
+        window.location.href = "/html/webui/project/project_update_02.html";
+    }
+
+    /**
+     * 删除项目
+     * @param projectId
+     */
+    function deleteProject(projectId) {
+        top.layer.confirm('确认删除？', function (index) {
+            $.ajax({
+                url: '/user/project/deleteProject',
+                data: "projectId="+projectId,
+                type: "GET",
+                success: function (res) {
+                    if(res.code == 200){
+                        top.layer.msg("删除成功");
+                        window.location.href = "/html/webui/personal/personal_project_list.html";
+                    }else{
+                        top.layer.msg("网络异常")
+                    }
                 }
-            }
+            })
+            top.layer.close(index);
         });
 
-        // 上传计划书
-        upload.render({
-            elem: '#upPlan'
-            ,url: '/user/project/uploadPlan'
-            ,data: {projectId: function(){return document.getElementById("currentPlanId").innerText;}}
-            ,accept: 'file' //普通文件
-            ,done: function(res){
-                if(res.code == 200){
-                    layer.msg('上传成功');
-                    console.log(res);
-                }else{
-                    layer.msg('网络异常');
-                    console.log(res);
-                }
-            }
-        });
-    })
+
+    }
+
+
 
 
 </script>

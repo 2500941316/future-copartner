@@ -2,22 +2,20 @@ package com.shu.copartner.service.impl.manager;
 
 import com.shu.copartner.mapper.ActRuVariableMapper;
 import com.shu.copartner.mapper.ProProjectMapper;
-import com.shu.copartner.pojo.*;
+import com.shu.copartner.pojo.ProProject;
 import com.shu.copartner.pojo.request.ProjectManagerOperationVO;
-import com.shu.copartner.pojo.response.ProjectInfoSo;
 import com.shu.copartner.service.ManagerProjectService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.task.Task;
-import org.omg.PortableInterceptor.INACTIVE;
+import org.junit.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -134,6 +132,7 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         for(Map.Entry<String,String> entry : Constants.PROJECT_STATE_TOKEN.entrySet()){
             if(projectManagerOperationVO.getProjectStateToken().equals(entry.getKey())){
                 tempStateToken = entry.getKey();
+                log.info("审批："+tempStateToken);
             }
         }
         if(tempStateToken.equals("21")){
@@ -143,15 +142,15 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         }else if(tempStateToken.equals("41")){
             // 审批项目视频，如果驳回则将视频路径置空
             if(isPass == 2){
-                proProject.setVideoUrl(null);
+                proProject.setVideoUrl("null");
             }
             // 写到数据库中
             proProjectMapper.updateByPrimaryKeySelective(proProject);
             return TableModel.success();
-        }else if(tempStateToken.equals("41")){
+        }else if(tempStateToken.equals("51")){
             // 审批项目计划书，如果驳回则将计划书路径置空
             if(isPass == 2){
-                proProject.setPlanUrl(null);
+                proProject.setPlanUrl("null");
             }
             // 写到数据库中
             proProjectMapper.updateByPrimaryKeySelective(proProject);
@@ -159,10 +158,6 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         }else
         return TableModel.error("网络异常");
     }
-
-
-
-
 
    /* @Override
     public TableModel operateNew(NewsManagerOperationVO newsManagerOperationVO) {

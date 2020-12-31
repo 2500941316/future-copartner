@@ -31,6 +31,17 @@
     <result column="project_activiti_state" jdbcType="VARCHAR" property="projectActivitiState" />
     <result column="project_state_token" jdbcType="VARCHAR" property="projectStateToken" />
     <result column="project_audit_msg" jdbcType="VARCHAR" property="projectAuditMsg" />
+    <result column="people_time" jdbcType="TIMESTAMP" property="peopleTime" />
+    <result column="match_time" jdbcType="TIMESTAMP" property="matchTime" />
+    <result column="cooperation_time" jdbcType="TIMESTAMP" property="cooperationTime" />
+    <result column="activity_time" jdbcType="TIMESTAMP" property="activityTime" />
+    <result column="service_time" jdbcType="TIMESTAMP" property="serviceTime" />
+    <result column="finance_time" jdbcType="TIMESTAMP" property="financeTime" />
+    <result column="income_time" jdbcType="TIMESTAMP" property="incomeTime" />
+    <result column="company_time" jdbcType="TIMESTAMP" property="companyTime" />
+    <result column="else_info_time" jdbcType="TIMESTAMP" property="elseInfoTime" />
+    <result column="project_people_new" jdbcType="VARCHAR" property="projectPeopleNew" />
+    <result column="is_going" jdbcType="VARCHAR" property="isGoing" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -96,7 +107,8 @@
     video_url, project_people, main_people, project_teacher, project_need, project_match, 
     project_cooperation, project_activity, project_service, project_finance, project_income, 
     project_company, project_else_info, project_activiti_state, project_state_token, 
-    project_audit_msg
+    project_audit_msg, people_time, match_time, cooperation_time, activity_time, service_time, 
+    finance_time, income_time, company_time, else_info_time, project_people_new, is_going
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProProjectExample" resultMap="BaseResultMap">
     select
@@ -113,10 +125,10 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from PRO_PROJECT
-    where project_id = #{projectId,jdbcType=BIGINT}
+    where project_id = #{projectId,jdbcType=BIGINT} and is_deleted = 0
   </select>
 
   <!--根据projectId查询除当前项目的其他项目数据-->
@@ -124,7 +136,7 @@
     select
     <include refid="Base_Column_List" />
     from PRO_PROJECT
-    where project_id != #{projectId,jdbcType=BIGINT}
+    where project_id != #{projectId,jdbcType=BIGINT} and is_deleted = 0
   </select>
 
   <!--根据创建人查询项目信息-->
@@ -132,7 +144,7 @@
     select
     <include refid="Base_Column_List" />
     from PRO_PROJECT
-    where project_creater = #{projectCreater,jdbcType=VARCHAR}
+    where project_creater = #{projectCreater,jdbcType=VARCHAR} and is_deleted = 0
   </select>
 
   <!--根据标志值查询素有待审批项目-->
@@ -144,6 +156,7 @@
     <foreach collection="tokens" item="token" open="(" close=")" separator=",">
       #{token}
     </foreach>
+    and  is_deleted = 0
   </select>
 
   <!--查询所有项目-->
@@ -151,6 +164,7 @@
     select
     <include refid="Base_Column_List" />
     from PRO_PROJECT
+    where is_deleted = 0
   </select>
 
 
@@ -164,7 +178,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.shu.copartner.pojo.ProProject">
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProProject" useGeneratedKeys="true" keyProperty="projectId">
     insert into PRO_PROJECT (project_id, project_creater, description, 
       endtime, project_followers, is_deleted, 
       is_lock, plan_url, primary_job, 
@@ -174,7 +188,11 @@
       project_match, project_cooperation, project_activity, 
       project_service, project_finance, project_income, 
       project_company, project_else_info, project_activiti_state, 
-      project_state_token, project_audit_msg)
+      project_state_token, project_audit_msg, people_time, 
+      match_time, cooperation_time, activity_time, 
+      service_time, finance_time, income_time, 
+      company_time, else_info_time, project_people_new, 
+      is_going)
     values (#{projectId,jdbcType=BIGINT}, #{projectCreater,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{endtime,jdbcType=TIMESTAMP}, #{projectFollowers,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{isLock,jdbcType=INTEGER}, #{planUrl,jdbcType=VARCHAR}, #{primaryJob,jdbcType=VARCHAR}, 
@@ -184,9 +202,13 @@
       #{projectMatch,jdbcType=VARCHAR}, #{projectCooperation,jdbcType=VARCHAR}, #{projectActivity,jdbcType=VARCHAR}, 
       #{projectService,jdbcType=VARCHAR}, #{projectFinance,jdbcType=VARCHAR}, #{projectIncome,jdbcType=VARCHAR}, 
       #{projectCompany,jdbcType=VARCHAR}, #{projectElseInfo,jdbcType=VARCHAR}, #{projectActivitiState,jdbcType=VARCHAR}, 
-      #{projectStateToken,jdbcType=VARCHAR}, #{projectAuditMsg,jdbcType=VARCHAR})
+      #{projectStateToken,jdbcType=VARCHAR}, #{projectAuditMsg,jdbcType=VARCHAR}, #{peopleTime,jdbcType=TIMESTAMP}, 
+      #{matchTime,jdbcType=TIMESTAMP}, #{cooperationTime,jdbcType=TIMESTAMP}, #{activityTime,jdbcType=TIMESTAMP}, 
+      #{serviceTime,jdbcType=TIMESTAMP}, #{financeTime,jdbcType=TIMESTAMP}, #{incomeTime,jdbcType=TIMESTAMP}, 
+      #{companyTime,jdbcType=TIMESTAMP}, #{elseInfoTime,jdbcType=TIMESTAMP}, #{projectPeopleNew,jdbcType=VARCHAR}, 
+      #{isGoing,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProProject" useGeneratedKeys="true" keyProperty="project_id">
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProProject" useGeneratedKeys="true" keyProperty="projectId">
     insert into PRO_PROJECT
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="projectId != null">
@@ -276,6 +298,39 @@
       <if test="projectAuditMsg != null">
         project_audit_msg,
       </if>
+      <if test="peopleTime != null">
+        people_time,
+      </if>
+      <if test="matchTime != null">
+        match_time,
+      </if>
+      <if test="cooperationTime != null">
+        cooperation_time,
+      </if>
+      <if test="activityTime != null">
+        activity_time,
+      </if>
+      <if test="serviceTime != null">
+        service_time,
+      </if>
+      <if test="financeTime != null">
+        finance_time,
+      </if>
+      <if test="incomeTime != null">
+        income_time,
+      </if>
+      <if test="companyTime != null">
+        company_time,
+      </if>
+      <if test="elseInfoTime != null">
+        else_info_time,
+      </if>
+      <if test="projectPeopleNew != null">
+        project_people_new,
+      </if>
+      <if test="isGoing != null">
+        is_going,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectId != null">
@@ -364,6 +419,39 @@
       </if>
       <if test="projectAuditMsg != null">
         #{projectAuditMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="peopleTime != null">
+        #{peopleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchTime != null">
+        #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cooperationTime != null">
+        #{cooperationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityTime != null">
+        #{activityTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serviceTime != null">
+        #{serviceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="financeTime != null">
+        #{financeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="incomeTime != null">
+        #{incomeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyTime != null">
+        #{companyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="elseInfoTime != null">
+        #{elseInfoTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectPeopleNew != null">
+        #{projectPeopleNew,jdbcType=VARCHAR},
+      </if>
+      <if test="isGoing != null">
+        #{isGoing,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -463,6 +551,39 @@
       <if test="record.projectAuditMsg != null">
         project_audit_msg = #{record.projectAuditMsg,jdbcType=VARCHAR},
       </if>
+      <if test="record.peopleTime != null">
+        people_time = #{record.peopleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.matchTime != null">
+        match_time = #{record.matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cooperationTime != null">
+        cooperation_time = #{record.cooperationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.activityTime != null">
+        activity_time = #{record.activityTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.serviceTime != null">
+        service_time = #{record.serviceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.financeTime != null">
+        finance_time = #{record.financeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.incomeTime != null">
+        income_time = #{record.incomeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.companyTime != null">
+        company_time = #{record.companyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.elseInfoTime != null">
+        else_info_time = #{record.elseInfoTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.projectPeopleNew != null">
+        project_people_new = #{record.projectPeopleNew,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isGoing != null">
+        is_going = #{record.isGoing,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -498,7 +619,18 @@
       project_else_info = #{record.projectElseInfo,jdbcType=VARCHAR},
       project_activiti_state = #{record.projectActivitiState,jdbcType=VARCHAR},
       project_state_token = #{record.projectStateToken,jdbcType=VARCHAR},
-      project_audit_msg = #{record.projectAuditMsg,jdbcType=VARCHAR}
+      project_audit_msg = #{record.projectAuditMsg,jdbcType=VARCHAR},
+      people_time = #{record.peopleTime,jdbcType=TIMESTAMP},
+      match_time = #{record.matchTime,jdbcType=TIMESTAMP},
+      cooperation_time = #{record.cooperationTime,jdbcType=TIMESTAMP},
+      activity_time = #{record.activityTime,jdbcType=TIMESTAMP},
+      service_time = #{record.serviceTime,jdbcType=TIMESTAMP},
+      finance_time = #{record.financeTime,jdbcType=TIMESTAMP},
+      income_time = #{record.incomeTime,jdbcType=TIMESTAMP},
+      company_time = #{record.companyTime,jdbcType=TIMESTAMP},
+      else_info_time = #{record.elseInfoTime,jdbcType=TIMESTAMP},
+      project_people_new = #{record.projectPeopleNew,jdbcType=VARCHAR},
+      is_going = #{record.isGoing,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -590,6 +722,39 @@
       <if test="projectAuditMsg != null">
         project_audit_msg = #{projectAuditMsg,jdbcType=VARCHAR},
       </if>
+      <if test="peopleTime != null">
+        people_time = #{peopleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchTime != null">
+        match_time = #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cooperationTime != null">
+        cooperation_time = #{cooperationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityTime != null">
+        activity_time = #{activityTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serviceTime != null">
+        service_time = #{serviceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="financeTime != null">
+        finance_time = #{financeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="incomeTime != null">
+        income_time = #{incomeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyTime != null">
+        company_time = #{companyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="elseInfoTime != null">
+        else_info_time = #{elseInfoTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectPeopleNew != null">
+        project_people_new = #{projectPeopleNew,jdbcType=VARCHAR},
+      </if>
+      <if test="isGoing != null">
+        is_going = #{isGoing,jdbcType=VARCHAR},
+      </if>
     </set>
     where project_id = #{projectId,jdbcType=BIGINT}
   </update>
@@ -622,7 +787,18 @@
       project_else_info = #{projectElseInfo,jdbcType=VARCHAR},
       project_activiti_state = #{projectActivitiState,jdbcType=VARCHAR},
       project_state_token = #{projectStateToken,jdbcType=VARCHAR},
-      project_audit_msg = #{projectAuditMsg,jdbcType=VARCHAR}
+      project_audit_msg = #{projectAuditMsg,jdbcType=VARCHAR},
+      people_time = #{peopleTime,jdbcType=TIMESTAMP},
+      match_time = #{matchTime,jdbcType=TIMESTAMP},
+      cooperation_time = #{cooperationTime,jdbcType=TIMESTAMP},
+      activity_time = #{activityTime,jdbcType=TIMESTAMP},
+      service_time = #{serviceTime,jdbcType=TIMESTAMP},
+      finance_time = #{financeTime,jdbcType=TIMESTAMP},
+      income_time = #{incomeTime,jdbcType=TIMESTAMP},
+      company_time = #{companyTime,jdbcType=TIMESTAMP},
+      else_info_time = #{elseInfoTime,jdbcType=TIMESTAMP},
+      project_people_new = #{projectPeopleNew,jdbcType=VARCHAR},
+      is_going = #{isGoing,jdbcType=VARCHAR}
     where project_id = #{projectId,jdbcType=BIGINT}
   </update>
 </mapper>

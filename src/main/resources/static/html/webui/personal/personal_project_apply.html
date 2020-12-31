@@ -10,6 +10,7 @@
     <script type="text/javascript" src="/html/webui/js/personal.js"></script>
     <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
 
+
     <title>创建项目</title>
 
 
@@ -33,13 +34,13 @@
                     <div class="nametxt"><span>*</span>项目类别：</div>
                     <div class="inputtxt">
                         <select name="" id="projectType" style="width: 235px;height: 35px;line-height: 35px;border: 1px #DBDBDB solid;border-radius: 4px;">
-                            <option value="none" selected disabled hidden>请选择项目类别</option>
+                            <option value="" selected disabled hidden>请选择项目类别</option>
                             <option value="新零售">新零售</option>
                             <option value="文创">文创</option>
                             <option value="科创">科创</option>
                             <option value="K12">K12</option>
                             <option value="校园行">校园行</option>
-                            <option value="其他">其他</option>
+                            <option value="">其他</option>
                         </select>
                     </div>
                 </div>
@@ -47,7 +48,7 @@
                 <div class="jldiv">
                     <div class="nametxt"><span>*</span>时 间：</div>
                     <div class="inputtxt">
-                        <input id="starttime" name="" type="text" class="txt3" autocomplete="off"/>
+                        <input id="starttime" name="" type="text" placeHolder="请选择时间" class="txt3" autocomplete="off"/>
                         <!--<span class="zhi">至</span>
                         <input id="endtime" name="" type="text" class="txt6" autocomplete="off"/>-->
                     </div>
@@ -56,6 +57,13 @@
                     <div class="nametxt"><span>*</span>负责人：</div>
                     <div class="inputtxt">
                         <input id="mainPeople" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt">辅导教师：</div>
+                    <div class="inputtxt">
+                        <input id="projectTeacher" name="" type="text" class="txt3" autocomplete="off"/>
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -108,6 +116,7 @@
             var starttime =  $("#starttime").val()
             // endtime: $("#endtime").val(),
             var mainPeople =  $("#mainPeople").val()
+            var projectTeacher =  $("#projectTeacher").val()
             var projectPeople=$("#projectPeople").val()
             var description=$("#description").val()
 
@@ -118,15 +127,15 @@
 
         let data={
             projectName: $("#projectName").val(),
-            projectType: $("#type").val(),
+            projectType: $("#projectType").val(),
             starttime: $("#starttime").val(),
             // endtime: $("#endtime").val(),
             mainPeople: $("#mainPeople").val(),
             projectPeople: $("#projectPeople").val(),
             description: $("#description").val(),
+            projectTeacher: $("#projectTeacher").val()
 
         }
-
         $.ajax({
             url: "/user/project/projectApply",    //请求的url地址
             dataType: "json",   //返回格式为json
@@ -139,16 +148,16 @@
                 if(req.code == 200){
                     // 申请返回后，跳转到我的项目界面
                    // window.location.replace("/html/webui/personal/personal_project_list.html")
-                    layer.msg("申请成功，等待审批！")
+                    top.layer.msg("申请成功，等待审批！")
                     console.log(req)
                 }else{
-                    layer.msg("网络异常，请稍后重试！")
+                    top.layer.msg("网络异常，请稍后重试！")
                 }
             },
             error: function(req) {
                 //请求出错处理
                 console.log(req);
-                layer.msg('参数异常');
+                top.layer.msg('参数异常');
             }
         });
     })

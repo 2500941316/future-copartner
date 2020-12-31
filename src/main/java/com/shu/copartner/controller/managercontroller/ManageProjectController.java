@@ -35,7 +35,7 @@ public class ManageProjectController {
     private ManagerProjectService managerProjectService;
 
     @Autowired
-    private ProProjectService  proProjectService;
+    private ProProjectService proProjectService;
 
  /*   *
      * 查询待审批项目
@@ -47,9 +47,6 @@ public class ManageProjectController {
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
         log.info("page:"+page);
-       /* List<ProProject> proProjectList = proProjectService.selectByStatus("审批申请");
-        TableModel tableModel = TableModel.success(proProjectList,proProjectList.size());
-        tableModel.setCode(0);*/
         return managerProjectService.searchProject(page);
     }
 

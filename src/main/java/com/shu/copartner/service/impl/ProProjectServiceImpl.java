@@ -2,11 +2,8 @@ package com.shu.copartner.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jayway.jsonpath.Criteria;
 import com.shu.copartner.mapper.ActRuTaskMapper;
 import com.shu.copartner.mapper.ProProjectMapper;
-import com.shu.copartner.pojo.ActRuTask;
-import com.shu.copartner.pojo.ActRuTaskExample;
 import com.shu.copartner.pojo.ProProject;
 import com.shu.copartner.pojo.ProProjectExample;
 import com.shu.copartner.pojo.request.ProjectApplyVO;
@@ -20,12 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import springfox.documentation.schema.Example;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author
@@ -65,9 +59,15 @@ public class ProProjectServiceImpl implements ProProjectService {
      * @return
      */
     @Override
-    public TableModel selectByCreater(String projectCreater) {
-        List<ProProject> projectData = this.proProjectMapper.selectByCreater(projectCreater);
-        return TableModel.success(projectData,projectData.size());
+    public TableModel selectByCreater(int currentPage,String projectCreater) {
+        ProProjectExample proProjectExample = new ProProjectExample();
+        PageHelper.startPage(currentPage, 4);
+        proProjectExample.createCriteria().andProjectCreaterEqualTo(projectCreater).andIsDeletedEqualTo(0);
+        List<ProProject>  proProjectsList = proProjectMapper.selectByExample(proProjectExample);
+
+        PageInfo<ProProject> pageInfo = new PageInfo<>(proProjectsList);
+
+        return TableModel.success(proProjectsList,(int)pageInfo.getTotal());
     }
 
    /* @Override
@@ -115,10 +115,12 @@ public class ProProjectServiceImpl implements ProProjectService {
     @Override
     public TableModel projectApply(ProjectApplyVO projectApplyVO, String creater) {
         //补全项目信息
-        projectApplyVO.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("5")); // 状态设置为 '审批项目申请'
-        projectApplyVO.setProjectStateToken("5");
+        projectApplyVO.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("21")); // 状态设置为 '审批项目申请'
+        projectApplyVO.setProjectStateToken("21");
         projectApplyVO.setIsLock(0); // 默认未锁定
         projectApplyVO.setIsDeleted(0); // 默认未删除
+        projectApplyVO.setPlanUrl("null"); // 项目计划书初始为空
+        projectApplyVO.setVideoUrl("null");// 项目视频初始为空
         projectApplyVO.setProjectCreater(creater); // 设置当前项目申请者
 
         if (StringUtils.isNotEmpty(projectApplyVO.getProjectName())) {
@@ -132,6 +134,21 @@ public class ProProjectServiceImpl implements ProProjectService {
         } else {
             return TableModel.error("网络异常");
         }
+    }
+
+    /**
+     * 处理项目修改
+     * @param projectApplyVO
+     * @return
+     */
+    @Override
+    public TableModel updateProject(ProjectApplyVO projectApplyVO) {
+        log.info("update");
+        log.info(projectApplyVO.toString());
+        ProProject proProject = new ProProject();
+        BeanUtils.copyProperties(projectApplyVO, proProject);
+        proProjectMapper.updateByPrimaryKeySelective(proProject);
+        return TableModel.success();
     }
 
     /**
@@ -175,7 +192,7 @@ public class ProProjectServiceImpl implements ProProjectService {
         }else if(StringUtils.isNotEmpty(projectCreater)){
             criteria.andProjectCreaterEqualTo(projectCreater);
         }
-        criteria.andProjectStatusEqualTo(projectTwoStatus);
+        criteria.andProjectStatusEqualTo(projectTwoStatus).andIsDeletedEqualTo(0);
         List<ProProject> proProjects = proProjectMapper.selectByExample(proProjectExample);
         PageInfo<ProProject> pageInfo = new PageInfo<>(proProjects);
         log.info("search:"+pageInfo.getTotal());
@@ -204,7 +221,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             //根据id查询出数据添加到数组返回
             ProProjectExample proProjectExample = new ProProjectExample();
             PageHelper.startPage(currentPage, 3);
-            proProjectExample.createCriteria().andProjectIdNotEqualTo(Long.parseLong(projectId));
+            proProjectExample.createCriteria().andProjectIdNotEqualTo(Long.parseLong(projectId)).andIsDeletedEqualTo(0);
             List<ProProject>  topNewsList = proProjectMapper.selectByExample(proProjectExample);
 
             PageInfo<ProProject> pageInfo = new PageInfo<>(topNewsList);
@@ -225,6 +242,25 @@ public class ProProjectServiceImpl implements ProProjectService {
     public TableModel searchAllProject() {
         List<ProProject> proProjects = proProjectMapper.selectAllProject();
         return TableModel.success(proProjects,proProjects.size());
+    }
+
+    /**
+     * 删除项目
+     * @param projectId
+     * @return
+     */
+    @Override
+    public TableModel deleteProject(String projectId) {
+        // 将该项目id_delete设置为1
+        if(StringUtils.isNotEmpty(projectId)){
+            ProProject proProject = new ProProject();
+            proProject.setProjectId(Long.parseLong(projectId));
+            proProject.setIsDeleted(1);
+            proProjectMapper.updateByPrimaryKeySelective(proProject);
+            return TableModel.success();
+        }else
+            return TableModel.error("网络异常");
+
     }
 
     /**
