@@ -31,7 +31,7 @@
                 <li><a onclick="redirecTo('/html/webui/personal/personal_project_list.html')" href="#">我的项目</a></li>
                 <li><a onclick="redirecTo('/html/webui/personal/personal_myfollow.html')" href="#">我的关注</a></li>
                 <li><a onclick="redirecTo('/html/webui/personal/personal_followedproject.html')" href="#">谁在关注我</a></li>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_project_apply.html')"href="#">创建项目</a></li>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_project_apply.html')" href="#">创建项目</a></li>
             </ul>
             <div class="NavLeftBox twoNav">
                 <a class="a6">新闻</a>
@@ -113,7 +113,7 @@
         this.height=(fdh>300?fdh:1100)"></iframe><!--this.height=(fdh>600?fdh:600)-->
 
 <!--引入页脚页面-->
-<div id="footer"></div>
+<div style="bottom:0;" id="footer"></div>
 
 <script type="text/javascript">
 
@@ -124,7 +124,7 @@
     });
 
     // 弹出层
-    layui.use('layer',function () {
+    layui.use('layer', function () {
         var layer = layui.layer;
     })
 
