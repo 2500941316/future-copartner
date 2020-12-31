@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>tab切换</title>
     <link href="/html/webui/css/leasson.css" rel="stylesheet" type="text/css"/>
-
-    <link href="/html/webui/css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
     <link href="/html/managerui/js/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/html/webui/js/jquery.SuperSlide.2.1.1.js"></script>
     <script src='/html/managerui/js/layui/layui.js'></script>
+    <script src='/html/webui/js/leasson.js'></script>
 
 </head>
 <body>
@@ -54,14 +55,12 @@
                                                 <h4 id="course_title"></h4>
                                             </div>
                                             <!-- Video Box -->
-                                            <div class="video-box">
-                                                <figure class="video-image">
-                                                    <img src="../images/video-image.jpg" alt="">
-                                                </figure>
-                                                <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
-                                                   class="lightbox-image overlay-box"><span
-                                                        class="flaticon-media-play-symbol"><i class="ripple"></i></span></a>
-                                            </div>
+                                            <video id="vedio_url" style="margin-left: 15px" width="580" height="370"
+                                                   controls>
+                                                <source type="video/ogg">
+                                                您的浏览器不支持 HTML5 video 标签。
+                                            </video>
+
                                             <!-- Video Info Boxed -->
                                             <div class="video-info-boxed">
                                                 <div class="clearfix">
@@ -83,18 +82,42 @@
                                                     <li>任务</li>
                                                 </ul>
                                                 <div class="layui-tab-content">
-                                                    <div class="layui-tab-item layui-show" id="course_introduction"></div>
-                                                    <div class="layui-tab-item">内容2</div>
-                                                    <div class="layui-tab-item">内容3</div>
-                                                    <div class="layui-tab-item">内容4</div>
-                                                    <div class="layui-tab-item">内容5</div>
+                                                    <div class="layui-tab-item layui-show"
+                                                         id="course_introduction"></div>
+                                                    <div class="layui-tab-item">
+
+                                                        <!-- Tab -->
+                                                        <div class="tab active-tab" id="prod-curriculum">
+                                                            <div class="content">
+                                                                <!-- Accordion Box -->
+                                                                <ul class="accordion-box">
+
+                                                                    <!-- Block -->
+                                                                    <li class="accordion block">
+                                                                        <div class="acc-btn active">
+                                                                            <div class="icon-outer"><span
+                                                                                    class="icon icon-plus flaticon-down-arrow"></span>
+                                                                            </div>
+                                                                            <span id="curLeassonName"></span>
+                                                                        </div>
+                                                                        <div class="acc-content current" id="chapter">
+
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="layui-tab-item">作业模块</div>
                                                 </div>
                                             </div>
 
                                         </div>
 
                                         <!-- Sidebar Side -->
-                                        <div class="sidebar-side right-sidebar layui-col-md4">
+                                        <div class="sidebar-side right-sidebar layui-col-md4"
+                                             style="padding-left: 10px">
                                             <aside class="sidebar sticky-top">
 
                                                 <!-- Review Widget -->
@@ -106,18 +129,17 @@
                                                                 <a href="https://www.youtube.com/watch?v=kxPCFljwJws"
                                                                    class="lightbox-image intro-video-box"><span
                                                                         class="fa fa-play"><i class="ripple"></i></span></a>
-                                                                <h4>Preview this course</h4>
+                                                                <h4>课程资料</h4>
                                                             </div>
                                                             <!-- End Video Box -->
-                                                            <div class="price">$11.99</div>
-                                                            <div class="time-left">Original Price $199.99 <br>
-                                                                Discount94% off
+                                                            <div class="price">￥0</div>
+                                                            <div class="time-left">此课程为免费课程 <br>
                                                             </div>
                                                             <div class="buttons-box">
                                                                 <a href="#" class="theme-btn btn-style-two"><span
-                                                                        class="txt">Course Details</span></a>
+                                                                        class="txt">课程细节</span></a>
                                                                 <a href="#" class="theme-btn btn-style-one"><span
-                                                                        class="txt">Buy Now</span></a>
+                                                                        class="txt">开始观看</span></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -128,69 +150,10 @@
                                                 <div class="sidebar-widget popular-posts">
                                                     <div class="widget-content">
                                                         <div class="sidebar-title">
-                                                            <h6>Similar Courses</h6>
+                                                            <h6>热门课程</h6>
                                                         </div>
-                                                        <div class="content">
+                                                        <div class="content" id="clickLeassons">
 
-                                                            <article class="post">
-                                                                <div class="post-inner">
-                                                                    <figure class="post-thumb"><img
-                                                                            src="images/resource/post-thumb-1.jpg"
-                                                                            alt=""><a href="#" class="overlay-box"></a>
-                                                                    </figure>
-                                                                    <div class="text"><a href="#">Interface
-                                                                        Introduction</a></div>
-                                                                    <div class="timing">Class Time: 45:03min</div>
-                                                                </div>
-                                                            </article>
-
-                                                            <article class="post">
-                                                                <div class="post-inner">
-                                                                    <figure class="post-thumb"><img
-                                                                            src="images/resource/post-thumb-2.jpg"
-                                                                            alt=""><a href="#" class="overlay-box"></a>
-                                                                    </figure>
-                                                                    <div class="text"><a href="#">Raster Image
-                                                                        Principles</a></div>
-                                                                    <div class="timing">Class Time: 45:03min</div>
-                                                                </div>
-                                                            </article>
-
-                                                            <article class="post">
-                                                                <div class="post-inner">
-                                                                    <figure class="post-thumb"><img
-                                                                            src="images/resource/post-thumb-3.jpg"
-                                                                            alt=""><a href="#" class="overlay-box"></a>
-                                                                    </figure>
-                                                                    <div class="text"><a href="#">Panels &
-                                                                        Workplaces</a></div>
-                                                                    <div class="timing">Class Time: 45:03min</div>
-                                                                </div>
-                                                            </article>
-
-                                                            <article class="post">
-                                                                <div class="post-inner">
-                                                                    <figure class="post-thumb"><img
-                                                                            src="images/resource/post-thumb-4.jpg"
-                                                                            alt=""><a href="#" class="overlay-box"></a>
-                                                                    </figure>
-                                                                    <div class="text"><a href="#">Image Manipulation</a>
-                                                                    </div>
-                                                                    <div class="timing">Class Time: 45:03min</div>
-                                                                </div>
-                                                            </article>
-
-                                                            <article class="post">
-                                                                <div class="post-inner">
-                                                                    <figure class="post-thumb"><img
-                                                                            src="images/resource/post-thumb-5.jpg"
-                                                                            alt=""><a href="#" class="overlay-box"></a>
-                                                                    </figure>
-                                                                    <div class="text"><a href="#">Common File Types</a>
-                                                                    </div>
-                                                                    <div class="timing">Class Time: 45:03min</div>
-                                                                </div>
-                                                            </article>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -210,118 +173,8 @@
     </div>
 </div>
 
-
 <!--引入页脚页面-->
 <div id="footer"></div>
-
-<script type="text/javascript">
-    $(function () {
-        $("#header").load("/html/webui/header/header.html");
-        $("#footer").load("/html/webui/footer/footer.html");
-        getLeassonInfo();
-    });
-
-    jQuery(".floor-side-right").slide({
-        effect: "fade",
-        autoPlay: false,
-        trigger: "mouseover",
-        delayTime: 700
-    });
-
-    layui.use('element', function () {
-        var $ = layui.jquery
-            , element = layui.element;
-
-        //一些事件监听
-        element.on('tab(demo)', function (data) {
-            if (data.index === 1) {
-                $.ajax({
-                    type: "GET",
-                    url: "/user/leasson/getcourseInfo_vedio",
-                    data: {
-                        courseId: localStorage.getItem("courseId")
-                    },
-                    success: function (data) {
-                        renderVedioPage(data.data);
-                    }
-                });
-            }
-        });
-    });
-
-
-    //查询所有的课程信息
-    function getLeassonInfo() {
-        $.ajax({
-            type: "GET",
-            url: "/user/leasson/getLeassonInfo",
-            success: function (data) {
-                if (data.code === 200) {
-                    //设置默认的视频id
-                    if (data.data[0] != null) {
-                        localStorage.setItem("courseId", data.data[0].courseId);
-                    }
-                    renderLeassons(data.data)
-                } else
-                    layer.msg('网络异常，请稍后重试');
-            },
-            error: function (data) {
-                layer.msg('参数异常');
-            }
-        });
-    }
-
-
-    //渲染课程页
-    function renderLeassons(arrParO) {
-        const $active = $("#leassons");
-        $active.html("");
-        $.each(arrParO, function (i, obj) {
-            const $children = $('   <li onclick="redirecToVedio(' + obj.courseId + ')">\n' +
-                '                                    <a href="#">\n' +
-                '                                        <div class="image-ti">\n' +
-                '                                            <img src="/html/webui/images/ad020.jpg" alt="">\n' +
-                '                                        </div>\n' +
-                '                                        <p class="slide-title">' + obj.courseName + '</p>\n' +
-                '                                        <p class="slide-body">\n' +
-                '                                        <span class="slide-body-nub">\n' +
-                '                                            <i class="slide-body-nub-icon"></i>\n' +
-                '                                            0\n' +
-                '                                        </span>\n' +
-                '                                            <span class="slide-body-nup">\n' +
-                '                                            <i class="slide-body-nup-icon"></i>\n' +
-                '                                            0\n' +
-                '                                        </span>\n' +
-                '                                            <span class="slide-body-price">免费</span>\n' +
-                '                                        </p>\n' +
-                '                                    </a>\n' +
-                '                                </li>');
-            $active.append($children);
-        });
-    }
-
-
-    //渲染视频播放页
-    function renderVedioPage(data) {
-        var courseList = data.clickCourseList;
-        var vedioList = data.vedioList;
-
-        document.getElementById("course_title").innerHTML = data.courseName;
-        document.getElementById("course_title2").innerText = data.courseName;
-        document.getElementById("course_introduction").innerHTML = data.courseDescription;
-    }
-
-    //跳转到视频页的方法
-    function redirecToVedio(courseId) {
-        layui.use('element', function () {
-            var $ = layui.jquery
-                , element = layui.element;
-            localStorage.setItem("courseId", courseId);
-            element.tabChange('demo', '1');
-
-        });
-    }
-</script>
 
 </body>
 </html>

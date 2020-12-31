@@ -287,12 +287,16 @@
          $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').css('background', 'grey');
          document.getElementById("follow").innerText = "已关注";
          document.getElementById("follow2").innerText = "已关注";
+
+         followProject(localStorage.getItem("projectId"));
+         //console.log("关注："+localStorage.getItem("projectId"));
       }else{
          document.getElementById("follow").innerText = "+关注";
          $('.DivLeft_1 .gz1').css('background', '#50BA8C');
          $('.divJob_2 .divJob_2_1').css('background', '#F96B2D');
          document.getElementById("follow2").innerText = "立即关注";
-         console.log(localStorage.getItem("projectId"));
+
+         console.log("取消关注"+localStorage.getItem("projectId"));
       }
    })
    // 关注
@@ -413,6 +417,26 @@
 
          })
       });
+   }
+
+   /**
+    * 关注项目
+    * @param projectId
+    */
+   function followProject(projectId){
+      console.log("关注")
+      $.ajax({
+         url: "/user/project/followProject",
+         type: "GET",
+         data: "projectId="+projectId,
+         success: function(res){
+            if(res.code == 200){
+               top.layer.msg("已关注");
+            }else{
+               top.layer.msg("网络异常");
+            }
+         }
+      })
    }
 
 
