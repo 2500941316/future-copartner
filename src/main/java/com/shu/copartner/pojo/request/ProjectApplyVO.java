@@ -76,4 +76,26 @@ public class ProjectApplyVO implements Serializable {
 
     private String projectAuditMsg;
 
+    private Date peopleTime;
+
+    private Date matchTime;
+
+    private Date cooperationTime;
+
+    private Date activityTime;
+
+    private Date serviceTime;
+
+    private Date financeTime;
+
+    private Date incomeTime;
+
+    private Date companyTime;
+
+    private Date elseInfoTime;
+
+    private String projectPeopleNew;
+
+    private String isGoing;
+
 }

@@ -2,15 +2,14 @@ package com.shu.copartner.controller.usercontroller;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
-import com.shu.copartner.pojo.ProProjectExample;
 import com.shu.copartner.pojo.request.ProjectApplyVO;
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.ProProjectService;
-import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.authentication.logout.LogoutSuccessEventPublishingLogoutHandler;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,9 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,16 +47,12 @@ public class UserProjectController {
     @Autowired
     FileuploadService fileuploadService;
 
-    /*@PostMapping("projectApply")
-    public TableModel projectApply(@RequestBody @Valid ProjectApplyVO projectApplyVO, BindingResult result) {
-        if (result.hasErrors()) {
-            log.error(result.getAllErrors().toString());
-            throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
-        }
-        log.info("项目信息：" + projectApplyVO.toString());
-        return proProjectService.projectApply(projectApplyVO, creater);
-    }*/
-
+    /**
+     * 项目申请
+     * @param projectApplyVO
+     * @param result
+     * @return
+     */
     @PostMapping("projectApply")
     public TableModel projectApply(@RequestBody @Valid ProjectApplyVO projectApplyVO, BindingResult result) {
         if (result.hasErrors()) {
@@ -71,6 +63,21 @@ public class UserProjectController {
         return proProjectService.projectApply(projectApplyVO, creater);
     }
 
+    /**
+     * 项目修改
+     * @param projectApplyVO
+     * @param result
+     * @return
+     */
+    @PostMapping("updateProject")
+    public TableModel updateProject(@RequestBody @Valid ProjectApplyVO projectApplyVO, BindingResult result) {
+        if (result.hasErrors()) {
+            log.error(result.getAllErrors().toString());
+            throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
+        }
+        return proProjectService.updateProject(projectApplyVO);
+    }
+
     @PostMapping("searchProjectById")
     public TableModel searchProjectById(@RequestBody Map<String,String> map){
          String projectId = map.get("projectId");
@@ -78,9 +85,9 @@ public class UserProjectController {
     }
 
     @GetMapping("selectByCreater")
-    public TableModel selectByCreater() {
+    public TableModel selectByCreater(@Size(min = 1) @RequestParam int currentPage) {
    //     log.info("selectByCreater");
-        return proProjectService.selectByCreater(creater);
+        return proProjectService.selectByCreater(currentPage,creater);
     }
 
     @GetMapping("getProjectById")
@@ -102,6 +109,7 @@ public class UserProjectController {
      */
     @PostMapping(value = "uploadPlan")
     public TableModel uploadPlan(MultipartFile file,@Size(min = 1) @RequestParam String projectId) throws IOException {
+        log.info("upPlan-projectId:"+projectId);
         return fileuploadService.managerPlanUploadFile(file, projectId);
     }
 
@@ -142,7 +150,10 @@ public class UserProjectController {
         return proProjectService.searchAllProject();
     }
 
-
-
+    @GetMapping("deleteProject")
+    public TableModel deleteProject(@Size(min = 1) @RequestParam String projectId){
+        log.info("deleteProject_Id: "+projectId);
+        return proProjectService.deleteProject(projectId);
+    }
 
 }

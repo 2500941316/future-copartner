@@ -128,6 +128,7 @@
                     layer.confirm('通过该项目申请？', function (index) {
                         operateProject(obj, 1, "");
                         layer.close(index);
+                        obj.del();
                     });
                 } else if (obj.event === 'reject') {
                     layer.prompt({
@@ -138,6 +139,7 @@
                     }, function (value, index) {
                         operateProject(obj, 2, value);
                         layer.close(index);
+                        obj.del();
                     });
                 }
             });
@@ -185,8 +187,6 @@
                 //请求成功时处理，一般只用到这一个
                 if (res.code == 200) {
                     layer.msg("审核完成！")
-                    location.reload()
-                    this.currentProject.del();
                 } else {
                     layer.msg("网络异常，请稍后重试！")
                 }

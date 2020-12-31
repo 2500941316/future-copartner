@@ -29,7 +29,6 @@ import java.util.Map;
 @Transactional
 @Service
 public class FileuploadServiceImpl implements FileuploadService {
-
     @Autowired
     private ProProjectService proProjectService;
 
@@ -101,8 +100,8 @@ public class FileuploadServiceImpl implements FileuploadService {
             log.info("文件名："+uploadfile.getOriginalFilename());
             log.info("projectId:"+projectId);
             // 上传计划书，返回其存放路径
-            //String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
-            String planUrl = uploadfile.getOriginalFilename();
+            String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String planUrl = uploadfile.getOriginalFilename();
             // 文件存储路径加上服务器前缀
             String finalPlanUrl = Constants.FILEURL_FIRSTNAME + planUrl;
             // 项目状态更新处理
@@ -117,6 +116,13 @@ public class FileuploadServiceImpl implements FileuploadService {
         }
     }
 
+    /**
+     * 上传视视频
+     * @param uploadfile
+     * @param projectId
+     * @return
+     * @throws IOException
+     */
     @Override
     public TableModel managerVideoUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
         TableModel tableModel = new TableModel();
@@ -124,8 +130,8 @@ public class FileuploadServiceImpl implements FileuploadService {
             log.info("文件名："+uploadfile.getOriginalFilename());
             log.info("projectId:"+projectId);
             // 上传视频，返回其存放路径
-            //String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
-            String planUrl = uploadfile.getOriginalFilename();
+            String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String planUrl = uploadfile.getOriginalFilename();
             // 文件存储路径加上服务器前缀
             String finalPlanUrl = Constants.FILEURL_FIRSTNAME + planUrl;
             // 项目状态更新处理
