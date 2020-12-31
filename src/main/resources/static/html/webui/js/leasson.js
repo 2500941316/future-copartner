@@ -25,6 +25,10 @@ layui.use('element', function () {
                     courseId: localStorage.getItem("courseId")
                 },
                 success: function (data) {
+                    //将课程vedio类放入缓存
+                    for (var i = 0; i < data.data.vedioList.length; i++) {
+                        localStorage.setItem(data.data.vedioList[i].courseVedioId, data.data.vedioList[i].courseVedioUrl)
+                    }
                     renderVedioPage(data.data);
                 }
             });
@@ -119,24 +123,23 @@ function renderVedioPage(data) {
     $active1.html("");
     $.each(vedioList, function (i, obj) {
         const $children = $('<div class="content">\n' +
-            '                                                                                <div class="clearfix">\n' +
-            '                                                                                    <div class="pull-left">\n' +
-            '                                                                                        <a href="#" onclick="changeVideoPath(111)" \n' +
-            '                                                                                           class="lightbox-image play-icon"><span\n' +
-            '                                                                                                class="fa fa-play"><i id="icon"\n' +
+            '                                                                                <div  class="clearfix">' +
+            '                                                                                    <div class="pull-left">' +
+            '                                                 <a onclick="changeVideoPath(' + obj.courseVedioId + ')" class="lightbox-image play-icon"><span' +
+            '                                                                                                class="fa fa-play"><i  id="icon"\n' +
             '                                                                                ></i></span>' + obj.courseVedioName + '</a>\n' +
             '                                                                                    </div>\n' +
-            '                                                                                    <div class="pull-right">\n' +
-            '                                                                                        <div class="minutes">' + obj.courseVedioDuringtime + 'min' +
-            '                                                                                        </div>\n' +
+            '                                                                                    <div  class="pull-right" >\n' +
+            '                                                                                        <a style="color: red" href="'+obj.courseVedioPptUrl+'"> 下载ppt</a>\n' +
+            '                                                                                    </div>\n' +
+            '                                                                                    <div class="pull-right" style="margin-right: 20px">\n' +
+            '                                                                                        <div>' + obj.courseVedioDuringtime + 'min</div>\n' +
             '                                                                                    </div>\n' +
             '                                                                                </div>\n' +
             '                                                                            </div>'
-            )
-        ;
+        );
         $active1.append($children);
     });
-
 }
 
 //跳转到视频页的方法
@@ -152,6 +155,9 @@ function redirecToVedio(courseId) {
 
 
 //更新视频源的方法
-function changeVideoPath(newVedio_url) {
-    alert(newVedio_url)
+function changeVideoPath(vedioId) {
+    //查询当前vedio地址
+    let url = localStorage.getItem(vedioId)
+    document.getElementById("vedio_url").src = url;
+    document.getElementById("vedio_url").load();
 }

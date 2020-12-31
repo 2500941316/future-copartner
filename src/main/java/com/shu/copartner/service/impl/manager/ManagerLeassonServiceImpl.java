@@ -48,6 +48,7 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
                 proLeassonVedio.setCourseId(proLeasson.getCourseId());
                 proLeassonVedio.setCourseVedioNumber(i);
                 proLeassonVedio.setCourseVedioStatus("1");
+                proLeassonVedio.setCourseVedioIsdeleted("0");
                 proLeassonVedioMapper.insert(proLeassonVedio);
             }
 
