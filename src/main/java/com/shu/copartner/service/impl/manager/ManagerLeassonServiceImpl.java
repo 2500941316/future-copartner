@@ -37,7 +37,7 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
     ProLeassonVedioMapper proLeassonVedioMapper;
 
     @Override
-    public TableModel operateNew(LeassonApplyVO leassonApplyVO) {
+    public TableModel applyLeasson(LeassonApplyVO leassonApplyVO) {
         try {
             ProLeasson proLeasson = new ProLeasson();
             BeanUtils.copyProperties(leassonApplyVO, proLeasson);

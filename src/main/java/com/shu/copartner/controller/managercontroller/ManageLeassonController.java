@@ -46,7 +46,7 @@ public class ManageLeassonController {
             log.error(result.getAllErrors().toString());
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
-        return managerLeassonService.operateNew(leassonApplyVO);
+        return managerLeassonService.applyLeasson(leassonApplyVO);
     }
 
 
@@ -87,5 +87,17 @@ public class ManageLeassonController {
     public TableModel leassonVedioUpload(MultipartFile file, Long course_vedio_id, String fileUpload_type) {
 
         return uploadService.leassonVedioUpload(file, course_vedio_id, fileUpload_type);
+    }
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
+     * @Description 上传课程图片的方法
+     */
+    @PostMapping(value = "leassonImgUpload")
+    @ResponseBody
+    public TableModel leassonImgUpload(MultipartFile file) {
+
+        return uploadService.managerImageUploadFile(file);
     }
 }

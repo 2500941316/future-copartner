@@ -1,39 +1,21 @@
 $(function () {
     $("#header").load("/html/webui/header/header.html");
     $("#footer").load("/html/webui/footer/footer.html");
-    getLeassonInfo();
+
+    var url = window.location.pathname;
+    //如果是首页
+    if (url === "/html/webui/leasson/leasson.html") {
+        getLeassonInfo();
+    } else if (url === "/html/webui/leasson/leasson_vedio.html") {
+        var courseId = getQueryVariable("courseId");
+        getCourseInfoById(courseId);
+    }
 });
 
-jQuery(".floor-side-right").slide({
-    effect: "fade",
-    autoPlay: false,
-    trigger: "mouseover",
-    delayTime: 700
-});
 
 layui.use('element', function () {
     var $ = layui.jquery
         , element = layui.element;
-
-    //一些事件监听
-    element.on('tab(demo)', function (data) {
-        if (data.index === 1) {
-            $.ajax({
-                type: "GET",
-                url: "/user/leasson/getcourseInfo_vedio",
-                data: {
-                    courseId: localStorage.getItem("courseId")
-                },
-                success: function (data) {
-                    //将课程vedio类放入缓存
-                    for (var i = 0; i < data.data.vedioList.length; i++) {
-                        localStorage.setItem(data.data.vedioList[i].courseVedioId, data.data.vedioList[i].courseVedioUrl)
-                    }
-                    renderVedioPage(data.data);
-                }
-            });
-        }
-    });
 });
 
 
@@ -58,6 +40,24 @@ function getLeassonInfo() {
     });
 }
 
+
+//用户点击了课程，跳转到具体的页面后查询某一个课程的方法
+function getCourseInfoById(courseId) {
+    $.ajax({
+        type: "GET",
+        url: "/user/leasson/getcourseInfo_vedio",
+        data: {
+            courseId: courseId
+        },
+        success: function (data) {
+            //将课程vedio类放入缓存
+            for (var i = 0; i < data.data.vedioList.length; i++) {
+                localStorage.setItem(data.data.vedioList[i].courseVedioId, data.data.vedioList[i].courseVedioUrl)
+            }
+            renderVedioPage(data.data);
+        }
+    });
+}
 
 //渲染课程页
 function renderLeassons(arrParO) {
@@ -93,7 +93,7 @@ function renderVedioPage(data) {
     var courseList = data.clickCourseList;
     var vedioList = data.vedioList;
     document.getElementById("course_title").innerHTML = data.courseName;
-    document.getElementById("course_title2").innerText = data.courseName;
+
     document.getElementById("course_introduction").innerHTML = data.courseDescription;
     document.getElementById("curLeassonName").innerText = data.courseName;
     if (data.vedioList != null) {
@@ -130,7 +130,7 @@ function renderVedioPage(data) {
             '                                                                                ></i></span>' + obj.courseVedioName + '</a>\n' +
             '                                                                                    </div>\n' +
             '                                                                                    <div  class="pull-right" >\n' +
-            '                                                                                        <a style="color: red" href="'+obj.courseVedioPptUrl+'"> 下载ppt</a>\n' +
+            '                                                                                        <a style="color: red" href="' + obj.courseVedioPptUrl + '"> 下载ppt</a>\n' +
             '                                                                                    </div>\n' +
             '                                                                                    <div class="pull-right" style="margin-right: 20px">\n' +
             '                                                                                        <div>' + obj.courseVedioDuringtime + 'min</div>\n' +
@@ -147,9 +147,8 @@ function redirecToVedio(courseId) {
     layui.use('element', function () {
         var $ = layui.jquery
             , element = layui.element;
-        localStorage.setItem("courseId", courseId);
-        element.tabChange('demo', '1');
-
+        //新打开一个页面开始放视频
+        window.open("/html/webui/leasson/leasson_vedio.html?courseId=" + courseId);
     });
 }
 
@@ -160,4 +159,18 @@ function changeVideoPath(vedioId) {
     let url = localStorage.getItem(vedioId)
     document.getElementById("vedio_url").src = url;
     document.getElementById("vedio_url").load();
+}
+
+
+//解析当前url参数的方法
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+            return pair[1];
+        }
+    }
+    return (false);
 }

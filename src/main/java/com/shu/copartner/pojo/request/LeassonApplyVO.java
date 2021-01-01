@@ -3,6 +3,7 @@ package com.shu.copartner.pojo.request;
 import lombok.Data;
 
 import javax.validation.constraints.*;
+import java.util.Date;
 
 @Data
 public class LeassonApplyVO {
@@ -26,9 +27,14 @@ public class LeassonApplyVO {
 
     private String courseIsdeleted;
 
+    private String courseImg;
+
+    private Date courseDate;
+
     LeassonApplyVO() {
         this.courseStatus = "1";
         this.courseClicktime = 0;
         courseIsdeleted = "0";
+        courseDate = new Date();
     }
 }

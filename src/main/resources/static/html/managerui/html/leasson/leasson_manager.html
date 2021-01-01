@@ -70,35 +70,64 @@
 
                                                 </div>
                                                 <div class="ydc-form-city" style="margin-top: 5px">
-                                                    <div class="aui-card-form-item">
-                                                        <label class="aui-card-form-label">分类:</label>
-                                                        <div class="aui-card-form-input">
-                                                            <select id="category">
-                                                                <option>创新创业</option>
-                                                                <option>名师讲座</option>
-                                                            </select>
+
+                                                    <div class="layui-row">
+                                                        <div class="layui-col-xs6">
+                                                            <div class="grid-demo grid-demo-bg1">
+
+                                                                <div class="aui-card-form-item">
+                                                                    <label class="aui-card-form-label">分类:</label>
+                                                                    <div class="aui-card-form-input">
+                                                                        <select id="category">
+                                                                            <option>创新创业</option>
+                                                                            <option>名师讲座</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="aui-card-form-item">
+                                                                    <label class="aui-card-form-label">子模块个数:</label>
+                                                                    <div class="aui-card-form-input">
+                                                                        <input type="text" style="width: 150px" required
+                                                                               id="number"
+                                                                               lay-verify="required" placeholder="子模块个数"
+                                                                               autocomplete="off" class="layui-input">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="aui-card-form-item">
+                                                                    <label class="aui-card-form-label">课程总时长:</label>
+                                                                    <div class="aui-card-form-input">
+                                                                        <input type="text" style="width: 150px" required
+                                                                               id="time"
+                                                                               lay-verify="required"
+                                                                               placeholder="课程总时长（分钟）"
+                                                                               autocomplete="off" class="layui-input">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="ydc-btn">
+                                                                    <button id="publish" class="btn">发布</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="layui-col-xs6">
+                                                            <div class="grid-demo">
+
+                                                                <div class="layui-upload">
+                                                                    <div class="layui-upload-list">
+                                                                        <img class="layui-upload-img"
+                                                                             style="width: 200px;height: 140px"
+                                                                             id="demo1">
+                                                                        <p id="demoText"></p>
+                                                                    </div>
+                                                                    <button type="button" class="layui-btn" id="test1">
+                                                                        上传课程缩略图
+                                                                    </button>
+                                                                    <input id="pic" style="display: none"/>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="aui-card-form-item">
-                                                        <label class="aui-card-form-label">子模块个数:</label>
-                                                        <div class="aui-card-form-input">
-                                                            <input type="text" style="width: 150px" required id="number"
-                                                                   lay-verify="required" placeholder="子模块个数"
-                                                                   autocomplete="off" class="layui-input">
-                                                        </div>
-                                                    </div>
-                                                    <div class="aui-card-form-item">
-                                                        <label class="aui-card-form-label">课程总时长:</label>
-                                                        <div class="aui-card-form-input">
-                                                            <input type="text" style="width: 150px" required id="time"
-                                                                   lay-verify="required" placeholder="课程总时长（分钟）"
-                                                                   autocomplete="off" class="layui-input">
-                                                        </div>
-                                                    </div>
-                                                    <div class="ydc-btn">
-                                                        <button id="publish" class="btn">发布</button>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,6 +172,28 @@
     }).extend({
         treetable: 'treetable-lay/treetable'
     });
+
+    //课程图片上传方法
+    layui.use('upload', function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            , url: '/manager/leasson/leassonImgUpload'
+            , before: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }, done: function (res) {
+                if (res.data.src !== null) {
+                    $("#pic").val(res.data.src);
+                    return layer.msg('上传成功');
+                }
+            }, error: function () {
+            }
+        });
+    })
 
 
     //tab标签页引用
@@ -302,9 +353,10 @@
             var category = $("#category option:selected").val();
             var number = $("#number").val();
             var time = $("#time").val();
+            var picUrl = $("#pic").val();
 
             if (title.length === 5 || title.length > 30 || teacher.length === 0 || teacher.length > 20
-                || introduction.length === 0 || category.length === 0 || number.length === 0 || time.length === 0) {
+                || introduction.length === 0 || category.length === 0 || number.length === 0 || time.length === 0 || picUrl.length === 0) {
                 layer.msg('请填写完整信息！');
                 return;
             }
@@ -314,7 +366,8 @@
                 "courseTeacher": teacher,
                 "courseType": category,
                 "courseTotaltime": time,
-                "courseDescription": introduction
+                "courseDescription": introduction,
+                "courseImg": picUrl
             };
 
             $.ajax({

@@ -4,12 +4,8 @@
     <meta charset="UTF-8">
     <title>tab切换</title>
     <link href="/html/webui/css/leasson.css" rel="stylesheet" type="text/css"/>
-    <link href="css/main.css" rel="stylesheet" type="text/css"/>
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
-
     <link href="/html/managerui/js/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="/html/webui/js/jquery.SuperSlide.2.1.1.js"></script>
     <script src='/html/managerui/js/layui/layui.js'></script>
     <script src='/html/webui/js/leasson.js'></script>
 
@@ -32,137 +28,12 @@
             <div class="layui-tab" lay-filter="demo">
                 <ul class="layui-tab-title">
                     <li class="layui-this" lay-id="0">课程</li>
-                    <li lay-id="1">视频</li>
                 </ul>
                 <div class="layui-tab-content" style="height: 500px;">
                     <div class="layui-tab-item layui-show">
                         <div class="bd floor-side-body">
-                            <ul id="leassons">
-
-                            </ul>
+                            <ul id="leassons"></ul>
                         </div>
-                    </div>
-                    <div class="layui-tab-item">
-                        <div class="page-wrapper">
-                            <!-- Sidebar Page Container -->
-                            <div class="sidebar-page-container">
-                                <div class="auto-container">
-                                    <div class="row clearfix">
-                                        <!-- Content Side -->
-                                        <div class="content-side middle-sidebar layui-col-md8">
-                                            <!-- Sec Title -->
-                                            <div class="sec-title">
-                                                <h4 id="course_title"></h4>
-                                            </div>
-                                            <!-- Video Box -->
-                                            <video id="vedio_url" preload="auto" autoplay style="margin-left: 15px"
-                                                   width="580" height="380" controls>
-                                                <source type="video/ogg">
-                                                您的浏览器不支持在线播放
-                                            </video>
-
-                                            <!-- Video Info Boxed -->
-                                            <div class="video-info-boxed">
-                                                <div class="clearfix">
-                                                    <div class="pull-left">
-                                                        <h6 style="text-align: center;display:inline-block"
-                                                            id="course_title2"></h6>
-                                                        <!-- Follow -->
-                                                        <div class="follow"><a href="#">+ 关注</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Video Info Boxed -->
-
-                                            <!-- Course Info Tabs-->
-                                            <div class="layui-tab">
-                                                <ul class="layui-tab-title">
-                                                    <li class="layui-this">概述</li>
-                                                    <li>目录</li>
-                                                    <li>任务</li>
-                                                </ul>
-                                                <div class="layui-tab-content">
-                                                    <div class="layui-tab-item layui-show"
-                                                         id="course_introduction"></div>
-                                                    <div class="layui-tab-item">
-
-                                                        <!-- Tab -->
-                                                        <div class="tab active-tab" id="prod-curriculum">
-                                                            <div class="content">
-                                                                <!-- Accordion Box -->
-                                                                <ul class="accordion-box">
-
-                                                                    <!-- Block -->
-                                                                    <li class="accordion block">
-                                                                        <div class="acc-btn active">
-                                                                            <div class="icon-outer"><span
-                                                                                    class="icon icon-plus flaticon-down-arrow"></span>
-                                                                            </div>
-                                                                            <span id="curLeassonName"></span>
-                                                                        </div>
-                                                                        <div class="acc-content current" id="chapter">
-
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="layui-tab-item">作业模块</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Sidebar Side -->
-                                        <div class="sidebar-side right-sidebar layui-col-md4"
-                                             style="padding-left: 10px">
-                                            <aside class="sidebar sticky-top">
-
-                                                <!-- Review Widget -->
-                                                <div class="sidebar-widget review-widget">
-                                                    <div class="widget-content">
-                                                        <div class="content">
-                                                            <!-- Video Box -->
-                                                            <div class="intro-video">
-                                                                <a href="#"
-                                                                   class="lightbox-image intro-video-box"><span
-                                                                        class="fa fa-play"><i class="ripple"></i></span></a>
-                                                                <h4>课程资料</h4>
-                                                            </div>
-                                                            <!-- End Video Box -->
-                                                            <div class="price">￥0</div>
-                                                            <div class="time-left">此课程为免费课程 <br>
-                                                            </div>
-                                                            <div class="buttons-box">
-                                                                <a href="#" class="theme-btn btn-style-two"><span
-                                                                        class="txt">购买课程</span></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Review Widget -->
-
-                                                <!-- Similar Courses Widget -->
-                                                <div class="sidebar-widget popular-posts">
-                                                    <div class="widget-content">
-                                                        <div class="sidebar-title">
-                                                            <h6>热门课程</h6>
-                                                        </div>
-                                                        <div class="content" id="clickLeassons">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Similar Courses Widget -->
-                                            </aside>
-                                        </div>
-                                    </div>
-                                    <!-- End Courses Section -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End pagewrapper -->
                     </div>
                 </div>
             </div>
@@ -174,4 +45,5 @@
 <div id="footer"></div>
 
 </body>
+
 </html>

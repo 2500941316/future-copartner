@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>视频播放</title>
+    <meta charset="utf-8">
+    <link href="/html/webui/css/leasson.css" rel="stylesheet" type="text/css"/>
+    <link href="/html/webui/leasson/css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="/html/managerui/js/layui/css/layui.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
+    <script src='/html/managerui/js/layui/layui.js'></script>
+    <script src='/html/webui/js/leasson.js'></script>
+
+
+</head>
+
+<body>
+<!--引入页头页面-->
+<div id="header"></div>
+
+<div class="layui-row">
+    <hr>
+    <div class="layui-col-xs9">
+        <div class="grid-demo grid-demo-bg1">
+            <video id="vedio_url" preload="auto" autoplay style="margin-left: 4%;margin-top: 15px"
+                   width="90%" height="500px" controls>
+                <source type="video/ogg">
+                您的浏览器不支持在线播放
+            </video>
+        </div>
+        <div class="video-info mt-3">
+            <!-- video title -->
+            <div style="text-align: center">
+                <h3 id="course_title"></h3>
+            </div>
+            <hr>
+        </div>
+
+        <!-- Course Info Tabs-->
+        <div class="layui-tab" lay-filter="demo" style="margin-left: 10%">
+            <ul class="layui-tab-title">
+                <li class="layui-this">概述</li>
+                <li>目录</li>
+                <li>作业</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show" id="course_introduction"></div>
+                <div class="layui-tab-item">
+                    <!-- Tab -->
+                    <div class="tab active-tab" id="prod-curriculum">
+                        <div class="content">
+                            <!-- Accordion Box -->
+                            <ul class="accordion-box">
+
+                                <!-- Block -->
+                                <li class="accordion block">
+                                    <div class="acc-btn active">
+                                        <div class="icon-outer"><span
+                                                class="icon icon-plus flaticon-down-arrow"></span>
+                                        </div>
+                                        <span id="curLeassonName"></span>
+                                    </div>
+                                    <div class="acc-content current" id="chapter">
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">作业模块</div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="layui-col-xs3">
+        <div class="grid-demo">
+            <div class="bd floor-side-body">
+                <ul>
+                    <li onclick="redirecToVedio(12)"><a href="#">
+                        <div class="image-ti">
+                            <img src="/html/webui/images/ad020.jpg" alt="">
+                        </div>
+                        <p class="slide-title">人工智能和数据挖掘</p>
+                        <p class="slide-body">
+                            <span class="slide-body-nub"><i class="slide-body-nub-icon"></i></span>
+                            <span class="slide-body-nup"><i class="slide-body-nup-icon"></i></span>
+                            <span class="slide-body-price">免费</span>
+                        </p>
+                    </a>
+                    </li>
+
+                    <li onclick="redirecToVedio(13)"><a href="#">
+                        <div class="image-ti">
+                            <img src="/html/webui/images/ad020.jpg" alt="">
+                        </div>
+                        <p class="slide-title">经济学导论</p>
+                        <p class="slide-body">
+                            <span class="slide-body-nub"><i class="slide-body-nub-icon"></i></span>
+                            <span class="slide-body-nup"><i class="slide-body-nup-icon"></i></span>
+                            <span class="slide-body-price">免费</span>
+                        </p>
+                    </a>
+                    </li>
+
+                    <li onclick="redirecToVedio(17)"><a href="#">
+                        <div class="image-ti">
+                            <img src="/html/webui/images/ad020.jpg" alt="">
+                        </div>
+                        <p class="slide-title">视频剪辑教程</p>
+                        <p class="slide-body">
+                            <span class="slide-body-nub"><i class="slide-body-nub-icon"></i></span>
+                            <span class="slide-body-nup"><i class="slide-body-nup-icon"></i></span>
+                            <span class="slide-body-price">免费</span>
+                        </p>
+                    </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--引入页脚页面-->
+<div id="footer"></div>
+</body>
+
+</html>

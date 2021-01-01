@@ -1,6 +1,7 @@
 package com.shu.copartner.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class ProLeasson implements Serializable {
     private Long courseId;
@@ -22,6 +23,10 @@ public class ProLeasson implements Serializable {
     private Integer courseClicktime;
 
     private String courseIsdeleted;
+
+    private String courseImg;
+
+    private Date courseDate;
 
     private static final long serialVersionUID = 1L;
 
@@ -103,5 +108,21 @@ public class ProLeasson implements Serializable {
 
     public void setCourseIsdeleted(String courseIsdeleted) {
         this.courseIsdeleted = courseIsdeleted == null ? null : courseIsdeleted.trim();
+    }
+
+    public String getCourseImg() {
+        return courseImg;
+    }
+
+    public void setCourseImg(String courseImg) {
+        this.courseImg = courseImg == null ? null : courseImg.trim();
+    }
+
+    public Date getCourseDate() {
+        return courseDate;
+    }
+
+    public void setCourseDate(Date courseDate) {
+        this.courseDate = courseDate;
     }
 }

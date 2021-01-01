@@ -12,6 +12,8 @@
     <result column="course_totalBlocks" jdbcType="INTEGER" property="courseTotalblocks" />
     <result column="course_clickTime" jdbcType="INTEGER" property="courseClicktime" />
     <result column="course_isDeleted" jdbcType="CHAR" property="courseIsdeleted" />
+    <result column="course_img" jdbcType="VARCHAR" property="courseImg" />
+    <result column="course_date" jdbcType="TIMESTAMP" property="courseDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +75,8 @@
   </sql>
   <sql id="Base_Column_List">
     course_id, course_name, course_type, course_status, course_teacher, course_totalTime, 
-    course_description, course_totalBlocks, course_clickTime, course_isDeleted
+    course_description, course_totalBlocks, course_clickTime, course_isDeleted, course_img, 
+    course_date
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProLeassonExample" resultMap="BaseResultMap">
     select
@@ -109,11 +112,13 @@
     insert into PRO_LEASSON (course_id, course_name, course_type, 
       course_status, course_teacher, course_totalTime, 
       course_description, course_totalBlocks, course_clickTime, 
-      course_isDeleted)
+      course_isDeleted, course_img, course_date
+      )
     values (#{courseId,jdbcType=BIGINT}, #{courseName,jdbcType=VARCHAR}, #{courseType,jdbcType=VARCHAR}, 
       #{courseStatus,jdbcType=CHAR}, #{courseTeacher,jdbcType=VARCHAR}, #{courseTotaltime,jdbcType=VARCHAR}, 
       #{courseDescription,jdbcType=VARCHAR}, #{courseTotalblocks,jdbcType=INTEGER}, #{courseClicktime,jdbcType=INTEGER}, 
-      #{courseIsdeleted,jdbcType=CHAR})
+      #{courseIsdeleted,jdbcType=CHAR}, #{courseImg,jdbcType=VARCHAR}, #{courseDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLeasson">
     insert into PRO_LEASSON
@@ -148,6 +153,12 @@
       <if test="courseIsdeleted != null">
         course_isDeleted,
       </if>
+      <if test="courseImg != null">
+        course_img,
+      </if>
+      <if test="courseDate != null">
+        course_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="courseId != null">
@@ -179,6 +190,12 @@
       </if>
       <if test="courseIsdeleted != null">
         #{courseIsdeleted,jdbcType=CHAR},
+      </if>
+      <if test="courseImg != null">
+        #{courseImg,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDate != null">
+        #{courseDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -221,6 +238,12 @@
       <if test="record.courseIsdeleted != null">
         course_isDeleted = #{record.courseIsdeleted,jdbcType=CHAR},
       </if>
+      <if test="record.courseImg != null">
+        course_img = #{record.courseImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseDate != null">
+        course_date = #{record.courseDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -237,7 +260,9 @@
       course_description = #{record.courseDescription,jdbcType=VARCHAR},
       course_totalBlocks = #{record.courseTotalblocks,jdbcType=INTEGER},
       course_clickTime = #{record.courseClicktime,jdbcType=INTEGER},
-      course_isDeleted = #{record.courseIsdeleted,jdbcType=CHAR}
+      course_isDeleted = #{record.courseIsdeleted,jdbcType=CHAR},
+      course_img = #{record.courseImg,jdbcType=VARCHAR},
+      course_date = #{record.courseDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,6 +297,12 @@
       <if test="courseIsdeleted != null">
         course_isDeleted = #{courseIsdeleted,jdbcType=CHAR},
       </if>
+      <if test="courseImg != null">
+        course_img = #{courseImg,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDate != null">
+        course_date = #{courseDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where course_id = #{courseId,jdbcType=BIGINT}
   </update>
@@ -285,7 +316,9 @@
       course_description = #{courseDescription,jdbcType=VARCHAR},
       course_totalBlocks = #{courseTotalblocks,jdbcType=INTEGER},
       course_clickTime = #{courseClicktime,jdbcType=INTEGER},
-      course_isDeleted = #{courseIsdeleted,jdbcType=CHAR}
+      course_isDeleted = #{courseIsdeleted,jdbcType=CHAR},
+      course_img = #{courseImg,jdbcType=VARCHAR},
+      course_date = #{courseDate,jdbcType=TIMESTAMP}
     where course_id = #{courseId,jdbcType=BIGINT}
   </update>
 </mapper>

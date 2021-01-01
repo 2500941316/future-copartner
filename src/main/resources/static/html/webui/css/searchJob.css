@@ -224,7 +224,7 @@ table.listtab tr.xxdetail.none{ display:none}
 .hotguanzhuss .ss input.txtname{width: 154px;border: 1px solid #e3e7ea;height: 32px;padding-left: 15px;float: left;line-height: 32px;}
 .hotguanzhuss .ss input.ssbtn{ background:url(../images/02.gif) no-repeat;float: left;cursor: pointer;width: 79px;height: 34px;border: 1px solid #e3e7ea; border-left: 0;}
 .hotguanzhuss .ss1{margin-bottom: 10px;}
-.hotguanzhuss .ss1 .ssbox{float: left;height: 18px;overflow: hidden;margin-right: 5px;padding-top: 7px;padding-bottom: 9px;color: white;font-weight: bold;text-align: center;cursor: pointer;margin-top: 5px;}
+.hotguanzhuss .ss1 .ssbox{float: left;height: 32px;overflow: hidden;margin-right: 5px;padding-top: 7px;padding-bottom: 9px;color: white;font-weight: bold;text-align: center;cursor: pointer;margin-top: 5px;}
 .hotguanzhuss .ss1 .ssbox a{ color:#fff}
 .hotguanzhuss .ss1 .ssbox1{ background: rgb(77,205,122);width: 100px;}
 .hotguanzhuss .ss1 .ssbox2{ background: rgb(237,179,201);width: 68px;}
