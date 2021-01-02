@@ -1,5 +1,7 @@
 package com.shu.copartner.utils.constance;
 
+import io.swagger.models.auth.In;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,15 @@ import java.util.Map;
  * @Description: 常量类
  */
 public final class Constants {
+    /**
+     * fastdfs删除时filename截取的长度
+     */
+    public static final Integer FASTDFSSUBSTRLEN = 28;
+
+    /**
+     * fastdfs的组名称
+     */
+    public static final String FASTDFSGROUPNAME = "group1";
 
     /**
      * @Description 用户名的长度

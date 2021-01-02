@@ -13,9 +13,9 @@ import java.io.IOException;
 public interface FileuploadService {
 
     /**
-      * @Description 文件上传的方法
-      * @return java.lang.String
-      */
+     * @return java.lang.String
+     * @Description 文件上传的方法
+     */
     String uploadFile(MultipartFile uploadfile);
 
     TableModel managerImageUploadFile(MultipartFile uploadfile);
@@ -24,6 +24,7 @@ public interface FileuploadService {
 
     /**
      * 上传计划书
+     *
      * @param uploadfile
      * @return
      */
@@ -31,6 +32,7 @@ public interface FileuploadService {
 
     /**
      * 上传视频
+     *
      * @param uploadfile
      * @return
      */

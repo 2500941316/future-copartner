@@ -10,4 +10,6 @@ public interface ManagerLeassonService {
     TableModel getLeassonInfo(int page);
 
     TableModel updateLeasson(LeassonVedioUpdateVO leassonVedioUpdateVO);
+
+    TableModel deleteLeasson(String courseId);
 }

@@ -1,5 +1,6 @@
 package com.shu.copartner.utils.fastdfs;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
@@ -10,6 +11,7 @@ import java.io.*;
 /**
  * @author cxy
  */
+@Slf4j
 public class FastDfsClient {
     private static StorageClient1 storageClient1 = null;
 
@@ -69,6 +71,24 @@ public class FastDfsClient {
             return fileName.substring(fileName.lastIndexOf(".") + 1);
         }
     }
+
+
+    /**
+     * 从FastDFS删除文件
+     *
+     * @param groupName      文件在FastDFS中的组名
+     * @param remoteFilename 文件在FastDFS中的名称
+     */
+    public static boolean deleteFile(String groupName, String remoteFilename) {
+        try {
+            int i = storageClient1.delete_file(groupName, remoteFilename);
+        } catch (IOException | MyException e) {
+            log.error("error", e);
+            return false;
+        }
+        return true;
+    }
+
 
     public static void downloadFile(String localFilename, String groupName, String remoteFilename) {
         File file = new File(localFilename);

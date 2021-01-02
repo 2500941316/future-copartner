@@ -15,8 +15,10 @@ import com.shu.copartner.pojo.request.LeassonVedioUpdateVO;
 import com.shu.copartner.pojo.response.LeassonVedioInfoSo;
 import com.shu.copartner.service.ManagerLeassonService;
 import com.shu.copartner.utils.constance.Constants;
+import com.shu.copartner.utils.fastdfs.FastDfsClient;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -114,6 +116,42 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
             ProLeassonVedio proLeassonVedio = new ProLeassonVedio();
             BeanUtils.copyProperties(leassonVedioUpdateVO, proLeassonVedio);
             proLeassonVedioMapper.updateByPrimaryKeySelective(proLeassonVedio);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+        return TableModel.success();
+    }
+
+
+    @Override
+    public TableModel deleteLeasson(String courseId) {
+        //先删除视频表中的每个章节,将删除标志位置为1
+        ProLeassonVedioExample proLeassonVedioExample = new ProLeassonVedioExample();
+        proLeassonVedioExample.createCriteria().andCourseIdEqualTo(Long.parseLong(courseId));
+        ProLeassonVedio proLeassonVedio = new ProLeassonVedio();
+        proLeassonVedio.setCourseId(Long.parseLong(courseId));
+        proLeassonVedio.setCourseVedioIsdeleted(Constants.BE_DELETED);
+        try {
+            proLeassonVedioMapper.updateByExampleSelective(proLeassonVedio, proLeassonVedioExample);
+
+            //删除课程表的记录，删除标志位置为1
+            ProLeasson proLeasson = new ProLeasson();
+            proLeasson.setCourseId(Long.parseLong(courseId));
+            proLeasson.setCourseIsdeleted(Constants.BE_DELETED);
+            proLeassonMapper.updateByPrimaryKeySelective(proLeasson);
+
+
+            //删除课程对应的视频
+            List<ProLeassonVedio> proLeassonVedios = proLeassonVedioMapper.selectByExample(proLeassonVedioExample);
+            for (ProLeassonVedio leassonVedio : proLeassonVedios) {
+                if (StringUtils.isNotEmpty(leassonVedio.getCourseVedioUrl())) {
+                    FastDfsClient.deleteFile(Constants.FASTDFSGROUPNAME, leassonVedio.getCourseVedioUrl().substring(Constants.FASTDFSSUBSTRLEN));
+                }
+                if (StringUtils.isNotEmpty(leassonVedio.getCourseVedioPptUrl())) {
+                    FastDfsClient.deleteFile(Constants.FASTDFSGROUPNAME, leassonVedio.getCourseVedioPptUrl().substring(Constants.FASTDFSSUBSTRLEN));
+                }
+            }
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());

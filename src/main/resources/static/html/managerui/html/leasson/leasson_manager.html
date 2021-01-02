@@ -154,9 +154,13 @@
 
 <!-- 操作列 -->
 <script type="text/html" id="oper-col">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="ppt">ppt</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="vedio">视频</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" style="" lay-event="del">删除</a>
+    {{#  if(d.pid!=-1){ }}
+    <a class="layui-btn layui-btn-primary layui-btn-xs" disabled="true" id="pptBtn" lay-event="ppt">ppt</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" id="vedioBtn" lay-event="vedio">视频</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-danger layui-btn-xs" id="deleteBtn" lay-event="del">删除</a>
+    {{#  } }}
+
 </script>
 
 </body>

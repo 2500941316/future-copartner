@@ -51,6 +51,7 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
                 },
                 success: function (data) {
                     treetable.render({
+                        height: 600,
                         treeColIndex: 0,
                         treeSpid: -1,
                         treeIdName: 'name',
@@ -65,8 +66,8 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
                             {field: 'courseName', title: '课程名称'},
                             {field: 'courseVedioName', edit: 'text', align: "center", title: '章节名称'},
                             {field: 'status', align: "center", width: 120, title: '状态'},
-                            {field: 'courseVedioDuringtime', edit: 'text', width: 80, align: "center", title: '时长'},
-                            {templet: '#oper-col', align: "center", title: '操作'}
+                            {field: 'courseVedioDuringtime',width:60, edit: 'text', width: 80, align: "center", title: '时长'},
+                            {templet: '#oper-col',width:120, align: "center", title: '操作'},
                         ]]
                     });
                 },
@@ -126,12 +127,33 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
         var layEvent = obj.event;
         if (obj.data.courseVedioId != null) {
             localStorage.setItem("course_vedio_id", obj.data.courseVedioId);
-            if (layEvent === 'del') {
-                layer.msg('删除' + data);
-            } else if (layEvent === 'ppt') {
+            if (layEvent === 'ppt') {
                 $("#ppt").click();
             } else if (layEvent === 'vedio') {
                 $("#vedio").click();
+            }
+        } else if (obj.data.pid === -1) {
+            if (layEvent === 'del') {
+                $.ajax({
+                    type: "GET",
+                    url: "/manager/leasson/deleteLeasson",
+                    data: {
+                        courseId: obj.data.courseId
+                    },
+                    success: function (data) {
+                        if (data.code === 200) {
+                            obj.del();
+                            layer.msg('删除成功', {
+                                icon: 16
+                                , shade: 0.01
+                            });
+                        } else
+                            layer.msg('网络异常，请稍后重试');
+                    },
+                    error: function (data) {
+                        layer.msg('参数异常');
+                    }
+                });
             }
         }
     });
