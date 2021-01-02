@@ -36,6 +36,8 @@ public interface ProProjectService {
 
     TableModel cancelFollowProject(String projectId,String follower);
 
+    TableModel searchUserOfFollowMe(String projectId);
+
     boolean uploadProjectPlan(String planUrl, String projectId);
 
     boolean uploadProjectVideo(String videoUrl, String projectId);

@@ -191,8 +191,14 @@ public class UserProjectController {
 
     @GetMapping("cancelFollowProject")
     public TableModel cancelFollowProject(@Size(min = 1) @RequestParam String projectId,@Size(min = 1) @RequestParam String follower){
-        log.info(projectId+" "+follower);
         return proProjectService.cancelFollowProject(projectId,follower);
     }
+
+    @GetMapping("searchUserOfFollowMe")
+    public TableModel searchUserOfFollowMe(@Size(min = 1) @RequestParam String projectId){
+        log.info("projectId: "+projectId);
+        return proProjectService.searchUserOfFollowMe(projectId);
+    }
+
 
 }

@@ -106,9 +106,22 @@
      * @param projectData
      */
     function fillProjectInfo (projectData) {
+        console.log(projectData);
           const $active = $("#tableDiv");
           $active.html("");
           for(var i in projectData){
+              // 计算有效元素个数百分比
+              var elemCount = Object.keys(projectData[i]).length;
+              // 计算元素个数百分比
+              var countPercent = elemCount / 42 ;
+              countPercent = countPercent.toFixed(2) * 100;
+
+              // 计算进度条 像素px 百分比
+              var linePercent = (elemCount / 42) * 200 ;
+              linePercent = linePercent.toFixed(0);
+
+              console.log("countPercent: "+countPercent+" linePercent: "+linePercent);
+
               var $children = $(
                   ' <table id="myProjectTable" width="100%" border="0" cellpadding="0" cellspacing="5">\n' +
                   '            <tr id="first-tr">\n' +
@@ -124,10 +137,10 @@
                   '            <tr id="second-tr" >\n' +
                   '                <td width="61%">\n' +
                   '                    <div class="jlpart2">\n' +
-                  '                        <div class="Orange" style="width:40px;"></div>\n' +
+                  '                        <div class="Orange" style="width: '+linePercent+'px;"></div>\n' +
                   '                    </div>\n' +
                   '                    <div class="jlpart3">\n' +
-                  '                        完整度 20 %\n' +
+                  '                        完整度 '+countPercent+' %\n' +
                   '                        [ <a onclick="updateProjectInfo('+projectData[i].projectId+')" href="#">修改</a>\n' +
                   '                        <a onclick="viewProjectDetail('+projectData[i].projectId+')" href="#">查看</a>\n' +
                   '                        <a href="#">下载</a> ]</div>\n' +

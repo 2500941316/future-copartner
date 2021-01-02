@@ -23,6 +23,9 @@ public interface ProFollowMapper {
     // 根据projectId 和 follower 查询
     ProFollow selectByPidFollower(@Param("projectId") Long projectId, @Param("follower") String follower);
 
+    // 根据projectId查询
+    List<ProFollow> selectUserOfFollowMe(@Param("projectId") Long projectId);
+
     int updateByExampleSelective(@Param("record") ProFollow record, @Param("example") ProFollowExample example);
 
     int updateByExample(@Param("record") ProFollow record, @Param("example") ProFollowExample example);

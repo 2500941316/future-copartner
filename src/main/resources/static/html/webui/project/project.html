@@ -5,6 +5,7 @@
     <script src='/html/webui/header/header.js'></script>
     <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
     <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+    <script type="application/javascript" src="/html/webui/js/project.js"></script>
 
 </head>
 
@@ -123,9 +124,32 @@
 <!--引入页脚页面-->
 <div id="footer"></div>
 
-<script type="text/javascript">
+<script type="application/javascript">
+    var projectTwoStatus = ''; // 保存当前是'在创'还是‘可选’
+    $('.star').click(function () {
+        if ($(this).attr("class") == "star current") {
+            $('.star').addClass('current');
+            $(this).removeClass('current');
+            //   console.log(document.getElementsByClassName('current')[0].innerHTML)
+        } else {
+            $('.star').removeClass('current');
+            $(this).addClass('current');
+            console.log(document.getElementsByClassName('current')[0].innerHTML)
+            projectTwoStatus = document.getElementsByClassName('current')[0].innerHTML
+            if(projectTwoStatus == "在创项目"){
+                projectTwoStatus = "在创";
+                searchProject();
+            }else if(projectTwoStatus == "可选项目"){
+                projectTwoStatus = "可选";
+                searchProject();
+            }
+        }
+    })
+</script>
+
+<!--<script type="text/javascript">
     $(function () {
-        $("#header").load("/html/webui/header/header.html");
+        //$("#header").load("/html/webui/header/header.html");
         $("#footer").load("/html/webui/footer/footer.html");
 
        // initLayPage();
@@ -135,7 +159,7 @@
 
 
     /**
-     * 初始化layui分页
+     * 初始化layui分页,获取其他项目数据
      */
     function initLayPage(pageConf) {
         if (!pageConf) {
@@ -179,7 +203,7 @@
         $active.html("");
         var count = 1;
         for(var i in projectInfo){
-            count ++;
+            //count ++;
            // console.log(count)
             var $children = $(
                '<div class="item gray">\n' +
@@ -347,6 +371,6 @@
         }
     }
 
-</script>
+</script>-->
 </body>
 </html>

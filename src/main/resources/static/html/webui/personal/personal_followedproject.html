@@ -4,19 +4,23 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
     <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/html/webui/js/personal.js"></script>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+
 </head>
 <body>
 <div class="perRightcon">
+    <div class="clear" style="margin-top: 15px"></div>
     <div class="commonTit">
         <h1 class="fl">谁在关注我</h1>
     </div>
     <div class="yaoqingBox">
-        <div class="TopNotice">招聘企业查看您简历的记录，只保留最近一次查看状态，保存时间为6个月</div>
-        <table class="tabzw" cellpadding="0" cellspacing="0">
-            <tbody>
-            <tr>
+        <!--<div class="TopNotice">招聘企业查看您简历的记录，只保留最近一次查看状态，保存时间为6个月</div>-->
+        <table class="tabzw" cellpadding="0" cellspacing="0" style="border-collapse:separate; border-spacing:0px 10px;">
+            <tbody id="followMyProject">
+            <!--<tr>
                 <th width="20%" style="border-left:1px #EDEDED solid;"></th>
                 <th width="46%"></th>
                 <th width="19%">
@@ -28,21 +32,26 @@
                     </select>
                 </th>
                 <th width="15%" style="border-right:1px #EDEDED solid;">查看时间</th>
-            </tr>
-            <tr>
+            </tr>-->
+            <tr class="Gray">
                 <td colspan="2">
                     <div class="whoGz">
-                        <a href="jobtype.html" class="zwtype">商务助理</a>
-                        <a href="company.html" class="gstype">河北同源科技发展有限公司</a>
-                        <div class="whoGz1">河北佛山南海区 | 职位月薪: 2.5K-3.5K | 2人</div>
+                        <a href="jobtype.html" class="zwtype">项目名称</a>
+                       <!-- <a href="company.html" class="gstype">河北同源科技发展有限公司</a>-->
+                        <div class="whoGz1">
+                            <span id="projectCreater">张三</span> |
+                            <span id="projectType">新零售</span> |
+                            <span id="starttime">2020-12-12</span>
+                        </div>
                     </div>
                 </td>
-                <td>荔湾区+广告客户经理</td>
+                <td><span id="projectStatus">在创</span></td>
                 <td>
-                    <span>2018-01-03 14:54</span>
-                    <span class="gzsqbtn">立即申请</span>
+                    <span></span>
+                    <span class="gzsqbtn">查看关注人</span>
                 </td>
             </tr>
+
             <tr class="Gray">
                 <td colspan="2">
                     <div class="whoGz">
@@ -59,11 +68,140 @@
             </tr>
             </tbody>
         </table>
-        <div class="sqxwqx">
-            <div class="psge">共2条</div>
-        </div>
+    </div>
+    <!--分页-->
+    <div style="float: right">
+        <div id="page"></div>
     </div>
 
+    <!--关注我的当前项目列表-->
+    <div id="displayBox" style="display:none">
+        <table id="displayBoxTable" lay-filter="displayBoxTable" align="center"></table>
+    </div>
 </div>
+
+<script type="application/javascript">
+    $(function () {
+        searchProjectByCreater();
+    })
+
+    /**
+     * 分页查询我的项目
+     */
+    function searchProjectByCreater(pageConf) {
+        if (!pageConf) {
+            pageConf = {};
+            pageConf.pageSize = 4; // 每页显示条数
+            pageConf.currentPage = 1; // 当前页
+        }
+        $.get("/user/project/selectByCreater", pageConf, function (data) {
+            layui.use(['laypage', 'layer'], function () {
+                var page = layui.laypage;
+                page.render({
+                    elem: 'page',
+                    count: data.count,
+                    curr: pageConf.currentPage,
+                    limit: pageConf.pageSize,
+                    first: "首页",
+                    last: "尾页",
+                    layout: ['count', 'prev', 'page', 'next', 'skip'],// 'limit',
+                    jump: function (obj, first) {
+                        if (!first) {
+                            pageConf.currentPage = obj.curr;
+                            pageConf.pageSize = obj.limit;
+                            searchProjectByCreater(pageConf);
+                        }
+                        fillProjectInfo(data.data); //页面填充
+                    }
+                });
+            })
+        })
+    }
+
+    /**
+     * 填充我的项目
+     * @param projectData
+     */
+    function fillProjectInfo (projectData) {
+        const $active = $("#followMyProject");
+        $active.html("");
+        for (var i in projectData) {
+           /* if(i % 2 == 0){
+                $("tr").removeClass("Gray");
+            }*/
+            var $children = $(
+                '<tr class="Gray">\n' +
+                '                <td colspan="2">\n' +
+                '                    <div class="whoGz">\n' +
+                '                        <a class="zwtype" id="projectName" href="#" onclick="viewProjectDetail('+projectData[i].projectId+')">'+projectData[i].projectName+'</a>\n' +
+                '                       <!-- <a href="company.html" class="gstype">河北同源科技发展有限公司</a>-->\n' +
+                '                        <div class="whoGz1">\n' +
+                '                            <span id="projectCreater">'+projectData[i].projectCreater+'</span> |\n' +
+                '                            <span id="projectType">'+projectData[i].projectType+'</span> |\n' +
+                '                            <span id="starttime">'+projectData[i].starttime+'</span>\n' +
+                '                        </div>\n' +
+                '                    </div>\n' +
+                '                </td>\n' +
+                '                <td><span id="projectStatus">'+projectData[i].projectStatus+'</span></td>\n' +
+                '                <td>\n' +
+                '                    <span></span>\n' +
+                '                    <span class="gzsqbtn" onclick="viewUserOfFollowMe('+projectData[i].projectId+')">查看关注人</span>\n' +
+                '                </td>\n' +
+                '            </tr>'
+            );
+            $active.append($children);
+
+        }
+    }
+
+    /**
+     * 查看项目详情
+     * @param projectId
+     */
+    function viewProjectDetail(projectId) {
+        layer.msg("projectId:"+projectId);
+        localStorage.setItem("projectId",projectId);
+        //window.open("/html/webui/project/project_details_info.html");
+        window.location.href = "/html/webui/project/project_details_info.html";
+
+    }
+
+    /**
+     * 查看关注我的当前项目的人
+     * @param projectId
+     */
+    function viewUserOfFollowMe(thisProjectId){
+        //关注我的项目人信息表格
+        layui.use('table', function () {
+            var table = layui.table;
+            var high = 40; //表头高度
+            table.render({
+                elem: '#displayBoxTable'
+                , url: '/user/project/searchUserOfFollowMe'
+                ,where: {projectId: thisProjectId}
+                , title: '关注用户信息'
+                ,smartReloadModel:true
+                , cols: [[
+                        {field: 'projectId',title: '序号', width: 200, align: 'center',type: 'numbers' },
+                        {field: 'follower', title: '关注人',width: 200, align: 'center'},
+                        {field: 'followTime', title: '关注时间',width: 200, align: 'center'}
+                ]]
+                , page: true
+                , done: function(count){
+                $("table").css("width", "100%");//宽度
+                high = high + count * 40;//一条数据的高度是40
+                layer.open({
+                    type: 1,
+                    title: '关注详情：',
+                    offset: '100px',
+                    area: ['605px', high+'px'], //宽高
+                    content: $('#displayBox')
+                });
+            }
+            });
+        })
+
+    }
+</script>
 </body>
 </html>

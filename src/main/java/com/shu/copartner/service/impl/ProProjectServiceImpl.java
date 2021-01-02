@@ -344,6 +344,17 @@ public class ProProjectServiceImpl implements ProProjectService {
     }
 
     /**
+     * 根据项目id查询 关注当前项目的人
+     * @param projectId
+     * @return
+     */
+    @Override
+    public TableModel searchUserOfFollowMe(String projectId) {
+        List<ProFollow> proFollows = proFollowMapper.selectUserOfFollowMe(Long.parseLong(projectId));
+        return TableModel.tableSuccess(proFollows,proFollows.size());
+    }
+
+    /**
      * 上传计划书
      * 先将计划书信息写到审批表中，审批通过后再写入项目表中，但是两个表的审批状态都要设置
      * @param planUrl
