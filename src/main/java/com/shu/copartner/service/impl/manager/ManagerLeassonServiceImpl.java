@@ -66,7 +66,7 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
         try {
             int index = 0;
             ProLeassonExample newProLeassonExample = new ProLeassonExample();
-            newProLeassonExample.createCriteria().andCourseIsdeletedEqualTo(Constants.LEASSON_ISDELETED);
+            newProLeassonExample.createCriteria().andCourseIsdeletedEqualTo(Constants.NO_DELETED);
             List<ProLeasson> proLeassons = proLeassonMapper.selectByExample(newProLeassonExample);
             List<LeassonVedioInfoSo> leassonInfoSoList = new ArrayList<>();
             PageInfo pageInfo = new PageInfo(proLeassons);

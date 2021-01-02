@@ -40,8 +40,8 @@ public class FileuploadServiceImpl implements FileuploadService {
         try {
             return FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_FILEUPLOAD_ERROR.getEcode());
         }
     }
 
@@ -62,8 +62,8 @@ public class FileuploadServiceImpl implements FileuploadService {
             tableModel.setData(map);
             return tableModel;
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_FILEUPLOAD_ERROR.getEcode());
         }
     }
 
@@ -90,34 +90,36 @@ public class FileuploadServiceImpl implements FileuploadService {
 
     /**
      * 上传计划书
+     *
      * @param uploadfile
      * @return
      */
     @Override
-    public TableModel managerPlanUploadFile(MultipartFile uploadfile,String projectId) throws IOException {
+    public TableModel managerPlanUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
         TableModel tableModel = new TableModel();
-        if(StringUtils.isNotEmpty(projectId)){
-            log.info("文件名："+uploadfile.getOriginalFilename());
-            log.info("projectId:"+projectId);
+        if (StringUtils.isNotEmpty(projectId)) {
+            log.info("文件名：" + uploadfile.getOriginalFilename());
+            log.info("projectId:" + projectId);
             // 上传计划书，返回其存放路径
             String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
             //String planUrl = uploadfile.getOriginalFilename();
             // 文件存储路径加上服务器前缀
             String finalPlanUrl = Constants.FILEURL_FIRSTNAME + planUrl;
             // 项目状态更新处理
-            proProjectService.uploadProjectPlan(finalPlanUrl,projectId);
+            proProjectService.uploadProjectPlan(finalPlanUrl, projectId);
 
             Map<String, String> map = new HashMap<>();
             map.put("planUrl", Constants.FILEURL_FIRSTNAME + planUrl);
             map.put("title", uploadfile.getOriginalFilename());
-            return tableModel.success(map,map.size());
-        }else{
+            return tableModel.success(map, map.size());
+        } else {
             return tableModel.error("网络异常");
         }
     }
 
     /**
      * 上传视视频
+     *
      * @param uploadfile
      * @param projectId
      * @return
@@ -126,22 +128,22 @@ public class FileuploadServiceImpl implements FileuploadService {
     @Override
     public TableModel managerVideoUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
         TableModel tableModel = new TableModel();
-        if(StringUtils.isNotEmpty(projectId)){
-            log.info("文件名："+uploadfile.getOriginalFilename());
-            log.info("projectId:"+projectId);
+        if (StringUtils.isNotEmpty(projectId)) {
+            log.info("文件名：" + uploadfile.getOriginalFilename());
+            log.info("projectId:" + projectId);
             // 上传视频，返回其存放路径
             String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
             //String planUrl = uploadfile.getOriginalFilename();
             // 文件存储路径加上服务器前缀
             String finalPlanUrl = Constants.FILEURL_FIRSTNAME + planUrl;
             // 项目状态更新处理
-            proProjectService.uploadProjectVideo(finalPlanUrl,projectId);
+            proProjectService.uploadProjectVideo(finalPlanUrl, projectId);
 
             Map<String, String> map = new HashMap<>();
             map.put("VideoUrl", Constants.FILEURL_FIRSTNAME + planUrl);
             map.put("title", uploadfile.getOriginalFilename());
-            return tableModel.success(map,map.size());
-        }else{
+            return tableModel.success(map, map.size());
+        } else {
             return tableModel.error("网络异常");
         }
     }

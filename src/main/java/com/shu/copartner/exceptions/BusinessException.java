@@ -1,6 +1,5 @@
 package com.shu.copartner.exceptions;
 
-import java.util.List;
 
 /**
  * @author cxy

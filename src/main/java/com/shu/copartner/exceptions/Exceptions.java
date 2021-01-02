@@ -40,6 +40,11 @@ public enum Exceptions {
     SERVER_DATASOURCE_ERROR("0006", "数据库查询异常"),
 
     /**
+     * 文件上传异常
+     */
+    SERVER_FILEUPLOAD_ERROR("0007", "文件上传异常"),
+
+    /**
      * 未知异常
      */
     SERVER_OTHER_ERROR("0099", "未知异常");

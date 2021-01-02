@@ -53,6 +53,10 @@ public class ExceptionAdvice {
                 message = Exceptions.SERVER_DATASOURCE_ERROR.getEmsg();
                 break;
 
+            case "0007":
+                message = Exceptions.SERVER_FILEUPLOAD_ERROR.getEmsg();
+                break;
+
             default:
                 message = Exceptions.SERVER_OTHER_ERROR.getEmsg();
                 e.printStackTrace();

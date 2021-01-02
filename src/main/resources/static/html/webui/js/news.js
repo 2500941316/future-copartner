@@ -1,4 +1,3 @@
-
 $(function () {
     $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
@@ -22,7 +21,13 @@ function toNew_content(newId) {
 
 //跳转到分类新闻页的方法
 function redirecTo(catagory) {
-    localStorage.setItem("news_catagory", catagory);
+    if (catagory != null && catagory.length > 0) {
+        localStorage.setItem("news_catagory", catagory);
+    } else {
+        //点了正文页分类条时
+        localStorage.setItem("news_catagory", document.getElementById("news_category").innerText)
+    }
+
     window.location.href = "/html/webui/news/news_catalog.html";
 }
 

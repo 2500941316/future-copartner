@@ -35,7 +35,7 @@ public class UserLeassonServiceImpl implements UserLeassonService {
     @Override
     public TableModel getLeassonInfo() {
         ProLeassonExample proLeassonExample = new ProLeassonExample();
-        proLeassonExample.createCriteria().andCourseIsdeletedEqualTo(Constants.LEASSON_ISDELETED);
+        proLeassonExample.createCriteria().andCourseIsdeletedEqualTo(Constants.NO_DELETED);
         try {
             List<ProLeasson> proLeassons = proLeassonMapper.selectByExample(proLeassonExample);
             return TableModel.success(proLeassons, proLeassons.size());
@@ -47,30 +47,36 @@ public class UserLeassonServiceImpl implements UserLeassonService {
 
     @Override
     public TableModel getcourseInfo_vedio(Long courseId) {
-        LeassonCourse_Vedio_InfoSo leassonCourseVedioInfoSo=new LeassonCourse_Vedio_InfoSo();
+        LeassonCourse_Vedio_InfoSo leassonCourseVedioInfoSo = new LeassonCourse_Vedio_InfoSo();
         try {
-        //查询课程的全部信息
-        ProLeasson proLeasson = proLeassonMapper.selectByPrimaryKey(courseId);
+            //查询课程的全部信息
+            ProLeasson proLeasson = proLeassonMapper.selectByPrimaryKey(courseId);
 
-        BeanUtils.copyProperties(proLeasson,leassonCourseVedioInfoSo);
+            //如果课程已经删除则直接返回
+            if (proLeasson.getCourseIsdeleted().equals(Constants.BE_DELETED)) {
+                return TableModel.error();
+            }
 
-        //查询所有子目录的信息
-        ProLeassonVedioExample proLeassonVedioExample=new ProLeassonVedioExample();
-        proLeassonVedioExample.setOrderByClause(Constants.LEASSON_ASCBYNUMBER);
-        proLeassonVedioExample.createCriteria().andCourseIdEqualTo(courseId);
-        List<ProLeassonVedio> proLeassonVedios = proLeassonVedioMapper.selectByExample(proLeassonVedioExample);
-        leassonCourseVedioInfoSo.setVedioList(proLeassonVedios);
+            BeanUtils.copyProperties(proLeasson, leassonCourseVedioInfoSo);
 
-        //查询点击数最多的视频名单
-        ProLeassonExample proLeassonExample=new ProLeassonExample();
-        proLeassonExample.setOrderByClause(Constants.LEASSON_DESCBYCLICKTIMES);
-        PageHelper.startPage(1,Constants.LEASSON_CLICKNUMBER);
-        List<ProLeasson> proLeassons = proLeassonMapper.selectByExample(proLeassonExample);
-        leassonCourseVedioInfoSo.setClickCourseList(proLeassons);
+            //查询所有子目录的信息
+            ProLeassonVedioExample proLeassonVedioExample = new ProLeassonVedioExample();
+            proLeassonVedioExample.setOrderByClause(Constants.LEASSON_ASCBYNUMBER);
+            proLeassonVedioExample.createCriteria().andCourseIdEqualTo(courseId);
+            List<ProLeassonVedio> proLeassonVedios = proLeassonVedioMapper.selectByExample(proLeassonVedioExample);
+            leassonCourseVedioInfoSo.setVedioList(proLeassonVedios);
+
+            //查询点击数最多的课程名单
+            ProLeassonExample proLeassonExample = new ProLeassonExample();
+            proLeassonExample.setOrderByClause(Constants.LEASSON_DESCBYCLICKTIMES);
+            proLeassonExample.createCriteria().andCourseIsdeletedEqualTo(Constants.NO_DELETED);
+            PageHelper.startPage(1, Constants.LEASSON_CLICKNUMBER);
+            List<ProLeasson> proLeassons = proLeassonMapper.selectByExample(proLeassonExample);
+            leassonCourseVedioInfoSo.setClickCourseList(proLeassons);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
-        return TableModel.success(leassonCourseVedioInfoSo,1);
+        return TableModel.success(leassonCourseVedioInfoSo, 1);
     }
 }

@@ -17,8 +17,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author cxy
@@ -83,14 +87,18 @@ public class UserNewsServiceImpl implements UserNewsService {
         ProNews proNews = null;
         List<ProNews> recently_NewsList = null;
         ProNewsExample proNewsExample = new ProNewsExample();
-        proNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
-        proNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED);
+        proNewsExample.setOrderByClause(Constants.NEW_DESCBYCLICKTIME);
+        proNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED).andIsdeletedEqualTo(Constants.NO_DELETED);
         try {
             //先查询当前新闻的详情
             proNews = proNewsMapper.selectByPrimaryKey(Long.parseLong(newsId));
             //再查询10条热点关注
             PageHelper.startPage(1, Constants.pageSize);
             recently_NewsList = proNewsMapper.selectByExample(proNewsExample);
+
+            //将该新闻的点击数加1
+            proNews.setNewsBrowsecount(proNews.getNewsBrowsecount() + 1);
+            proNewsMapper.updateByPrimaryKeySelective(proNews);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
@@ -112,10 +120,12 @@ public class UserNewsServiceImpl implements UserNewsService {
         List<ProNews> recently_NewsList = null;
         List<ProNews> topNewsList = null;
         try {
+            //每个种类查询3条最新的新闻
             for (String newsCatagory : news_catagories) {
                 ProNewsExample proNewsExample = new ProNewsExample();
                 proNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
-                proNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED).andNewsCategoryEqualTo(newsCatagory);
+                proNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED)
+                        .andNewsCategoryEqualTo(newsCatagory).andIsdeletedEqualTo(Constants.NO_DELETED);
                 PageHelper.startPage(1, 3);
                 List<ProNews> proNews = proNewsMapper.selectByExample(proNewsExample);
 
@@ -128,18 +138,20 @@ public class UserNewsServiceImpl implements UserNewsService {
             //查询最新的两个置顶的新闻和新闻内容
             ProNewsExample proNewsExample = new ProNewsExample();
             ProNewsExample recentNewsExample = new ProNewsExample();
+            proNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
             PageHelper.startPage(1, 2);
-            proNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED).andIstoppingEqualTo(Constants.NEW_ISTOP);
+            proNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED)
+                    .andIstoppingEqualTo(Constants.NEW_ISTOP).andIsdeletedEqualTo(Constants.NO_DELETED);
             topNewsList = proNewsMapper.selectByExample(proNewsExample);
             for (ProNews proNews : topNewsList) {
-                if (proNews.getNewsContent().length() > 90) {
-                    proNews.setNewsContent(proNews.getNewsContent().substring(0, 90));
+                if (proNews.getNewsContent().length() > 100) {
+                    proNews.setNewsContent(delHTMLTag(proNews.getNewsContent().substring(0, 100)));
                 }
             }
 
-            //查询最新的10个热点新闻
-            recentNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
-            recentNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED);
+            //查询最新的10个点击度最高的新闻
+            recentNewsExample.setOrderByClause(Constants.NEW_DESCBYCLICKTIME);
+            recentNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED).andIsdeletedEqualTo(Constants.NO_DELETED);
             PageHelper.startPage(1, Constants.pageSize);
             recently_NewsList = proNewsMapper.selectByExample(recentNewsExample);
             for (ProNews proNews : recently_NewsList) {
@@ -164,10 +176,11 @@ public class UserNewsServiceImpl implements UserNewsService {
         PageHelper.startPage(page, Constants.pageSize);
 
         //判断keyword的前两个字符判断是根据种类查询还是根据关键字查询
-        if (keywords!=null && keywords.substring(0, 2).equals(Constants.NEW_FIRSTKEY)) {
-            proNewsExample.createCriteria().andNewsTitleLike("%" + keywords.substring(2, keywords.length() - 1) + "%").andIsauditEqualTo(Constants.NEW_AUTHED);
+        if (keywords != null && keywords.substring(0, 2).equals(Constants.NEW_FIRSTKEY)) {
+            proNewsExample.createCriteria().andNewsTitleLike("%" + keywords.substring(2, keywords.length() - 1) + "%")
+                    .andIsauditEqualTo(Constants.NEW_AUTHED).andIsdeletedEqualTo(Constants.NO_DELETED);
         } else {
-            proNewsExample.createCriteria().andNewsCategoryEqualTo(keywords).andIsauditEqualTo(Constants.NEW_AUTHED);
+            proNewsExample.createCriteria().andNewsCategoryEqualTo(keywords).andIsauditEqualTo(Constants.NEW_AUTHED).andIsdeletedEqualTo(Constants.NO_DELETED);
         }
         try {
             proNews = proNewsMapper.selectByExample(proNewsExample);
@@ -177,8 +190,8 @@ public class UserNewsServiceImpl implements UserNewsService {
 
             //查询最新的10条记录
             ProNewsExample recentNewsExample = new ProNewsExample();
-            recentNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
-            recentNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED);
+            recentNewsExample.setOrderByClause(Constants.NEW_DESCBYCLICKTIME);
+            recentNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED).andIsdeletedEqualTo(Constants.NO_DELETED);
             PageHelper.startPage(1, 10);
             List<ProNews> recentlyNewsList = proNewsMapper.selectByExample(recentNewsExample);
             for (ProNews news : recentlyNewsList) {
@@ -192,5 +205,30 @@ public class UserNewsServiceImpl implements UserNewsService {
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
         return TableModel.success(resList, resList.size());
+    }
+
+
+    /**
+     * 将字符串过滤掉html
+     *
+     * @param htmlStr
+     * @return
+     */
+    public String delHTMLTag(String htmlStr) {
+        String regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>"; //定义style的正则表达式
+        String regEx_html = "<[^>]+>"; //定义HTML标签的正则表达式
+        Pattern p_style = Pattern.compile(regEx_style, Pattern.CASE_INSENSITIVE);
+        Matcher m_style = p_style.matcher(htmlStr);
+        htmlStr = m_style.replaceAll(""); //过滤style标签
+        Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
+        Matcher m_html = p_html.matcher(htmlStr);
+        htmlStr = m_html.replaceAll(""); //过滤html标签
+        htmlStr = htmlStr.replace(" ", "");
+        htmlStr = htmlStr.replaceAll("\\s*|\t|\r|\n", "");
+        htmlStr = htmlStr.replace("“", "");
+        htmlStr = htmlStr.replace("”", "");
+        htmlStr = htmlStr.replaceAll("　", "");
+
+        return htmlStr.trim(); //返回文本字符串
     }
 }

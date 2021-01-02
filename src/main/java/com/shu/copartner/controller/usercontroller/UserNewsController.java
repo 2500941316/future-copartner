@@ -89,7 +89,7 @@ public class UserNewsController {
     /**
      * @author cxy
      * @date 2020/12/20 13:42
-     * @Description 安装关键字查询新闻
+     * @Description 按照关键字查询新闻
      */
     @GetMapping("searchNewsByKeywords")
     @ResponseBody
