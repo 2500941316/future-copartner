@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Slf4j
 public class UserLeassonServiceImpl implements UserLeassonService {
 
@@ -46,7 +46,7 @@ public class UserLeassonServiceImpl implements UserLeassonService {
     }
 
     @Override
-    public TableModel getcourseInfo_vedio(Long courseId) {
+    public TableModel getcourseInfoVedio(Long courseId) {
         LeassonCourse_Vedio_InfoSo leassonCourseVedioInfoSo = new LeassonCourse_Vedio_InfoSo();
         try {
             //查询课程的全部信息

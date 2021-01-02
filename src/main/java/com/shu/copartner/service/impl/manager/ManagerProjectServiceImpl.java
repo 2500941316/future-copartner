@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import java.util.Map;
  * @Description:
  */
 @Slf4j
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class ManagerProjectServiceImpl implements ManagerProjectService {
 
@@ -195,8 +197,9 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
             // 更新审批表信息
             proApplicationMapper.updateByPrimaryKeySelective(proApplication);
             return TableModel.success();
-        }else
-        return TableModel.error("网络异常");
+        }else {
+            return TableModel.error("网络异常");
+        }
     }
 
    /* @Override

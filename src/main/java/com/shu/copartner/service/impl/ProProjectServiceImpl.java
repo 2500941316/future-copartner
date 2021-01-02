@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.CollectionUtils;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +36,7 @@ import java.util.List;
  * @description
  */
 @Slf4j
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class ProProjectServiceImpl implements ProProjectService {
 
@@ -288,8 +290,9 @@ public class ProProjectServiceImpl implements ProProjectService {
             proProject.setIsDeleted(1);
             proProjectMapper.updateByPrimaryKeySelective(proProject);
             return TableModel.success();
-        }else
+        }else {
             return TableModel.error("网络异常");
+        }
 
     }
 

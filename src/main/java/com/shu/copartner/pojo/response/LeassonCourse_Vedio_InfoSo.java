@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author cxy
+ */
 @Data
 public class LeassonCourse_Vedio_InfoSo {
 

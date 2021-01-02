@@ -36,6 +36,6 @@ public class UserLeassonController {
     @GetMapping(value = "getcourseInfo_vedio")
     @ResponseBody
     public TableModel getcourseInfo_vedio(@Size Long courseId) {
-        return userLeassonService.getcourseInfo_vedio(courseId);
+        return userLeassonService.getcourseInfoVedio(courseId);
     }
 }

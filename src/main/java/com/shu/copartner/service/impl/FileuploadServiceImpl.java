@@ -26,7 +26,7 @@ import java.util.Map;
  * @Description:
  */
 @Slf4j
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class FileuploadServiceImpl implements FileuploadService {
     @Autowired
@@ -68,16 +68,16 @@ public class FileuploadServiceImpl implements FileuploadService {
     }
 
     @Override
-    public TableModel leassonVedioUpload(MultipartFile file, Long course_vedio_id, String fileUpload_type) {
+    public TableModel leassonVedioUpload(MultipartFile file, Long courseVedioId, String fileUploadType) {
         try {
             String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(file.getInputStream(), file.getOriginalFilename());
 
             //更新数据库
             ProLeassonVedio proLeassonVedio = new ProLeassonVedio();
-            proLeassonVedio.setCourseVedioId(course_vedio_id);
-            if (fileUpload_type.equals(Constants.LEASSON_FILETYPE_VEDIO)) {
+            proLeassonVedio.setCourseVedioId(courseVedioId);
+            if (fileUploadType.equals(Constants.LEASSON_FILETYPE_VEDIO)) {
                 proLeassonVedio.setCourseVedioUrl(fileUrl);
-            } else if (fileUpload_type.equals(Constants.LEASSON_FILETYPE_PPT)) {
+            } else if (fileUploadType.equals(Constants.LEASSON_FILETYPE_PPT)) {
                 proLeassonVedio.setCourseVedioPptUrl(fileUrl);
             }
             proLeassonVedioMapper.updateByPrimaryKeySelective(proLeassonVedio);
@@ -96,7 +96,6 @@ public class FileuploadServiceImpl implements FileuploadService {
      */
     @Override
     public TableModel managerPlanUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
-        TableModel tableModel = new TableModel();
         if (StringUtils.isNotEmpty(projectId)) {
             log.info("文件名：" + uploadfile.getOriginalFilename());
             log.info("projectId:" + projectId);
@@ -111,9 +110,9 @@ public class FileuploadServiceImpl implements FileuploadService {
             Map<String, String> map = new HashMap<>();
             map.put("planUrl", Constants.FILEURL_FIRSTNAME + planUrl);
             map.put("title", uploadfile.getOriginalFilename());
-            return tableModel.success(map, map.size());
+            return TableModel.success(map, map.size());
         } else {
-            return tableModel.error("网络异常");
+            return TableModel.error("网络异常");
         }
     }
 
@@ -142,9 +141,9 @@ public class FileuploadServiceImpl implements FileuploadService {
             Map<String, String> map = new HashMap<>();
             map.put("VideoUrl", Constants.FILEURL_FIRSTNAME + planUrl);
             map.put("title", uploadfile.getOriginalFilename());
-            return tableModel.success(map, map.size());
+            return TableModel.success(map, map.size());
         } else {
-            return tableModel.error("网络异常");
+            return TableModel.error("网络异常");
         }
     }
 }

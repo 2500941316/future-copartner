@@ -20,7 +20,7 @@ public interface FileuploadService {
 
     TableModel managerImageUploadFile(MultipartFile uploadfile);
 
-    TableModel leassonVedioUpload(MultipartFile file, Long course_vedio_id, String fileUpload_type);
+    TableModel leassonVedioUpload(MultipartFile file, Long courseVedioId, String fileUploadType);
 
     /**
      * 上传计划书

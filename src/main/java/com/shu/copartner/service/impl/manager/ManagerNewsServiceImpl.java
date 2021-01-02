@@ -27,7 +27,7 @@ import java.util.List;
  * @Description:
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Slf4j
 public class ManagerNewsServiceImpl implements ManagerNewsService {
 
@@ -52,7 +52,7 @@ public class ManagerNewsServiceImpl implements ManagerNewsService {
             List<Task> taskList = taskService.createTaskQuery()
                     .taskAssignee(Constants.MANAGER_ROLE)
                     .taskName(Constants.NEWSAPPLY_PROCESS_MANAGERNAME)
-                    .listPage(Constants.pageSize * (page - 1), Constants.pageSize);
+                    .listPage(Constants.PAGESIZE * (page - 1), Constants.PAGESIZE);
             for (Task task : taskList) {
                 Object variable = taskService.getVariable(task.getId(), Constants.ACTIVITI_OBJECT_NAME);
                 if (variable != null) {

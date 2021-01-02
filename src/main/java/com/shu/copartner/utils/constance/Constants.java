@@ -31,12 +31,12 @@ public final class Constants {
     /**
      * @Description 每一页查询的个数
      */
-    public static final int pageSize = 10;
+    public static final int PAGESIZE = 10;
 
     /**
      * @Description 一共显示几个页数选择
      */
-    public static final int pageView = 5;
+    public static final int PAGEVIEW = 5;
 
     /**
      * @Description 请假流程的key

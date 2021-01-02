@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
  * @Date: 2020/12/20 13:39
  * @Description:
  */
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Slf4j
 @Service
 public class UserNewsServiceImpl implements UserNewsService {
@@ -85,7 +85,7 @@ public class UserNewsServiceImpl implements UserNewsService {
     @Override
     public TableModel searchNewsById(String newsId) {
         ProNews proNews = null;
-        List<ProNews> recently_NewsList = null;
+        List<ProNews> recentlyNewsList = null;
         ProNewsExample proNewsExample = new ProNewsExample();
         proNewsExample.setOrderByClause(Constants.NEW_DESCBYCLICKTIME);
         proNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED).andIsdeletedEqualTo(Constants.NO_DELETED);
@@ -93,8 +93,8 @@ public class UserNewsServiceImpl implements UserNewsService {
             //先查询当前新闻的详情
             proNews = proNewsMapper.selectByPrimaryKey(Long.parseLong(newsId));
             //再查询10条热点关注
-            PageHelper.startPage(1, Constants.pageSize);
-            recently_NewsList = proNewsMapper.selectByExample(proNewsExample);
+            PageHelper.startPage(1, Constants.PAGESIZE);
+            recentlyNewsList = proNewsMapper.selectByExample(proNewsExample);
 
             //将该新闻的点击数加1
             proNews.setNewsBrowsecount(proNews.getNewsBrowsecount() + 1);
@@ -105,7 +105,7 @@ public class UserNewsServiceImpl implements UserNewsService {
         }
         ArrayList<Object> res = new ArrayList<>();
         res.add(proNews);
-        res.add(recently_NewsList);
+        res.add(recentlyNewsList);
         return TableModel.success(res, 1);
     }
 
@@ -113,15 +113,15 @@ public class UserNewsServiceImpl implements UserNewsService {
     @Override
     public TableModel getNewsIndexInfo() {
 
-        List<String> news_catagories = Arrays.asList(Constants.NEWS_CATAGORIES);
-        Map<String, Object> news_titleMap = new HashMap<>();
+        String[] newsCatagories = Constants.NEWS_CATAGORIES;
+        Map<String, Object> newsTitleMap = new HashMap<>();
         //根据分类查询3个新闻标题
         List<List<ProNews>> categoriesNewsList = new ArrayList<>();
-        List<ProNews> recently_NewsList = null;
+        List<ProNews> recentlyNewsList = null;
         List<ProNews> topNewsList = null;
         try {
             //每个种类查询3条最新的新闻
-            for (String newsCatagory : news_catagories) {
+            for (String newsCatagory : newsCatagories) {
                 ProNewsExample proNewsExample = new ProNewsExample();
                 proNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
                 proNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED)
@@ -145,26 +145,26 @@ public class UserNewsServiceImpl implements UserNewsService {
             topNewsList = proNewsMapper.selectByExample(proNewsExample);
             for (ProNews proNews : topNewsList) {
                 if (proNews.getNewsContent().length() > 100) {
-                    proNews.setNewsContent(delHTMLTag(proNews.getNewsContent().substring(0, 100)));
+                    proNews.setNewsContent(delHtmlTag(proNews.getNewsContent().substring(0, 100)));
                 }
             }
 
             //查询最新的10个点击度最高的新闻
             recentNewsExample.setOrderByClause(Constants.NEW_DESCBYCLICKTIME);
             recentNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED).andIsdeletedEqualTo(Constants.NO_DELETED);
-            PageHelper.startPage(1, Constants.pageSize);
-            recently_NewsList = proNewsMapper.selectByExample(recentNewsExample);
-            for (ProNews proNews : recently_NewsList) {
+            PageHelper.startPage(1, Constants.PAGESIZE);
+            recentlyNewsList = proNewsMapper.selectByExample(recentNewsExample);
+            for (ProNews proNews : recentlyNewsList) {
                 proNews.setNewsContent(null);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
-        news_titleMap.put("topNewsList", topNewsList);
-        news_titleMap.put("recently_NewsList", recently_NewsList);
-        news_titleMap.put("categoriesNewsList", categoriesNewsList);
-        return TableModel.success(news_titleMap, news_titleMap.size());
+        newsTitleMap.put("topNewsList", topNewsList);
+        newsTitleMap.put("recently_NewsList", recentlyNewsList);
+        newsTitleMap.put("categoriesNewsList", categoriesNewsList);
+        return TableModel.success(newsTitleMap, newsTitleMap.size());
     }
 
     @Override
@@ -173,7 +173,7 @@ public class UserNewsServiceImpl implements UserNewsService {
         List<ProNews> proNews = null;
         ProNewsExample proNewsExample = new ProNewsExample();
         proNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
-        PageHelper.startPage(page, Constants.pageSize);
+        PageHelper.startPage(page, Constants.PAGESIZE);
 
         //判断keyword的前两个字符判断是根据种类查询还是根据关键字查询
         if (keywords != null && keywords.substring(0, 2).equals(Constants.NEW_FIRSTKEY)) {
@@ -214,21 +214,21 @@ public class UserNewsServiceImpl implements UserNewsService {
      * @param htmlStr
      * @return
      */
-    public String delHTMLTag(String htmlStr) {
-        String regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>"; //定义style的正则表达式
-        String regEx_html = "<[^>]+>"; //定义HTML标签的正则表达式
-        Pattern p_style = Pattern.compile(regEx_style, Pattern.CASE_INSENSITIVE);
-        Matcher m_style = p_style.matcher(htmlStr);
-        htmlStr = m_style.replaceAll(""); //过滤style标签
-        Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
-        Matcher m_html = p_html.matcher(htmlStr);
-        htmlStr = m_html.replaceAll(""); //过滤html标签
+    public String delHtmlTag(String htmlStr) {
+        String regExStyle = "<style[^>]*?>[\\s\\S]*?<\\/style>";
+        String regExHtml = "<[^>]+>";
+        Pattern pStyle = Pattern.compile(regExStyle, Pattern.CASE_INSENSITIVE);
+        Matcher mStyle = pStyle.matcher(htmlStr);
+        htmlStr = mStyle.replaceAll("");
+        Pattern pHtml = Pattern.compile(regExHtml, Pattern.CASE_INSENSITIVE);
+        Matcher mHtml = pHtml.matcher(htmlStr);
+        htmlStr = mHtml.replaceAll("");
         htmlStr = htmlStr.replace(" ", "");
         htmlStr = htmlStr.replaceAll("\\s*|\t|\r|\n", "");
         htmlStr = htmlStr.replace("“", "");
         htmlStr = htmlStr.replace("”", "");
         htmlStr = htmlStr.replaceAll("　", "");
 
-        return htmlStr.trim(); //返回文本字符串
+        return htmlStr.trim();
     }
 }

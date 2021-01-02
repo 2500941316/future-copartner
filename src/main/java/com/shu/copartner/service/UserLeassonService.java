@@ -6,5 +6,5 @@ public interface UserLeassonService {
 
     TableModel getLeassonInfo();
 
-    TableModel getcourseInfo_vedio(Long courseId);
+    TableModel getcourseInfoVedio(Long courseId);
 }

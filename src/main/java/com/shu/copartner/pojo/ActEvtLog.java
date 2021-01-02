@@ -3,6 +3,7 @@ package com.shu.copartner.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
+@SuppressWarnings("AlibabaClassMustHaveAuthor")
 public class ActEvtLog implements Serializable {
     private Long logNr;
 

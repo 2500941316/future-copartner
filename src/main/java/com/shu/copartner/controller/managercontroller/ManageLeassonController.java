@@ -99,9 +99,9 @@ public class ManageLeassonController {
      */
     @PostMapping(value = "leassonVedioUpload")
     @ResponseBody
-    public TableModel leassonVedioUpload(MultipartFile file, Long course_vedio_id, String fileUpload_type) {
+    public TableModel leassonVedioUpload(MultipartFile file, Long courseVedioId, String fileUploadType) {
 
-        return uploadService.leassonVedioUpload(file, course_vedio_id, fileUpload_type);
+        return uploadService.leassonVedioUpload(file, courseVedioId, fileUploadType);
     }
 
     /**

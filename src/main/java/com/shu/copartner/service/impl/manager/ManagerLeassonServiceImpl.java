@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Slf4j
 public class ManagerLeassonServiceImpl implements ManagerLeassonService {
 
@@ -64,7 +64,7 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
 
     @Override
     public TableModel getLeassonInfo(int page) {
-        PageHelper.startPage(page, Constants.pageSize);
+        PageHelper.startPage(page, Constants.PAGESIZE);
         try {
             int index = 0;
             ProLeassonExample newProLeassonExample = new ProLeassonExample();

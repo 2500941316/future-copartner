@@ -19,8 +19,8 @@ public class FastDfsClient {
         try {
             // 获取配置文件
             String classPath = new File(FastDfsClient.class.getResource("/").getFile()).getCanonicalPath();
-            String CONF_FILENAME = classPath + File.separator + "conf" + File.separator + "fdfs_client.conf";
-            ClientGlobal.init(CONF_FILENAME);
+            String conffilename = classPath + File.separator + "conf" + File.separator + "fdfs_client.conf";
+            ClientGlobal.init(conffilename);
             // 获取触发器
             TrackerClient trackerClient = new TrackerClient(ClientGlobal.g_tracker_group);
             TrackerServer trackerServer = trackerClient.getConnection();
@@ -39,16 +39,16 @@ public class FastDfsClient {
      */
     public static String uploadFile(InputStream fis, String fileName) {
         try {
-            NameValuePair[] meta_list = null;
+            NameValuePair[] metaList = null;
 
             //将输入流写入file_buff数组
-            byte[] file_buff = null;
+            byte[] fileBuff = null;
             if (fis != null) {
                 int len = fis.available();
-                file_buff = new byte[len];
-                fis.read(file_buff);
+                fileBuff = new byte[len];
+                fis.read(fileBuff);
             }
-            String fileid = storageClient1.upload_file1(file_buff, getFileExt(fileName), meta_list);
+            String fileid = storageClient1.upload_file1(fileBuff, getFileExt(fileName), metaList);
             return fileid;
         } catch (Exception ex) {
             return null;
