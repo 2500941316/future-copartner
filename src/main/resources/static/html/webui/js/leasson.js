@@ -1,5 +1,4 @@
 $(function () {
-    $("#header").load("/html/webui/header/header.html");
     $("#footer").load("/html/webui/footer/footer.html");
 
     var url = window.location.pathname;

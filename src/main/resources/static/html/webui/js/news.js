@@ -1,7 +1,5 @@
-document.write("<script src='/html/webui/js/jquery-1.8.2.min.js'></script>");
-document.write("<script src='/html/managerui/js/layui/layui.js'></script>");
+
 $(function () {
-    $("#header").load("/html/webui/header/header.html");
     $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
     //如果是首页

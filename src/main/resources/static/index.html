@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <title>未来合伙人</title>
     <link rel="stylesheet" type="text/css" href="/html/webui/css/index_style.css"/>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+    <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
+    <script src="/html/webui/js/index.js" type="text/javascript" charset="utf-8"></script>
 </head>
 
 <body>
@@ -212,74 +216,6 @@
 
 <!--引入页脚页面-->
 <div id="footer"></div>
-
-<script src="/html/webui/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
-    $(function () {
-
-
-        //鼠标悬停时动画
-        $('ul.yun-solution-list li').hover(function () {
-            var index = $(this).index();
-            $('ul.yun-solution-wrap li').removeClass('current').eq(index).addClass('current');
-            $('#yun-arrow-wrap').attr('class', 'yun-arrow-wrap yun-arrow-current' + (index + 1));
-        })
-
-        //鼠标点击时页面跳转
-        $('ul.yun-solution-list li').click(function () {
-            var index = $(this).index();
-
-            switch (index) {
-                case 0:
-                    window.location.href = "/html/webui/news/news.html";
-                    break;
-                case 1:
-                    window.location.href = "/html/webui/project/project.html";
-                    break;
-                case 2:
-                    window.location.href = "#";
-                    break;
-                case 3:
-                    window.location.href = "#";
-                    break;
-                case 4:
-                    window.location.href = "/html/webui/leasson/leasson.html";
-                    break;
-                case 5:
-                    window.location.href = "html/webui/personal/person.html";
-                    break;
-                case 6:
-                    window.location.href = "";
-                    break;
-                case 7:
-                    window.location.href = "#";
-                    break;
-                default:
-                    window.location.href = "index.html"
-                    break;
-            }
-        })
-
-
-        //背景变换
-        $('ul.yun-solution-list li').hover(function () {
-            var that = $(this);
-            var i = 0;
-            bgChange = setInterval(function () {
-                i += -84
-                that.find('div').css('backgroundPositionY', i)
-                if (i <= -2058) {
-                    clearInterval(bgChange);
-                }
-            }, 50)
-        }, function () {
-            clearInterval(bgChange);
-        })
-    });
-
-    $("#footer").load("/html/webui/footer/footer.html");
-
-</script>
 
 </body>
 </html>
