@@ -1,5 +1,6 @@
 package com.shu.copartner.pojo.request;
 
+import javafx.application.Application;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,6 +14,9 @@ import javax.validation.constraints.NotBlank;
 public class ProjectManagerOperationVO {
  /*   @NotBlank(message = "任务id不能为空")
     private String taskId;*/
+
+    @NotBlank(message = "审批id不能为空")
+    private String applicationId;
 
     @NotBlank(message = "项目id不能为空")
     private String projectId;

@@ -4,6 +4,8 @@ import com.shu.copartner.pojo.ProProject;
 import com.shu.copartner.pojo.request.ProjectApplyVO;
 import com.shu.copartner.utils.returnobj.TableModel;
 
+import java.text.ParseException;
+
 /**
  * @author
  * @date 2020/12/20 14:47
@@ -18,7 +20,7 @@ public interface ProProjectService {
 
     TableModel updateProject(ProjectApplyVO projectApplyVO);
 
-    TableModel searchProjectById(String projectId);
+    TableModel searchProjectById(String projectId,String currentUser);
 
     TableModel searchProjectByFour(int currentPage, String projectName, String projectType, String projectCreater, String projectTwoStatus);
 
@@ -27,6 +29,12 @@ public interface ProProjectService {
     TableModel searchAllProject();
 
     TableModel deleteProject(String projectId);
+
+    TableModel focusProject(String projectId,String creater) throws ParseException;
+
+    TableModel searchMyFollowProject(int currentPage,String follower);
+
+    TableModel cancelFollowProject(String projectId,String follower);
 
     boolean uploadProjectPlan(String planUrl, String projectId);
 

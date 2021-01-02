@@ -1,7 +1,9 @@
 package com.shu.copartner.service.impl.manager;
 
 import com.shu.copartner.mapper.ActRuVariableMapper;
+import com.shu.copartner.mapper.ProApplicationMapper;
 import com.shu.copartner.mapper.ProProjectMapper;
+import com.shu.copartner.pojo.ProApplication;
 import com.shu.copartner.pojo.ProProject;
 import com.shu.copartner.pojo.request.ProjectManagerOperationVO;
 import com.shu.copartner.service.ManagerProjectService;
@@ -10,10 +12,9 @@ import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.junit.Test;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +40,9 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
 
     @Autowired
     private ProProjectMapper proProjectMapper;
+
+    @Autowired
+    private ProApplicationMapper proApplicationMapper;
 
     /**
      * 查询待审批项目
@@ -81,8 +85,9 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
     @Override
     public TableModel searchProject(int page) {
         // 查询出所有待审批的项目数据
-        String[] tokes = {"21","31","41","51"};
-        List<ProProject> auditProject = proProjectMapper.selectProjectByToken(tokes);
+        String[] tokens = {"21","31","41","51"};
+        //List<ProProject> auditProject = proProjectMapper.selectProjectByToken(tokens);
+        List<ProApplication> auditProject = proApplicationMapper.selectAuditInfo(tokens);
         return TableModel.tableSuccess(auditProject, (int)auditProject.size());
     }
 
@@ -127,6 +132,13 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         proProject.setProjectStateToken(nextToken);
         proProject.setProjectId(Long.parseLong(projectManagerOperationVO.getProjectId()));
 
+        // 根据applicationId查询审批表中具体的审批项
+        ProApplication proApplication =
+                proApplicationMapper.selectByPrimaryKey(Long.parseLong(projectManagerOperationVO.getApplicationId()));
+        // 更新审批表的状态信息
+        proApplication.setProjectStateToken(nextToken);
+        proApplication.setProjectState(Constants.PROJECT_STATE_TOKEN.get(nextToken));
+
         // 根据状态标签值判断审批的是哪一项
         String tempStateToken = null;
         for(Map.Entry<String,String> entry : Constants.PROJECT_STATE_TOKEN.entrySet()){
@@ -138,22 +150,50 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         if(tempStateToken.equals("21")){
             // 审批项目申请，通过或者驳回，直接更新数据库状态
             proProjectMapper.updateByPrimaryKeySelective(proProject);
+            // 更新审批表信息
+            proApplicationMapper.updateByPrimaryKeySelective(proApplication);
             return TableModel.success();
         }else if(tempStateToken.equals("41")){
-            // 审批项目视频，如果驳回则将视频路径置空
-            if(isPass == 2){
-                proProject.setVideoUrl("null");
+            // 审批项目视频，如果审批通过，则将视频路径写到项目表中, 如果驳回则将驳回理由更新到审批表中
+            if(isPass == 1){
+                // 将视频路径设置都项目表
+                proProject.setVideoUrl(proApplication.getVideoUrl());
+                if(StringUtils.isNotEmpty(proApplication.getPlanUrl())){
+                    // 如果项目计划书也已经上传了，则将项目设置为’在创‘状态
+                    proApplication.setProjectStateToken("2");
+                    proApplication.setProjectState(Constants.PROJECT_STATE_TOKEN.get("2"));
+
+                    proProject.setProjectStateToken("2");
+                    proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("2"));
+                }
+            }else if(isPass == 2){
+                proApplication.setResponse(projectManagerOperationVO.getProjectAuditMsg());
             }
-            // 写到数据库中
+            // 更新项目表信息
             proProjectMapper.updateByPrimaryKeySelective(proProject);
+            // 更新审批表信息
+            proApplicationMapper.updateByPrimaryKeySelective(proApplication);
             return TableModel.success();
         }else if(tempStateToken.equals("51")){
-            // 审批项目计划书，如果驳回则将计划书路径置空
-            if(isPass == 2){
-                proProject.setPlanUrl("null");
+            // 审批项目计划书，如果审批通过，则将计划书路劲写到项目表中, 如果驳回则将驳回理由更新到审批表中
+            if(isPass == 1){
+                // 将计划书信息设置都项目表
+                proProject.setPlanUrl(proApplication.getPlanUrl());
+                if(StringUtils.isNotEmpty(proApplication.getPlanUrl())){
+                    // 如果项目视频也已经上传了，则将项目设置为’在创‘状态
+                    proApplication.setProjectStateToken("2");
+                    proApplication.setProjectState(Constants.PROJECT_STATE_TOKEN.get("2"));
+
+                    proProject.setProjectStateToken("2");
+                    proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("2"));
+                }
+            }else if(isPass == 2){
+                proApplication.setResponse(projectManagerOperationVO.getProjectAuditMsg());
             }
             // 写到数据库中
             proProjectMapper.updateByPrimaryKeySelective(proProject);
+            // 更新审批表信息
+            proApplicationMapper.updateByPrimaryKeySelective(proApplication);
             return TableModel.success();
         }else
         return TableModel.error("网络异常");

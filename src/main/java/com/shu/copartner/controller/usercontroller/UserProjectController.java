@@ -8,6 +8,7 @@ import com.shu.copartner.service.ProProjectService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.TaskService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.logout.LogoutSuccessEventPublishingLogoutHandler;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -78,27 +80,43 @@ public class UserProjectController {
         return proProjectService.updateProject(projectApplyVO);
     }
 
-    @PostMapping("searchProjectById")
+   /* @PostMapping("searchProjectById")
     public TableModel searchProjectById(@RequestBody Map<String,String> map){
          String projectId = map.get("projectId");
          return this.proProjectService.searchProjectById(projectId);
-    }
+    }*/
 
+    /**
+     * 根据用户查询其所有项目
+     * @param currentPage
+     * @return
+     */
     @GetMapping("selectByCreater")
     public TableModel selectByCreater(@Size(min = 1) @RequestParam int currentPage) {
    //     log.info("selectByCreater");
         return proProjectService.selectByCreater(currentPage,creater);
     }
 
+    /**
+     * 根据id查询项目
+     * @param projectId
+     * @return
+     */
     @GetMapping("getProjectById")
     public TableModel getProjectById(@Size(min = 1) String projectId) {
         log.info("projectId:"+projectId);
-        return this.proProjectService.searchProjectById(projectId);
+        return this.proProjectService.searchProjectById(projectId,creater);
     }
 
+    /**
+     * 根据id查询当前项目之外的其他项目
+     * @param currentPage
+     * @param projectId
+     * @return
+     */
     @GetMapping("getOtherProjectById")
     public TableModel getOtherProjectById(@Size(min = 1) @RequestParam int currentPage, @Size(min = 1) @RequestParam String projectId) {
-        log.info("projectId:"+projectId+" currentPage: "+ currentPage);
+        //log.info("projectId:"+projectId+" currentPage: "+ currentPage);
         return this.proProjectService.searchOtherProjectById(currentPage,projectId);
     }
 
@@ -114,7 +132,7 @@ public class UserProjectController {
     }
 
     /**
-     * 上传计划书
+     * 上传视频
      * @param file
      * @return
      */
@@ -154,6 +172,27 @@ public class UserProjectController {
     public TableModel deleteProject(@Size(min = 1) @RequestParam String projectId){
         log.info("deleteProject_Id: "+projectId);
         return proProjectService.deleteProject(projectId);
+    }
+
+    @GetMapping("followProject")
+    public TableModel followProject(@Size(min = 1) @RequestParam String projectId) throws ParseException {
+        // 登录了才能关注
+        if(StringUtils.isNotEmpty(creater)){
+            return proProjectService.focusProject(projectId,creater);
+        }else{
+            return TableModel.error("登录后才能关注！");
+        }
+    }
+
+    @GetMapping("searchMyFollowProject")
+    public TableModel searchMyFollowProject(@Size(min = 1) @RequestParam int currentPage){
+        return proProjectService.searchMyFollowProject(currentPage,creater);
+    }
+
+    @GetMapping("cancelFollowProject")
+    public TableModel cancelFollowProject(@Size(min = 1) @RequestParam String projectId,@Size(min = 1) @RequestParam String follower){
+        log.info(projectId+" "+follower);
+        return proProjectService.cancelFollowProject(projectId,follower);
     }
 
 }

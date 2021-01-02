@@ -1,11 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
     <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/html/webui/js/personal.js"></script>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+
 </head>
 <body>
 <div class="perRightcon">
@@ -19,24 +23,136 @@
         </ul>
         <div id="contentsqzw">
             <ul style="display:block;">
-
                 <div class="mygzCom">
                     <div class="company1">
                         <div class="company1L">
                             <a href="company.html">项目名称</a>&nbsp;&nbsp;&nbsp;
-                            <span> 张三 | 新零售 | 这个是一个好的项目 </span>
+                            <span> <span id="projectCreater">张三</span> | <span id="projectType">新零售</span> | <span id="description">这个是一个好的项目</span> </span>
                         </div>
                         <div class="company1R">
-                            <span>关注时间：2018-01-03</span>
+                            <span>关注时间：<span id="followTime">2020-12-31</span></span>
                             <a href="">取消关注</a>
                         </div>
                     </div>
                 </div>
             </ul>
         </div>
+        <!--分页-->
+        <div style="float: right">
+            <div id="page"></div>
+        </div>
     </div>
 
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        searchMyFollowProject();
+    })
+
+    /**
+     * 查询我关注的项目信息
+     * @param pageConf
+     */
+    function searchMyFollowProject(pageConf) {
+        if (!pageConf) {
+            pageConf = {};
+            pageConf.pageSize = 4; // 每页显示条数
+            pageConf.currentPage = 1; // 当前页
+        }
+        $.get("/user/project/searchMyFollowProject", pageConf, function (data) {
+            layui.use(['laypage', 'layer'], function () {
+                var page = layui.laypage;
+                page.render({
+                    elem: 'page',
+                    count: data.count,
+                    curr: pageConf.currentPage,
+                    limit: pageConf.pageSize,
+                    first: "首页",
+                    last: "尾页",
+                    layout: ['count', 'prev', 'page', 'next', 'skip'],// 'limit',
+                    jump: function (obj, first) {
+                        if (!first) {
+                            pageConf.currentPage = obj.curr;
+                            pageConf.pageSize = obj.limit;
+                            searchMyFollowProject(pageConf);
+                        }
+                        fillMyFollowProject(data.data); //页面填充
+                    }
+                });
+            })
+        })
+    }
+
+    /**
+     * 填充信息
+     * @param myFollowProjectInfo
+     */
+    function fillMyFollowProject(myFollowProjectInfo) {
+        const $active = $("#contentsqzw");
+        $active.html("");
+        for(var i in myFollowProjectInfo) {
+            var $children = $(
+                '<ul style="display:block;">\n' +
+                '                <div class="mygzCom">\n' +
+                '                    <div class="company1">\n' +
+                '                        <div class="company1L">\n' +
+                '                            <a onclick="viewProjectDetail('+myFollowProjectInfo[i].projectId+')" href="#">'+myFollowProjectInfo[i].projectName+'</a>&nbsp;&nbsp;&nbsp;\n' +
+                '                            <span> <span id="follower">'+myFollowProjectInfo[i].follower+'</span> | ' +
+                '                            <span id="projectType">'+myFollowProjectInfo[i].projectType+'</span> | ' +
+                '                            <span id="description">'+myFollowProjectInfo[i].description+'</span> </span>\n' +
+                '                        </div>\n' +
+                '                        <div class="company1R">\n' +
+                '                            <span>关注时间：<span id="followTime">'+myFollowProjectInfo[i].followTime+'</span></span>\n' +
+                '                            <a onclick="cancelFollowProject('+myFollowProjectInfo[i].projectId+',\''+myFollowProjectInfo[i].follower+'\' )" href="#">取消关注</a>\n' +
+                '                        </div>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </ul>'
+            );
+            $active.append($children);
+        }
+    }
+
+    /**
+     * 取消关注
+     * @param projectId
+     * @param follower
+     */
+    function cancelFollowProject(projectId,follower) {
+        let cancelInfo = {
+            projectId: projectId,
+            follower: follower
+        }
+
+        $.ajax({
+            url: "/user/project/cancelFollowProject",
+            type: "GET",
+            data: cancelInfo,
+            success: function (res) {
+                if(res.code == 200){
+                    top.layer.msg("已取消关注！");
+                    window.location.href = "/html/webui/personal/personal_myfollow.html";
+                }else{
+                    top.layer.msg("网络异常");
+                }
+            }
+        })
+    }
+
+    /**
+     * 查看项目详情
+     * @param projectId
+     */
+    function viewProjectDetail(projectId) {
+        layer.msg("projectId:"+projectId);
+        localStorage.setItem("projectId",projectId);
+        //window.open("/html/webui/project/project_details_info.html");
+        window.location.href = "/html/webui/project/project_details_info.html";
+
+    }
+
+</script>
 
 </body>
 </html>

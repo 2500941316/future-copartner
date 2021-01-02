@@ -2,18 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shu.copartner.mapper.ProApplicationMapper">
   <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProApplication">
-    <id column="applicationId" jdbcType="BIGINT" property="applicationid" />
-    <result column="applicationTime" jdbcType="TIMESTAMP" property="applicationtime" />
-    <result column="applyStatus" jdbcType="INTEGER" property="applystatus" />
+    <id column="application_id" jdbcType="BIGINT" property="applicationId" />
+    <result column="application_time" jdbcType="TIMESTAMP" property="applicationTime" />
+    <result column="apply_status" jdbcType="INTEGER" property="applyStatus" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="endTime" jdbcType="TIMESTAMP" property="endtime" />
-    <result column="isDeleted" jdbcType="INTEGER" property="isdeleted" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
     <result column="isOutTime" jdbcType="INTEGER" property="isouttime" />
-    <result column="projectId" jdbcType="BIGINT" property="projectid" />
+    <result column="project_id" jdbcType="BIGINT" property="projectId" />
     <result column="response" jdbcType="VARCHAR" property="response" />
-    <result column="startTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="plan_url" jdbcType="VARCHAR" property="planUrl" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="project_creater" jdbcType="VARCHAR" property="projectCreater" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_state_token" jdbcType="VARCHAR" property="projectStateToken" />
+    <result column="project_state" jdbcType="VARCHAR" property="projectState" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,8 +80,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    applicationId, applicationTime, applyStatus, description, endTime, isDeleted, isOutTime, 
-    projectId, response, startTime, title, uid
+    application_id, application_time, apply_status, description, endtime, is_deleted, 
+    isOutTime, project_id, response, starttime, title, uid, plan_url, video_url, project_creater, 
+    project_name, project_state_token, project_state
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProApplicationExample" resultMap="BaseResultMap">
     select
@@ -95,11 +102,23 @@
     select 
     <include refid="Base_Column_List" />
     from PRO_APPLICATION
-    where applicationId = #{applicationid,jdbcType=BIGINT}
+    where application_id = #{applicationId,jdbcType=BIGINT}
   </select>
+
+  <!--根据标志值查询素有待审批项目-->
+  <select id="selectAuditInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_APPLICATION
+    where project_state_token in
+    <foreach collection="tokens" item="token" open="(" close=")" separator=",">
+      #{token}
+    </foreach>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_APPLICATION
-    where applicationId = #{applicationid,jdbcType=BIGINT}
+    where application_id = #{applicationId,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProApplicationExample">
     delete from PRO_APPLICATION
@@ -108,49 +127,53 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProApplication">
-    insert into PRO_APPLICATION (applicationId, applicationTime, 
-      applyStatus, description, endTime, 
-      isDeleted, isOutTime, projectId, 
-      response, startTime, title, 
-      uid)
-    values (#{applicationid,jdbcType=BIGINT}, #{applicationtime,jdbcType=TIMESTAMP}, 
-      #{applystatus,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{endtime,jdbcType=TIMESTAMP}, 
-      #{isdeleted,jdbcType=INTEGER}, #{isouttime,jdbcType=INTEGER}, #{projectid,jdbcType=BIGINT}, 
+    insert into PRO_APPLICATION (application_id, application_time, 
+      apply_status, description, endtime, 
+      is_deleted, isOutTime, project_id, 
+      response, starttime, title, 
+      uid, plan_url, video_url, 
+      project_creater, project_name, project_state_token, 
+      project_state)
+    values (#{applicationId,jdbcType=BIGINT}, #{applicationTime,jdbcType=TIMESTAMP}, 
+      #{applyStatus,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{endtime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=INTEGER}, #{isouttime,jdbcType=INTEGER}, #{projectId,jdbcType=BIGINT}, 
       #{response,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, 
-      #{uid,jdbcType=BIGINT})
+      #{uid,jdbcType=BIGINT}, #{planUrl,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, 
+      #{projectCreater,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{projectStateToken,jdbcType=VARCHAR}, 
+      #{projectState,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProApplication">
     insert into PRO_APPLICATION
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="applicationid != null">
-        applicationId,
+      <if test="applicationId != null">
+        application_id,
       </if>
-      <if test="applicationtime != null">
-        applicationTime,
+      <if test="applicationTime != null">
+        application_time,
       </if>
-      <if test="applystatus != null">
-        applyStatus,
+      <if test="applyStatus != null">
+        apply_status,
       </if>
       <if test="description != null">
         description,
       </if>
       <if test="endtime != null">
-        endTime,
+        endtime,
       </if>
-      <if test="isdeleted != null">
-        isDeleted,
+      <if test="isDeleted != null">
+        is_deleted,
       </if>
       <if test="isouttime != null">
         isOutTime,
       </if>
-      <if test="projectid != null">
-        projectId,
+      <if test="projectId != null">
+        project_id,
       </if>
       <if test="response != null">
         response,
       </if>
       <if test="starttime != null">
-        startTime,
+        starttime,
       </if>
       <if test="title != null">
         title,
@@ -158,16 +181,34 @@
       <if test="uid != null">
         uid,
       </if>
+      <if test="planUrl != null">
+        plan_url,
+      </if>
+      <if test="videoUrl != null">
+        video_url,
+      </if>
+      <if test="projectCreater != null">
+        project_creater,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="projectStateToken != null">
+        project_state_token,
+      </if>
+      <if test="projectState != null">
+        project_state,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="applicationid != null">
-        #{applicationid,jdbcType=BIGINT},
+      <if test="applicationId != null">
+        #{applicationId,jdbcType=BIGINT},
       </if>
-      <if test="applicationtime != null">
-        #{applicationtime,jdbcType=TIMESTAMP},
+      <if test="applicationTime != null">
+        #{applicationTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="applystatus != null">
-        #{applystatus,jdbcType=INTEGER},
+      <if test="applyStatus != null">
+        #{applyStatus,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
@@ -175,14 +216,14 @@
       <if test="endtime != null">
         #{endtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isdeleted != null">
-        #{isdeleted,jdbcType=INTEGER},
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
       </if>
       <if test="isouttime != null">
         #{isouttime,jdbcType=INTEGER},
       </if>
-      <if test="projectid != null">
-        #{projectid,jdbcType=BIGINT},
+      <if test="projectId != null">
+        #{projectId,jdbcType=BIGINT},
       </if>
       <if test="response != null">
         #{response,jdbcType=VARCHAR},
@@ -196,6 +237,24 @@
       <if test="uid != null">
         #{uid,jdbcType=BIGINT},
       </if>
+      <if test="planUrl != null">
+        #{planUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null">
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCreater != null">
+        #{projectCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStateToken != null">
+        #{projectStateToken,jdbcType=VARCHAR},
+      </if>
+      <if test="projectState != null">
+        #{projectState,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.shu.copartner.pojo.ProApplicationExample" resultType="java.lang.Long">
@@ -207,41 +266,59 @@
   <update id="updateByExampleSelective" parameterType="map">
     update PRO_APPLICATION
     <set>
-      <if test="record.applicationid != null">
-        applicationId = #{record.applicationid,jdbcType=BIGINT},
+      <if test="record.applicationId != null">
+        application_id = #{record.applicationId,jdbcType=BIGINT},
       </if>
-      <if test="record.applicationtime != null">
-        applicationTime = #{record.applicationtime,jdbcType=TIMESTAMP},
+      <if test="record.applicationTime != null">
+        application_time = #{record.applicationTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.applystatus != null">
-        applyStatus = #{record.applystatus,jdbcType=INTEGER},
+      <if test="record.applyStatus != null">
+        apply_status = #{record.applyStatus,jdbcType=INTEGER},
       </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.endtime != null">
-        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+        endtime = #{record.endtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.isdeleted != null">
-        isDeleted = #{record.isdeleted,jdbcType=INTEGER},
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
       </if>
       <if test="record.isouttime != null">
         isOutTime = #{record.isouttime,jdbcType=INTEGER},
       </if>
-      <if test="record.projectid != null">
-        projectId = #{record.projectid,jdbcType=BIGINT},
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=BIGINT},
       </if>
       <if test="record.response != null">
         response = #{record.response,jdbcType=VARCHAR},
       </if>
       <if test="record.starttime != null">
-        startTime = #{record.starttime,jdbcType=TIMESTAMP},
+        starttime = #{record.starttime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
       <if test="record.uid != null">
         uid = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.planUrl != null">
+        plan_url = #{record.planUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videoUrl != null">
+        video_url = #{record.videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCreater != null">
+        project_creater = #{record.projectCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectStateToken != null">
+        project_state_token = #{record.projectStateToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectState != null">
+        project_state = #{record.projectState,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -250,18 +327,24 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update PRO_APPLICATION
-    set applicationId = #{record.applicationid,jdbcType=BIGINT},
-      applicationTime = #{record.applicationtime,jdbcType=TIMESTAMP},
-      applyStatus = #{record.applystatus,jdbcType=INTEGER},
+    set application_id = #{record.applicationId,jdbcType=BIGINT},
+      application_time = #{record.applicationTime,jdbcType=TIMESTAMP},
+      apply_status = #{record.applyStatus,jdbcType=INTEGER},
       description = #{record.description,jdbcType=VARCHAR},
-      endTime = #{record.endtime,jdbcType=TIMESTAMP},
-      isDeleted = #{record.isdeleted,jdbcType=INTEGER},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER},
       isOutTime = #{record.isouttime,jdbcType=INTEGER},
-      projectId = #{record.projectid,jdbcType=BIGINT},
+      project_id = #{record.projectId,jdbcType=BIGINT},
       response = #{record.response,jdbcType=VARCHAR},
-      startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      starttime = #{record.starttime,jdbcType=TIMESTAMP},
       title = #{record.title,jdbcType=VARCHAR},
-      uid = #{record.uid,jdbcType=BIGINT}
+      uid = #{record.uid,jdbcType=BIGINT},
+      plan_url = #{record.planUrl,jdbcType=VARCHAR},
+      video_url = #{record.videoUrl,jdbcType=VARCHAR},
+      project_creater = #{record.projectCreater,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      project_state_token = #{record.projectStateToken,jdbcType=VARCHAR},
+      project_state = #{record.projectState,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -269,32 +352,32 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProApplication">
     update PRO_APPLICATION
     <set>
-      <if test="applicationtime != null">
-        applicationTime = #{applicationtime,jdbcType=TIMESTAMP},
+      <if test="applicationTime != null">
+        application_time = #{applicationTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="applystatus != null">
-        applyStatus = #{applystatus,jdbcType=INTEGER},
+      <if test="applyStatus != null">
+        apply_status = #{applyStatus,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="endtime != null">
-        endTime = #{endtime,jdbcType=TIMESTAMP},
+        endtime = #{endtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isdeleted != null">
-        isDeleted = #{isdeleted,jdbcType=INTEGER},
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
       </if>
       <if test="isouttime != null">
         isOutTime = #{isouttime,jdbcType=INTEGER},
       </if>
-      <if test="projectid != null">
-        projectId = #{projectid,jdbcType=BIGINT},
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=BIGINT},
       </if>
       <if test="response != null">
         response = #{response,jdbcType=VARCHAR},
       </if>
       <if test="starttime != null">
-        startTime = #{starttime,jdbcType=TIMESTAMP},
+        starttime = #{starttime,jdbcType=TIMESTAMP},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -302,22 +385,46 @@
       <if test="uid != null">
         uid = #{uid,jdbcType=BIGINT},
       </if>
+      <if test="planUrl != null">
+        plan_url = #{planUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null">
+        video_url = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCreater != null">
+        project_creater = #{projectCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStateToken != null">
+        project_state_token = #{projectStateToken,jdbcType=VARCHAR},
+      </if>
+      <if test="projectState != null">
+        project_state = #{projectState,jdbcType=VARCHAR},
+      </if>
     </set>
-    where applicationId = #{applicationid,jdbcType=BIGINT}
+    where application_id = #{applicationId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProApplication">
     update PRO_APPLICATION
-    set applicationTime = #{applicationtime,jdbcType=TIMESTAMP},
-      applyStatus = #{applystatus,jdbcType=INTEGER},
+    set application_time = #{applicationTime,jdbcType=TIMESTAMP},
+      apply_status = #{applyStatus,jdbcType=INTEGER},
       description = #{description,jdbcType=VARCHAR},
-      endTime = #{endtime,jdbcType=TIMESTAMP},
-      isDeleted = #{isdeleted,jdbcType=INTEGER},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
       isOutTime = #{isouttime,jdbcType=INTEGER},
-      projectId = #{projectid,jdbcType=BIGINT},
+      project_id = #{projectId,jdbcType=BIGINT},
       response = #{response,jdbcType=VARCHAR},
-      startTime = #{starttime,jdbcType=TIMESTAMP},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
       title = #{title,jdbcType=VARCHAR},
-      uid = #{uid,jdbcType=BIGINT}
-    where applicationId = #{applicationid,jdbcType=BIGINT}
+      uid = #{uid,jdbcType=BIGINT},
+      plan_url = #{planUrl,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      project_creater = #{projectCreater,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      project_state_token = #{projectStateToken,jdbcType=VARCHAR},
+      project_state = #{projectState,jdbcType=VARCHAR}
+    where application_id = #{applicationId,jdbcType=BIGINT}
   </update>
 </mapper>

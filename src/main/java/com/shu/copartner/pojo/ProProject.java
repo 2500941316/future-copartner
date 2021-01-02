@@ -1,5 +1,7 @@
 package com.shu.copartner.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -83,6 +85,32 @@ public class ProProject implements Serializable {
     private String projectPeopleNew;
 
     private String isGoing;
+
+    private Date focusTime;
+
+    private String myFocus;
+
+    // 关注项目的时间
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date followTime;
+
+    private String follower;
+
+    public String getFollower() {
+        return follower;
+    }
+
+    public void setFollower(String follower) {
+        this.follower = follower;
+    }
+
+    public Date getFollowTime() {
+        return followTime;
+    }
+
+    public void setFollowTime(Date followTime) {
+        this.followTime = followTime;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -406,6 +434,22 @@ public class ProProject implements Serializable {
         this.isGoing = isGoing == null ? null : isGoing.trim();
     }
 
+    public Date getFocusTime() {
+        return focusTime;
+    }
+
+    public void setFocusTime(Date focusTime) {
+        this.focusTime = focusTime;
+    }
+
+    public String getMyFocus() {
+        return myFocus;
+    }
+
+    public void setMyFocus(String myFocus) {
+        this.myFocus = myFocus == null ? null : myFocus.trim();
+    }
+
     @Override
     public String toString() {
         return "ProProject{" +
@@ -449,6 +493,8 @@ public class ProProject implements Serializable {
                 ", elseInfoTime=" + elseInfoTime +
                 ", projectPeopleNew='" + projectPeopleNew + '\'' +
                 ", isGoing='" + isGoing + '\'' +
+                ", focusTime=" + focusTime +
+                ", myFocus='" + myFocus + '\'' +
                 '}';
     }
 }

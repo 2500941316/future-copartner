@@ -42,6 +42,12 @@
     <result column="else_info_time" jdbcType="TIMESTAMP" property="elseInfoTime" />
     <result column="project_people_new" jdbcType="VARCHAR" property="projectPeopleNew" />
     <result column="is_going" jdbcType="VARCHAR" property="isGoing" />
+    <result column="focus_time" jdbcType="TIMESTAMP" property="focusTime" />
+    <result column="my_focus" jdbcType="VARCHAR" property="myFocus" />
+
+    <!--pro_follow表中关注项目的时间-->
+    <result column="follow_time" jdbcType="TIMESTAMP" property="followTime" />
+    <result column="follower" jdbcType="VARCHAR" property="follower" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -108,7 +114,8 @@
     project_cooperation, project_activity, project_service, project_finance, project_income, 
     project_company, project_else_info, project_activiti_state, project_state_token, 
     project_audit_msg, people_time, match_time, cooperation_time, activity_time, service_time, 
-    finance_time, income_time, company_time, else_info_time, project_people_new, is_going
+    finance_time, income_time, company_time, else_info_time, project_people_new, is_going, 
+    focus_time, my_focus
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProProjectExample" resultMap="BaseResultMap">
     select
@@ -167,6 +174,14 @@
     where is_deleted = 0
   </select>
 
+  <!--根据当前用户 查询我关注的项目信息-->
+  <select id="selectMyFollowProject" parameterType="java.lang.String" resultMap="BaseResultMap">
+     select f.follow_time,f.follower,p.* FROM PRO_FOLLOW f, PRO_PROJECT p
+        WHERE f.project_id = p.project_id
+                and f.follower = #{follower}
+                and f.is_delete = 0
+  </select>
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_PROJECT
@@ -192,7 +207,8 @@
       match_time, cooperation_time, activity_time, 
       service_time, finance_time, income_time, 
       company_time, else_info_time, project_people_new, 
-      is_going)
+      is_going, focus_time, my_focus
+      )
     values (#{projectId,jdbcType=BIGINT}, #{projectCreater,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{endtime,jdbcType=TIMESTAMP}, #{projectFollowers,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{isLock,jdbcType=INTEGER}, #{planUrl,jdbcType=VARCHAR}, #{primaryJob,jdbcType=VARCHAR}, 
@@ -206,7 +222,8 @@
       #{matchTime,jdbcType=TIMESTAMP}, #{cooperationTime,jdbcType=TIMESTAMP}, #{activityTime,jdbcType=TIMESTAMP}, 
       #{serviceTime,jdbcType=TIMESTAMP}, #{financeTime,jdbcType=TIMESTAMP}, #{incomeTime,jdbcType=TIMESTAMP}, 
       #{companyTime,jdbcType=TIMESTAMP}, #{elseInfoTime,jdbcType=TIMESTAMP}, #{projectPeopleNew,jdbcType=VARCHAR}, 
-      #{isGoing,jdbcType=VARCHAR})
+      #{isGoing,jdbcType=VARCHAR}, #{focusTime,jdbcType=TIMESTAMP}, #{myFocus,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProProject" useGeneratedKeys="true" keyProperty="projectId">
     insert into PRO_PROJECT
@@ -331,6 +348,12 @@
       <if test="isGoing != null">
         is_going,
       </if>
+      <if test="focusTime != null">
+        focus_time,
+      </if>
+      <if test="myFocus != null">
+        my_focus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectId != null">
@@ -452,6 +475,12 @@
       </if>
       <if test="isGoing != null">
         #{isGoing,jdbcType=VARCHAR},
+      </if>
+      <if test="focusTime != null">
+        #{focusTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="myFocus != null">
+        #{myFocus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -584,6 +613,12 @@
       <if test="record.isGoing != null">
         is_going = #{record.isGoing,jdbcType=VARCHAR},
       </if>
+      <if test="record.focusTime != null">
+        focus_time = #{record.focusTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.myFocus != null">
+        my_focus = #{record.myFocus,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -630,7 +665,9 @@
       company_time = #{record.companyTime,jdbcType=TIMESTAMP},
       else_info_time = #{record.elseInfoTime,jdbcType=TIMESTAMP},
       project_people_new = #{record.projectPeopleNew,jdbcType=VARCHAR},
-      is_going = #{record.isGoing,jdbcType=VARCHAR}
+      is_going = #{record.isGoing,jdbcType=VARCHAR},
+      focus_time = #{record.focusTime,jdbcType=TIMESTAMP},
+      my_focus = #{record.myFocus,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -755,6 +792,12 @@
       <if test="isGoing != null">
         is_going = #{isGoing,jdbcType=VARCHAR},
       </if>
+      <if test="focusTime != null">
+        focus_time = #{focusTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="myFocus != null">
+        my_focus = #{myFocus,jdbcType=VARCHAR},
+      </if>
     </set>
     where project_id = #{projectId,jdbcType=BIGINT}
   </update>
@@ -798,7 +841,9 @@
       company_time = #{companyTime,jdbcType=TIMESTAMP},
       else_info_time = #{elseInfoTime,jdbcType=TIMESTAMP},
       project_people_new = #{projectPeopleNew,jdbcType=VARCHAR},
-      is_going = #{isGoing,jdbcType=VARCHAR}
+      is_going = #{isGoing,jdbcType=VARCHAR},
+      focus_time = #{focusTime,jdbcType=TIMESTAMP},
+      my_focus = #{myFocus,jdbcType=VARCHAR}
     where project_id = #{projectId,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -2764,6 +2764,136 @@ public class ProProjectExample {
             addCriterion("is_going not between", value1, value2, "isGoing");
             return (Criteria) this;
         }
+
+        public Criteria andFocusTimeIsNull() {
+            addCriterion("focus_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeIsNotNull() {
+            addCriterion("focus_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeEqualTo(Date value) {
+            addCriterion("focus_time =", value, "focusTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeNotEqualTo(Date value) {
+            addCriterion("focus_time <>", value, "focusTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeGreaterThan(Date value) {
+            addCriterion("focus_time >", value, "focusTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("focus_time >=", value, "focusTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeLessThan(Date value) {
+            addCriterion("focus_time <", value, "focusTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeLessThanOrEqualTo(Date value) {
+            addCriterion("focus_time <=", value, "focusTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeIn(List<Date> values) {
+            addCriterion("focus_time in", values, "focusTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeNotIn(List<Date> values) {
+            addCriterion("focus_time not in", values, "focusTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeBetween(Date value1, Date value2) {
+            addCriterion("focus_time between", value1, value2, "focusTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFocusTimeNotBetween(Date value1, Date value2) {
+            addCriterion("focus_time not between", value1, value2, "focusTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusIsNull() {
+            addCriterion("my_focus is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusIsNotNull() {
+            addCriterion("my_focus is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusEqualTo(String value) {
+            addCriterion("my_focus =", value, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusNotEqualTo(String value) {
+            addCriterion("my_focus <>", value, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusGreaterThan(String value) {
+            addCriterion("my_focus >", value, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusGreaterThanOrEqualTo(String value) {
+            addCriterion("my_focus >=", value, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusLessThan(String value) {
+            addCriterion("my_focus <", value, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusLessThanOrEqualTo(String value) {
+            addCriterion("my_focus <=", value, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusLike(String value) {
+            addCriterion("my_focus like", value, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusNotLike(String value) {
+            addCriterion("my_focus not like", value, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusIn(List<String> values) {
+            addCriterion("my_focus in", values, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusNotIn(List<String> values) {
+            addCriterion("my_focus not in", values, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusBetween(String value1, String value2) {
+            addCriterion("my_focus between", value1, value2, "myFocus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyFocusNotBetween(String value1, String value2) {
+            addCriterion("my_focus not between", value1, value2, "myFocus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

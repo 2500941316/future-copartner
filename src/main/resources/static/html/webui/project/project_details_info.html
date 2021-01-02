@@ -5,6 +5,7 @@
 
    <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
    <link type="text/css" rel="stylesheet" href="/html/webui/css/company.css" />
+   <script src='/html/webui/header/header.js'></script>
    <script type="text/javascript" src="/html/webui/js/jquery-1.8.2.min.js"></script>
   <!-- <script type="text/javascript" src="/html/webui/js/company.js"></script>-->
    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
@@ -21,7 +22,7 @@
 
 <body>
 <!--引入页头页面-->
-<div id="header"></div>
+<!--<div id="header"></div>-->
 
 <div class="jobtypeBox">
    <div class="DivLeft">
@@ -163,10 +164,12 @@
       getProjectData();
      // getOtherProjectData();
       initLayPage();
+   });
 
-
-
-
+   // 弹出层
+   layui.use(['upload','layer'], function(){
+      var layer = layui.layer;
+      var upload = layui.upload;
    });
 
    /**
@@ -273,17 +276,28 @@
       if(projectInfo[0].projectIncome != null){
          document.getElementById("projectIncome").style.display = "block";
          document.getElementById("income").innerText = projectInfo[0].projectIncome;
-      }if(projectInfo[0].projectCompany != null){
+      }
+      if(projectInfo[0].projectCompany != null){
          document.getElementById("projectCompany").style.display = "block";
          document.getElementById("company").innerText = projectInfo[0].projectCompany;
-      }if(projectInfo[0].projectElseInfo != null){
+      }
+      if(projectInfo[0].projectElseInfo != null){
          document.getElementById("projectElseInfo").style.display = "block";
          document.getElementById("elseInfo").innerText = projectInfo[0].projectElseInfo;
       }
+
+      if(projectInfo[0].projectFollowers == "1"){
+         // 代表当前用户已关注该项目
+         $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').css('background', 'grey');
+         document.getElementById("follow").innerText = "已关注";
+         document.getElementById("follow2").innerText = "已关注";
+      }
+
    }
 
    $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').click(function () {
       if(document.getElementById("follow").innerText == "+关注" && document.getElementById("follow2").innerText == "立即关注"){
+
          $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').css('background', 'grey');
          document.getElementById("follow").innerText = "已关注";
          document.getElementById("follow2").innerText = "已关注";

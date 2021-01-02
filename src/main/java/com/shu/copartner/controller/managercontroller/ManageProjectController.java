@@ -28,7 +28,7 @@ public class ManageProjectController {
     @Autowired
     FileuploadService uploadService;
 
-  /*  *
+  /**
      * 处理项目表
      */
     @Autowired
