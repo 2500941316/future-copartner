@@ -3,9 +3,10 @@ package com.shu.copartner.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shu.copartner.mapper.ActRuTaskMapper;
+import com.shu.copartner.mapper.ProApplicationMapper;
+import com.shu.copartner.mapper.ProFollowMapper;
 import com.shu.copartner.mapper.ProProjectMapper;
-import com.shu.copartner.pojo.ProProject;
-import com.shu.copartner.pojo.ProProjectExample;
+import com.shu.copartner.pojo.*;
 import com.shu.copartner.pojo.request.ProjectApplyVO;
 import com.shu.copartner.service.ProProjectService;
 import com.shu.copartner.utils.constance.Constants;
@@ -13,12 +14,19 @@ import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.CollectionUtils;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +42,12 @@ public class ProProjectServiceImpl implements ProProjectService {
     private ProProjectMapper proProjectMapper;
 
     @Autowired
+    private ProApplicationMapper proApplicationMapper;
+
+    @Autowired
+    private ProFollowMapper proFollowMapper;
+
+    @Autowired
     RuntimeService runtimeService;
 
     @Autowired
@@ -43,7 +57,7 @@ public class ProProjectServiceImpl implements ProProjectService {
     TaskService taskService;
 
 
-  /*  *
+  /**
      * 新增项目信息到数据库
      * @param record
      * @return
@@ -53,7 +67,7 @@ public class ProProjectServiceImpl implements ProProjectService {
         return this.proProjectMapper.insert(record);
     }
 
-  /*  *
+  /**
      * 根据创建人查询项目
      * @param projectCreater
      * @return
@@ -124,12 +138,21 @@ public class ProProjectServiceImpl implements ProProjectService {
         projectApplyVO.setProjectCreater(creater); // 设置当前项目申请者
 
         if (StringUtils.isNotEmpty(projectApplyVO.getProjectName())) {
-            //将项目信息插入到项目表中
+            //将项目信息插入到项目表中，另外也将项目id等信息写到申请管理表中
             ProProject proProject = new ProProject();
             BeanUtils.copyProperties(projectApplyVO, proProject);
             //插入项目信息
             proProjectMapper.insert(proProject);
             log.info("新增项目的id："+proProject.getProjectId());
+
+            // 写到申请管理表中
+            ProApplication proApplication = new ProApplication();
+            BeanUtils.copyProperties(proProject, proApplication);
+            proApplication.setProjectStateToken("21"); // 审批表中将状态设置为 '审批项目申请'
+            proApplication.setProjectState(Constants.PROJECT_STATE_TOKEN.get("21"));
+            proApplication.setProjectId(proProject.getProjectId());
+            proApplication.setApplicationTime(new Date());
+            proApplicationMapper.insert(proApplication);
             return TableModel.success();
         } else {
             return TableModel.error("网络异常");
@@ -152,15 +175,22 @@ public class ProProjectServiceImpl implements ProProjectService {
     }
 
     /**
-     * 根据id查询项目
+     * 根据id查询该项目
      * @param projectId
+     * @param currentUser 用于判断当前用户是否已经关注该项目
      * @return
      */
     @Override
-    public TableModel searchProjectById(String projectId) {
+    public TableModel searchProjectById(String projectId,String currentUser) {
         if(StringUtils.isNotEmpty(projectId)){
-            //根据id查询出数据添加到数组返回
+            //根据id查询出数据添加到数组返回, 并判断当前用户关注该项目与否
             ProProject proProject = this.proProjectMapper.selectByPrimaryKey(Long.parseLong(projectId));
+            ProFollow proFollow = proFollowMapper.selectByPidFollower(Long.parseLong(projectId),currentUser);
+            if(ObjectUtils.isNotEmpty(proFollow)){
+                // 代表已关注该项目
+                proProject.setProjectFollowers("1");
+            }
+            // 将项目信息加入到数组里面返回
             List<ProProject> proProjects = new ArrayList<>();
             proProjects.add(proProject);
             return TableModel.success(proProjects,proProjects.size());
@@ -264,7 +294,55 @@ public class ProProjectServiceImpl implements ProProjectService {
     }
 
     /**
+     * 关注项目
+     * @param projectId
+     * @return
+     */
+    @Override
+    public TableModel focusProject(String projectId,String creater) throws ParseException {
+        // 将当前用户及关注的项目id写到follow表
+        ProFollow proFollow = new ProFollow();
+        proFollow.setProjectId(Long.parseLong(projectId));
+        proFollow.setFollower(creater);
+        proFollow.setFollowTime(new Date());
+        proFollow.setIsDelete(0);
+        proFollowMapper.insert(proFollow);
+        return TableModel.success();
+    }
+
+    /**
+     * 根据当前用户 查询我的关注
+     * @return
+     */
+    @Override
+    public TableModel searchMyFollowProject(int currentPage,String follower) {
+        PageHelper.startPage(currentPage,4);
+        List<ProProject> proProjects = proProjectMapper.selectMyFollowProject(follower);
+        PageInfo pageInfo = new PageInfo(proProjects);
+        return TableModel.success(proProjects,(int)pageInfo.getTotal());
+    }
+
+    /**
+     * 取消关注
+     * @param projectId
+     * @param follower
+     * @return
+     */
+    @Override
+    public TableModel cancelFollowProject(String projectId, String follower) {
+        // 将该记录删除标志 置1，并设置取消关注的时间
+        ProFollow proFollow = new ProFollow();
+        proFollow.setIsDelete(1);
+        proFollow.setUnfollowTime(new Date());
+        ProFollowExample proFollowExample = new ProFollowExample();
+        proFollowExample.createCriteria().andFollowerEqualTo(follower).andProjectIdEqualTo(Long.parseLong(projectId));
+        proFollowMapper.updateByExampleSelective(proFollow,proFollowExample);
+        return TableModel.success();
+    }
+
+    /**
      * 上传计划书
+     * 先将计划书信息写到审批表中，审批通过后再写入项目表中，但是两个表的审批状态都要设置
      * @param planUrl
      * @param projectId
      */
@@ -274,11 +352,22 @@ public class ProProjectServiceImpl implements ProProjectService {
         // 设置项目的状态
         proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("51"));// 状态设置为 ’项目计划书审批中‘
         proProject.setProjectStateToken("51");
-        proProject.setPlanUrl(planUrl); // 计划书路径
+        //proProject.setPlanUrl(planUrl); // 计划书路径
         proProject.setProjectId(Long.parseLong(projectId));
-        // 更新数据库
+        // 更新项目状态
         int update =  proProjectMapper.updateByPrimaryKeySelective(proProject);
-        return update > 0 ? true : false;
+
+        // 更新审批表状态，并将计划书信息写到审批表中
+        ProApplication proApplication = new ProApplication();
+        proApplication.setProjectId(Long.parseLong(projectId));
+        proApplication.setPlanUrl(planUrl);
+        proApplication.setProjectStateToken("51");
+        proApplication.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
+        ProApplicationExample proApplicationExample = new ProApplicationExample();
+        proApplicationExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId));
+        int updateAudit = proApplicationMapper.updateByExampleSelective(proApplication,proApplicationExample);
+        log.info("updateAudit: "+ updateAudit);
+        return updateAudit > 0 ? true : false;
     }
 
     /**
@@ -292,10 +381,21 @@ public class ProProjectServiceImpl implements ProProjectService {
         // 设置项目的状态
         proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("41"));// 状态设置为 ’项目视频审批中‘
         proProject.setProjectStateToken("41");
-        proProject.setVideoUrl(videoUrl); // 计划书路径
+       // proProject.setVideoUrl(videoUrl); // 计划书路径
         proProject.setProjectId(Long.parseLong(projectId));
-        // 更新数据库
+        // 更新项目状态
         int update =  proProjectMapper.updateByPrimaryKeySelective(proProject);
+
+        // 更新审批表状态，并将视频写到审批表中
+        ProApplication proApplication = new ProApplication();
+        proApplication.setProjectId(Long.parseLong(projectId));
+        proApplication.setVideoUrl(videoUrl);
+        proApplication.setProjectStateToken("41");
+        proApplication.setProjectState(Constants.PROJECT_STATE_TOKEN.get("41"));
+        ProApplicationExample proApplicationExample = new ProApplicationExample();
+        proApplicationExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId));
+        int updateAudit = proApplicationMapper.updateByExampleSelective(proApplication,proApplicationExample);
+        log.info("updateAudit: "+ updateAudit);
         return update > 0 ? true : false;
     }
 

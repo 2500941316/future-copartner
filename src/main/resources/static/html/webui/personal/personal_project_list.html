@@ -68,7 +68,7 @@
     })
 
     /**
-     * 根据输入的值搜索项目
+     * 分页查询我的项目
      */
     function searchProjectByCreater(pageConf) {
         if (!pageConf) {
@@ -114,7 +114,7 @@
                   '            <tr id="first-tr">\n' +
                   '                <td colspan="5">\n' +
                   '                    <div class="jlpart1">\n' +
-                  '                         <div class="jlName"><a href="personal_jlupdate.html"><span id="projectName">'+ projectData[i].projectName +'</span></a></div>\n' +
+                  '                         <div class="jlName"><a href="#" onclick="viewProjectDetail('+projectData[i].projectId+')"><span id="projectName">'+ projectData[i].projectName +'</span></a></div>\n' +
                   '                         <div class="jlDate">开始时间：<span id="starttime">'+ projectData[i].starttime +'</span></div>\n' +
                   '                         <div class="jlDate">状态：<span id="projectStatus" style="font: bold">'+ projectData[i].projectStatus +'</span></div>\n' +
                   '                         <div class="jlFresh"><a href="/html/webui/personal/personal_project_list.html">更新</a></div>\n' +
@@ -194,7 +194,7 @@
                 , accept: 'file' //普通文件
                 , done: function (res) {
                     if (res.code == 200) {
-                        top.layer.msg('上传成功');
+                        top.layer.msg('上传成功，等待审批！');
                         console.log(res);
                     } else {
                         top.layer.msg('网络异常');
@@ -224,7 +224,7 @@
                 ,accept: 'video' //视频
                 ,done: function(res){
                     if(res.code == 200){
-                        top.layer.msg('上传成功');
+                        top.layer.msg('上传成功，等待审批！');
                         console.log(res);
                     }else{
                         top.layer.msg('网络异常');

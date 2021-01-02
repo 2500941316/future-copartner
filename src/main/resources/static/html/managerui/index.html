@@ -75,6 +75,9 @@
     $(function () {
         $("#headers").load("/html/webui/header/header.html");
         $("#footer").load("/html/webui/footer/footer.html");
+
+        // 加载的时候直接打开一个tab标签
+        searchProjectApplication();
     });
 
     //tab标签页引用
@@ -105,12 +108,12 @@
                 //   ,data: data
                 , title: '项目审批表格'
                 , cols: [[
-                    {field: 'projectId', title: 'ID', fixed: 'left', unresize: true, sort: true, align: 'center'}
+                    {field: 'applicationId', title: 'ID', fixed: 'left',width: 80, unresize: true, sort: true, align: 'center'}
                     , {field: 'projectName', title: '项目名', align: 'center'}
-                    , {field: 'projectCreater', title: '创建人', width: 80, align: 'center'}
-                    , {field: 'projectType', title: '类型', width: 80, sort: true, align: 'center'}
+                    , {field: 'projectCreater', title: '创建人', align: 'center'}
+                    //, {field: 'projectType', title: '类型', width: 80, sort: true, align: 'center'}
                     //     , {field: 'description', title: '项目简述', overflow: 'hidden', align: 'center'}
-                    , {field: 'projectStatus', title: '状态', width: 100, sort: true, align: 'center'}
+                    , {field: 'projectState', title: '状态', width: 150, sort: true, align: 'center'}
                     , {field: 'starttime', title: '开始时间', align: 'center'}
                     , {fixed: 'right', title: '操作', toolbar: '#projectOperate', width: 180, align: 'center'}
                 ]]
@@ -169,7 +172,8 @@
             projectId: currentProject.data.projectId,
             projectStateToken: currentProject.data.projectStateToken,
             isPass: status,
-            projectAuditMsg: msg
+            projectAuditMsg: msg,
+            applicationId: currentProject.data.applicationId
 
         }
         console.log(operation);
@@ -195,6 +199,8 @@
                 layer.msg('参数异常');
             }
         });
+
+
     }
 </script>
 </body>
