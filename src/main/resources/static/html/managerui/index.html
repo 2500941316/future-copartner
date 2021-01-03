@@ -167,7 +167,7 @@
 
     // 通过或者驳回项目申请
     function operateProject(currentProject, status, msg) {
-        let operation = {
+        var operation = {
             //    taskId: currentProject.data.taskId,
             projectId: currentProject.data.projectId,
             projectStateToken: currentProject.data.projectStateToken,
@@ -175,8 +175,7 @@
             projectAuditMsg: msg,
             applicationId: currentProject.data.applicationId
 
-        }
-        console.log(operation);
+        };
 
         $.ajax({
             url: "/manager/project/operateProjectApply",    //请求的url地址

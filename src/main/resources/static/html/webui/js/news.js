@@ -182,7 +182,7 @@ function renderNewsPage_byCatagories(arrParO) {
     const catagory = [
         "精彩上大", "每周一文", "项目风采", "人文社科", "活动咨询", "法律法规"
     ];
-    for (let i = 0; i < arrParO.length; i++) {
+    for (var i = 0; i < arrParO.length; i++) {
         const $active0 = $("#" + catagory[i]);
         $.each(arrParO[i], function (i, obj) {
             const $children = $('<span onclick="toNew_content(' + obj.newsId + ')"><img src="/html/webui/images/01.gif"/><a href="#">' + obj.newsTitle + '</a></span>');

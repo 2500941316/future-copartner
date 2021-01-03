@@ -155,7 +155,7 @@ function redirecToVedio(courseId) {
 //更新视频源的方法
 function changeVideoPath(vedioId) {
     //查询当前vedio地址
-    let url = localStorage.getItem(vedioId)
+    var url = localStorage.getItem(vedioId)
     document.getElementById("vedio_url").src = url;
     document.getElementById("vedio_url").load();
 }
