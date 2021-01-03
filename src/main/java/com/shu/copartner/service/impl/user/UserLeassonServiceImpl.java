@@ -14,6 +14,7 @@ import com.shu.copartner.service.UserLeassonService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class UserLeassonServiceImpl implements UserLeassonService {
             ProLeasson proLeasson = proLeassonMapper.selectByPrimaryKey(courseId);
 
             //如果课程已经删除则直接返回
-            if (proLeasson.getCourseIsdeleted().equals(Constants.BE_DELETED)) {
+            if (ObjectUtils.isEmpty(proLeasson) || proLeasson.getCourseIsdeleted().equals(Constants.BE_DELETED)) {
                 return TableModel.error();
             }
 
