@@ -6,6 +6,7 @@ import com.shu.copartner.mapper.ActRuTaskMapper;
 import com.shu.copartner.mapper.ProApplicationMapper;
 import com.shu.copartner.mapper.ProFollowMapper;
 import com.shu.copartner.mapper.ProProjectMapper;
+import com.shu.copartner.mapper.ProProjectMapper;
 import com.shu.copartner.pojo.*;
 import com.shu.copartner.pojo.request.ProjectApplyVO;
 import com.shu.copartner.service.ProProjectService;
@@ -16,16 +17,12 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.CollectionUtils;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -172,6 +169,8 @@ public class ProProjectServiceImpl implements ProProjectService {
         log.info(projectApplyVO.toString());
         ProProject proProject = new ProProject();
         BeanUtils.copyProperties(projectApplyVO, proProject);
+        // 每次修改就设置当前更新的时间
+        proProject.setUpdateTime(new Date());
         proProjectMapper.updateByPrimaryKeySelective(proProject);
         return TableModel.success();
     }
@@ -216,13 +215,13 @@ public class ProProjectServiceImpl implements ProProjectService {
         /*proProjectExample.createCriteria().andProjectStatusEqualTo(projectTwoStatus).andProjectNameEqualTo(projectName).andProjectTypeEqualTo(projectType)
                 .andProjectCreaterEqualTo(projectCreater);*/
         ProProjectExample.Criteria criteria = proProjectExample.createCriteria();
-        // 如果搜索值非空，就加上该搜索条件
+        // 如果搜索值非空，就加上该搜索条件 进行模糊查询
         if(StringUtils.isNotEmpty(projectName)){
-            criteria.andProjectNameEqualTo(projectName);
+            criteria.andProjectNameLike("%" + projectName + "%");
         }else if(StringUtils.isNotEmpty(projectType)){
-            criteria.andProjectTypeEqualTo(projectType);
+            criteria.andProjectTypeLike("%" + projectType + "%");
         }else if(StringUtils.isNotEmpty(projectCreater)){
-            criteria.andProjectCreaterEqualTo(projectCreater);
+            criteria.andProjectCreaterLike("%" + projectCreater + "%");
         }
         criteria.andProjectStatusEqualTo(projectTwoStatus).andIsDeletedEqualTo(0);
         List<ProProject> proProjects = proProjectMapper.selectByExample(proProjectExample);

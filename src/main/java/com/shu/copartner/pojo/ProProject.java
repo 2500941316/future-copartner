@@ -86,31 +86,19 @@ public class ProProject implements Serializable {
 
     private String isGoing;
 
-    private Date focusTime;
+    private Date followDate;
 
-    private String myFocus;
+    private String myFollow;
+
+    private Date updateTime;
+
+    private Long supervisorId;
 
     // 关注项目的时间
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date followTime;
 
     private String follower;
-
-    public String getFollower() {
-        return follower;
-    }
-
-    public void setFollower(String follower) {
-        this.follower = follower;
-    }
-
-    public Date getFollowTime() {
-        return followTime;
-    }
-
-    public void setFollowTime(Date followTime) {
-        this.followTime = followTime;
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -434,67 +422,35 @@ public class ProProject implements Serializable {
         this.isGoing = isGoing == null ? null : isGoing.trim();
     }
 
-    public Date getFocusTime() {
-        return focusTime;
+    public Date getFollowDate() {
+        return followDate;
     }
 
-    public void setFocusTime(Date focusTime) {
-        this.focusTime = focusTime;
+    public void setFollowDate(Date followDate) {
+        this.followDate = followDate;
     }
 
-    public String getMyFocus() {
-        return myFocus;
+    public String getMyFollow() {
+        return myFollow;
     }
 
-    public void setMyFocus(String myFocus) {
-        this.myFocus = myFocus == null ? null : myFocus.trim();
+    public void setMyFollow(String myFollow) {
+        this.myFollow = myFollow == null ? null : myFollow.trim();
     }
 
-    @Override
-    public String toString() {
-        return "ProProject{" +
-                "projectId=" + projectId +
-                ", projectCreater='" + projectCreater + '\'' +
-                ", description='" + description + '\'' +
-                ", endtime=" + endtime +
-                ", projectFollowers='" + projectFollowers + '\'' +
-                ", isDeleted=" + isDeleted +
-                ", isLock=" + isLock +
-                ", planUrl='" + planUrl + '\'' +
-                ", primaryJob='" + primaryJob + '\'' +
-                ", projectName='" + projectName + '\'' +
-                ", starttime=" + starttime +
-                ", projectStatus='" + projectStatus + '\'' +
-                ", projectType='" + projectType + '\'' +
-                ", videoUrl='" + videoUrl + '\'' +
-                ", projectPeople='" + projectPeople + '\'' +
-                ", mainPeople='" + mainPeople + '\'' +
-                ", projectTeacher='" + projectTeacher + '\'' +
-                ", projectNeed='" + projectNeed + '\'' +
-                ", projectMatch='" + projectMatch + '\'' +
-                ", projectCooperation='" + projectCooperation + '\'' +
-                ", projectActivity='" + projectActivity + '\'' +
-                ", projectService='" + projectService + '\'' +
-                ", projectFinance='" + projectFinance + '\'' +
-                ", projectIncome='" + projectIncome + '\'' +
-                ", projectCompany='" + projectCompany + '\'' +
-                ", projectElseInfo='" + projectElseInfo + '\'' +
-                ", projectActivitiState='" + projectActivitiState + '\'' +
-                ", projectStateToken='" + projectStateToken + '\'' +
-                ", projectAuditMsg='" + projectAuditMsg + '\'' +
-                ", peopleTime=" + peopleTime +
-                ", matchTime=" + matchTime +
-                ", cooperationTime=" + cooperationTime +
-                ", activityTime=" + activityTime +
-                ", serviceTime=" + serviceTime +
-                ", financeTime=" + financeTime +
-                ", incomeTime=" + incomeTime +
-                ", companyTime=" + companyTime +
-                ", elseInfoTime=" + elseInfoTime +
-                ", projectPeopleNew='" + projectPeopleNew + '\'' +
-                ", isGoing='" + isGoing + '\'' +
-                ", focusTime=" + focusTime +
-                ", myFocus='" + myFocus + '\'' +
-                '}';
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Long getSupervisorId() {
+        return supervisorId;
+    }
+
+    public void setSupervisorId(Long supervisorId) {
+        this.supervisorId = supervisorId;
     }
 }

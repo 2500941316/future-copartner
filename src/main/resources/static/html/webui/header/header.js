@@ -44,7 +44,7 @@ document.writeln("                        <span class=\'u-icon-caret\'></span>")
 document.writeln("                    </a>");
 document.writeln("                </li>");
 document.writeln("                <li class=\'service\'>");
-document.writeln("                    <a href=\'/html/webui/supervisor/event.html\'>导师");
+document.writeln("                    <a href=\'/html/webui/supervisor/supervisor.html\'>导师");
 document.writeln("                    </a>");
 document.writeln("                </li>");
 document.writeln("                <li class=\'merchants\'>");

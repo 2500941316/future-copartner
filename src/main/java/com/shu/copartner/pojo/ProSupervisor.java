@@ -1,7 +1,12 @@
 package com.shu.copartner.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import static java.util.Locale.ENGLISH;
 
 public class ProSupervisor implements Serializable {
     private Long supervisorId;
@@ -38,9 +43,32 @@ public class ProSupervisor implements Serializable {
 
     private Date endTime;
 
+    @JsonFormat(pattern = "MM.dd ", timezone = "GMT+8")//,locale="locale.ENGLISH"
     private Date updateTime;
 
+    // 用于一对多
+    private List<ProProject> projects;
+
+    // 用于一对多
+    private List<ProLog> logAchievements;
+
     private static final long serialVersionUID = 1L;
+
+    public List<ProLog> getLogAchievements() {
+        return logAchievements;
+    }
+
+    public void setLogAchievements(List<ProLog> logAchievements) {
+        this.logAchievements = logAchievements;
+    }
+
+    public List<ProProject> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<ProProject> projects) {
+        this.projects = projects;
+    }
 
     public Long getSupervisorId() {
         return supervisorId;

@@ -9,4 +9,12 @@ import com.shu.copartner.utils.returnobj.TableModel;
  */
 public interface UserSupervisorService {
     TableModel searchSupervisor(int currnetPage);
+
+    TableModel searchSupervisorByName(String supervisorName);
+
+    TableModel searchSupervisorById(String supervisorId);
+
+    TableModel searchSupervisorProject(String supervisorId);
+
+    TableModel searchSupervisorAchievement(String supervisorId);
 }

@@ -215,7 +215,7 @@
      // document.getElementById("projectTeacher").innerText = projectInfo[0].projectTeacher;
       document.getElementById("projectTeacher2").innerText = projectInfo[0].projectTeacher;
       typeof (projectInfo[0].projectTeacher) == "undefined" ?
-              document.getElementById("projectTeacher").innerText = "待填写" :
+              document.getElementById("projectTeacher").innerText = "无" :
               document.getElementById("projectTeacher").innerText = projectInfo[0].projectTeacher;
 
       document.getElementById("projectPeople").innerText = projectInfo[0].projectPeople;
@@ -228,17 +228,17 @@
       document.getElementById("starttime2").innerText = projectInfo[0].starttime;
 
       projectInfo[0].planUrl== "null" ?
-              document.getElementById("planUrl").innerText = "待上传" :
+              document.getElementById("planUrl").innerText = "无" :
               document.getElementById("planUrl").href = projectInfo[0].planUrl;
       projectInfo[0].planUrl == "null" ?
-              document.getElementById("planUrl2").innerText = "待上传" :
+              document.getElementById("planUrl2").innerText = "无" :
               document.getElementById("planUrl2").href = projectInfo[0].planUrl;
 
       projectInfo[0].videoUrl == "null" ?
-              document.getElementById("videoUrl").innerText = "待上传" :
+              document.getElementById("videoUrl").innerText = "无" :
               document.getElementById("videoUrl").href = projectInfo[0].videoUrl;
       projectInfo[0].videoUrl == "null" ?
-              document.getElementById("videoUrl2").innerText = "待上传" :
+              document.getElementById("videoUrl2").innerText = "无" :
               document.getElementById("videoUrl2").href = projectInfo[0].videoUrl;
 
       document.getElementById("projectStatus").innerText = projectInfo[0].projectStatus;

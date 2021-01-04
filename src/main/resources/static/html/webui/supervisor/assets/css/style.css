@@ -85,6 +85,7 @@ Version: 1.0
 	outline: none;
 }
 .searchbox2 .btn-search2 {
+	cursor: pointer;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -94,7 +95,9 @@ Version: 1.0
 	background-color: #444786;
 	border: none;
 }
-
+.searchbox2 .btn-search2:hover{
+	background-color: #1A5AA8;
+}
 
 html,
 body {
@@ -1726,7 +1729,9 @@ p.course-qty {
 	font-size: 20px;
 	margin: 10px 0;
 }
-
+.event-content h6:hover{
+	color: #FCC741;
+}
 .event-content-wrap h2 {
 	color: #fff;
 }

@@ -20,6 +20,26 @@
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+    <!--一对多查询导师参加的项目-->
+    <collection property="projects" ofType="com.shu.copartner.pojo.ProProject">
+      <id column="project_id" jdbcType="BIGINT" property="projectId" />
+      <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+      <result column="project_status" jdbcType="VARCHAR" property="projectStatus" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </collection>
+
+    <!--一对多查询导师代表性成就-->
+    <collection property="logAchievements" ofType="com.shu.copartner.pojo.ProLog">
+      <id column="log_id" jdbcType="BIGINT" property="logId" />
+      <result column="log_type" jdbcType="VARCHAR" property="logType" />
+      <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="log_operator" jdbcType="VARCHAR" property="logOperator" />
+      <result column="log_supervisor_id" jdbcType="BIGINT" property="logSupervisorId" />
+      <result column="log_supervisor_name" jdbcType="VARCHAR" property="logSupervisorName" />
+      <result column="log_supervisor_achievement" jdbcType="VARCHAR" property="logSupervisorAchievement" />
+    </collection>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -80,9 +100,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    supervisor_id, supervisor_name, supervisor_status, supervisor_institute, supervisor_image, 
-    supervisor_description, supervisor_email, supervisor_telephone, supervisor_school, 
-    supervisor_brief_intro, supervisor_achievement, project_id, log_id, supervisor_rank, 
+    supervisor_id, supervisor_name, supervisor_status, supervisor_institute, supervisor_image,
+    supervisor_description, supervisor_email, supervisor_telephone, supervisor_school,
+    supervisor_brief_intro, supervisor_achievement, project_id, log_id, supervisor_rank,
     is_deleted, start_time, end_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProSupervisorExample" resultMap="BaseResultMap">
@@ -100,10 +120,10 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from PRO_SUPERVISOR
-    where supervisor_id = #{supervisorId,jdbcType=BIGINT}
+    where supervisor_id = #{supervisorId,jdbcType=BIGINT} and is_deleted = 0
   </select>
 
   <!--查询导师列表-->
@@ -112,6 +132,32 @@
     <include refid="Base_Column_List" />
     from PRO_SUPERVISOR
     where is_deleted = 0
+  </select>
+
+  <!--根据姓名查询导师列表-->
+  <select id="selectSupervisorByName" parameterType="java.lang.String"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_SUPERVISOR
+    where is_deleted = 0 and supervisor_name like concat('%',#{supervisorName},'%')
+  </select>
+
+  <!--查询导师参与的项目-->
+  <select id="selectSupervisorProject" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+    select
+        ps.supervisor_id,ps.supervisor_institute, ps.supervisor_school,
+        pp.project_id,  pp.project_name, pp.project_status, pp.update_time
+    from PRO_SUPERVISOR ps, PRO_PROJECT pp
+    where ps.supervisor_id = pp.supervisor_id and pp.is_deleted = 0 and ps.supervisor_id = #{supervisorId}
+  </select>
+
+  <!--查询导师代表性成就-->
+  <select id="selectSupervisorAchievement" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+    select
+        ps.supervisor_id,
+        pl.log_id, pl.log_type, pl.log_supervisor_id, pl.log_supervisor_achievement, pl.start_time
+    from PRO_SUPERVISOR ps, PRO_LOG pl
+    where ps.supervisor_id = pl.log_supervisor_id and pl.is_deleted = 0 and ps.supervisor_id = #{supervisorId}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

@@ -1,0 +1,230 @@
+ <!DOCTYPE html>
+ <html lang="en">
+
+ <head>
+ 	<meta charset="utf-8">
+ 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+ 	<title>导师详情</title>
+	 <script src='/html/webui/header/header.js'></script>
+	 <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
+ 	<!-- Bootstrap CSS -->
+ 	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+ 	<!-- Line Awesome CSS -->
+ 	<link href="assets/css/line-awesome.min.css" rel="stylesheet">
+ 	<!-- Style CSS -->
+ 	<link href="assets/css/style.css" rel="stylesheet">
+
+
+	 <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+ </head>
+
+ <body>
+ 	<div id="single-event-page" class="gray-bg section-padding">
+ 		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-md-12 col-12">
+					<div class="section-title">
+						<h2>导师 <b>详情</b></h2>
+						<p><a href="#"><span id="supervisorName">张三</span></a> / <span id="supervisorInstitute">悉尼工商学院</span> / <span id="supervisorEmail">dingsh@163.com</span></p>
+						<hr style="height:1px;border:none;border-top:1px solid #555555;" />
+					</div>
+
+				</div>
+			</div>
+ 			<div class="row">
+ 				<div class="col-lg-8">
+ 					<div class="single-course-wrapper white-bg">
+ 						<div class="event-details">
+ 							<img id="supervisorImage" src="assets/img/event/1.jpg" alt="">
+ 							<h6>导师简介</h6>
+							<p class="event-meta"> <i class="las la-user-circle"></i> <span id="supervisorName2">张三</span> | <i class="las la-clock"></i> <span id="supervisorStatus">指导项目中</span> | <span><i class="las la-map-marker"></i> <span id="supervisorSchool">上海大学</span></span> </p>
+							<span id="supervisorBriefIntro">
+								<!--导师简介具体内容-->
+							</span>
+
+ 								<h5>代表性成就</h5>
+							<div id="supervisorAchievement">
+ 								<ul>
+ 									<li>
+										Localized spin-orbit polaron in magnetic Weyl semimetal Co3Sn2S2.
+ 									</li>
+ 								</ul>
+							</div>
+ 						</div>
+ 					</div>
+ 				</div>
+
+ 				<div class="col-lg-4">
+ 					<div class="upcoming-event white-bg">
+ 						<h5>参与的项目</h5>
+						<div id="supervisorProject">
+							<div class="event-content blue-bg">
+								<h6><span>衣拉客</span></h6>
+								<p class="event-meta"> <i class="las la-calendar-check"></i> <span>30 October 2020 </span>  | <span><i class="las la-clock"></i></span> <span><span>项目已完成</span> </span>
+									<br> <i class="las la-map-marker"></i> <span>上海大学</span> </p>
+							</div>
+							<div class="event-content blue-bg">
+								<h6>青春快送</h6>
+								<p class="event-meta"> <i class="las la-calendar-check"></i> 20 Nov 2020 | <span><i class="las la-clock"></i></span> <span>项目已完成 </span>
+									<br> <i class="las la-map-marker"></i> <span>悉尼工商学院</span> </p>
+							</div>
+							<div class="event-content blue-bg">
+								<h6>具有智能云的个性水杯设计</h6>
+								<p class="event-meta"> <i class="las la-calendar-check"></i> 15 Dec 2020 | <span><i class="las la-clock"></i></span> <span>项目已完成 </span>
+									<br> <i class="las la-map-marker"></i> <span>悉尼工商学院</span> </p>
+							</div>
+							<div class="event-content blue-bg">
+								<h6>盲侠推拿</h6>
+								<p class="event-meta"> <i class="las la-calendar-check"></i> 03 Jan 2021 | <span><i class="las la-clock"></i></span> <span>项目已完成 </span>
+									<br> <i class="las la-map-marker"></i> <span>悉尼工商学院</span> </p>
+							</div>
+						</div>
+ 					</div>
+ 				</div>
+ 			</div>
+ 		</div>
+ 	</div>
+
+	<!--引入页脚页面-->
+	<div id="footer"></div>
+
+ <script type="application/javascript">
+	$(function () {
+		$("#footer").load("/html/webui/footer/footer.html")
+
+		searchSupervisorDetail();
+		searchSupervisorProject();
+		searchSupervisorAchievement();
+	})
+
+	layui.use('layer',function () {
+		var layer = layui.layer;
+	})
+
+	/**
+	 * 根据id查询导师详细信息
+	 */
+	function searchSupervisorDetail() {
+		var supervisorId = localStorage.getItem("supervisorId");
+		 $.ajax({
+			 url: "/user/supervisor/searchSuperviosrById",
+			 type: "GET",
+			 data: "supervisorId="+supervisorId,
+			 success: function (res) {
+			 	if(res.code = 200){
+			 		fillSupervisorDetail(res.data[0]);
+				}else{
+			 		layer.msg("网络异常！");
+				}
+			 }
+		 })
+	 }
+
+	/**
+	 * 填充导师详细信息
+	 * @param supervisorInfo
+	 */
+	function fillSupervisorDetail(supervisorInfo) {
+		document.getElementById("supervisorName").innerText = supervisorInfo.supervisorName;
+		document.getElementById("supervisorInstitute").innerText = supervisorInfo.supervisorInstitute;
+		document.getElementById("supervisorEmail").innerText = supervisorInfo.supervisorEmail;
+
+		document.getElementById("supervisorImage").src = supervisorInfo.supervisorImage; // src格式
+		document.getElementById("supervisorName2").innerText = supervisorInfo.supervisorName;
+		document.getElementById("supervisorStatus").innerText = supervisorInfo.supervisorStatus;
+		document.getElementById("supervisorSchool").innerText = supervisorInfo.supervisorSchool;
+		document.getElementById("supervisorBriefIntro").innerHTML = supervisorInfo.supervisorBriefIntro; // html格式
+	}
+
+	/**
+	 * 根据导师id查询该导师参加的项目
+	 */
+	function searchSupervisorProject(){
+		var supervisorId = localStorage.getItem("supervisorId");
+		$.ajax({
+			url: "/user/supervisor/searchSupervisorProject",
+			type: "GET",
+			data: "supervisorId="+supervisorId,
+			success: function (res) {
+				if(res.code = 200){
+					fillSupervisorProject(res.data[0]);
+				}else{
+					layer.msg("网络异常！");
+				}
+			}
+		})
+	}
+
+	/**
+	 * 填充导师参与的项目信息
+	 * @param supervisorProject
+	 */
+	function fillSupervisorProject(supervisorProject) {
+		const $active =  $("#supervisorProject");
+		$active.html("");
+		for(var i in supervisorProject.projects) {
+			const $children = (
+					'<div class="event-content blue-bg">\n' +
+					'          <h6 onclick="viewSupervisorProject('+supervisorProject.projects[i].projectId+')" style="cursor: pointer;"><span>'+supervisorProject.projects[i].projectName+'</span></h6>\n' +
+					'          <p class="event-meta"> <i class="las la-calendar-check"></i> '+supervisorProject.projects[i].updateTime+' | <span><i class="las la-clock"></i></span> <span>'+supervisorProject.projects[i].projectStatus+' </span>\n' +
+					'          <br> <i class="las la-map-marker"></i> <span>'+supervisorProject.supervisorSchool+'</span> </p>\n' +
+					' </div>'
+			);
+			$active.append($children);
+		}
+	}
+
+	/**
+	 * 查看导师参加的项目详情
+	 * @param projectId
+	 */
+	function viewSupervisorProject(projectId) {
+		localStorage.setItem("projectId",projectId);
+		window.location.href = "/html/webui/project/project_details_info.html";
+	}
+
+	/**
+	 * 查询导师代表性成就
+	 */
+	function searchSupervisorAchievement() {
+		var supervisorId = localStorage.getItem("supervisorId");
+
+		$.ajax({
+			url: "/user/supervisor/searchSupervisorAchievement",
+			type: "GET",
+			data: "supervisorId="+supervisorId,
+			success: function (res) {
+				if(res.code = 200){
+					fillSupervisorAchievement(res.data[0]);
+				}else{
+					layer.msg("网络异常！");
+				}
+			}
+		})
+	}
+
+	/**
+	 * 填充导师代表性成就
+	 * @param achievement
+	 */
+	function fillSupervisorAchievement(achievement) {
+		const $active =  $("#supervisorAchievement");
+		$active.html("");
+		for(var i in achievement.logAchievements) {
+			const $children = (
+					'<ul>\n' +
+					' 	<li>\n' +
+					'       '+achievement.logAchievements[i].logSupervisorAchievement+'     \n' +
+					' 	</li>\n' +
+					'</ul>'
+			);
+			$active.append($children);
+		}
+	}
+ </script>
+
+ </body>
+
+ </html>

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProLogMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProLog">
+    <id column="log_id" jdbcType="BIGINT" property="logId" />
+    <result column="log_type" jdbcType="VARCHAR" property="logType" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="log_operator" jdbcType="VARCHAR" property="logOperator" />
+    <result column="log_supervisor_id" jdbcType="BIGINT" property="logSupervisorId" />
+    <result column="log_supervisor_name" jdbcType="VARCHAR" property="logSupervisorName" />
+    <result column="log_supervisor_achievement" jdbcType="VARCHAR" property="logSupervisorAchievement" />
+    <result column="log_project_id" jdbcType="BIGINT" property="logProjectId" />
+    <result column="log_project_name" jdbcType="VARCHAR" property="logProjectName" />
+    <result column="log_project_description" jdbcType="VARCHAR" property="logProjectDescription" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    log_id, log_type, start_time, end_time, update_time, log_operator, log_supervisor_id, 
+    log_supervisor_name, log_supervisor_achievement, log_project_id, log_project_name, 
+    log_project_description, is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_LOG
+    where log_id = #{logId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_LOG
+    where log_id = #{logId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProLogExample">
+    delete from PRO_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProLog">
+    insert into PRO_LOG (log_id, log_type, start_time, 
+      end_time, update_time, log_operator, 
+      log_supervisor_id, log_supervisor_name, log_supervisor_achievement, 
+      log_project_id, log_project_name, log_project_description, 
+      is_deleted)
+    values (#{logId,jdbcType=BIGINT}, #{logType,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{logOperator,jdbcType=VARCHAR}, 
+      #{logSupervisorId,jdbcType=BIGINT}, #{logSupervisorName,jdbcType=VARCHAR}, #{logSupervisorAchievement,jdbcType=VARCHAR}, 
+      #{logProjectId,jdbcType=BIGINT}, #{logProjectName,jdbcType=VARCHAR}, #{logProjectDescription,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLog">
+    insert into PRO_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        log_id,
+      </if>
+      <if test="logType != null">
+        log_type,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="logOperator != null">
+        log_operator,
+      </if>
+      <if test="logSupervisorId != null">
+        log_supervisor_id,
+      </if>
+      <if test="logSupervisorName != null">
+        log_supervisor_name,
+      </if>
+      <if test="logSupervisorAchievement != null">
+        log_supervisor_achievement,
+      </if>
+      <if test="logProjectId != null">
+        log_project_id,
+      </if>
+      <if test="logProjectName != null">
+        log_project_name,
+      </if>
+      <if test="logProjectDescription != null">
+        log_project_description,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        #{logId,jdbcType=BIGINT},
+      </if>
+      <if test="logType != null">
+        #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logOperator != null">
+        #{logOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="logSupervisorId != null">
+        #{logSupervisorId,jdbcType=BIGINT},
+      </if>
+      <if test="logSupervisorName != null">
+        #{logSupervisorName,jdbcType=VARCHAR},
+      </if>
+      <if test="logSupervisorAchievement != null">
+        #{logSupervisorAchievement,jdbcType=VARCHAR},
+      </if>
+      <if test="logProjectId != null">
+        #{logProjectId,jdbcType=BIGINT},
+      </if>
+      <if test="logProjectName != null">
+        #{logProjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="logProjectDescription != null">
+        #{logProjectDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProLogExample" resultType="java.lang.Long">
+    select count(*) from PRO_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_LOG
+    <set>
+      <if test="record.logId != null">
+        log_id = #{record.logId,jdbcType=BIGINT},
+      </if>
+      <if test="record.logType != null">
+        log_type = #{record.logType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.logOperator != null">
+        log_operator = #{record.logOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logSupervisorId != null">
+        log_supervisor_id = #{record.logSupervisorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.logSupervisorName != null">
+        log_supervisor_name = #{record.logSupervisorName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logSupervisorAchievement != null">
+        log_supervisor_achievement = #{record.logSupervisorAchievement,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logProjectId != null">
+        log_project_id = #{record.logProjectId,jdbcType=BIGINT},
+      </if>
+      <if test="record.logProjectName != null">
+        log_project_name = #{record.logProjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logProjectDescription != null">
+        log_project_description = #{record.logProjectDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_LOG
+    set log_id = #{record.logId,jdbcType=BIGINT},
+      log_type = #{record.logType,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      log_operator = #{record.logOperator,jdbcType=VARCHAR},
+      log_supervisor_id = #{record.logSupervisorId,jdbcType=BIGINT},
+      log_supervisor_name = #{record.logSupervisorName,jdbcType=VARCHAR},
+      log_supervisor_achievement = #{record.logSupervisorAchievement,jdbcType=VARCHAR},
+      log_project_id = #{record.logProjectId,jdbcType=BIGINT},
+      log_project_name = #{record.logProjectName,jdbcType=VARCHAR},
+      log_project_description = #{record.logProjectDescription,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProLog">
+    update PRO_LOG
+    <set>
+      <if test="logType != null">
+        log_type = #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logOperator != null">
+        log_operator = #{logOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="logSupervisorId != null">
+        log_supervisor_id = #{logSupervisorId,jdbcType=BIGINT},
+      </if>
+      <if test="logSupervisorName != null">
+        log_supervisor_name = #{logSupervisorName,jdbcType=VARCHAR},
+      </if>
+      <if test="logSupervisorAchievement != null">
+        log_supervisor_achievement = #{logSupervisorAchievement,jdbcType=VARCHAR},
+      </if>
+      <if test="logProjectId != null">
+        log_project_id = #{logProjectId,jdbcType=BIGINT},
+      </if>
+      <if test="logProjectName != null">
+        log_project_name = #{logProjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="logProjectDescription != null">
+        log_project_description = #{logProjectDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProLog">
+    update PRO_LOG
+    set log_type = #{logType,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      log_operator = #{logOperator,jdbcType=VARCHAR},
+      log_supervisor_id = #{logSupervisorId,jdbcType=BIGINT},
+      log_supervisor_name = #{logSupervisorName,jdbcType=VARCHAR},
+      log_supervisor_achievement = #{logSupervisorAchievement,jdbcType=VARCHAR},
+      log_project_id = #{logProjectId,jdbcType=BIGINT},
+      log_project_name = #{logProjectName,jdbcType=VARCHAR},
+      log_project_description = #{logProjectDescription,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER}
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+</mapper>

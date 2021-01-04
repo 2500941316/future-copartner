@@ -3,6 +3,7 @@ package com.shu.copartner.service.impl.manager;
 import com.shu.copartner.mapper.ActRuVariableMapper;
 import com.shu.copartner.mapper.ProApplicationMapper;
 import com.shu.copartner.mapper.ProProjectMapper;
+import com.shu.copartner.mapper.ProProjectMapper;
 import com.shu.copartner.pojo.ProApplication;
 import com.shu.copartner.pojo.ProProject;
 import com.shu.copartner.pojo.request.ProjectManagerOperationVO;

@@ -2765,133 +2765,253 @@ public class ProProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeIsNull() {
-            addCriterion("focus_time is null");
+        public Criteria andFollowDateIsNull() {
+            addCriterion("follow_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeIsNotNull() {
-            addCriterion("focus_time is not null");
+        public Criteria andFollowDateIsNotNull() {
+            addCriterion("follow_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeEqualTo(Date value) {
-            addCriterion("focus_time =", value, "focusTime");
+        public Criteria andFollowDateEqualTo(Date value) {
+            addCriterion("follow_date =", value, "followDate");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeNotEqualTo(Date value) {
-            addCriterion("focus_time <>", value, "focusTime");
+        public Criteria andFollowDateNotEqualTo(Date value) {
+            addCriterion("follow_date <>", value, "followDate");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeGreaterThan(Date value) {
-            addCriterion("focus_time >", value, "focusTime");
+        public Criteria andFollowDateGreaterThan(Date value) {
+            addCriterion("follow_date >", value, "followDate");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("focus_time >=", value, "focusTime");
+        public Criteria andFollowDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("follow_date >=", value, "followDate");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeLessThan(Date value) {
-            addCriterion("focus_time <", value, "focusTime");
+        public Criteria andFollowDateLessThan(Date value) {
+            addCriterion("follow_date <", value, "followDate");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeLessThanOrEqualTo(Date value) {
-            addCriterion("focus_time <=", value, "focusTime");
+        public Criteria andFollowDateLessThanOrEqualTo(Date value) {
+            addCriterion("follow_date <=", value, "followDate");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeIn(List<Date> values) {
-            addCriterion("focus_time in", values, "focusTime");
+        public Criteria andFollowDateIn(List<Date> values) {
+            addCriterion("follow_date in", values, "followDate");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeNotIn(List<Date> values) {
-            addCriterion("focus_time not in", values, "focusTime");
+        public Criteria andFollowDateNotIn(List<Date> values) {
+            addCriterion("follow_date not in", values, "followDate");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeBetween(Date value1, Date value2) {
-            addCriterion("focus_time between", value1, value2, "focusTime");
+        public Criteria andFollowDateBetween(Date value1, Date value2) {
+            addCriterion("follow_date between", value1, value2, "followDate");
             return (Criteria) this;
         }
 
-        public Criteria andFocusTimeNotBetween(Date value1, Date value2) {
-            addCriterion("focus_time not between", value1, value2, "focusTime");
+        public Criteria andFollowDateNotBetween(Date value1, Date value2) {
+            addCriterion("follow_date not between", value1, value2, "followDate");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusIsNull() {
-            addCriterion("my_focus is null");
+        public Criteria andMyFollowIsNull() {
+            addCriterion("my_follow is null");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusIsNotNull() {
-            addCriterion("my_focus is not null");
+        public Criteria andMyFollowIsNotNull() {
+            addCriterion("my_follow is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusEqualTo(String value) {
-            addCriterion("my_focus =", value, "myFocus");
+        public Criteria andMyFollowEqualTo(String value) {
+            addCriterion("my_follow =", value, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusNotEqualTo(String value) {
-            addCriterion("my_focus <>", value, "myFocus");
+        public Criteria andMyFollowNotEqualTo(String value) {
+            addCriterion("my_follow <>", value, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusGreaterThan(String value) {
-            addCriterion("my_focus >", value, "myFocus");
+        public Criteria andMyFollowGreaterThan(String value) {
+            addCriterion("my_follow >", value, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusGreaterThanOrEqualTo(String value) {
-            addCriterion("my_focus >=", value, "myFocus");
+        public Criteria andMyFollowGreaterThanOrEqualTo(String value) {
+            addCriterion("my_follow >=", value, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusLessThan(String value) {
-            addCriterion("my_focus <", value, "myFocus");
+        public Criteria andMyFollowLessThan(String value) {
+            addCriterion("my_follow <", value, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusLessThanOrEqualTo(String value) {
-            addCriterion("my_focus <=", value, "myFocus");
+        public Criteria andMyFollowLessThanOrEqualTo(String value) {
+            addCriterion("my_follow <=", value, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusLike(String value) {
-            addCriterion("my_focus like", value, "myFocus");
+        public Criteria andMyFollowLike(String value) {
+            addCriterion("my_follow like", value, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusNotLike(String value) {
-            addCriterion("my_focus not like", value, "myFocus");
+        public Criteria andMyFollowNotLike(String value) {
+            addCriterion("my_follow not like", value, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusIn(List<String> values) {
-            addCriterion("my_focus in", values, "myFocus");
+        public Criteria andMyFollowIn(List<String> values) {
+            addCriterion("my_follow in", values, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusNotIn(List<String> values) {
-            addCriterion("my_focus not in", values, "myFocus");
+        public Criteria andMyFollowNotIn(List<String> values) {
+            addCriterion("my_follow not in", values, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusBetween(String value1, String value2) {
-            addCriterion("my_focus between", value1, value2, "myFocus");
+        public Criteria andMyFollowBetween(String value1, String value2) {
+            addCriterion("my_follow between", value1, value2, "myFollow");
             return (Criteria) this;
         }
 
-        public Criteria andMyFocusNotBetween(String value1, String value2) {
-            addCriterion("my_focus not between", value1, value2, "myFocus");
+        public Criteria andMyFollowNotBetween(String value1, String value2) {
+            addCriterion("my_follow not between", value1, value2, "myFollow");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIsNull() {
+            addCriterion("update_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIsNotNull() {
+            addCriterion("update_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeEqualTo(Date value) {
+            addCriterion("update_time =", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotEqualTo(Date value) {
+            addCriterion("update_time <>", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThan(Date value) {
+            addCriterion("update_time >", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("update_time >=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThan(Date value) {
+            addCriterion("update_time <", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("update_time <=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIn(List<Date> values) {
+            addCriterion("update_time in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotIn(List<Date> values) {
+            addCriterion("update_time not in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeBetween(Date value1, Date value2) {
+            addCriterion("update_time between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("update_time not between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdIsNull() {
+            addCriterion("supervisor_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdIsNotNull() {
+            addCriterion("supervisor_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdEqualTo(Long value) {
+            addCriterion("supervisor_id =", value, "supervisorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdNotEqualTo(Long value) {
+            addCriterion("supervisor_id <>", value, "supervisorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdGreaterThan(Long value) {
+            addCriterion("supervisor_id >", value, "supervisorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("supervisor_id >=", value, "supervisorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdLessThan(Long value) {
+            addCriterion("supervisor_id <", value, "supervisorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdLessThanOrEqualTo(Long value) {
+            addCriterion("supervisor_id <=", value, "supervisorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdIn(List<Long> values) {
+            addCriterion("supervisor_id in", values, "supervisorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdNotIn(List<Long> values) {
+            addCriterion("supervisor_id not in", values, "supervisorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdBetween(Long value1, Long value2) {
+            addCriterion("supervisor_id between", value1, value2, "supervisorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupervisorIdNotBetween(Long value1, Long value2) {
+            addCriterion("supervisor_id not between", value1, value2, "supervisorId");
             return (Criteria) this;
         }
     }
