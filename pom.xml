@@ -33,6 +33,8 @@
         <hibernate-valid>6.0.12.Final</hibernate-valid>
         <pagehelper>5.0.0</pagehelper>
         <pagehelper-spring>1.2.3</pagehelper-spring>
+        <selenuim>3.14.0</selenuim>
+        <guava>21.0</guava>
     </properties>
 
     <dependencies>
@@ -102,7 +104,17 @@
             <artifactId>druid</artifactId>
             <version>${druid}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenuim}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.0-jre</version>
+        </dependency>
         <!-- 分页插件pagehelper -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
