@@ -9,7 +9,7 @@
    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
 
 
-<title>职位信息</title>
+<title>项目详情</title>
 </head>
 
 <style>
@@ -58,7 +58,7 @@
 
    //根据id查询项目申请信息
    function getNewsById(projectId) {
-      let id = {projectId: projectId};
+      var id = {projectId: projectId};
       if (projectId != null) {
          $.ajax({
             type: "POST",

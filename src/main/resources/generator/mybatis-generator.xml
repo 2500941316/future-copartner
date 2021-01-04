@@ -58,7 +58,7 @@
         <!--        <table schema="" tableName="ACT_HI_TASKINST"></table>-->
         <!--        <table schema="" tableName="ACT_HI_VARINST"></table>-->
         <!--        <table schema="" tableName="ACT_RE_DEPLOYMENT"></table>-->
-        <table schema="" tableName="PRO_FOLLOW">
+        <table schema="" tableName="PRO_SUPERVISOR">
         </table>
 
     </context>

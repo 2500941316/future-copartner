@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProSupervisorMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProSupervisor">
+    <id column="supervisor_id" jdbcType="BIGINT" property="supervisorId" />
+    <result column="supervisor_name" jdbcType="VARCHAR" property="supervisorName" />
+    <result column="supervisor_status" jdbcType="VARCHAR" property="supervisorStatus" />
+    <result column="supervisor_institute" jdbcType="VARCHAR" property="supervisorInstitute" />
+    <result column="supervisor_image" jdbcType="VARCHAR" property="supervisorImage" />
+    <result column="supervisor_description" jdbcType="VARCHAR" property="supervisorDescription" />
+    <result column="supervisor_email" jdbcType="VARCHAR" property="supervisorEmail" />
+    <result column="supervisor_telephone" jdbcType="VARCHAR" property="supervisorTelephone" />
+    <result column="supervisor_school" jdbcType="VARCHAR" property="supervisorSchool" />
+    <result column="supervisor_brief_intro" jdbcType="VARCHAR" property="supervisorBriefIntro" />
+    <result column="supervisor_achievement" jdbcType="VARCHAR" property="supervisorAchievement" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="log_id" jdbcType="INTEGER" property="logId" />
+    <result column="supervisor_rank" jdbcType="INTEGER" property="supervisorRank" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    supervisor_id, supervisor_name, supervisor_status, supervisor_institute, supervisor_image, 
+    supervisor_description, supervisor_email, supervisor_telephone, supervisor_school, 
+    supervisor_brief_intro, supervisor_achievement, project_id, log_id, supervisor_rank, 
+    is_deleted, start_time, end_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProSupervisorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_SUPERVISOR
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_SUPERVISOR
+    where supervisor_id = #{supervisorId,jdbcType=BIGINT}
+  </select>
+
+  <!--查询导师列表-->
+  <select id="selectAllSupervisor"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_SUPERVISOR
+    where is_deleted = 0
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_SUPERVISOR
+    where supervisor_id = #{supervisorId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProSupervisorExample">
+    delete from PRO_SUPERVISOR
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProSupervisor">
+    insert into PRO_SUPERVISOR (supervisor_id, supervisor_name, supervisor_status, 
+      supervisor_institute, supervisor_image, supervisor_description, 
+      supervisor_email, supervisor_telephone, supervisor_school, 
+      supervisor_brief_intro, supervisor_achievement, 
+      project_id, log_id, supervisor_rank, 
+      is_deleted, start_time, end_time, 
+      update_time)
+    values (#{supervisorId,jdbcType=BIGINT}, #{supervisorName,jdbcType=VARCHAR}, #{supervisorStatus,jdbcType=VARCHAR}, 
+      #{supervisorInstitute,jdbcType=VARCHAR}, #{supervisorImage,jdbcType=VARCHAR}, #{supervisorDescription,jdbcType=VARCHAR}, 
+      #{supervisorEmail,jdbcType=VARCHAR}, #{supervisorTelephone,jdbcType=VARCHAR}, #{supervisorSchool,jdbcType=VARCHAR}, 
+      #{supervisorBriefIntro,jdbcType=VARCHAR}, #{supervisorAchievement,jdbcType=VARCHAR}, 
+      #{projectId,jdbcType=INTEGER}, #{logId,jdbcType=INTEGER}, #{supervisorRank,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProSupervisor">
+    insert into PRO_SUPERVISOR
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="supervisorId != null">
+        supervisor_id,
+      </if>
+      <if test="supervisorName != null">
+        supervisor_name,
+      </if>
+      <if test="supervisorStatus != null">
+        supervisor_status,
+      </if>
+      <if test="supervisorInstitute != null">
+        supervisor_institute,
+      </if>
+      <if test="supervisorImage != null">
+        supervisor_image,
+      </if>
+      <if test="supervisorDescription != null">
+        supervisor_description,
+      </if>
+      <if test="supervisorEmail != null">
+        supervisor_email,
+      </if>
+      <if test="supervisorTelephone != null">
+        supervisor_telephone,
+      </if>
+      <if test="supervisorSchool != null">
+        supervisor_school,
+      </if>
+      <if test="supervisorBriefIntro != null">
+        supervisor_brief_intro,
+      </if>
+      <if test="supervisorAchievement != null">
+        supervisor_achievement,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="logId != null">
+        log_id,
+      </if>
+      <if test="supervisorRank != null">
+        supervisor_rank,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="supervisorId != null">
+        #{supervisorId,jdbcType=BIGINT},
+      </if>
+      <if test="supervisorName != null">
+        #{supervisorName,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorStatus != null">
+        #{supervisorStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorInstitute != null">
+        #{supervisorInstitute,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorImage != null">
+        #{supervisorImage,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorDescription != null">
+        #{supervisorDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorEmail != null">
+        #{supervisorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorTelephone != null">
+        #{supervisorTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorSchool != null">
+        #{supervisorSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorBriefIntro != null">
+        #{supervisorBriefIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorAchievement != null">
+        #{supervisorAchievement,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="logId != null">
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="supervisorRank != null">
+        #{supervisorRank,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProSupervisorExample" resultType="java.lang.Long">
+    select count(*) from PRO_SUPERVISOR
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_SUPERVISOR
+    <set>
+      <if test="record.supervisorId != null">
+        supervisor_id = #{record.supervisorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.supervisorName != null">
+        supervisor_name = #{record.supervisorName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisorStatus != null">
+        supervisor_status = #{record.supervisorStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisorInstitute != null">
+        supervisor_institute = #{record.supervisorInstitute,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisorImage != null">
+        supervisor_image = #{record.supervisorImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisorDescription != null">
+        supervisor_description = #{record.supervisorDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisorEmail != null">
+        supervisor_email = #{record.supervisorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisorTelephone != null">
+        supervisor_telephone = #{record.supervisorTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisorSchool != null">
+        supervisor_school = #{record.supervisorSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisorBriefIntro != null">
+        supervisor_brief_intro = #{record.supervisorBriefIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisorAchievement != null">
+        supervisor_achievement = #{record.supervisorAchievement,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.logId != null">
+        log_id = #{record.logId,jdbcType=INTEGER},
+      </if>
+      <if test="record.supervisorRank != null">
+        supervisor_rank = #{record.supervisorRank,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_SUPERVISOR
+    set supervisor_id = #{record.supervisorId,jdbcType=BIGINT},
+      supervisor_name = #{record.supervisorName,jdbcType=VARCHAR},
+      supervisor_status = #{record.supervisorStatus,jdbcType=VARCHAR},
+      supervisor_institute = #{record.supervisorInstitute,jdbcType=VARCHAR},
+      supervisor_image = #{record.supervisorImage,jdbcType=VARCHAR},
+      supervisor_description = #{record.supervisorDescription,jdbcType=VARCHAR},
+      supervisor_email = #{record.supervisorEmail,jdbcType=VARCHAR},
+      supervisor_telephone = #{record.supervisorTelephone,jdbcType=VARCHAR},
+      supervisor_school = #{record.supervisorSchool,jdbcType=VARCHAR},
+      supervisor_brief_intro = #{record.supervisorBriefIntro,jdbcType=VARCHAR},
+      supervisor_achievement = #{record.supervisorAchievement,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=INTEGER},
+      log_id = #{record.logId,jdbcType=INTEGER},
+      supervisor_rank = #{record.supervisorRank,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProSupervisor">
+    update PRO_SUPERVISOR
+    <set>
+      <if test="supervisorName != null">
+        supervisor_name = #{supervisorName,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorStatus != null">
+        supervisor_status = #{supervisorStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorInstitute != null">
+        supervisor_institute = #{supervisorInstitute,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorImage != null">
+        supervisor_image = #{supervisorImage,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorDescription != null">
+        supervisor_description = #{supervisorDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorEmail != null">
+        supervisor_email = #{supervisorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorTelephone != null">
+        supervisor_telephone = #{supervisorTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorSchool != null">
+        supervisor_school = #{supervisorSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorBriefIntro != null">
+        supervisor_brief_intro = #{supervisorBriefIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorAchievement != null">
+        supervisor_achievement = #{supervisorAchievement,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="logId != null">
+        log_id = #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="supervisorRank != null">
+        supervisor_rank = #{supervisorRank,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where supervisor_id = #{supervisorId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProSupervisor">
+    update PRO_SUPERVISOR
+    set supervisor_name = #{supervisorName,jdbcType=VARCHAR},
+      supervisor_status = #{supervisorStatus,jdbcType=VARCHAR},
+      supervisor_institute = #{supervisorInstitute,jdbcType=VARCHAR},
+      supervisor_image = #{supervisorImage,jdbcType=VARCHAR},
+      supervisor_description = #{supervisorDescription,jdbcType=VARCHAR},
+      supervisor_email = #{supervisorEmail,jdbcType=VARCHAR},
+      supervisor_telephone = #{supervisorTelephone,jdbcType=VARCHAR},
+      supervisor_school = #{supervisorSchool,jdbcType=VARCHAR},
+      supervisor_brief_intro = #{supervisorBriefIntro,jdbcType=VARCHAR},
+      supervisor_achievement = #{supervisorAchievement,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=INTEGER},
+      log_id = #{logId,jdbcType=INTEGER},
+      supervisor_rank = #{supervisorRank,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where supervisor_id = #{supervisorId,jdbcType=BIGINT}
+  </update>
+</mapper>
