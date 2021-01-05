@@ -95,7 +95,6 @@ function fillProjectInfo(projectInfo) {
  * @param projectId
  */
 function viewProjectDetail(projectId) {
-    layer.msg("projectId:"+projectId);
     localStorage.setItem("projectId",projectId);
     //window.open("/html/webui/project/project_details_info.html");
     window.location.href = "/html/webui/project/project_details_info.html";

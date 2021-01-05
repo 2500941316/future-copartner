@@ -774,6 +774,7 @@
 }
 
 .ydc-btn button {
+    cursor: pointer;
     margin-left: 20px;
     width: 140px;
     border-radius: 4px;
@@ -785,6 +786,10 @@
     text-decoration: none;
     transition: all .2s;
     line-height: 1.3333333;
+}
+
+.ydc-btn button:hover{
+    background-color: #e63e3d;
 }
 
 .ydc-btn .btn-default {

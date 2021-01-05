@@ -76,9 +76,10 @@
                 <div class="jldiv">
                     <div class="nametxt">项目简述：</div>
                     <div class="inputtxt">
-                        <textarea id="description" name="" cols="" rows="" autocomplete="off"></textarea>
-                        <br /><span>最多可输入100个字</span>
+                        <textarea id="description" name="" cols="" rows="" autocomplete="off" onkeyUp="textLimitCheck(this, 15);"></textarea>
+                        <br /><span id="messageCount">0</span>/100
                     </div>
+
                 </div>
 
                 <div class="clear"></div>
@@ -120,8 +121,8 @@
             var projectPeople=$("#projectPeople").val()
             var description=$("#description").val()
 
-        if (projectType.length === 0 || starttime.length === 0 || mainPeople.length === 0 || projectName.length === 0) {
-            layer.msg('请填写完整信息！');
+        if(projectName.length === 0 || projectType === null || starttime.length === 0 || mainPeople.length === 0){
+            top.layer.msg('请填写完整信息！');
             return;
         }
 
@@ -162,7 +163,13 @@
         });
     })
 
-
+    function textLimitCheck(thisArea, maxLength) {
+        if (thisArea.value.length > maxLength) {
+            thisArea.value = thisArea.value.substring(0, 100);
+            thisArea.focus();
+        }
+        messageCount.innerText = thisArea.value.length;
+    }
 
 </script>
 

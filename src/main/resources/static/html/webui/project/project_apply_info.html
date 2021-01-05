@@ -37,8 +37,8 @@
                <div class="jobsub">项目负责人： <span id="mainPeople"> </span></div>
                <div class="jobsub">项目成员： <span id="projectPeople"></span></div>
                <div class="jobsub">开始时间： <span id="starttime"></span></div>
-               <div class="jobsub">项目计划书： <span id="planUrl"></span></div>
-               <div class="jobsub">项目视频： <span id="videoUrl"></span></div>
+               <div class="jobsub">项目计划书： <a id="planUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
+               <div class="jobsub">项目视频： <a id="videoUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
                <div class="jobsub">项目辅导老师： <span id="projectTeacher"></span></div>
                <div class="jobsub">项目简述： <span id="description"></span></div>
             </div>
@@ -61,10 +61,10 @@
       var id = {projectId: projectId};
       if (projectId != null) {
          $.ajax({
-            type: "POST",
-            url: "/user/project/searchProjectById",
+            type: "GET",
+            url: "/user/project/getProjectById",
             contentType: "application/json",
-            data: JSON.stringify(id),
+            data: "projectId="+projectId,
             success: function (data) {
                if (data.code === 200) {
                   console.log("通过projectId查询成功")
@@ -87,8 +87,13 @@
       document.getElementById("mainPeople").innerText = projectInfo.mainPeople;
       document.getElementById("projectPeople").innerHTML = projectInfo.projectPeople;
       document.getElementById("starttime").innerText = projectInfo.starttime;
-      document.getElementById("planUrl").innerText = projectInfo.planUrl;
-      document.getElementById("videoUrl").innerText = projectInfo.videoUrl;
+      projectInfo.planUrl == "null" ?
+              document.getElementById("planUrl").innerText = "无" :
+              document.getElementById("planUrl").href = projectInfo.planUrl;
+      projectInfo.videoUrl == "null" ?
+              document.getElementById("videoUrl").innerText = "无" :
+              document.getElementById("videoUrl").href = projectInfo.videoUrl;
+      //document.getElementById("videoUrl").innerText = projectInfo.videoUrl;
       document.getElementById("projectTeacher").innerText = projectInfo.projectTeacher;
       document.getElementById("description").innerText = projectInfo.description;
    }

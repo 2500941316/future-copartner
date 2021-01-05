@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>个人工作台</title>
+    <script src='/html/webui/header/header.js'></script>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+    <script type="text/javascript" src="/html/managerui/js/leasson_manager.js"></script>
+</head>
+<body>
+<!--引入页头页面-->
+<div id="hy_con">
+    <div id="con_lf">
+        <h2>管理列表</h2>
+        <ul>
+            <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
+            <li class="lf_li1"><a href="#">项目管理</a></li>
+            <li class="lf_li1"><a href="#">新闻管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
+        </ul>
+    </div>
+    <div id="con_rh">
+        <div class="con_rh_con">
+            <p class="rh_title">导师管理</p>
+            <div class="layui-tab" lay-filter="demo">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">导师信息发布</li>
+                    <li class="layui-this">导师信息管理</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+
+                        <div class="perRightcon">
+                            <div class="ydc-column ydc-column-8">
+                                <div class="ydc-release-content">
+                                    <div class="ydc-tabPanel ydc-tabPanel-release">
+                                        <div class="ydc-panes">
+                                            <div class="ydc-pane" style="display:block;">
+                                                <div class="ydc-form-city" style="margin-top: 5px">
+                                                    <div class="layui-row">
+                                                        <div class="layui-col-xs9">
+                                                            <div class="aui-card-form-item">
+                                                                <label class="aui-card-form-label">导师名称:</label>
+                                                                <div class="aui-card-form-input">
+                                                                    <input type="text" style="width: 300px" required
+                                                                           id="supervisorName"
+                                                                           lay-verify="required" placeholder="请输入导师名称"
+                                                                           autocomplete="off" class="layui-input">
+                                                                </div>
+                                                            </div>
+                                                            <div class="aui-card-form-item">
+                                                                <label class="aui-card-form-label">所在学校:</label>
+                                                                <div class="aui-card-form-input">
+                                                                    <input type="text" style="width: 300px" required
+                                                                           id="supervisorSchool"
+                                                                           lay-verify="required"
+                                                                           placeholder="请输入学校名称"
+                                                                           autocomplete="off" class="layui-input">
+                                                                </div>
+                                                            </div>
+                                                            <div class="aui-card-form-item">
+                                                                <label class="aui-card-form-label">所属学院:</label>
+                                                                <div class="aui-card-form-input">
+                                                                    <input type="text" style="width: 300px" required
+                                                                           id="supervisorInstitute"
+                                                                           lay-verify="required"
+                                                                           placeholder="请输入学院名称"
+                                                                           autocomplete="off" class="layui-input">
+                                                                </div>
+                                                            </div>
+                                                            <div class="aui-card-form-item">
+                                                                <label class="aui-card-form-label">Email:</label>
+                                                                <div class="aui-card-form-input">
+                                                                    <input type="text" style="width: 300px" required
+                                                                           id="supervisorEmail"
+                                                                           lay-verify="required"
+                                                                           placeholder="Email"
+                                                                           autocomplete="off" class="layui-input">
+                                                                </div>
+                                                            </div>
+                                                            <div class="aui-card-form-item">
+                                                                <label class="aui-card-form-label">状态:</label>
+                                                                <div class="aui-card-form-input" >
+                                                                    <select id="supervisorStatus" style="width: 300px">
+                                                                        <option>项目指导中</option>
+                                                                        <option>项目已完成</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="aui-card-form-item">
+                                                                <label class="aui-card-form-label">展览页简述:</label>
+                                                                <div class="aui-card-form-input">
+                                                                    <input type="text" style="width: 400px" required
+                                                                           id="supervisorDescription"
+                                                                           lay-verify="required"
+                                                                           placeholder="展览页简述"
+                                                                           autocomplete="off" class="layui-input" >
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="layui-col-xs3">
+                                                            <div class="grid-demo">
+                                                                <div class="layui-upload">
+                                                                    <div class="layui-upload-list">
+                                                                        <img class="layui-upload-img"
+                                                                             style="height: 140px;width: 200px;"
+                                                                             id="imgId">
+                                                                        <p id="demoText"></p>
+                                                                    </div>
+                                                                    <button type="button" class="layui-btn" id="upImageBtn">
+                                                                        上传导师照片
+                                                                    </button>
+                                                                    <input id="picture" style="display: none"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="ydc-release-form-text">
+                                                    <textarea class="layui-textarea" id="richTextSupervisor"
+                                                              style="display: none">请填写导师简介，注意排版和布局</textarea>
+                                                </div>
+
+                                                <div class="ydc-release-form-text">
+                                                    <div class="ydc-btn" style="height: 50px;padding-top: 20px;">
+                                                        <button id="publishSup" class="btn">发布</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--导师信息管理模块-->
+                    <div class="layui-tab-item">
+                       导师信息管理
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--引入尾部页面-->
+<div id="footer"></div>
+
+
+<script type="application/javascript">
+    //导师图片上传方法
+    layui.use('upload', function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#upImageBtn'
+            , url: '#'
+            , before: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#imgId').attr('src', result); //图片链接（base64）
+                });
+            }, done: function (res) {
+                if (res.data.src !== null) {
+                    $("#picture").val(res.data.src);
+                    return layer.msg('上传成功');
+                }
+            }, error: function () {
+            }
+        });
+    })
+
+    //导师信息发布，富文本图片上传等配置
+    layui.use('layedit', function () {
+        var layedit = layui.layedit;
+        /*layedit.set({
+            uploadImage: {
+                url: '#' //接口url
+                , type: 'POST' //默认post
+            }
+        });*/
+        var editor = layedit.build('richTextSupervisor', {
+            height: 170
+        });
+
+        //点击发布按钮的操作
+        $("#publishSup").click(function () {
+            var supervisorName = $("#supervisorName").val();
+            var supervisorSchool = $("#supervisorSchool").val();
+            var supervisorInstitute = $("#supervisorInstitute").val();
+            var supervisorEmail = $("#supervisorEmail").val();
+            var supervisorStatus = $("#supervisorStatus option:selected").val();
+            var supervisorDescription = $("#supervisorDescription").val();
+            var supervisorImage = $("#picture").val();
+            var supervisorBriefIntro = layedit.getContent(editor);
+
+            if (supervisorName.length === 0 || supervisorSchool.length === 0 || supervisorInstitute.length === 0 || supervisorEmail.length === 0
+                || supervisorStatus.length === 0 || supervisorDescription.length === 0 || supervisorBriefIntro.length === 0) { // || supervisorImage.length === 0
+                top.layer.msg('请填写完整信息！');
+                return;
+            }
+            var data = {
+                "supervisorName": supervisorName,
+                "supervisorSchool": supervisorSchool,
+                "supervisorInstitute": supervisorInstitute,
+                "supervisorEmail": supervisorEmail,
+                "supervisorStatus": supervisorStatus,
+                "supervisorDescription": supervisorDescription,
+                "supervisorImage": supervisorImage,
+                "supervisorBriefIntro": supervisorBriefIntro
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/manager/supervisor/publishSupervisorInfo",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.code === 200) {
+                        layer.msg('发布成功', {
+                            icon: 16
+                            , shade: 0.01
+                        });
+                    } else
+                        layer.msg('网络异常，请稍后重试');
+                },
+                error: function (data) {
+                    layer.msg('参数异常');
+                }
+            });
+        })
+    });
+
+
+</script>
+
+</body>
+</html>
