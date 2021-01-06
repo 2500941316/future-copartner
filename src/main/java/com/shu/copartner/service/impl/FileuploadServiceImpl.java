@@ -89,7 +89,7 @@ public class FileuploadServiceImpl implements FileuploadService {
     }
 
     /**
-     * 上传计划书
+     * 上传项目计划书
      *
      * @param uploadfile
      * @return
@@ -117,7 +117,7 @@ public class FileuploadServiceImpl implements FileuploadService {
     }
 
     /**
-     * 上传视视频
+     * 上传项目视频
      *
      * @param uploadfile
      * @param projectId
@@ -144,6 +144,30 @@ public class FileuploadServiceImpl implements FileuploadService {
             return TableModel.success(map, map.size());
         } else {
             return TableModel.error("网络异常");
+        }
+    }
+
+
+    /**
+     * 上传导师照片
+     * @param uploadfile
+     * @return
+     */
+    @Override
+    public TableModel supervisorImageUpload(MultipartFile uploadfile) {
+        try {
+            TableModel tableModel = new TableModel();
+            String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String imageUrl = "hahahhaha";
+            Map<String, String> map = new HashMap<>();
+            map.put("src", Constants.FILEURL_FIRSTNAME + imageUrl);
+            map.put("title", uploadfile.getOriginalFilename());
+            tableModel.setCode(0);
+            tableModel.setData(map);
+            return tableModel;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_FILEUPLOAD_ERROR.getEcode());
         }
     }
 }

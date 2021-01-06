@@ -4,47 +4,28 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>个人工作台</title>
-    <script src='/html/webui/header/header.js'></script>
+
     <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
     <link rel="stylesheet" type="text/css" href="/html/managerui/js/layui/css/layui.css"/>
     <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
-    <script type="text/javascript" src="/html/managerui/js/leasson_manager.js"></script>
+    <script type="text/javascript" src="/html/webui/js/jquery-3.5.1.min.js"></script>
+
 </head>
 <body>
-<!--引入页头页面-->
-<div id="hy_con">
-    <div id="con_lf">
-        <h2>管理列表</h2>
-        <ul>
-            <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
-            <li class="lf_li1"><a href="#">项目管理</a></li>
-            <li class="lf_li1"><a href="#">新闻管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
-        </ul>
-    </div>
-    <div id="con_rh">
-        <div class="con_rh_con">
-            <p class="rh_title">导师管理</p>
-            <div class="layui-tab" lay-filter="demo">
-                <ul class="layui-tab-title">
-                    <li class="layui-this">导师信息发布</li>
-                    <li class="layui-this" onclick="supervisorInfoManage()">导师信息管理</li>
-                </ul>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">
 
-                        <div class="perRightcon">
+<div id="hy_con">
+    <div class="perRightcon">
+
                             <div class="ydc-column ydc-column-8">
                                 <div class="ydc-release-content">
                                     <div class="ydc-tabPanel ydc-tabPanel-release">
                                         <div class="ydc-panes">
                                             <div class="ydc-pane" style="display:block;">
-                                                <div class="ydc-form-city" style="margin-top: 5px">
-                                                    <div class="layui-row">
-                                                        <div class="layui-col-xs9">
+                                                <div class="ydc-form-city" >
+                                                    <div class="layui-row" style=" padding: 0 40px">
+                                                        <div class="layui-col-xs8" >
                                                             <div class="aui-card-form-item">
                                                                 <label class="aui-card-form-label">导师名称:</label>
                                                                 <div class="aui-card-form-input">
@@ -105,7 +86,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="layui-col-xs3">
+                                                        <div class="layui-col-xs4">
                                                             <div class="grid-demo">
                                                                 <div class="layui-upload">
                                                                     <div class="layui-upload-list">
@@ -126,14 +107,14 @@
                                                 </div>
 
 
-                                                <div class="ydc-release-form-text">
+                                                <div class="ydc-release-form-text" style="padding: 0 40px">
                                                     <textarea class="layui-textarea" id="richTextSupervisor"
-                                                              style="display: none">请填写导师简介，注意排版和布局</textarea>
+                                                              style="display: none"  placeholder="展览页简述"><!--请填写导师简介，注意排版和布局--></textarea>
                                                 </div>
 
                                                 <div class="ydc-release-form-text">
-                                                    <div class="ydc-btn" style="height: 50px;padding-top: 20px;">
-                                                        <button id="publishSup" class="btn">发布</button>
+                                                    <div class="ydc-btn" style="height: 50px;padding: 0;margin-left: 40px">
+                                                        <button id="publishSup" class="btn">提交修改</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,31 +123,14 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!--导师信息管理模块-->
-                    <div class="layui-tab-item">
-                        <!--引入layui表格-->
-                        <table id="supervisor" lay-filter="supervisorTable"></table>
-
-                        <script type="text/html" id="supervisorOperate">
-                            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-                            <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
-                        </script>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
-<!--引入尾部页面-->
-<div id="footer"></div>
-
-
 <script type="application/javascript">
+
+    $(function () {
+        searchSupervisorDetail();
+    })
+
     //导师图片上传方法
     layui.use('upload', function () {
         var $ = layui.jquery
@@ -189,146 +153,31 @@
         });
     })
 
+    //var layedit ="";
     //导师信息发布，富文本图片上传等配置
-    layui.use('layedit', function () {
-        var layedit = layui.layedit;
-        /*layedit.set({
-            uploadImage: {
-                url: '#' //接口url
-                , type: 'POST' //默认post
-            }
-        });*/
+   /* layui.use('layedit', function () {
+        layedit = layui.layedit;
+        //富文本图片不可用
         var editor = layedit.build('richTextSupervisor', {
             height: 170
         });
 
-        //点击发布按钮的操作
-        $("#publishSup").click(function () {
-            var supervisorName = $("#supervisorName").val();
-            var supervisorSchool = $("#supervisorSchool").val();
-            var supervisorInstitute = $("#supervisorInstitute").val();
-            var supervisorEmail = $("#supervisorEmail").val();
-            var supervisorStatus = $("#supervisorStatus option:selected").val();
-            var supervisorDescription = $("#supervisorDescription").val();
-            var supervisorImage = $("#picture").val();
-            var supervisorBriefIntro = layedit.getContent(editor);
 
-            if (supervisorName.length === 0 || supervisorSchool.length === 0 || supervisorInstitute.length === 0 || supervisorEmail.length === 0
-                || supervisorStatus.length === 0 || supervisorDescription.length === 0 || supervisorBriefIntro.length === 0) { // || supervisorImage.length === 0
-                top.layer.msg('请填写完整信息！');
-                return;
-            }
-            var data = {
-                "supervisorName": supervisorName,
-                "supervisorSchool": supervisorSchool,
-                "supervisorInstitute": supervisorInstitute,
-                "supervisorEmail": supervisorEmail,
-                "supervisorStatus": supervisorStatus,
-                "supervisorDescription": supervisorDescription,
-                "supervisorImage": supervisorImage,
-                "supervisorBriefIntro": supervisorBriefIntro
-            };
+    })*/
 
-            $.ajax({
-                type: "POST",
-                url: "/manager/supervisor/publishSupervisorInfo",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (data) {
-                    if (data.code === 200) {
-                        layer.msg('发布成功', {
-                            icon: 16
-                            , shade: 0.01
-                        });
-                    } else
-                        layer.msg('网络异常，请稍后重试');
-                },
-                error: function (data) {
-                    layer.msg('参数异常');
-                }
-            });
-        })
-    });
 
     /**
-     *导师信息管理表格
+     * 根据id查询导师信息
      */
-    function supervisorInfoManage(){
-        layui.use('table', function () {
-            var table = layui.table;
-            var data = [{
-                supervisorId: "1",
-                supervisorName: '张三',
-                supervisorInstitute: "悉尼工商学院",
-                supervisorEmail: '1750806306@qq.com',
-                updateTime: '2020-01-06'
-            }];
-            // 项目申请审批表格
-            table.render({
-                elem: '#supervisor'
-                , url: '/manager/supervisor/searchAllSupervisor'
-                //,data: data
-                , title: '导师信息管理表'
-                , cols: [[
-                    {
-                        field: 'supervisorId', title: 'ID', fixed: 'left', width: 80,unresize: true, sort: true, align: 'center'
-                    }
-                    , {field: 'supervisorName', title: '导师名称', align: 'center'}
-                    , {field: 'supervisorInstitute', title: '学院', align: 'center'}
-                    , {field: 'supervisorEmail', title: 'Email',width: 150, sort: true, align: 'center'}
-                    , {field: 'updateTime', title: '更新时间', align: 'center'}
-                    , {fixed: 'right', title: '操作', toolbar: '#supervisorOperate', width: 180, align: 'center'}
-                ]]
-                , page: true
-            });
-            //监听操作栏
-            table.on('tool(supervisorTable)', function (obj) {
-                var supervisorData = obj.data;
-                if (obj.event === 'detail') {
-                    viewSupervisorInfo(supervisorData.supervisorId);
-                } else if (obj.event === 'edit') {
-                    editSupervisorInfo(supervisorData.supervisorId);
-                } else if (obj.event === 'delete') {
-                    layer.confirm('确认删除？', function (index) {
-                        deleteSupervisorInfo(supervisorData.supervisorId);
-                        layer.close(index);
-                        obj.del();
-                    });
-                }
-            });
-        })
-    }
-
-    /**
-     * 对话框查看导师信息
-     * @param supervisorId
-     */
-    function viewSupervisorInfo(supervisorId) {
-        localStorage.setItem("supervisorId", supervisorId);
-        layui.use("layer", function () {
-            var layer = layui.layer;
-            layer.open({
-                type: 2,
-                area: ["90%", "100%"],
-                fixed: false, //不固定
-                maxmin: true,
-                content: "/html/webui/supervisor/supervisor_detail.html"
-            });
-        });
-    }
-
-    /**
-     * 删除导师信息
-     * @param supervisorId
-     */
-    function deleteSupervisorInfo(supervisorId) {
+    function searchSupervisorDetail() {
+        var supervisorId = localStorage.getItem("supervisorId");
         $.ajax({
-            url: "/manager/supervisor/deleteSuperviosrById",
+            url: "/user/supervisor/searchSuperviosrById",
             type: "GET",
             data: "supervisorId="+supervisorId,
             success: function (res) {
                 if(res.code = 200){
-                    layer.msg("删除成功！",{shade: 0.01})
+                    fillSupervisorDetail(res.data[0]);
                 }else{
                     layer.msg("网络异常！");
                 }
@@ -336,24 +185,92 @@
         })
     }
 
+    // 全局变量用于接收layui.layedit
+    var layedit = null;
     /**
-     * 修改导师信息
-     * @param supervisorId
+     * 填充导师详细信息
+     * @param supervisorInfo
      */
-    function editSupervisorInfo(supervisorId) {
-        localStorage.setItem("supervisorId",supervisorId);
-        layui.use("layer", function () {
-            var layer = layui.layer;
-            layer.open({
-                title:"导师信息修改",
-                type: 2,
-                area: ["70%", "100%"],
-                fixed: false, //不固定
-                maxmin: true,
-                content: "/html/managerui/html/supervisor/edit_supervisor.html"
+    function fillSupervisorDetail(supervisorInfo) {
+        $("#supervisorName").val(supervisorInfo.supervisorName);
+        $("#supervisorSchool").val(supervisorInfo.supervisorSchool);
+        $("#supervisorInstitute").val(supervisorInfo.supervisorInstitute);
+        $("#supervisorEmail").val(supervisorInfo.supervisorEmail);
+        $("#supervisorDescription").val(supervisorInfo.supervisorDescription);
+        $("#supervisorStatus").val(supervisorInfo.supervisorStatus);
+        document.getElementById("imgId").src = supervisorInfo.supervisorImage; // src格式
+        $("#picture").val(supervisorInfo.supervisorImage);
+       //document.getElementById("richTextSupervisor").innerHTML = supervisorInfo.supervisorBriefIntro; // html格式
+
+        layui.use('layedit', function () {
+            layedit = layui.layedit;
+            var editor = layedit.build('richTextSupervisor', {
+                height: 170
             });
-        });
+            layedit.setContent(editor,supervisorInfo.supervisorBriefIntro);
+
+            $("#publishSup").click(function () {
+                var richText = layedit.getContent(editor);
+                updateSupervisorInfo(richText);
+
+
+            })
+        })
     }
+
+    /**
+     * 提交修改
+     */
+    function updateSupervisorInfo(richText) {
+        var supervisorName = $("#supervisorName").val();
+        var supervisorSchool = $("#supervisorSchool").val();
+        var supervisorInstitute = $("#supervisorInstitute").val();
+        var supervisorEmail = $("#supervisorEmail").val();
+        var supervisorStatus = $("#supervisorStatus option:selected").val();
+        var supervisorDescription = $("#supervisorDescription").val();
+        var supervisorImage = $("#picture").val();
+
+        var supervisorBriefIntro = richText; // 富文本的值
+
+        if (supervisorName.length === 0 || supervisorSchool.length === 0 || supervisorInstitute.length === 0 || supervisorEmail.length === 0
+            || supervisorStatus.length === 0 || supervisorDescription.length === 0 || supervisorBriefIntro.length === 0) { // || supervisorImage.length === 0
+            top.layer.msg('请填写完整信息！');
+            return;
+        }
+        var data = {
+            "supervisorId": localStorage.getItem("supervisorId"),
+            "supervisorName": supervisorName,
+            "supervisorSchool": supervisorSchool,
+            "supervisorInstitute": supervisorInstitute,
+            "supervisorEmail": supervisorEmail,
+            "supervisorStatus": supervisorStatus,
+            "supervisorDescription": supervisorDescription,
+            "supervisorImage": supervisorImage,
+            "supervisorBriefIntro": supervisorBriefIntro
+        };
+        console.log(data);
+
+        $.ajax({
+            type: "POST",
+            url: "/manager/supervisor/updateSupervisorInfo",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (data.code === 200) {
+                    layer.msg('修改成功', {
+                        icon: 16
+                        , shade: 0.01
+                    });
+                } else
+                    layer.msg('网络异常，请稍后重试');
+            },
+            error: function (data) {
+                layer.msg('参数异常');
+            }
+        });
+
+    }
+
 
 </script>
 

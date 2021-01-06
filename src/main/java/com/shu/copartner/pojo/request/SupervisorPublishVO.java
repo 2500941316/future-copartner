@@ -22,7 +22,7 @@ public class SupervisorPublishVO {
     private String supervisorInstitute;
 
     private String supervisorImage;
-    @NotBlank(message = "首页简述不能为空")
+    @NotBlank(message = "推荐页简述不能为空")
     private String supervisorDescription;
     @NotBlank(message = "导师邮箱不能为空")
     private String supervisorEmail;
@@ -53,6 +53,6 @@ public class SupervisorPublishVO {
     SupervisorPublishVO(){
         this.updateTime = new Date();
         this.isDeleted = 0;
-
+       // this.startTime = new Date();
     }
 }

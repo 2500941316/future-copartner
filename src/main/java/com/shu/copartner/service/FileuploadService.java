@@ -38,4 +38,11 @@ public interface FileuploadService {
      */
     TableModel managerVideoUploadFile(MultipartFile uploadfile, String projectId) throws IOException;
 
+    /**
+     * 上传导师照片
+     * @param uploadfile
+     * @return
+     */
+    TableModel supervisorImageUpload(MultipartFile uploadfile);
+
 }

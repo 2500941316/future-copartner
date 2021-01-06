@@ -1,5 +1,7 @@
 package com.shu.copartner.service.impl.manager;
 
+import com.shu.copartner.exceptions.BusinessException;
+import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ActRuVariableMapper;
 import com.shu.copartner.mapper.ProApplicationMapper;
 import com.shu.copartner.mapper.ProProjectMapper;
@@ -85,13 +87,23 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         return TableModel.tableSuccess(arrayList, (int)count);
     }*/
 
+    /**
+     * 查询待审批羡慕
+     * @param page
+     * @return
+     */
     @Override
     public TableModel searchProject(int page) {
-        // 查询出所有待审批的项目数据
-        String[] tokens = {"21","31","41","51"};
-        //List<ProProject> auditProject = proProjectMapper.selectProjectByToken(tokens);
-        List<ProApplication> auditProject = proApplicationMapper.selectAuditInfo(tokens);
-        return TableModel.tableSuccess(auditProject, (int)auditProject.size());
+        try{
+            // 查询出所有待审批的项目数据
+            String[] tokens = {"21","31","41","51"};
+            //List<ProProject> auditProject = proProjectMapper.selectProjectByToken(tokens);
+            List<ProApplication> auditProject = proApplicationMapper.selectAuditInfo(tokens);
+            return TableModel.tableSuccess(auditProject, (int)auditProject.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
 /**
