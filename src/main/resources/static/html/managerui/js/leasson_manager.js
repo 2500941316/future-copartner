@@ -83,12 +83,14 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
         elem: '#vedio'
         , url: '/manager/leasson/leassonVedioUpload' //改成您自己的上传接口
         , data: {
-            course_vedio_id: localStorage.getItem("course_vedio_id"),
-            fileUpload_type: "vedio"
+            courseVedioId: localStorage.getItem("course_vedio_id"),
+            fileUploadType: "vedio"
         }
         , accept: 'file',
         before: function (obj) {
+            console.log(obj)
             layer.load(2);
+
         },
         done: function (res) {
             layer.closeAll('loading');
@@ -102,14 +104,15 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
     //上传ppt
     upload.render({
         elem: '#ppt'
-        , url: '/manager/leasson/leassonVedioUpload' //改成您自己的上传接口
+        , url: '/manager/leasson/leassonVedioUpload'
         , data: {
             course_vedio_id: localStorage.getItem("course_vedio_id"),
-            fileUpload_type: "ppt"
+            fileUploadType: "ppt"
         },
         accept: 'file',
         before: function (obj) {
             layer.load(2);
+
         },
         done: function (res) {
             layer.closeAll('loading');
@@ -126,6 +129,7 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
         var data = obj.data;
         var layEvent = obj.event;
         if (obj.data.courseVedioId != null) {
+
             localStorage.setItem("course_vedio_id", obj.data.courseVedioId);
             if (layEvent === 'ppt') {
                 $("#ppt").click();
