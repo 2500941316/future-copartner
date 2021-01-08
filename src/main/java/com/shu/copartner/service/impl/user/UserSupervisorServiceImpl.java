@@ -2,6 +2,8 @@ package com.shu.copartner.service.impl.user;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.shu.copartner.exceptions.BusinessException;
+import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProSupervisorMapper;
 import com.shu.copartner.pojo.ProSupervisor;
 import com.shu.copartner.service.UserSupervisorService;
@@ -35,10 +37,15 @@ public class UserSupervisorServiceImpl implements UserSupervisorService {
      */
     @Override
     public TableModel searchSupervisor(int currentPage) {
-        PageHelper.startPage(currentPage,6);
-        List<ProSupervisor> proSupervisors = this.proSupervisorMapper.selectAllSupervisor();
-        PageInfo pageInfo = new PageInfo(proSupervisors);
-        return TableModel.success(proSupervisors,(int)pageInfo.getTotal());
+        try{
+            PageHelper.startPage(currentPage,6);
+            List<ProSupervisor> proSupervisors = this.proSupervisorMapper.selectAllSupervisor();
+            PageInfo pageInfo = new PageInfo(proSupervisors);
+            return TableModel.success(proSupervisors,(int)pageInfo.getTotal());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
     /**
@@ -48,8 +55,13 @@ public class UserSupervisorServiceImpl implements UserSupervisorService {
      */
     @Override
     public TableModel searchSupervisorByName(String supervisorName) {
-        List<ProSupervisor> proSupervisors = this.proSupervisorMapper.selectSupervisorByName(supervisorName);
-        return TableModel.success(proSupervisors,proSupervisors.size());
+        try{
+            List<ProSupervisor> proSupervisors = this.proSupervisorMapper.selectSupervisorByName(supervisorName);
+            return TableModel.success(proSupervisors,proSupervisors.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
     /**
@@ -59,10 +71,15 @@ public class UserSupervisorServiceImpl implements UserSupervisorService {
      */
     @Override
     public TableModel searchSupervisorById(String supervisorId) {
-        ProSupervisor proSupervisor = this.proSupervisorMapper.selectByPrimaryKey(Long.parseLong(supervisorId));
-        List<ProSupervisor> proSupervisors = new ArrayList<>();
-        proSupervisors.add(proSupervisor);
-        return TableModel.success(proSupervisors,proSupervisors.size());
+        try{
+            ProSupervisor proSupervisor = this.proSupervisorMapper.selectByPrimaryKey(Long.parseLong(supervisorId));
+            List<ProSupervisor> proSupervisors = new ArrayList<>();
+            proSupervisors.add(proSupervisor);
+            return TableModel.success(proSupervisors,proSupervisors.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
     /**
@@ -72,8 +89,13 @@ public class UserSupervisorServiceImpl implements UserSupervisorService {
      */
     @Override
     public TableModel searchSupervisorProject(String supervisorId) {
-        List<ProSupervisor> proSupervisors = this.proSupervisorMapper.selectSupervisorProject(Long.parseLong(supervisorId));
-        return TableModel.success(proSupervisors,proSupervisors.size());
+        try{
+            List<ProSupervisor> proSupervisors = this.proSupervisorMapper.selectSupervisorProject(Long.parseLong(supervisorId));
+            return TableModel.success(proSupervisors,proSupervisors.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
     /**
@@ -83,8 +105,13 @@ public class UserSupervisorServiceImpl implements UserSupervisorService {
      */
     @Override
     public TableModel searchSupervisorAchievement(String supervisorId) {
-        List<ProSupervisor> proSupervisors = this.proSupervisorMapper.selectSupervisorAchievement(Long.parseLong(supervisorId));
-        return TableModel.success(proSupervisors,proSupervisors.size());
+        try{
+            List<ProSupervisor> proSupervisors = this.proSupervisorMapper.selectSupervisorAchievement(Long.parseLong(supervisorId));
+            return TableModel.success(proSupervisors,proSupervisors.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
 }

@@ -170,7 +170,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.shu.copartner.pojo.ProSupervisor">
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProSupervisor" keyProperty="supervisorId" useGeneratedKeys="true">
     insert into PRO_SUPERVISOR (supervisor_id, supervisor_name, supervisor_status, 
       supervisor_institute, supervisor_image, supervisor_description, 
       supervisor_email, supervisor_telephone, supervisor_school, 
@@ -186,7 +186,7 @@
       #{isDeleted,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProSupervisor">
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProSupervisor" keyProperty="supervisorId" useGeneratedKeys="true">
     insert into PRO_SUPERVISOR
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="supervisorId != null">
