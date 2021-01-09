@@ -45,7 +45,7 @@
                         <div class="ydc-release-form-group-input">
                             <input type="text" name="title" lay-verify="title" autocomplete="off"
                                    placeholder="文章关键词控制再30字以内，每个关键词用空格隔开" id="keywords"
-                                   class="layui-input">
+                                   class="layui-input"/>
 
                         </div>
                         <div class="ydc-form-city" style="margin-top: 5px">
@@ -88,8 +88,9 @@
 
 <script type="text/javascript">
 
-    layui.use('layedit', function () {
+    layui.use(['layer', 'layedit'], function () {
         var layedit = layui.layedit;
+        var layer = layui.layer;
         layedit.set({
             uploadImage: {
                 url: '/user/news/newImagesUpload' //接口url
@@ -97,8 +98,7 @@
             }
         });
         var editor = layedit.build('LAY_demo1', {
-          //  tool: ['face', 'link', 'unlink', '|', 'left', 'center', 'right']
-             height: 400
+            height: 400
         })
 
         //点击发布按钮的操作
@@ -122,20 +122,21 @@
                 "newsCategory": category,
                 "istopping": isTop
             };
-
+            layer.load(2);
             $.ajax({
                 type: "POST",
                 url: "/user/news/publisNews",
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (data) {
+                    layer.closeAll('loading');
                     if (data.code === 200) {
                         layer.msg('发布成功！');
                     } else
                         layer.msg('网络异常，请稍后重试');
                 },
                 error: function (data) {
-                    console.log(data)
+                    layer.closeAll('loading');
                     layer.msg('参数异常');
                 }
             });
