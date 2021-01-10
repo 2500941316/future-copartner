@@ -100,6 +100,8 @@ body{ width:100%; min-width:1200px; margin:0 auto; font-size:12px; font-family:"
 
 .jobtypeBox .DivLeft .DivLeft_1{width: 100%;text-align: center;margin-top: 10px;font-size: 14px; font-family: "微软雅黑";}
 .jobtypeBox .DivLeft .DivLeft_1 .gz1{ float:left;width: 110px;height: 25px;line-height: 25px;background: #50BA8C;text-align: center;cursor: pointer;}
+.jobtypeBox .DivLeft .DivLeft_1 .gz1:hover{background-color: #39b87e
+}
 .jobtypeBox .DivLeft .DivLeft_1 .gz1 a{color: #FFF;}
 .jobtypeBox .DivLeft .DivLeft_1 .gz2{ float:left;width: 120px;height: 25px;line-height: 25px;border: 1px solid #E7E7E7;margin-left: 5px;}
 .jobtypeBox .DivLeft .DivLeft_1 .gz2 span{color: #F96B2D;}
@@ -115,10 +117,11 @@ body{ width:100%; min-width:1200px; margin:0 auto; font-size:12px; font-family:"
 .jobtypeBox .DivLeft .DivLeft_3 p a{color: #004694;}
 
 .jobtypeBox .DivLeft .DivLeft_4{margin-top: 25px;border-top: 1px solid #E8E6E6;}
-.jobtypeBox .DivLeft .DivLeft_4 h2{font-size: 14px;font-family: "微软雅黑"; font-weight: normal;width: 98px;margin: 0 auto;margin-top: -12px;background: #F3F5F8; padding: 0px 10px;}
+.jobtypeBox .DivLeft .DivLeft_4 h2{font-size: 14px;font-family: "微软雅黑"; font-weight: normal;width: 120px;margin: 0 auto;margin-top: -12px;background: #F3F5F8; padding: 0px 10px;}
 .jobtypeBox .DivLeft .DivLeft_4 h2 span{ display:inline-block; background: url(../images/47.png) no-repeat;width: 25px;height: 25px;vertical-align: middle;}
 .jobtypeBox .DivLeft .DivLeft_4 p{line-height: 30px;width: 220px;height: 30px;text-align: center;border: 1px solid #E8E6E6;margin: 0 auto;margin-top: 15px;}
-.jobtypeBox .DivLeft .DivLeft_4 p a{ color:#000}
+.jobtypeBox .DivLeft .DivLeft_4 p:hover{background-color: #c8c8c8}
+.jobtypeBox .DivLeft .DivLeft_4  p a{ color:#000}
 
 .jobtypeBox .DivRight{width: 790px;float: right;background: #FFF;}
 .jobtypeBox .DivRight .DivRight_1{margin-top: 5px;float: right;line-height: 20px;color: #898989;}
@@ -140,6 +143,7 @@ body{ width:100%; min-width:1200px; margin:0 auto; font-size:12px; font-family:"
 
 .jobtypeBox .DivRight .DivRight_2 .divJob_2{ font-family: "微软雅黑";padding: 20px 0px;}
 .jobtypeBox .DivRight .DivRight_2 .divJob_2 .divJob_2_1{ float:left;background: #F96B2D;font-size: 16px;width: 130px;height: 40px;line-height: 40px;font-weight: bold; color:#fff;border-radius: 5px; text-align:center}
+.jobtypeBox .DivRight .DivRight_2 .divJob_2 .divJob_2_1:hover{background: #FF7A4D}
 .jobtypeBox .DivRight .DivRight_2 .divJob_2 .divJob_2_2{float:left;font-size: 14px; display: inline-block;height: 20px;line-height: 20px;background: url(../images/48.png) 2px 3px no-repeat;padding-left: 24px;width: 45px; cursor: pointer;color: #707070;margin-left: 20px; margin-top:8px;}
 .jobtypeBox .DivRight .DivRight_2 .divJob_2 .divJob_2_3{float:left;font-size: 14px; display: inline-block;height: 20px;line-height: 20px;background: url(../images/49.png) 2px 1px no-repeat;padding-left: 24px;width: 45px; cursor: pointer;color: #707070;margin-left: 20px; margin-top:8px;}
 

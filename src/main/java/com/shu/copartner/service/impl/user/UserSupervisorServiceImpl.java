@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author
@@ -49,6 +51,21 @@ public class UserSupervisorServiceImpl implements UserSupervisorService {
     }
 
     /**
+     * 查询所有有效的导师，用于申请项目时
+     * @return
+     */
+    @Override
+    public TableModel searchAllSupervisor() {
+        try{
+            List<ProSupervisor> proSupervisorList = this.proSupervisorMapper.selectAllSupervisor();
+            return TableModel.success(proSupervisorList,proSupervisorList.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
      * 根据姓名查询导师
      * @param supervisorName
      * @return
@@ -72,10 +89,18 @@ public class UserSupervisorServiceImpl implements UserSupervisorService {
     @Override
     public TableModel searchSupervisorById(String supervisorId) {
         try{
+            Map<String,List> map = new HashMap<>();
+            // 1 根据id查询导师详情，并加入map
             ProSupervisor proSupervisor = this.proSupervisorMapper.selectByPrimaryKey(Long.parseLong(supervisorId));
-            List<ProSupervisor> proSupervisors = new ArrayList<>();
-            proSupervisors.add(proSupervisor);
-            return TableModel.success(proSupervisors,proSupervisors.size());
+            List<ProSupervisor> supervisorDetails = new ArrayList<>();
+            supervisorDetails.add(proSupervisor);
+            map.put("supervisorDetails",supervisorDetails);
+
+            //2 根据id查询导师参加的项目，并加入map
+            List<ProSupervisor> supervisorProjects = this.proSupervisorMapper.selectSupervisorProject(Long.parseLong(supervisorId));
+            map.put("supervisorProjects",supervisorProjects);
+
+            return TableModel.success(map,map.size());
         }catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());

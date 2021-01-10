@@ -26,6 +26,13 @@ public interface ProApplicationMapper {
      */
     List<ProApplication> selectAuditInfo(@Param("tokens") String[] tokens);
 
+    /**
+     * 根据项目id查询
+     * @param projectId
+     * @return
+     */
+    List<ProApplication> selectByProjectId(@Param("projectId") Long projectId);
+
     ProApplication selectByPrimaryKey(Long applicationId);
 
     int updateByExampleSelective(@Param("record") ProApplication record, @Param("example") ProApplicationExample example);

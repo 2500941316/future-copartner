@@ -174,7 +174,11 @@
     select
     <include refid="Base_Column_List" />
     from PRO_PROJECT
-    where is_deleted = 0
+    where is_going in
+    <foreach collection="isGoing" item="isGoing" open="(" close=")" separator=",">
+      #{isGoing}
+    </foreach>
+    and is_deleted = 0
   </select>
 
   <!--根据当前用户 查询我关注的项目信息-->
@@ -194,7 +198,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.shu.copartner.pojo.ProProject">
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProProject" keyProperty="projectId" useGeneratedKeys="true">
     insert into PRO_PROJECT (project_id, project_creater, description, 
       endtime, project_followers, is_deleted, 
       is_lock, plan_url, primary_job, 
@@ -226,7 +230,7 @@
       #{isGoing,jdbcType=VARCHAR}, #{followDate,jdbcType=TIMESTAMP}, #{myFollow,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{supervisorId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProProject">
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProProject" keyProperty="projectId" useGeneratedKeys="true">
     insert into PRO_PROJECT
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="projectId != null">

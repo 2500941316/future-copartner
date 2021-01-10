@@ -43,7 +43,7 @@ public interface ProProjectMapper {
      * 查询所有项目
      * @return
      */
-    List<ProProject> selectAllProject();
+    List<ProProject> selectAllProject(@Param("isGoing")String[] isGoing);
 
     /**
      *查询我关注的项目

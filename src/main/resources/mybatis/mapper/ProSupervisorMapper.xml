@@ -149,6 +149,7 @@
         pp.project_id,  pp.project_name, pp.project_status, pp.update_time
     from PRO_SUPERVISOR ps, PRO_PROJECT pp
     where ps.supervisor_id = pp.supervisor_id and pp.is_deleted = 0 and ps.supervisor_id = #{supervisorId}
+        and pp.is_going in ('在创','可选')
   </select>
 
   <!--查询导师代表性成就-->

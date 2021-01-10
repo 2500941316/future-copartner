@@ -177,7 +177,7 @@
             data: "supervisorId="+supervisorId,
             success: function (res) {
                 if(res.code = 200){
-                    fillSupervisorDetail(res.data[0]);
+                    fillSupervisorDetail(res.data.supervisorDetails[0]);
                 }else{
                     layer.msg("网络异常！");
                 }

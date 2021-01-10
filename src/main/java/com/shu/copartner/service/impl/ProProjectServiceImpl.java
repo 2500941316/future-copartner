@@ -2,6 +2,8 @@ package com.shu.copartner.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.shu.copartner.exceptions.BusinessException;
+import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ActRuTaskMapper;
 import com.shu.copartner.mapper.ProApplicationMapper;
 import com.shu.copartner.mapper.ProFollowMapper;
@@ -73,14 +75,19 @@ public class ProProjectServiceImpl implements ProProjectService {
      */
     @Override
     public TableModel selectByCreater(int currentPage,String projectCreater) {
-        ProProjectExample proProjectExample = new ProProjectExample();
-        PageHelper.startPage(currentPage, 4);
-        proProjectExample.createCriteria().andProjectCreaterEqualTo(projectCreater).andIsDeletedEqualTo(0);
-        List<ProProject>  proProjectsList = proProjectMapper.selectByExample(proProjectExample);
+        try{
+            ProProjectExample proProjectExample = new ProProjectExample();
+            PageHelper.startPage(currentPage, 4);
+            proProjectExample.createCriteria().andProjectCreaterEqualTo(projectCreater).andIsDeletedEqualTo(0);
+            List<ProProject>  proProjectsList = proProjectMapper.selectByExample(proProjectExample);
 
-        PageInfo<ProProject> pageInfo = new PageInfo<>(proProjectsList);
+            PageInfo<ProProject> pageInfo = new PageInfo<>(proProjectsList);
 
-        return TableModel.success(proProjectsList,(int)pageInfo.getTotal());
+            return TableModel.success(proProjectsList,(int)pageInfo.getTotal());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
    /* @Override
@@ -136,10 +143,13 @@ public class ProProjectServiceImpl implements ProProjectService {
         projectApplyVO.setVideoUrl("null");// 项目视频初始为空
         projectApplyVO.setProjectCreater(creater); // 设置当前项目申请者
 
-        if (StringUtils.isNotEmpty(projectApplyVO.getProjectName())) {
+        try{
             //将项目信息插入到项目表中，另外也将项目id等信息写到申请管理表中
             ProProject proProject = new ProProject();
             BeanUtils.copyProperties(projectApplyVO, proProject);
+            //设置项目的指导教师id
+            proProject.setSupervisorId(Long.parseLong(projectApplyVO.getSupervisorId()));
+            proProject.setUpdateTime(new Date());
             //插入项目信息
             proProjectMapper.insert(proProject);
             log.info("新增项目的id："+proProject.getProjectId());
@@ -153,8 +163,9 @@ public class ProProjectServiceImpl implements ProProjectService {
             proApplication.setApplicationTime(new Date());
             proApplicationMapper.insert(proApplication);
             return TableModel.success();
-        } else {
-            return TableModel.error("网络异常");
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
     }
 
@@ -165,14 +176,19 @@ public class ProProjectServiceImpl implements ProProjectService {
      */
     @Override
     public TableModel updateProject(ProjectApplyVO projectApplyVO) {
-        log.info("update");
-        log.info(projectApplyVO.toString());
-        ProProject proProject = new ProProject();
-        BeanUtils.copyProperties(projectApplyVO, proProject);
-        // 每次修改就设置当前更新的时间
-        proProject.setUpdateTime(new Date());
-        proProjectMapper.updateByPrimaryKeySelective(proProject);
-        return TableModel.success();
+        try{
+            log.info("update");
+            log.info(projectApplyVO.toString());
+            ProProject proProject = new ProProject();
+            BeanUtils.copyProperties(projectApplyVO, proProject);
+            // 每次修改就设置当前更新的时间
+            proProject.setUpdateTime(new Date());
+            proProjectMapper.updateByPrimaryKeySelective(proProject);
+            return TableModel.success();
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
     /**
@@ -183,7 +199,7 @@ public class ProProjectServiceImpl implements ProProjectService {
      */
     @Override
     public TableModel searchProjectById(String projectId,String currentUser) {
-        if(StringUtils.isNotEmpty(projectId)){
+        try{
             //根据id查询出数据添加到数组返回, 并判断当前用户关注该项目与否
             ProProject proProject = this.proProjectMapper.selectByPrimaryKey(Long.parseLong(projectId));
             ProFollow proFollow = proFollowMapper.selectByPidFollower(Long.parseLong(projectId),currentUser);
@@ -195,8 +211,9 @@ public class ProProjectServiceImpl implements ProProjectService {
             List<ProProject> proProjects = new ArrayList<>();
             proProjects.add(proProject);
             return TableModel.success(proProjects,proProjects.size());
-        }else{
-            return  TableModel.error("网络异常");
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
     }
 
@@ -210,24 +227,29 @@ public class ProProjectServiceImpl implements ProProjectService {
      */
     @Override
     public TableModel searchProjectByFour(int currentPage,String projectName, String projectType, String projectCreater, String projectTwoStatus) {
-        ProProjectExample proProjectExample = new ProProjectExample();
-        PageHelper.startPage(currentPage, 5);
-        /*proProjectExample.createCriteria().andProjectStatusEqualTo(projectTwoStatus).andProjectNameEqualTo(projectName).andProjectTypeEqualTo(projectType)
-                .andProjectCreaterEqualTo(projectCreater);*/
-        ProProjectExample.Criteria criteria = proProjectExample.createCriteria();
-        // 如果搜索值非空，就加上该搜索条件 进行模糊查询
-        if(StringUtils.isNotEmpty(projectName)){
-            criteria.andProjectNameLike("%" + projectName + "%");
-        }else if(StringUtils.isNotEmpty(projectType)){
-            criteria.andProjectTypeLike("%" + projectType + "%");
-        }else if(StringUtils.isNotEmpty(projectCreater)){
-            criteria.andProjectCreaterLike("%" + projectCreater + "%");
+        try{
+            ProProjectExample proProjectExample = new ProProjectExample();
+            PageHelper.startPage(currentPage, 5);
+            /*proProjectExample.createCriteria().andProjectStatusEqualTo(projectTwoStatus).andProjectNameEqualTo(projectName).andProjectTypeEqualTo(projectType)
+                    .andProjectCreaterEqualTo(projectCreater);*/
+            ProProjectExample.Criteria criteria = proProjectExample.createCriteria();
+            // 如果搜索值非空，就加上该搜索条件 进行模糊查询
+            if(StringUtils.isNotEmpty(projectName)){
+                criteria.andProjectNameLike("%" + projectName + "%");
+            }else if(StringUtils.isNotEmpty(projectType)){
+                criteria.andProjectTypeLike("%" + projectType + "%");
+            }else if(StringUtils.isNotEmpty(projectCreater)){
+                criteria.andProjectCreaterLike("%" + projectCreater + "%");
+            }
+            criteria.andIsGoingEqualTo(projectTwoStatus).andIsDeletedEqualTo(0);
+            List<ProProject> proProjects = proProjectMapper.selectByExample(proProjectExample);
+            PageInfo<ProProject> pageInfo = new PageInfo<>(proProjects);
+            log.info("search:"+pageInfo.getTotal());
+            return TableModel.success(proProjects,(int)pageInfo.getTotal());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
-        criteria.andProjectStatusEqualTo(projectTwoStatus).andIsDeletedEqualTo(0);
-        List<ProProject> proProjects = proProjectMapper.selectByExample(proProjectExample);
-        PageInfo<ProProject> pageInfo = new PageInfo<>(proProjects);
-        log.info("search:"+pageInfo.getTotal());
-        return TableModel.success(proProjects,(int)pageInfo.getTotal());
     }
 
     /**
@@ -248,7 +270,7 @@ public class ProProjectServiceImpl implements ProProjectService {
 
     @Override
     public TableModel searchOtherProjectById(int currentPage,String projectId) {
-        if(StringUtils.isNotEmpty(projectId)){
+        try{
             //根据id查询出数据添加到数组返回
             ProProjectExample proProjectExample = new ProProjectExample();
             PageHelper.startPage(currentPage, 3);
@@ -260,8 +282,9 @@ public class ProProjectServiceImpl implements ProProjectService {
             log.info(topNewsList.toString());
 
             return TableModel.success(topNewsList,(int)pageInfo.getTotal());
-        }else{
-            return  TableModel.error("网络异常");
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
     }
 
@@ -271,8 +294,14 @@ public class ProProjectServiceImpl implements ProProjectService {
      */
     @Override
     public TableModel searchAllProject() {
-        List<ProProject> proProjects = proProjectMapper.selectAllProject();
-        return TableModel.success(proProjects,proProjects.size());
+        try{
+            String[] isGoing = {"在创","可选"};
+            List<ProProject> proProjects = proProjectMapper.selectAllProject(isGoing);
+            return TableModel.success(proProjects,proProjects.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
     /**
@@ -283,16 +312,16 @@ public class ProProjectServiceImpl implements ProProjectService {
     @Override
     public TableModel deleteProject(String projectId) {
         // 将该项目id_delete设置为1
-        if(StringUtils.isNotEmpty(projectId)){
+        try{
             ProProject proProject = new ProProject();
             proProject.setProjectId(Long.parseLong(projectId));
             proProject.setIsDeleted(1);
             proProjectMapper.updateByPrimaryKeySelective(proProject);
             return TableModel.success();
-        }else {
-            return TableModel.error("网络异常");
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
-
     }
 
     /**
@@ -301,14 +330,19 @@ public class ProProjectServiceImpl implements ProProjectService {
      * @return
      */
     @Override
-    public TableModel focusProject(String projectId,String creater) throws ParseException {
-        // 将当前用户及关注的项目id写到follow表
-        ProFollow proFollow = new ProFollow();
-        proFollow.setProjectId(Long.parseLong(projectId));
-        proFollow.setFollower(creater);
-        proFollow.setFollowTime(new Date());
-        proFollow.setIsDelete(0);
-        proFollowMapper.insert(proFollow);
+    public TableModel followProject(String projectId,String creater) throws ParseException {
+        try{
+            // 将当前用户及关注的项目id写到follow表
+            ProFollow proFollow = new ProFollow();
+            proFollow.setProjectId(Long.parseLong(projectId));
+            proFollow.setFollower(creater);
+            proFollow.setFollowTime(new Date());
+            proFollow.setIsDelete(0);
+            proFollowMapper.insert(proFollow);
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
         return TableModel.success();
     }
 
@@ -318,10 +352,16 @@ public class ProProjectServiceImpl implements ProProjectService {
      */
     @Override
     public TableModel searchMyFollowProject(int currentPage,String follower) {
-        PageHelper.startPage(currentPage,4);
-        List<ProProject> proProjects = proProjectMapper.selectMyFollowProject(follower);
-        PageInfo pageInfo = new PageInfo(proProjects);
-        return TableModel.success(proProjects,(int)pageInfo.getTotal());
+        try{
+            // 每次查询4条
+            PageHelper.startPage(currentPage,4);
+            List<ProProject> proProjects = proProjectMapper.selectMyFollowProject(follower);
+            PageInfo pageInfo = new PageInfo(proProjects);
+            return TableModel.success(proProjects,(int)pageInfo.getTotal());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
     /**
@@ -332,14 +372,20 @@ public class ProProjectServiceImpl implements ProProjectService {
      */
     @Override
     public TableModel cancelFollowProject(String projectId, String follower) {
-        // 将该记录删除标志 置1，并设置取消关注的时间
-        ProFollow proFollow = new ProFollow();
-        proFollow.setIsDelete(1);
-        proFollow.setUnfollowTime(new Date());
-        ProFollowExample proFollowExample = new ProFollowExample();
-        proFollowExample.createCriteria().andFollowerEqualTo(follower).andProjectIdEqualTo(Long.parseLong(projectId));
-        proFollowMapper.updateByExampleSelective(proFollow,proFollowExample);
-        return TableModel.success();
+         try{
+            // 将该记录删除标志 置1，并设置取消关注的时间，根据projectId和follower来确定该条记录
+            ProFollow proFollow = new ProFollow();
+            proFollow.setIsDelete(1);
+            proFollow.setUnfollowTime(new Date());
+            ProFollowExample proFollowExample = new ProFollowExample();
+            proFollowExample.createCriteria().andFollowerEqualTo(follower).andProjectIdEqualTo(Long.parseLong(projectId));
+            proFollowMapper.updateByExampleSelective(proFollow,proFollowExample);
+             return TableModel.success();
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+
     }
 
     /**
@@ -349,8 +395,13 @@ public class ProProjectServiceImpl implements ProProjectService {
      */
     @Override
     public TableModel searchUserOfFollowMe(String projectId) {
-        List<ProFollow> proFollows = proFollowMapper.selectUserOfFollowMe(Long.parseLong(projectId));
-        return TableModel.tableSuccess(proFollows,proFollows.size());
+        try{
+            List<ProFollow> proFollows = proFollowMapper.selectUserOfFollowMe(Long.parseLong(projectId));
+            return TableModel.tableSuccess(proFollows,proFollows.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
     /**
@@ -371,16 +422,41 @@ public class ProProjectServiceImpl implements ProProjectService {
         int update =  proProjectMapper.updateByPrimaryKeySelective(proProject);
 
         // 更新审批表状态，并将计划书信息写到审批表中
-        ProApplication proApplication = new ProApplication();
-        proApplication.setProjectId(Long.parseLong(projectId));
-        proApplication.setPlanUrl(planUrl);
-        proApplication.setProjectStateToken("51");
-        proApplication.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
-        ProApplicationExample proApplicationExample = new ProApplicationExample();
-        proApplicationExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId));
-        int updateAudit = proApplicationMapper.updateByExampleSelective(proApplication,proApplicationExample);
-        log.info("updateAudit: "+ updateAudit);
-        return updateAudit > 0 ? true : false;
+        List<ProApplication> proApplicationList = proApplicationMapper.selectByProjectId(Long.parseLong(projectId));
+        if(proApplicationList.size() == 1 && proApplicationList.get(0).getProjectStateToken().equals("41")){
+            //视频也正在审批中，则新增一条记录代表来审批计划书
+            ProApplication proAppPlan = new ProApplication();
+            BeanUtils.copyProperties(proApplicationList.get(0),proAppPlan);
+            proAppPlan.setApplicationId(null);
+            proAppPlan.setPlanUrl(planUrl);
+            proAppPlan.setVideoUrl("null");
+            proAppPlan.setProjectStateToken("51");
+            proAppPlan.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
+            int insert = proApplicationMapper.insert(proAppPlan);
+            return insert > 0 ? true : false;
+        }else if(proApplicationList.size() == 1 && !proApplicationList.get(0).getProjectStateToken().equals("51")){
+            // 视频不处于‘正在审批中’，直接更新为审批计划书状态
+            ProApplication proApp = proApplicationList.get(0);
+            proApp.setVideoUrl(planUrl);
+            proApp.setProjectStateToken("51");
+            proApp.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
+            ProApplicationExample proApplicationExample = new ProApplicationExample();
+            proApplicationExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId));
+            int updateAudit = proApplicationMapper.updateByExampleSelective(proApp,proApplicationExample);
+            return updateAudit > 0 ? true : false;
+        }else if(proApplicationList.size()>1){
+            // 计划书，视频审批记录都存在，则直接更新视频路径和审批状态
+            for(ProApplication p : proApplicationList){
+                if(!p.getPlanUrl().equals("null")){
+                    p.setPlanUrl(planUrl);
+                    p.setProjectStateToken("51");
+                    p.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
+                    int updatePlan = proApplicationMapper.updateByPrimaryKeySelective(p);
+                    return updatePlan > 0 ? true : false;
+                }
+            }
+        }
+        return update > 0 ? true : false;
     }
 
     /**
@@ -399,16 +475,41 @@ public class ProProjectServiceImpl implements ProProjectService {
         // 更新项目状态
         int update =  proProjectMapper.updateByPrimaryKeySelective(proProject);
 
-        // 更新审批表状态，并将视频写到审批表中
-        ProApplication proApplication = new ProApplication();
-        proApplication.setProjectId(Long.parseLong(projectId));
-        proApplication.setVideoUrl(videoUrl);
-        proApplication.setProjectStateToken("41");
-        proApplication.setProjectState(Constants.PROJECT_STATE_TOKEN.get("41"));
-        ProApplicationExample proApplicationExample = new ProApplicationExample();
-        proApplicationExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId));
-        int updateAudit = proApplicationMapper.updateByExampleSelective(proApplication,proApplicationExample);
-        log.info("updateAudit: "+ updateAudit);
+        // 更新审批表状态，并将视频写到审批表中，
+        List<ProApplication> proApplicationList = proApplicationMapper.selectByProjectId(Long.parseLong(projectId));
+        if(proApplicationList.size() == 1 && proApplicationList.get(0).getProjectStateToken().equals("51")){
+            //计划书也正在审批中，则新增一条记录代表来审批视频
+            ProApplication proAppVideo = new ProApplication();
+            BeanUtils.copyProperties(proApplicationList.get(0),proAppVideo);
+            proAppVideo.setApplicationId(null);
+            proAppVideo.setPlanUrl("null");
+            proAppVideo.setVideoUrl(videoUrl);
+            proAppVideo.setProjectStateToken("41");
+            proAppVideo.setProjectState(Constants.PROJECT_STATE_TOKEN.get("41"));
+            int insert = proApplicationMapper.insert(proAppVideo);
+            return insert > 0 ? true : false;
+        }else if(proApplicationList.size() == 1 && !proApplicationList.get(0).getProjectStateToken().equals("51")){
+            // 计划书不处于‘正在审批中’，直接更新为审批视频状态
+            ProApplication proApp = proApplicationList.get(0);
+            proApp.setVideoUrl(videoUrl);
+            proApp.setProjectStateToken("41");
+            proApp.setProjectState(Constants.PROJECT_STATE_TOKEN.get("41"));
+            ProApplicationExample proApplicationExample = new ProApplicationExample();
+            proApplicationExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId));
+            int updateAudit = proApplicationMapper.updateByExampleSelective(proApp,proApplicationExample);
+            return updateAudit > 0 ? true : false;
+        }else if(proApplicationList.size()>1){
+            // 计划书，视频审批记录都存在，则直接更新视频路径和审批状态
+            for(ProApplication p : proApplicationList){
+                if(!p.getVideoUrl().equals("null")){
+                    p.setVideoUrl(videoUrl);
+                    p.setProjectStateToken("41");
+                    p.setProjectState(Constants.PROJECT_STATE_TOKEN.get("41"));
+                    int updateVideo = proApplicationMapper.updateByPrimaryKeySelective(p);
+                    return updateVideo > 0 ? true : false;
+                }
+            }
+        }
         return update > 0 ? true : false;
     }
 

@@ -1,5 +1,7 @@
 package com.shu.copartner.service.impl.manager;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ActRuVariableMapper;
@@ -7,6 +9,7 @@ import com.shu.copartner.mapper.ProApplicationMapper;
 import com.shu.copartner.mapper.ProProjectMapper;
 import com.shu.copartner.mapper.ProProjectMapper;
 import com.shu.copartner.pojo.ProApplication;
+import com.shu.copartner.pojo.ProFollow;
 import com.shu.copartner.pojo.ProProject;
 import com.shu.copartner.pojo.request.ProjectManagerOperationVO;
 import com.shu.copartner.service.ManagerProjectService;
@@ -15,12 +18,14 @@ import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -88,7 +93,7 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
     }*/
 
     /**
-     * 查询待审批羡慕
+     * 查询待审批项目
      * @param page
      * @return
      */
@@ -106,26 +111,54 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         }
     }
 
-/**
-     * 审核项目申请
-     * @param projectManagerOperationVO
+    /**
+     * 查询所有项目
+     * @param page
      * @return
      */
-
-    /*@Override
-    public TableModel operateProjectApply(ProjectManagerOperationVO projectManagerOperationVO) {
-        //更新项目状态
-        ProProject proProject = new ProProject();
-        BeanUtils.copyProperties(projectManagerOperationVO, proProject);
-        if(projectManagerOperationVO.getIsAudit().equals("1")){
-            proProject.setProjectStatus("项目申请已通过");
-        }else if(projectManagerOperationVO.getIsAudit().equals("2")){
-            proProject.setProjectStatus("项目申请已驳回");
+    @Override
+    public TableModel searchAllProject(int page) {
+        try{
+            String[] isgoing = {"在创","可选"};
+            PageHelper.startPage(page,10);
+            List<ProProject> allProject = proProjectMapper.selectAllProject(isgoing);
+            PageInfo pageInfo = new PageInfo(allProject);
+            return TableModel.tableSuccess(allProject, (int)pageInfo.getTotal());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
-        proProject.setProjectId(Long.parseLong(projectManagerOperationVO.getProjectId()));
-        proProjectMapper.updateByPrimaryKeySelective(proProject);
-        return TableModel.success();
-    }*/
+    }
+
+    /**
+     * 审批时查看项目的具体信息，此时需要取出计划书和视频信息
+     * @param projectId
+     * @return
+     */
+    @Override
+    public TableModel searchProjectById(String projectId) {
+        try{
+            // 查询项目信息
+            ProProject proProject = this.proProjectMapper.selectByPrimaryKey(Long.parseLong(projectId));
+            // 取出planURL，videoUrl
+            List<ProApplication> proApplication = proApplicationMapper.selectByProjectId(Long.parseLong(projectId));
+            for(ProApplication p : proApplication){
+                if(!p.getVideoUrl().equals("null")){
+                    proProject.setVideoUrl(p.getVideoUrl());
+                }
+                if(!p.getPlanUrl().equals("null")){
+                    proProject.setPlanUrl(p.getPlanUrl());
+                }
+            }
+            // 将项目信息加入到数组里面返回
+            List<ProProject> proProjects = new ArrayList<>();
+            proProjects.add(proProject);
+            return TableModel.success(proProjects,proProjects.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
 
     /**
      * 审批项目
@@ -164,6 +197,10 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         }
         if(tempStateToken.equals("21")){
             // 审批项目申请，通过或者驳回，直接更新数据库状态
+            if(isPass == 1){
+                // 如果项目申请通过，则项目进入在创状态
+                proProject.setIsGoing(Constants.PROJECT_STATE_TOKEN.get("2"));
+            }
             proProjectMapper.updateByPrimaryKeySelective(proProject);
             // 更新审批表信息
             proApplicationMapper.updateByPrimaryKeySelective(proApplication);
@@ -173,14 +210,6 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
             if(isPass == 1){
                 // 将视频路径设置都项目表
                 proProject.setVideoUrl(proApplication.getVideoUrl());
-                if(StringUtils.isNotEmpty(proApplication.getPlanUrl())){
-                    // 如果项目计划书也已经上传了，则将项目设置为’在创‘状态
-                    proApplication.setProjectStateToken("2");
-                    proApplication.setProjectState(Constants.PROJECT_STATE_TOKEN.get("2"));
-
-                    proProject.setProjectStateToken("2");
-                    proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("2"));
-                }
             }else if(isPass == 2){
                 proApplication.setResponse(projectManagerOperationVO.getProjectAuditMsg());
             }
@@ -194,14 +223,6 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
             if(isPass == 1){
                 // 将计划书信息设置都项目表
                 proProject.setPlanUrl(proApplication.getPlanUrl());
-                if(StringUtils.isNotEmpty(proApplication.getPlanUrl())){
-                    // 如果项目视频也已经上传了，则将项目设置为’在创‘状态
-                    proApplication.setProjectStateToken("2");
-                    proApplication.setProjectState(Constants.PROJECT_STATE_TOKEN.get("2"));
-
-                    proProject.setProjectStateToken("2");
-                    proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("2"));
-                }
             }else if(isPass == 2){
                 proApplication.setResponse(projectManagerOperationVO.getProjectAuditMsg());
             }
@@ -212,6 +233,45 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
             return TableModel.success();
         }else {
             return TableModel.error("网络异常");
+        }
+    }
+
+    /**
+     * 设置项目状态
+     * @param projectId
+     * @param isGoing
+     * @return
+     */
+    @Override
+    public TableModel updateProjectIsGoing(String projectId, String isGoing) {
+        try{
+            ProProject proProject = new ProProject();
+            proProject.setProjectId(Long.parseLong(projectId));
+            proProject.setIsGoing(isGoing);
+            this.proProjectMapper.updateByPrimaryKeySelective(proProject);
+            return TableModel.success();
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 删除项目，即置is_deleted值的为1
+     * @param projectId
+     * @return
+     */
+    @Override
+    public TableModel deleteProjectById(String projectId) {
+        try{
+            ProProject proProject = new ProProject();
+            proProject.setProjectId(Long.parseLong(projectId));
+            proProject.setIsDeleted(1);
+            this.proProjectMapper.updateByPrimaryKeySelective(proProject);
+            return TableModel.success();
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
     }
 

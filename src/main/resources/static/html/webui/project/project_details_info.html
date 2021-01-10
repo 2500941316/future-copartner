@@ -14,7 +14,7 @@
 
    <style type="text/css">
       .divJob_2_1{
-         cursor: pointer;
+         cursor: pointer ;
       }
    </style>
 </head>
@@ -27,7 +27,7 @@
 <div class="jobtypeBox">
    <div class="DivLeft">
       <div class="DivCompany">
-         <div class="DivCompany_img"><img src="/html/webui/images/company.gif" width="180"/></div>
+         <div class="DivCompany_img"><img src="/html/webui/images/p03.png" width="180"/></div>
          <h1><a href="project_details_info.html"><span id="projectName2">项目名称</span></a><img src="/html/webui/images/16.png" /></h1>
          <div class="DivLeft_1">
             <div class="gz1"><span  id="follow">+关注</span></div>  <!--onclick="clickFollow()"-->
@@ -43,7 +43,7 @@
             <p>开始时间：<span id="starttime2"></span></p>
             <p>项目视频：<a id="videoUrl2" target="_blank" style="color: #0f72a4">点击查看</a></p>
             <p>项目计划书：<a id="planUrl2" target="_blank" style="color: #0f72a4">点击查看</a></p>
-            <p>状态：<span id="projectStatus2"></span></p>
+            <p>状态：<span id="isGoing2"></span></p>
             <p>项目简述：<span id="description2"></span></p>
          </div>
          <div class="clear"></div>
@@ -52,11 +52,6 @@
             <h2><span></span>猜你感兴趣</h2>
             <div id="interestProject">
                <p><a href="searchJob_new.html">项目1</a></p>
-               <p><a href="searchJob_new.html">项目2</a></p>
-               <p><a href="searchJob_new.html">项目3</a></p>
-               <p><a href="searchJob_new.html">项目4</a></p>
-               <p><a href="searchJob_new.html">项目5</a></p>
-               <p><a href="searchJob_new.html">项目6</a></p>
             </div>
          </div>
       </div>
@@ -92,7 +87,7 @@
                <div class="jobsub">开始时间： <span id="starttime"></span></div>
                <div class="jobsub">项目计划书： <a id="planUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
                <div class="jobsub">项目视频： <a id="videoUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
-               <div class="jobsub">项目状态： <span id="projectStatus"></span></div>
+               <div class="jobsub">项目状态： <span id="isGoing"></span></div>
 
             <!--   <div class="jobsub"></div>
                <div class="jobsub"> </div>-->
@@ -241,8 +236,8 @@
               document.getElementById("videoUrl2").innerText = "无" :
               document.getElementById("videoUrl2").href = projectInfo[0].videoUrl;
 
-      document.getElementById("projectStatus").innerText = projectInfo[0].projectStatus;
-      document.getElementById("projectStatus2").innerText = projectInfo[0].projectStatus;
+      document.getElementById("isGoing").innerText = projectInfo[0].isGoing;
+      document.getElementById("isGoing2").innerText = projectInfo[0].isGoing;
 
       document.getElementById("description").innerText = projectInfo[0].description;
       document.getElementById("description2").innerText = projectInfo[0].description;
@@ -305,12 +300,13 @@
          followProject(localStorage.getItem("projectId"));
          //console.log("关注："+localStorage.getItem("projectId"));
       }else{
-         document.getElementById("follow").innerText = "+关注";
+         comfirmCancelFollow(localStorage.getItem("projectId"),document.getElementById("projectCreater").innerText);
+        /* document.getElementById("follow").innerText = "+关注";
          $('.DivLeft_1 .gz1').css('background', '#50BA8C');
          $('.divJob_2 .divJob_2_1').css('background', '#F96B2D');
-         document.getElementById("follow2").innerText = "立即关注";
+         document.getElementById("follow2").innerText = "立即关注";*/
 
-         console.log("取消关注"+localStorage.getItem("projectId"));
+         //console.log("取消关注"+localStorage.getItem("projectId")+document.getElementById("projectCreater").innerText);
       }
    })
    // 关注
@@ -369,7 +365,7 @@
                     '                     <p><span class="red">'+otherProjectInfo[i].description+'</span></p>\n' +
                     '                  </div>\n' +
                     '                  <div class="jobtyper">\n' +
-                    '                     <p>'+otherProjectInfo[i].projectStatus+'</p>\n' +
+                    '                     <p>'+otherProjectInfo[i].isGoing+'</p>\n' +
                     '                  </div>\n' +
                     '                  <div class="clear"></div>\n' +
                     '               </div>\n' +
@@ -452,6 +448,45 @@
       })
    }
 
+   /**
+    * 确认取消关注
+    */
+   function comfirmCancelFollow(projectId,follower){
+      top.layer.confirm('确认取消关注？', {title: '提示'},function (index) {
+         cancelFollowProject(projectId,follower);
+         layer.close(index);
+      });
+   }
+   /**
+    * 取消关注
+    * @param projectId
+    * @param follower
+    */
+   function cancelFollowProject(projectId,follower) {
+      var cancelInfo = {
+         projectId: projectId,
+         follower: follower
+      }
+      console.log(cancelInfo);
+      $.ajax({
+         url: "/user/project/cancelFollowProject",
+         type: "GET",
+         data: cancelInfo,
+         success: function (res) {
+            if(res.code == 200){
+               top.layer.msg("已取消关注！");
+
+               document.getElementById("follow").innerText = "+关注";
+               $('.DivLeft_1 .gz1').css('background', '#50BA8C');
+               $('.divJob_2 .divJob_2_1').css('background', '#F96B2D');
+               document.getElementById("follow2").innerText = "立即关注";
+
+            }else{
+               top.layer.msg("网络异常");
+            }
+         }
+      })
+   }
 
 </script>
 

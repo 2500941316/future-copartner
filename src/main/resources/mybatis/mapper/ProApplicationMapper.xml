@@ -105,7 +105,7 @@
     where application_id = #{applicationId,jdbcType=BIGINT}
   </select>
 
-  <!--根据标志值查询素有待审批项目-->
+  <!--根据标志值查询所有待审批项目-->
   <select id="selectAuditInfo" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -114,6 +114,14 @@
     <foreach collection="tokens" item="token" open="(" close=")" separator=",">
       #{token}
     </foreach>
+  </select>
+
+  <!--根据标志值查询所有待审批项目-->
+  <select id="selectByProjectId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_APPLICATION
+    where project_id = #{projectId}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

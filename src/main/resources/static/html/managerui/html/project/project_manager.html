@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>个人工作台</title>
+    <script src='/html/webui/header/header.js'></script>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+    <script type="text/javascript" src="/html/managerui/js/leasson_manager.js"></script>
+</head>
+<body>
+<!--引入页头页面-->
+<div id="hy_con">
+    <div id="con_lf">
+        <h2>管理列表</h2>
+        <ul>
+            <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/project/project_manager.html">项目管理</a></li>
+            <li class="lf_li1"><a href="#">新闻管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
+        </ul>
+    </div>
+    <div id="con_rh">
+        <div class="con_rh_con">
+            <p class="rh_title">项目管理</p>
+            <div class="layui-tab" lay-filter="demo">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">项目信息管理</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <!--引入layui表格-->
+                        <table id="project" lay-filter="projectTable"></table>
+
+                        <script type="text/html" id="projectOperate">
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                            <a class="layui-btn layui-btn-xs" lay-event="edit">设置</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+                        </script>
+
+                    </div>
+
+                </div>
+
+                <form class="layui-form" id="test" style="display:none">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="type" value="在创" title="在创" checked>
+                            <input type="radio" name="type" value="可选" title="可选">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--引入尾部页面-->
+<div id="footer"></div>
+
+
+<script type="application/javascript">
+
+    $(function () {
+        supervisorInfoManage();
+    })
+
+    /**
+     *项目信息管理表格
+     */
+    function supervisorInfoManage(){
+        layui.use('table', function () {
+            var table = layui.table;
+
+            // 项目信息管理表格
+            table.render({
+                elem: '#project'
+                , url: '/manager/project/searchAllProject'
+                //,data: data
+                , title: '项目信息管理表'
+                , cols: [[
+                    {
+                        field: 'projectId', title: 'ID', fixed: 'left', width: 80,unresize: true, sort: true, align: 'center',type:'numbers'
+                    }
+                    , {field: 'projectName', title: '项目名称', align: 'center'}
+                    , {field: 'projectCreater', title: '创建人', align: 'center'}
+                    , {field: 'projectTeacher', title: '指导教师', sort: true, align: 'center'}
+                    , {field: 'isGoing', title: '状态', align: 'center'}
+                    , {field: 'starttime', title: '开始时间', align: 'center'}
+                    , {fixed: 'right', title: '操作', toolbar: '#projectOperate', width: 180, align: 'center'}
+                ]]
+                , page: true
+            });
+            //监听操作栏
+            table.on('tool(projectTable)', function (obj) {
+                var supervisorData = obj.data;
+                if (obj.event === 'detail') {
+                    viewProjectInfo(supervisorData.projectId);
+                } else if (obj.event === 'edit') {
+                    editSupervisorInfo(supervisorData.projectId);
+                } else if (obj.event === 'delete') {
+                    layer.confirm('确认删除？', function (index) {
+                        deleteProjectInfo(supervisorData.projectId);
+                        layer.close(index);
+                        obj.del();
+                    });
+                }
+            });
+        })
+    }
+
+    /**
+     * 对话框查看项目信息
+     * @param projectId
+     */
+    function viewProjectInfo(projectId) {
+        localStorage.setItem("projectId", projectId);
+        layui.use("layer", function () {
+            var layer = layui.layer;
+            layer.open({
+                type: 2,
+                area: ["90%", "100%"],
+                fixed: false, //不固定
+                maxmin: true,
+                content: "/html/webui/project/project_details_info.html",
+            });
+        });
+    }
+
+    /**
+     * 删除项目信息
+     * @param projectId
+     */
+    function deleteProjectInfo(projectId) {
+        $.ajax({
+            url: "/manager/project/deleteProjectById",
+            type: "GET",
+            data: "projectId="+projectId,
+            success: function (res) {
+                if(res.code = 200){
+                    layer.msg("删除成功！",{shade: 0.01})
+                }else{
+                    layer.msg("网络异常！");
+                }
+            }
+        })
+    }
+
+    /**
+     * 设置项状态
+     * @param supervisorId
+     */
+    function editSupervisorInfo(projectId) {
+        layer.open({
+            type:1,
+            area:['30%','25%'],
+            title: '状态设置'
+            ,content: $("#test"),
+            shade: 0.1,
+            btn: ['提交']
+            ,btn1: function(index, layero){
+                // 获取选中的状态值
+                var isGoing = $('#test input[name="type"]:checked ').val()
+                updatePorjectIsGoing(projectId,isGoing);
+                layer.close(index);
+            },
+            cancel: function(layero,index){
+                layer.closeAll();
+            }
+        });
+    }
+
+    /**
+     * 更新项目状态，在创or可选
+     * @param projectId
+     * @param isGoing
+     */
+    function updatePorjectIsGoing(projectId,isGoing){
+        var updateData = {
+            projectId: projectId,
+            isGoing: isGoing
+        }
+        $.ajax({
+            url: "/manager/project/updateProjectIsGoing",
+            type: "GET",
+            data: updateData,
+            success: function (res) {
+                if(res.code = 200){
+                    layer.msg("设置成功！")
+                    supervisorInfoManage(); // 刷新表格
+                }else{
+                    layer.msg("网络异常！");
+                }
+            }
+        })
+    }
+
+
+</script>
+
+</body>
+</html>

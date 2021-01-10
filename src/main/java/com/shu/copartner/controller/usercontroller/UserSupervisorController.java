@@ -22,6 +22,17 @@ public class UserSupervisorController {
     @Autowired
     private UserSupervisorService userSupervisorService;
 
+
+    /**
+     * 查询所有有效的导师信息，用于申请对话框
+     * @return
+     */
+    @GetMapping("searchAllSupervisor")
+    public TableModel searchAllSupervisor(){
+        return userSupervisorService.searchAllSupervisor();
+    }
+
+
     /**
      * 查询导师列表
      * @param currentPage

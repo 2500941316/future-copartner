@@ -98,4 +98,6 @@ public class ProjectApplyVO implements Serializable {
 
     private String isGoing;
 
+    private String supervisorId;
+
 }

@@ -54,7 +54,9 @@
             <div class="jldiv">
                <div class="nametxt">辅导教师：</div>
                <div class="inputtxt">
-                  <input id="projectTeacher" name="" type="text" class="txt3" autocomplete="off"/>
+                  <select name="" id="projectSupervisor" style="width: 235px;height: 35px;line-height: 35px;border: 1px #DBDBDB solid;border-radius: 4px;">
+                     <option value="" selected disabled hidden>请选择指导教师</option>
+                  </select>
                </div>
             </div>
             <div class="clear"></div>
@@ -156,6 +158,7 @@
 
 <script type="text/javascript">
    $(function () {
+      addOptionTeacher();
       getProjectData();
    })
 
@@ -234,6 +237,7 @@
     * 填充当前项目数据
     * @param projectInfo
     */
+   var teacher;
    function fillProjectInfo(projectInfo) {
       // 基本信息
       $("#projectName").val(projectInfo[0].projectName);
@@ -245,7 +249,7 @@
       $("#starttime").val(projectInfo[0].starttime);
       $("#projectStatus").val(projectInfo[0].projectStatus);
       $("#description").val(projectInfo[0].description);
-      $("#projectTeacher").val(projectInfo[0].projectTeacher);
+      $("#projectSupervisor").val(projectInfo[0].supervisorId); // 注意导师文本与值,这里是根据值选中来设置selected
 
       // 里程碑信息
         $("#projectPeopleNew").val(projectInfo[0].projectPeopleNew),
@@ -285,7 +289,10 @@
          starttime : $("#starttime").val(),
          projectStatus : $("#projectStatus").val(),
          description :  $("#description").val(),
-         projectTeacher :  $("#projectTeacher").val()
+
+         supervisorId :  $("#projectSupervisor").val(),// 获取导师选择框的值
+         projectTeacher : $("#projectSupervisor").find("option:selected").text() // 获取导师选择框的文本
+
       }
       console.log(updataProject)
       $.ajax({
@@ -297,6 +304,7 @@
          success: function(req) {
             if(req.code == 200){
                top.layer.msg("修改成功！")
+               window.location.href = "/html/webui/personal/personal_project_list.html";
             }else{
                top.layer.msg("网络异常，请稍后重试！")
             }
@@ -344,6 +352,13 @@
          elseInfoTime: $("#elseInfoTime").val(),
       }
       console.log(landmarkData)
+      // 如果全为空，则提示
+      if(landmarkData.projectPeopleNew.length === 0 && landmarkData.projectMatch.length === 0 && landmarkData.projectCooperation.length === 0
+              && landmarkData.projectActivity.length === 0 && landmarkData.projectService.length === 0
+              && landmarkData.projectFinance.length === 0 && landmarkData.projectIncome.length === 0
+              && landmarkData.projectCompany.length === 0 && landmarkData.projectElseInfo.length === 0){
+         top.layer.msg("请填写信息！");
+      }
       $.ajax({
          url: "/user/project/updateProject",
          dataType: "json",
@@ -352,7 +367,11 @@
          type: "POST",
          success: function(req) {
             if(req.code == 200){
-               top.layer.msg("修改成功！")
+               top.layer.msg("修改成功！",{
+                  icon: 16,
+                  shade: 0.01
+               })
+
             }else{
                top.layer.msg("网络异常，请稍后重试！")
             }
@@ -363,6 +382,37 @@
             layer.msg('参数异常');
          }
       });
+   }
+
+   /**
+    * 获取指导教师
+    */
+   function addOptionTeacher() {
+      // 获取导师信息
+      $.ajax({
+         url: "/user/supervisor/searchAllSupervisor",
+         type: "GET",
+         success: function (res) {
+            if(res.code == 200){
+               fillProjectTeacher(res.data);
+            }else{
+               top.layer.msg("网络异常");
+            }
+         }
+      })
+
+   }
+
+   /**
+    * 填充指导教师select
+    * @param supervisorInfo
+    */
+   function fillProjectTeacher(supervisorInfo){
+      //根据id查找对象，
+      var obj=document.getElementById('projectSupervisor');
+      for(var i in supervisorInfo){
+         obj.options[i]=new Option(supervisorInfo[i].supervisorName,supervisorInfo[i].supervisorId);    //第一个参数为文本，第二个从参数为值
+      }
    }
 
 </script>
