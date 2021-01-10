@@ -17,7 +17,7 @@ spring:
     username: root
     password: aaa
     type: com.alibaba.druid.pool.DruidDataSource
-    # 初始化大小，最大
+    # 初始化大小，最大，最小
     initial-size: 1
     max-active: 20
     min-idle: 1
