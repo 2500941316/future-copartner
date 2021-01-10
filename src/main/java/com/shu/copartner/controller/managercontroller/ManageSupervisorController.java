@@ -2,14 +2,11 @@ package com.shu.copartner.controller.managercontroller;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
-import com.shu.copartner.pojo.request.ProjectManagerOperationVO;
 import com.shu.copartner.pojo.request.SupervisorPublishVO;
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.ManagerSupervisorService;
 import com.shu.copartner.utils.returnobj.TableModel;
-import javafx.scene.control.Tab;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;

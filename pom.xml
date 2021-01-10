@@ -127,6 +127,11 @@
             <version>${pagehelper-spring}</version>
         </dependency>
 
+        <!--开发环境jdk补丁-->
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+
+
+
     </dependencies>
 
     <repositories>

@@ -1,6 +1,5 @@
 package com.shu.copartner.pojo.request;
 
-import javafx.application.Application;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
