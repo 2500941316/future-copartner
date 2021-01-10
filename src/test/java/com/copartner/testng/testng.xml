@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Second suite" parallel="false"  verbose="1">
+    <parameter name="username" value="19721631"/>
+    <parameter name="pass" value="111111"/>
+
+    <!--测试新闻模块三个功能：用户发布 管理员审批 用户浏览-->
+    <test name="newsTestCase">
+        <classes>
+            <class name="com.copartner.news.NewsApplyTest"></class>
+
+        </classes>
+    </test>
+</suite>
