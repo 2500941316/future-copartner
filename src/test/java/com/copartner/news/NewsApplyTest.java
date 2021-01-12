@@ -1,8 +1,6 @@
 package com.copartner.news;
 
-import com.copartner.common.DriverFactory;
 import com.copartner.testng.TestStatic;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -16,7 +14,6 @@ import org.testng.annotations.Test;
 
 
 public class NewsApplyTest extends AbstractTestNGSpringContextTests {
-    private DriverFactory driverFactory = new DriverFactory();
     private WebDriver driver;
     JavascriptExecutor js;
     WebDriverWait wait;
