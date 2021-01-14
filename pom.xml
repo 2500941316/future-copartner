@@ -191,6 +191,7 @@
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
+
                         <configuration>
                             <outputDirectory>target/lib</outputDirectory>
                             <excludeTransitive>false</excludeTransitive>
