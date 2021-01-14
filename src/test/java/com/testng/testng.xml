@@ -5,9 +5,9 @@
             <class name="com.news.NewsApplyTest"/>
         </classes>
     </test>
-<!--    <test name="a-t2" preserve-order="true">-->
-<!--        <classes>-->
-<!--            <class name="com.news.NewsManagerTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="a-t2" preserve-order="true">
+        <classes>
+            <class name="com.news.NewsManagerTest"/>
+        </classes>
+    </test>
 </suite>
