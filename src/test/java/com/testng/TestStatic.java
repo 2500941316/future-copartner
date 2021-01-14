@@ -1,4 +1,4 @@
-package com.copartner.testng;
+package com.testng;
 
 public class TestStatic {
 

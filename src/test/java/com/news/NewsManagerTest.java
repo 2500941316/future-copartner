@@ -1,6 +1,6 @@
-package com.copartner.news;
+package com.news;
 
-import com.copartner.testng.TestStatic;
+import com.testng.TestStatic;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -9,19 +9,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class NewsViewTest extends AbstractTestNGSpringContextTests {
+public class NewsManagerTest  extends AbstractTestNGSpringContextTests {
     private WebDriver driver;
     private Map<String, Object> vars;
     JavascriptExecutor js;
     WebDriverWait wait;
-
 
     /**
      * 测试前获取driver
@@ -40,52 +38,46 @@ public class NewsViewTest extends AbstractTestNGSpringContextTests {
         wait = new WebDriverWait(driver, 5, 1);
     }
 
-
     /**
-     * 用户浏览新闻的测试
-     *
-     * @throws InterruptedException
+     * 管理员审批新闻的测试
      */
     @Test
-    public void newsUserBrowseTest() throws InterruptedException {
+    public void newsManagerApprove() {
         driver.get(TestStatic.INDEXURL);
         driver.findElement(By.cssSelector(".current > .img-wrap")).click();
-        Thread.sleep(1500);
+        driver.findElement(By.linkText("管理端")).click();
+
         /**
-         * 点击继续阅读
+         * 设置keywords
          */
         wait.until(new ExpectedCondition<WebElement>() {
             @Override
             public WebElement apply(WebDriver text) {
-                return text.findElement(By.linkText("继续阅读>>"));
+                return text.findElement(By.cssSelector(".layui-this:nth-child(2)"));
             }
         }).click();
-        Thread.sleep(1500);
-        wait.until(new ExpectedCondition<WebElement>() {
-            @Override
-            public WebElement apply(WebDriver text) {
-                return text.findElement(By.linkText("新闻"));
-            }
-        }).click();
-        Thread.sleep(1500);
-        wait.until(new ExpectedCondition<WebElement>() {
-            @Override
-            public WebElement apply(WebDriver text) {
-                return text.findElement(By.id("keywords"));
-            }
-        }).click();
-        Thread.sleep(1500);
-        driver.findElement(By.id("keywords")).sendKeys("总书记");
-        driver.findElement(By.cssSelector(".ssbtn")).click();
-        Thread.sleep(4000);
-        wait.until(new ExpectedCondition<WebElement>() {
-            @Override
-            public WebElement apply(WebDriver text) {
-                return text.findElement(By.linkText("2020总书记十大用典｜脱贫攻坚篇"));
-            }
-        }).click();
-        Thread.sleep(1500);
+
+        /**
+         * 点击通过按钮
+         */
+        try {
+            Thread.sleep(1000);
+            wait.until(new ExpectedCondition<WebElement>() {
+                @Override
+                public WebElement apply(WebDriver text) {
+                    return text.findElement(By.linkText("通过"));
+                }
+            }).click();
+            Thread.sleep(1000);
+            driver.findElement(By.linkText("确定")).click();
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
+
+
 
     @AfterClass
     public void tearDown() {

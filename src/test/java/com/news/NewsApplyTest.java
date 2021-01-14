@@ -1,6 +1,6 @@
-package com.copartner.news;
+package com.news;
 
-import com.copartner.testng.TestStatic;
+import com.testng.TestStatic;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
