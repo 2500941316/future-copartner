@@ -80,8 +80,6 @@ public class FileuploadServiceImpl implements FileuploadService {
             } else if (fileUploadType.equals(Constants.LEASSON_FILETYPE_PPT)) {
                 proLeassonVedio.setCourseVedioPptUrl(fileUrl);
             }
-            System.out.println(proLeassonVedio.getCourseVedioId());
-            System.out.println(proLeassonVedio.getCourseVedioUrl());
             proLeassonVedioMapper.updateByPrimaryKeySelective(proLeassonVedio);
             return TableModel.success();
         } catch (Exception e) {
