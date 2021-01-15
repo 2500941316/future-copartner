@@ -2,12 +2,12 @@
 <suite name="Component Tests" verbose="2" annotations="JDK">
     <test name="news" preserve-order="true">
         <classes>
-            <class name="com.news.NewsApplyTest"/>
+            <class name="com.chrome.TestOpenBrowser"/>
         </classes>
     </test>
-<!--    <test name="a-t2" preserve-order="true">-->
-<!--        <classes>-->
-<!--            <class name="com.news.NewsManagerTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <!--    <test name="a-t2" preserve-order="true">-->
+    <!--        <classes>-->
+    <!--            <class name="com.news.NewsManagerTest"/>-->
+    <!--        </classes>-->
+    <!--    </test>-->
 </suite>
