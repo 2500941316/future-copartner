@@ -2,8 +2,8 @@ package com.news;
 
 import com.testng.TestStatic;
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -38,16 +38,23 @@ public class NewsApplyTest extends AbstractTestNGSpringContextTests {
      */
     @BeforeClass
     public void setUp() {
-        System.setProperty(TestStatic.FIREFOXDRIVERKEY, TestStatic.FIREFOXDRIVERVALUE);
-        System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, TestStatic.BROWSER_LOGFILE);
-        FirefoxOptions options = new FirefoxOptions();
-        options.setBinary(TestStatic.BROWSER_EXE);
-        driver = new FirefoxDriver();
+        System.setProperty("webdriver.chrome.driver", TestStatic.FIREFOXDRIVERVALUE);
+        System.out.println("启动 ...");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        //设置 chrome 的无头模式
+        chromeOptions.addArguments("--no-sandbox");
+        chromeOptions.addArguments("--disable-gpu");
+        chromeOptions.addArguments("--hide-scrollbars");
+        chromeOptions.addArguments("blink-settings=imagesEnabled=false");
+        chromeOptions.addArguments("--window-size=1920,1080");
+        chromeOptions.addArguments("--start-maximized");
+        chromeOptions.addArguments("--headless");
+        //启动一个 chrome 实例
+        driver = new ChromeDriver(chromeOptions);
         js = (JavascriptExecutor) driver;
         //显式等待， 针对某个元素等待
         wait = new WebDriverWait(driver, 10, 1);
     }
-
     /**
      * 用户是申请新闻的测试
      *

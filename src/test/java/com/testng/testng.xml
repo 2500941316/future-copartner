@@ -2,7 +2,7 @@
 <suite name="Component Tests" verbose="2" annotations="JDK">
     <test name="news" preserve-order="true">
         <classes>
-            <class name="com.chrome.TestOpenBrowser"/>
+            <class name="com.news.NewsApplyTest"/>
         </classes>
     </test>
     <!--    <test name="a-t2" preserve-order="true">-->
