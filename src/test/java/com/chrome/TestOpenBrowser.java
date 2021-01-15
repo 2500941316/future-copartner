@@ -8,6 +8,7 @@ import junit.extensions.TestSetup;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 
@@ -20,21 +21,26 @@ public class TestOpenBrowser extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testChrome() {
-        //设置启动google浏览器的驱动和位置
-        System.setProperty("webdriver.chrome.driver", TestStatic.FIREFOXDRIVERVALUE);
-        System.out.println("启动 ...");
-        //获取谷歌浏览器驱动
-        WebDriver driver = new ChromeDriver();
-        //设置默认打开的页面
-        driver.get("http://www.baidu.com/");
-        //设置默认搜索的关键字
-        driver.findElement(By.id("kw")).sendKeys("eclipse窗口集成浏览器");
-        //搜索按钮点击
-        driver.findElement(By.id("su")).click();
-
-        System.out.println(driver.getTitle());
-        System.out.println(driver.getPageSource());
-        //关闭浏览器
-        //driver.close();
+        WebDriver webDriver = null;
+        try {
+            System.setProperty("webdriver.chrome.driver", TestStatic.FIREFOXDRIVERVALUE);
+            System.out.println("启动 ...");
+            String url = "https://www.jianshu.com/p/675ea919230e";
+            ChromeOptions chromeOptions = new ChromeOptions();
+            //设置 chrome 的无头模式
+            chromeOptions.setHeadless(Boolean.TRUE);
+            //启动一个 chrome 实例
+            webDriver = new ChromeDriver(chromeOptions);
+            //访问网址
+            webDriver.get(url);
+            System.out.println(webDriver.getPageSource());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (webDriver != null) {
+                //退出 chrome
+                webDriver.quit();
+            }
+        }
     }
 }
