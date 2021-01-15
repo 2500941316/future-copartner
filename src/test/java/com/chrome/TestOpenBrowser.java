@@ -29,6 +29,9 @@ public class TestOpenBrowser extends AbstractTestNGSpringContextTests {
             ChromeOptions chromeOptions = new ChromeOptions();
             //设置 chrome 的无头模式
             chromeOptions.setHeadless(Boolean.TRUE);
+            chromeOptions.addArguments("--no-sandbox");
+            chromeOptions.addArguments("--disable-dev-shm-usage");
+            chromeOptions.addArguments("--headless");
             //启动一个 chrome 实例
             webDriver = new ChromeDriver(chromeOptions);
             //访问网址
