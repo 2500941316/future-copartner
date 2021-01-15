@@ -207,6 +207,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M3</version>
                 <configuration>
+                    <skip>true</skip>
                     <encoding>UTF-8</encoding>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/java/com/testng/testng.xml</suiteXmlFile>
