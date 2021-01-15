@@ -3,11 +3,8 @@
     <test name="news" preserve-order="true">
         <classes>
             <class name="com.news.NewsApplyTest"/>
+            <class name="com.news.NewsManagerTest"/>
+            <class name="com.news.NewsViewTest"/>
         </classes>
     </test>
-    <!--    <test name="a-t2" preserve-order="true">-->
-    <!--        <classes>-->
-    <!--            <class name="com.news.NewsManagerTest"/>-->
-    <!--        </classes>-->
-    <!--    </test>-->
 </suite>

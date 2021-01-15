@@ -13,7 +13,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -70,7 +69,7 @@ public class NewsViewTest  extends AbstractTestNGSpringContextTests {
         wait.until(new ExpectedCondition<WebElement>() {
             @Override
             public WebElement apply(WebDriver text) {
-                return text.findElement(By.linkText("新闻"));
+                return text.findElement(By.linkText("精彩上大"));
             }
         }).click();
         Thread.sleep(1500);
