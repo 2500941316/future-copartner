@@ -4,8 +4,8 @@
 
         <classes>
             <class name="com.news.NewsApplyTest"/>
-            <class name="com.news.NewsManagerTest"/>
-            <class name="com.news.NewsViewTest"/>
+<!--            <class name="com.news.NewsManagerTest"/>-->
+<!--            <class name="com.news.NewsViewTest"/>-->
         </classes>
     </test>
 </suite>
