@@ -35,6 +35,7 @@
         <pagehelper-spring>1.2.3</pagehelper-spring>
         <selenuim>3.14.0</selenuim>
         <guava>21.0</guava>
+        <testng>6.11</testng>
     </properties>
 
     <dependencies>
@@ -95,10 +96,14 @@
             <artifactId>fastdfs-client-java</artifactId>
             <version>${fastdfs}</version>
         </dependency>
+
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng}</version>
         </dependency>
+
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
@@ -125,12 +130,13 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>${pagehelper-spring}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
-        <!--开发环境jdk补丁-->
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
-
-
     </dependencies>
 
     <repositories>
@@ -169,6 +175,7 @@
                             <classpathPrefix>lib/</classpathPrefix>
                             <!-- 项目启动类 -->
                             <mainClass>com.shu.copartner.StartApplication</mainClass>
+
                         </manifest>
                     </archive>
                 </configuration>
@@ -184,6 +191,7 @@
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
+
                         <configuration>
                             <outputDirectory>target/lib</outputDirectory>
                             <excludeTransitive>false</excludeTransitive>
@@ -194,13 +202,15 @@
                 </executions>
             </plugin>
 
-            <!--热部署配置-->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
                 <configuration>
-                    <!--热部署该配置必须-->
-                    <fork>true</fork>
+                    <encoding>UTF-8</encoding>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/java/com/testng/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
             </plugin>
 

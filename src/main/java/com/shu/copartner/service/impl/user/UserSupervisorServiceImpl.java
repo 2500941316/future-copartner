@@ -9,7 +9,6 @@ import com.shu.copartner.pojo.ProSupervisor;
 import com.shu.copartner.service.UserSupervisorService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

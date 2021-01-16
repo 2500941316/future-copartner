@@ -1,19 +1,111 @@
-$(function () {
-    $("#footer").load("/html/webui/footer/footer.html");
-});
-
-layui.config({
-    base: '/html/managerui/js/layui/'
-}).extend({
-    treetable: 'treetable-lay/treetable'
-});
-
-//课程图片上传方法
-layui.use('upload', function () {
-    var $ = layui.jquery
+var courseVedioId = "";
+var layer = null;
+var upload = null;
+var element = null;
+var vedioUploadInst = null;
+var pptUploadInst = null;
+layui.use(['element', 'layer', 'upload',], function () {
+    element = layui.element
+        , layer = layui.layer
         , upload = layui.upload;
+    element.render();
+
+    //上传视频初始化
+    vedioUploadInst = upload.render({
+        elem: '#vedio' //绑定元素
+        , url: '/manager/leasson/leassonVedioUpload'//上传接口
+        , data: {
+            courseVedioId: 56,
+            fileUploadType: "vedio"
+        }
+        , accept: 'file' //允许上传的文件类型
+        , choose: function (obj) {
+            //选择文件后的回调函数
+            //console.log(obj);
+        }
+        , before: function (obj) {
+            //自定页
+            layer.open({
+                type: 1,
+                title: "上传进度", //不显示标题
+                //closeBtn: 0, //不显示关闭按钮
+                skin: 'layui-layer-demo', //样式类名
+                area: ['420px', 'auto'], //宽高
+                content: '<div style="margin: 10px 20px;"><div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="uploadfile"><div class="layui-progress-bar" lay-percent="" id="uploadfile"></div></div><p><span id="uploadfilemsg">正在上传</span></p></div>',
+                success: function (layero, index) {
+                    layer.setTop(layero); //重点2
+                }
+            });
+            element.render();
+        }
+        , progress: function (n, elem) {
+            //上传进度回调
+            var percent = n + '%'; //获取进度百分比
+            $("#uploadfile").attr("lay-percent", percent);
+            element.render();
+        }
+        , done: function (res, index, upload) {
+            //上传完毕回调
+            $("#uploadfilemsg").text("上传完成");
+            layer.closeAll(); //关闭loading
+            layer.msg("上传成功");
+        }
+        , error: function () {
+            //请求异常回调
+            layer.closeAll(); //关闭loading
+            layer.msg("请求异常");
+        }
+    });
+
+    //上传ppt初始化
+    pptUploadInst = upload.render({
+        elem: '#ppt' //绑定元素
+        , url: '/manager/leasson/leassonVedioUpload'//上传接口
+        , data: {
+            courseVedioId: 56,
+            fileUploadType: "vedio"
+        }
+        , accept: 'file' //允许上传的文件类型
+        , choose: function (obj) {
+            //选择文件后的回调函数
+            //console.log(obj);
+        }
+        , before: function (obj) {
+            //自定页
+            layer.open({
+                type: 1,
+                title: "上传进度", //不显示标题
+                //closeBtn: 0, //不显示关闭按钮
+                skin: 'layui-layer-demo', //样式类名
+                area: ['420px', 'auto'], //宽高
+                content: '<div style="margin: 10px 20px;"><div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="uploadfile"><div class="layui-progress-bar" lay-percent="" id="uploadfile"></div></div><p><span id="uploadfilemsg">正在上传</span></p></div>',
+                success: function (layero, index) {
+                    layer.setTop(layero); //重点2
+                }
+            });
+            element.render();
+        }
+        , progress: function (n, elem) {
+            //上传进度回调
+            var percent = n + '%'; //获取进度百分比
+            $("#uploadfile").attr("lay-percent", percent);
+            element.render();
+        }
+        , done: function (res, index, upload) {
+            //上传完毕回调
+            $("#uploadfilemsg").text("上传完成");
+            layer.closeAll(); //关闭loading
+            layer.msg("上传成功");
+        }
+        , error: function () {
+            //请求异常回调
+            layer.closeAll(); //关闭loading
+            layer.msg("上传失败");
+        }
+    });
+
     //普通图片上传
-    var uploadInst = upload.render({
+    upload.render({
         elem: '#test1'
         , url: '/manager/leasson/leassonImgUpload'
         , before: function (obj) {
@@ -28,7 +120,16 @@ layui.use('upload', function () {
         }, error: function () {
         }
     });
-})
+});
+
+$(function () {
+    $("#footer").load("/html/webui/footer/footer.html");
+});
+layui.config({
+    base: '/html/managerui/js/layui/'
+}).extend({
+    treetable: 'treetable-lay/treetable'
+});
 
 
 //tab标签页引用
@@ -36,8 +137,8 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
     var $ = layui.jquery
         , element = layui.element;
     var table = layui.table;
-    var upload = layui.upload;
     var layer = layui.layer;
+    var upload = layui.upload;
     var treetable = layui.treetable;
 
     //一些事件监听
@@ -66,8 +167,15 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
                             {field: 'courseName', title: '课程名称'},
                             {field: 'courseVedioName', edit: 'text', align: "center", title: '章节名称'},
                             {field: 'status', align: "center", width: 120, title: '状态'},
-                            {field: 'courseVedioDuringtime',width:60, edit: 'text', width: 80, align: "center", title: '时长'},
-                            {templet: '#oper-col',width:120, align: "center", title: '操作'},
+                            {
+                                field: 'courseVedioDuringtime',
+                                width: 60,
+                                edit: 'text',
+                                width: 80,
+                                align: "center",
+                                title: '时长'
+                            },
+                            {templet: '#oper-col', width: 120, align: "center", title: '操作'},
                         ]]
                     });
                 },
@@ -78,85 +186,66 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
         }
     });
 
-    //上传vedio
-    upload.render({
-        elem: '#vedio'
-        , url: '/manager/leasson/leassonVedioUpload' //改成您自己的上传接口
-        , data: {
-            courseVedioId: localStorage.getItem("course_vedio_id"),
-            fileUploadType: "vedio"
-        }
-        , accept: 'file',
-        before: function (obj) {
-            console.log(obj)
-            layer.load(2);
-
-        },
-        done: function (res) {
-            layer.closeAll('loading');
-            layer.msg('视频上传成功', {
-                offset: 't',
-                anim: 6
-            });
-        }
-    });
-
-    //上传ppt
-    upload.render({
-        elem: '#ppt'
-        , url: '/manager/leasson/leassonVedioUpload'
-        , data: {
-            course_vedio_id: localStorage.getItem("course_vedio_id"),
-            fileUploadType: "ppt"
-        },
-        accept: 'file',
-        before: function (obj) {
-            layer.load(2);
-
-        },
-        done: function (res) {
-            layer.closeAll('loading');
-            layer.msg('ppt上传成功', {
-                offset: 't',
-                anim: 6
-            });
-        }
-    });
-
-
     //监听工具条
     table.on('tool(table1)', function (obj) {
-        var data = obj.data;
+
         var layEvent = obj.event;
         if (obj.data.courseVedioId != null) {
-
-            localStorage.setItem("course_vedio_id", obj.data.courseVedioId);
+            courseVedioId = obj.data.courseVedioId;
             if (layEvent === 'ppt') {
+                pptUploadInst.reload({
+                    url: '/manager/leasson/leassonVedioUpload'
+                    , data: {
+                        courseVedioId: courseVedioId,
+                        fileUploadType: "ppt"
+                    }
+                    , elem: '#ppt' //绑定元素
+                    , accept: 'file' //只允许上传图片
+                    , exts: 'pptx'
+                    , size: 1024 * 1024 * 20 //限定大小
+                });
                 $("#ppt").click();
             } else if (layEvent === 'vedio') {
+                vedioUploadInst.reload({
+                    url: '/manager/leasson/leassonVedioUpload'
+                    , data: {
+                        courseVedioId: courseVedioId,
+                        fileUploadType: "vedio"
+                    }
+                    , elem: '#vedio' //绑定元素
+                    , accept: 'video' //只允许上传图片
+                    , exts: 'mp4'
+                    , size: 1024 * 1024 * 300 //限定大小
+                });
                 $("#vedio").click();
             }
         } else if (obj.data.pid === -1) {
             if (layEvent === 'del') {
-                $.ajax({
-                    type: "GET",
-                    url: "/manager/leasson/deleteLeasson",
-                    data: {
-                        courseId: obj.data.courseId
-                    },
-                    success: function (data) {
-                        if (data.code === 200) {
-                            obj.del();
-                            layer.msg('删除成功', {
-                                icon: 16
-                                , shade: 0.01
-                            });
-                        } else
-                            layer.msg('网络异常，请稍后重试');
-                    },
-                    error: function (data) {
-                        layer.msg('参数异常');
-                    }
+                layer.confirm('删除该视频？： ' + obj.data.courseName, {
+                    btn: ['删除', '取消'] //按钮
+                }, function () {
+                    $.ajax({
+                        type: "GET",
+                        url: "/manager/leasson/deleteLeasson",
+                        data: {
+                            courseId: obj.data.courseId
+                        },
+                        success: function (data) {
+                            if (data.code === 200) {
+                                obj.del();
+                                layer.msg('删除成功', {
+                                    icon: 16
+                                    , shade: 0.01
+                                });
+                            } else {
+                                layer.msg('网络异常，请稍后重试');
+                            }
+                        },
+                        error: function (data) {
+                            layer.msg('参数异常');
+                        }
+                    });
+                }, function () {
                 });
             }
         }
@@ -165,10 +254,10 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
 
     //监听单元格编辑
     table.on('edit(table1)', function (obj) {
-        update(obj);
+        updateTable(obj);
     });
 
-    function update(obj) {
+    function updateTable(obj) {
         if (obj.data.courseVedioId != null) {
             $.ajax({
                 type: "POST",

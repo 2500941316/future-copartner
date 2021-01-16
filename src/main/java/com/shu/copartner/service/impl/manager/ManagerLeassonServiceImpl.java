@@ -77,6 +77,7 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
                 BeanUtils.copyProperties(proLeasson, leassonVedioInfoSo);
                 leassonVedioInfoSo.setId(++index);
                 leassonVedioInfoSo.setPid(-1);
+                leassonVedioInfoSo.setCourseDescription(null);
                 leassonInfoSoList.add(leassonVedioInfoSo);
 
                 //根据leasson列表去获取每个课程下面的信息

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+    <script type="text/javascript" src="/html/webui/js/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<button type="button" class="layui-btn" lay-event="vedio" id="test3"><i class="layui-icon"></i>上传文件</button>
+<button onclick="test2(5555)">test</button>
+<script>
+    var layer = null;
+    var upload = null;
+    var element = null;
+    var uploadInst = null;
+    layui.use(['element', 'layer', 'upload',], function () {
+        element = layui.element
+            , layer = layui.layer
+            , upload = layui.upload;
+        element.render();
+
+        uploadInst = upload.render({
+            elem: '#test3' //绑定元素
+            , url: '/manager/leasson/leassonVedioUpload'//上传接口
+            , data: {
+                courseVedioId: 56,
+                fileUploadType: "vedio"
+            }
+            , accept: 'file' //允许上传的文件类型
+            , choose: function (obj) {
+                //选择文件后的回调函数
+                //console.log(obj);
+            }
+            , before: function (obj) {
+                //自定页
+                layer.open({
+                    type: 1,
+                    title: "上传进度", //不显示标题
+                    //closeBtn: 0, //不显示关闭按钮
+                    skin: 'layui-layer-demo', //样式类名
+                    area: ['420px', 'auto'], //宽高
+                    content: '<div style="margin: 10px 20px;"><div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="uploadfile"><div class="layui-progress-bar" lay-percent="" id="uploadfile"></div></div><p><span id="uploadfilemsg">正在上传</span></p></div>',
+                    success: function (layero, index) {
+                        layer.setTop(layero); //重点2
+                    }
+                });
+                element.render();
+            }
+            , progress: function (n, elem) {
+                //上传进度回调
+                var percent = n + '%'; //获取进度百分比
+                $("#uploadfile").attr("lay-percent", percent);
+                //element.progress('uploadfile', percent); //原谅我,我不配用这个
+                element.render();
+            }
+            , done: function (res, index, upload) {
+                //上传完毕回调
+                layer.msg(res.msg);
+                $("#uploadfilemsg").text("上传完成");
+                layer.closeAll('loading'); //关闭loading
+            }
+            , error: function () {
+                //请求异常回调
+                layer.msg("请求异常");
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+    });
+
+    function test2(id) {
+        //重载该实例，支持重载全部基础参数
+        uploadInst.reload({
+            url: '/manager/leasson/leassonVedioUpload' + id
+            , elem: '#test3' //绑定元素
+            , accept: 'images' //只允许上传图片
+            , acceptMime: 'image/*' //只筛选图片
+            , size: 1024 * 2 //限定大小
+        });
+        $("#test3").click();
+    }
+
+</script>
+</body>
+</html>

@@ -28,7 +28,7 @@ document.writeln("                    </a>");
 document.writeln("                </li>");
 document.writeln("                <li class=\'finance\'>");
 document.writeln("                    <a href=\'/html/webui/news/news.html\'>");
-document.writeln("                        新闻");
+document.writeln("                        精彩上大");
 document.writeln("                        <span class=\'u-icon-caret\'></span>");
 document.writeln("                    </a>");
 document.writeln("                </li>");

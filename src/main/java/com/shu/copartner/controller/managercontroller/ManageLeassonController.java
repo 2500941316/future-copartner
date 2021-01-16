@@ -9,14 +9,13 @@ import com.shu.copartner.service.ManagerLeassonService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
@@ -100,7 +99,9 @@ public class ManageLeassonController {
     @PostMapping(value = "leassonVedioUpload")
     @ResponseBody
     public TableModel leassonVedioUpload(MultipartFile file, Long courseVedioId, String fileUploadType) {
-
+        if (String.valueOf(courseVedioId).equals("null") || fileUploadType == null) {
+            return TableModel.error();
+        }
         return uploadService.leassonVedioUpload(file, courseVedioId, fileUploadType);
     }
 
