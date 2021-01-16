@@ -211,5 +211,11 @@ public final class Constants {
         }
     };
 
+    /**
+     * 活动的状态设置
+     */
+    public static final String ACTIVITY_BEFORE_START = "未开始";
+    public static final String ACTIVITY_IN_START = "进行中";
+    public static final String ACTIVITY_AFTER_START = "已结束";
 
 }

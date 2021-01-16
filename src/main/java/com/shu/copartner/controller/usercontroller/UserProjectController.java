@@ -168,32 +168,59 @@ public class UserProjectController {
         return proProjectService.searchAllProject();
     }
 
+    /**
+     * 删除项目
+     * @param projectId
+     * @return
+     */
     @GetMapping("deleteProject")
     public TableModel deleteProject(@Size(min = 1) @RequestParam String projectId){
         log.info("deleteProject_Id: "+projectId);
         return proProjectService.deleteProject(projectId);
     }
 
+    /**
+     * 关注项目
+     * @param projectId
+     * @return
+     * @throws ParseException
+     */
     @GetMapping("followProject")
     public TableModel followProject(@Size(min = 1) @RequestParam String projectId) throws ParseException {
         // 登录了才能关注
         if(StringUtils.isNotEmpty(creater)){
-            return proProjectService.focusProject(projectId,creater);
+            return proProjectService.followProject(projectId,creater);
         }else{
             return TableModel.error("登录后才能关注！");
         }
     }
 
+    /**
+     * 查询我关注的项目
+     * @param currentPage
+     * @return
+     */
     @GetMapping("searchMyFollowProject")
     public TableModel searchMyFollowProject(@Size(min = 1) @RequestParam int currentPage){
         return proProjectService.searchMyFollowProject(currentPage,creater);
     }
 
+    /**
+     * 取消关注
+     * @param projectId
+     * @param follower
+     * @return
+     */
     @GetMapping("cancelFollowProject")
     public TableModel cancelFollowProject(@Size(min = 1) @RequestParam String projectId,@Size(min = 1) @RequestParam String follower){
         return proProjectService.cancelFollowProject(projectId,follower);
     }
 
+    /**
+     * 查询关注我的人
+     * @param projectId
+     * @return
+     */
     @GetMapping("searchUserOfFollowMe")
     public TableModel searchUserOfFollowMe(@Size(min = 1) @RequestParam String projectId){
         log.info("projectId: "+projectId);

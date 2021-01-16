@@ -30,7 +30,7 @@ public interface ProProjectService {
 
     TableModel deleteProject(String projectId);
 
-    TableModel focusProject(String projectId,String creater) throws ParseException;
+    TableModel followProject(String projectId,String creater) throws ParseException;
 
     TableModel searchMyFollowProject(int currentPage,String follower);
 

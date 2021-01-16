@@ -19,10 +19,11 @@
         <h2>管理列表</h2>
         <ul>
             <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
-            <li class="lf_li1"><a href="#">项目管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/project/project_manager.html">项目管理</a></li>
             <li class="lf_li1"><a href="#">新闻管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/activity/activity_manager.html">活动管理</a></li>
         </ul>
     </div>
     <div id="con_rh">
@@ -151,11 +152,18 @@
 
                         <script type="text/html" id="supervisorOperate">
                             <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="manage">管理</a>
                             <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
                             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
                         </script>
 
                     </div>
+
+                            <div class="layui-input-block" id="test" style="display:none;float: left">
+                                <textarea style="border:0;border-radius:5px;background-color:rgba(241,241,241,.98);width: 355px;height: 100px;padding: 10px;resize: none;" placeholder="请输入一条代表性成就"></textarea>
+                            </div>
+
+
                 </div>
             </div>
         </div>
@@ -271,13 +279,13 @@
                 , title: '导师信息管理表'
                 , cols: [[
                     {
-                        field: 'supervisorId', title: 'ID', fixed: 'left', width: 80,unresize: true, sort: true, align: 'center'
+                        field: 'supervisorId', title: 'ID', fixed: 'left', width: 80,unresize: true, sort: true, align: 'center',type:'numbers'
                     }
                     , {field: 'supervisorName', title: '导师名称', align: 'center'}
                     , {field: 'supervisorInstitute', title: '学院', align: 'center'}
                     , {field: 'supervisorEmail', title: 'Email',width: 150, sort: true, align: 'center'}
                     , {field: 'updateTime', title: '更新时间', align: 'center'}
-                    , {fixed: 'right', title: '操作', toolbar: '#supervisorOperate', width: 180, align: 'center'}
+                    , {fixed: 'right', title: '操作', toolbar: '#supervisorOperate', width: 210, align: 'center'}
                 ]]
                 , page: true
             });
@@ -294,6 +302,17 @@
                         layer.close(index);
                         obj.del();
                     });
+                } else if(obj.event === 'manage'){
+                    layer.prompt({
+                        formType: 2,
+                        value: ' ',
+                        title: '请输入一条代表性成就'
+                        // area: ['800px', '350px'] //自定义文本域宽高
+                    }, function (value, index) {
+                        addSupervisorAchievement(supervisorData.supervisorId,value);
+                        layer.close(index);
+                    });
+
                 }
             });
         })
@@ -353,6 +372,35 @@
                 content: "/html/managerui/html/supervisor/edit_supervisor.html"
             });
         });
+    }
+
+    /**
+     * 增加导师代表性成就
+     * @param supervisorId
+     */
+    function addSupervisorAchievement(supervisorId,value) {
+        var superData = {
+            supervisorId: supervisorId,
+            achievement: value,
+        }
+        $.ajax({
+            type: "GET",
+            url: "/manager/supervisor/addSupervisorAchievement",
+            data: superData,
+            success: function (data) {
+                if (data.code === 200) {
+                    layer.msg('添加成功', {
+                        icon: 16
+                        , shade: 0.01
+                    });
+                } else
+                    layer.msg('网络异常，请稍后重试');
+            },
+            error: function (data) {
+                layer.msg('参数异常');
+            }
+        });
+
     }
 
 </script>

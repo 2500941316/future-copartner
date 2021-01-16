@@ -75,7 +75,7 @@
     </div>
 
     <!--关注我的当前项目列表-->
-    <div id="displayBox" style="display:none">
+    <div id="displayBox" style="display:none; padding: 10px;">
         <table id="displayBoxTable" lay-filter="displayBoxTable" align="center"></table>
     </div>
 </div>
@@ -182,17 +182,19 @@
                 , title: '关注用户信息'
                 ,smartReloadModel:true
                 , cols: [[
-                        {field: 'projectId',title: '序号', width: 200, align: 'center',type: 'numbers' },
+                        {field: 'projectId',title: '序号', width: 180, align: 'center',type: 'numbers' },
                         {field: 'follower', title: '关注人',width: 200, align: 'center'},
                         {field: 'followTime', title: '关注时间',width: 200, align: 'center'}
                 ]]
                 , page: true
+                ,limits: [10] // 每页最多10条，
                 , done: function(count){
                 $("table").css("width", "100%");//宽度
                 high = high + count * 40;//一条数据的高度是40
                 layer.open({
                     type: 1,
                     title: '关注详情：',
+                    shade: 0,
                     offset: '100px',
                     area: ['605px', high+'px'], //宽高
                     content: $('#displayBox')

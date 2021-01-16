@@ -109,7 +109,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.shu.copartner.pojo.ProLog">
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProLog" useGeneratedKeys="true" keyProperty="logId">
     insert into PRO_LOG (log_id, log_type, start_time, 
       end_time, update_time, log_operator, 
       log_supervisor_id, log_supervisor_name, log_supervisor_achievement, 
@@ -121,7 +121,7 @@
       #{logProjectId,jdbcType=BIGINT}, #{logProjectName,jdbcType=VARCHAR}, #{logProjectDescription,jdbcType=VARCHAR}, 
       #{isDeleted,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLog">
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLog" useGeneratedKeys="true" keyProperty="logId">
     insert into PRO_LOG
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="logId != null">

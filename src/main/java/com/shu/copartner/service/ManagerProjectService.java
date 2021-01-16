@@ -12,6 +12,14 @@ import com.shu.copartner.utils.returnobj.TableModel;
 public interface ManagerProjectService {
     TableModel searchProject(int page);
 
+    TableModel searchAllProject(int page);
+
+    TableModel searchProjectById(String projectId);
+
     TableModel operateProjectApply(ProjectManagerOperationVO projectManagerOperationVO);
+
+    TableModel updateProjectIsGoing(String projectId,String isGoing);
+
+    TableModel deleteProjectById(String projectId);
 
 }

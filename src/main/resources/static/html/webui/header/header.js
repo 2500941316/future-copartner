@@ -52,7 +52,7 @@ document.writeln("                    <a href=\'#\'>论坛");
 document.writeln("                    </a>");
 document.writeln("                </li>");
 document.writeln("                <li class=\'college\'>");
-document.writeln("                    <a href=\'#\'>活动");
+document.writeln("                    <a href=\'/html/webui/activity/activity.html\'>活动");
 document.writeln("                    </a>");
 document.writeln("                </li>");
 document.writeln("                <li class=\'qa\'>");

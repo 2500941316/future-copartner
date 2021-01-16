@@ -20,7 +20,7 @@ $(function () {
                 window.location.href = "/html/webui/project/project.html";
                 break;
             case 2:
-                window.location.href = "#";
+                window.location.href = "/html/webui/supervisor/supervisor.html";
                 break;
             case 3:
                 window.location.href = "#";
@@ -38,7 +38,7 @@ $(function () {
                 window.location.href = "#";
                 break;
             default:
-                window.location.href = "index.html"
+                window.location.href = "activity.html"
                 break;
         }
     })

@@ -320,6 +320,7 @@ h1.fl{ float:left; margin-right:10px}
 .divge{ width:100%; height:20px;}
 .JlBoxCon .JlBoxLeft .jldiv .inputtxt textarea{width: 365px;height: 60px;line-height: 20px;padding: 10px;border: 1px #DBDBDB solid;border-radius: 4px; outline:none}
 .jldiv a.save{width: 100px;height: 35px; line-height:35px; text-align:center;background: #FF771B;cursor: pointer;margin-right: 15px;border: none;font-weight: bold;color: #FFF;border-radius: 4px;font-size: 14px; display:inline-block; margin-left:137px}
+.jldiv a.save:hover{background: #FF6236}
 .addcomeon{}
 .addcomeon a{color: #FF6600;margin-top: 10px;width: 130px;height: 35px; line-height:35px;border: 1px solid #FAB13E;background: #FFF3EB;margin-left: 370px;border-radius: 4px; display:inline-block; text-align:center; margin-bottom:20px}
 

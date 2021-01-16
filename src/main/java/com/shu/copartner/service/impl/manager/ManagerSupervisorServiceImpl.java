@@ -4,12 +4,17 @@ import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.github.pagehelper.PageHelper;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
+import com.shu.copartner.mapper.ProLogMapper;
 import com.shu.copartner.mapper.ProSupervisorMapper;
+import com.shu.copartner.pojo.ProLog;
+import com.shu.copartner.pojo.ProLogExample;
 import com.shu.copartner.pojo.ProSupervisor;
 import com.shu.copartner.pojo.request.SupervisorPublishVO;
 import com.shu.copartner.service.ManagerSupervisorService;
 import com.shu.copartner.utils.returnobj.TableModel;
+import com.sun.codemodel.internal.writer.PrologCodeWriter;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
@@ -31,6 +36,9 @@ public class ManagerSupervisorServiceImpl implements ManagerSupervisorService {
 
     @Autowired
     private ProSupervisorMapper proSupervisorMapper;
+
+    @Autowired
+    private ProLogMapper proLogMapper;
 
     /**
      * 处理导师信息发布
@@ -78,6 +86,15 @@ public class ManagerSupervisorServiceImpl implements ManagerSupervisorService {
             // 设置删除时间
             proSupervisor.setEndTime(new Date());
             proSupervisorMapper.updateByPrimaryKeySelective(proSupervisor);
+
+            //删除导师代表性成就
+            ProLog proLog = new ProLog();
+            proLog.setLogSupervisorId(Long.parseLong(supervisorId));
+            proLog.setIsDeleted(1);
+            proLog.setEndTime(new Date());
+            ProLogExample proLogExample = new ProLogExample();
+            proLogExample.createCriteria().andLogSupervisorIdEqualTo(Long.parseLong(supervisorId));
+            proLogMapper.updateByExampleSelective(proLog,proLogExample);
         }catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
@@ -96,6 +113,31 @@ public class ManagerSupervisorServiceImpl implements ManagerSupervisorService {
             PageHelper.startPage(page,10);
             List<ProSupervisor> proSupervisorList = proSupervisorMapper.selectAllSupervisor();
             return TableModel.tableSuccess(proSupervisorList,proSupervisorList.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 添加导师代表性成就
+     * @param supervisorId
+     * @param achievement
+     * @return
+     */
+    @Override
+    public TableModel addSupervisorAchievement(String supervisorId, String achievement) {
+        log.info(supervisorId+achievement);
+        try{
+            ProLog proLog = new ProLog();
+            proLog.setLogSupervisorId(Long.parseLong(supervisorId));
+            proLog.setLogSupervisorAchievement(achievement);
+            proLog.setLogType("导师");
+            proLog.setIsDeleted(0);
+            proLog.setStartTime(new Date());
+            proLog.setUpdateTime(new Date());
+            proLogMapper.insert(proLog);
+            return TableModel.success();
         }catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());

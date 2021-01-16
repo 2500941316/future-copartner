@@ -100,8 +100,8 @@ public class FileuploadServiceImpl implements FileuploadService {
             log.info("文件名：" + uploadfile.getOriginalFilename());
             log.info("projectId:" + projectId);
             // 上传计划书，返回其存放路径
-            String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
-            //String planUrl = uploadfile.getOriginalFilename();
+            //String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String planUrl = uploadfile.getOriginalFilename();
             // 文件存储路径加上服务器前缀
             String finalPlanUrl = Constants.FILEURL_FIRSTNAME + planUrl;
             // 项目状态更新处理
@@ -131,8 +131,8 @@ public class FileuploadServiceImpl implements FileuploadService {
             log.info("文件名：" + uploadfile.getOriginalFilename());
             log.info("projectId:" + projectId);
             // 上传视频，返回其存放路径
-            String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
-            //String planUrl = uploadfile.getOriginalFilename();
+            //String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String planUrl = uploadfile.getOriginalFilename();
             // 文件存储路径加上服务器前缀
             String finalPlanUrl = Constants.FILEURL_FIRSTNAME + planUrl;
             // 项目状态更新处理
@@ -158,7 +158,30 @@ public class FileuploadServiceImpl implements FileuploadService {
         try {
             TableModel tableModel = new TableModel();
             String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
-            //String imageUrl = "hahahhaha";
+            //String imageUrl = "imageUrl";
+            Map<String, String> map = new HashMap<>();
+            map.put("src", Constants.FILEURL_FIRSTNAME + imageUrl);
+            map.put("title", uploadfile.getOriginalFilename());
+            tableModel.setCode(0);
+            tableModel.setData(map);
+            return tableModel;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_FILEUPLOAD_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 上传活动照片
+     * @param uploadfile
+     * @return
+     */
+    @Override
+    public TableModel activityImageUpload(MultipartFile uploadfile) {
+        try {
+            TableModel tableModel = new TableModel();
+            String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String imageUrl = "imageUrl";
             Map<String, String> map = new HashMap<>();
             map.put("src", Constants.FILEURL_FIRSTNAME + imageUrl);
             map.put("title", uploadfile.getOriginalFilename());

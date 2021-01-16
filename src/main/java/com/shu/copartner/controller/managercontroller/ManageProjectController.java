@@ -46,10 +46,40 @@ public class ManageProjectController {
         if (page <= 0) {
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
-        log.info("page:"+page);
         return managerProjectService.searchProject(page);
     }
 
+    /**
+     * 查询所有项目
+     * @param page
+     * @return
+     */
+    @GetMapping(value = "searchAllProject")
+    public TableModel searchAllProject(@Size(min = 1) @RequestParam int page) {
+        if (page <= 0) {
+            throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
+        }
+        return managerProjectService.searchAllProject(page);
+    }
+
+
+
+    /**
+     * 根据id查询项目
+     * @param projectId
+     * @return
+     */
+    @GetMapping("getProjectById")
+    public TableModel getProjectById(@Size(min = 1) String projectId) {
+        return this.managerProjectService.searchProjectById(projectId);
+    }
+
+    /**
+     * 审批项目处理
+     * @param projectManagerOperationVO
+     * @param result
+     * @return
+     */
     @PostMapping(value = "operateProjectApply")
     @ResponseBody
     public TableModel operateProjectApply(@RequestBody @Valid ProjectManagerOperationVO projectManagerOperationVO, BindingResult result) {
@@ -60,6 +90,29 @@ public class ManageProjectController {
         log.info(projectManagerOperationVO.toString());
         return managerProjectService.operateProjectApply(projectManagerOperationVO);
     }
+
+    /**
+     * 设置项目状态
+     * @param projectId
+     * @param isGoing
+     * @return
+     */
+    @GetMapping(value = "updateProjectIsGoing")
+    public TableModel updateProjectIsGoing(@Size(min = 1) @RequestParam String projectId,@Size(min = 1) @RequestParam String isGoing) {
+        log.info(projectId+isGoing);
+        return managerProjectService.updateProjectIsGoing(projectId,isGoing);
+    }
+
+    /**
+     * 删除项目
+     * @param projectId
+     * @return
+     */
+    @GetMapping(value = "deleteProjectById")
+    public TableModel deleteProjectById(@Size(min = 1) @RequestParam String projectId) {
+        return managerProjectService.deleteProjectById(projectId);
+    }
+
 
 
 }

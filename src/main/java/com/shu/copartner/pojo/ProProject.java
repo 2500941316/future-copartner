@@ -100,6 +100,22 @@ public class ProProject implements Serializable {
 
     private String follower;
 
+    public Date getFollowTime() {
+        return followTime;
+    }
+
+    public void setFollowTime(Date followTime) {
+        this.followTime = followTime;
+    }
+
+    public String getFollower() {
+        return follower;
+    }
+
+    public void setFollower(String follower) {
+        this.follower = follower;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Long getProjectId() {
