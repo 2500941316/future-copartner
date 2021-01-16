@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProActivityMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProActivity">
+    <id column="activity_id" jdbcType="BIGINT" property="activityId" />
+    <result column="activity_title" jdbcType="VARCHAR" property="activityTitle" />
+    <result column="activity_content" jdbcType="VARCHAR" property="activityContent" />
+    <result column="activity_status" jdbcType="VARCHAR" property="activityStatus" />
+    <result column="activity_author" jdbcType="VARCHAR" property="activityAuthor" />
+    <result column="activity_participator" jdbcType="VARCHAR" property="activityParticipator" />
+    <result column="activity_image" jdbcType="VARCHAR" property="activityImage" />
+    <result column="is_publish" jdbcType="INTEGER" property="isPublish" />
+    <result column="click_count" jdbcType="VARCHAR" property="clickCount" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="is_enrolled" jdbcType="INTEGER" property="isEnrolled" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    activity_id, activity_title, activity_content, activity_status, activity_author, 
+    activity_participator, activity_image, is_publish, click_count, start_time, update_time, 
+    end_time, is_deleted, is_enrolled
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProActivityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_ACTIVITY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_ACTIVITY
+    where activity_id = #{activityId,jdbcType=BIGINT}
+  </select>
+
+  <!--查询已发布活动列表-->
+  <select id="selectAllActivityPublished"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_ACTIVITY
+    where is_deleted = 0 and is_publish = 1
+    Order By start_time DESC
+  </select>
+
+  <!--查询所有活动，已发布和未发布的-->
+  <select id="selectAllActivity"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_ACTIVITY
+    where is_deleted = 0
+    Order By start_time DESC
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_ACTIVITY
+    where activity_id = #{activityId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProActivityExample">
+    delete from PRO_ACTIVITY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProActivity" useGeneratedKeys="true" keyProperty="activityId">
+    insert into PRO_ACTIVITY (activity_id, activity_title, activity_content, 
+      activity_status, activity_author, activity_participator, 
+      activity_image, is_publish, click_count, 
+      start_time, update_time, end_time, 
+      is_deleted, is_enrolled)
+    values (#{activityId,jdbcType=BIGINT}, #{activityTitle,jdbcType=VARCHAR}, #{activityContent,jdbcType=VARCHAR}, 
+      #{activityStatus,jdbcType=VARCHAR}, #{activityAuthor,jdbcType=VARCHAR}, #{activityParticipator,jdbcType=VARCHAR}, 
+      #{activityImage,jdbcType=VARCHAR}, #{isPublish,jdbcType=INTEGER}, #{clickCount,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=INTEGER}, #{isEnrolled,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProActivity" useGeneratedKeys="true" keyProperty="activityId">
+    insert into PRO_ACTIVITY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="activityTitle != null">
+        activity_title,
+      </if>
+      <if test="activityContent != null">
+        activity_content,
+      </if>
+      <if test="activityStatus != null">
+        activity_status,
+      </if>
+      <if test="activityAuthor != null">
+        activity_author,
+      </if>
+      <if test="activityParticipator != null">
+        activity_participator,
+      </if>
+      <if test="activityImage != null">
+        activity_image,
+      </if>
+      <if test="isPublish != null">
+        is_publish,
+      </if>
+      <if test="clickCount != null">
+        click_count,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="isEnrolled != null">
+        is_enrolled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="activityId != null">
+        #{activityId,jdbcType=BIGINT},
+      </if>
+      <if test="activityTitle != null">
+        #{activityTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="activityContent != null">
+        #{activityContent,jdbcType=VARCHAR},
+      </if>
+      <if test="activityStatus != null">
+        #{activityStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="activityAuthor != null">
+        #{activityAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="activityParticipator != null">
+        #{activityParticipator,jdbcType=VARCHAR},
+      </if>
+      <if test="activityImage != null">
+        #{activityImage,jdbcType=VARCHAR},
+      </if>
+      <if test="isPublish != null">
+        #{isPublish,jdbcType=INTEGER},
+      </if>
+      <if test="clickCount != null">
+        #{clickCount,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="isEnrolled != null">
+        #{isEnrolled,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProActivityExample" resultType="java.lang.Long">
+    select count(*) from PRO_ACTIVITY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_ACTIVITY
+    <set>
+      <if test="record.activityId != null">
+        activity_id = #{record.activityId,jdbcType=BIGINT},
+      </if>
+      <if test="record.activityTitle != null">
+        activity_title = #{record.activityTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityContent != null">
+        activity_content = #{record.activityContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityStatus != null">
+        activity_status = #{record.activityStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityAuthor != null">
+        activity_author = #{record.activityAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityParticipator != null">
+        activity_participator = #{record.activityParticipator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityImage != null">
+        activity_image = #{record.activityImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isPublish != null">
+        is_publish = #{record.isPublish,jdbcType=INTEGER},
+      </if>
+      <if test="record.clickCount != null">
+        click_count = #{record.clickCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.isEnrolled != null">
+        is_enrolled = #{record.isEnrolled,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_ACTIVITY
+    set activity_id = #{record.activityId,jdbcType=BIGINT},
+      activity_title = #{record.activityTitle,jdbcType=VARCHAR},
+      activity_content = #{record.activityContent,jdbcType=VARCHAR},
+      activity_status = #{record.activityStatus,jdbcType=VARCHAR},
+      activity_author = #{record.activityAuthor,jdbcType=VARCHAR},
+      activity_participator = #{record.activityParticipator,jdbcType=VARCHAR},
+      activity_image = #{record.activityImage,jdbcType=VARCHAR},
+      is_publish = #{record.isPublish,jdbcType=INTEGER},
+      click_count = #{record.clickCount,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      is_enrolled = #{record.isEnrolled,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProActivity">
+    update PRO_ACTIVITY
+    <set>
+      <if test="activityTitle != null">
+        activity_title = #{activityTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="activityContent != null">
+        activity_content = #{activityContent,jdbcType=VARCHAR},
+      </if>
+      <if test="activityStatus != null">
+        activity_status = #{activityStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="activityAuthor != null">
+        activity_author = #{activityAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="activityParticipator != null">
+        activity_participator = #{activityParticipator,jdbcType=VARCHAR},
+      </if>
+      <if test="activityImage != null">
+        activity_image = #{activityImage,jdbcType=VARCHAR},
+      </if>
+      <if test="isPublish != null">
+        is_publish = #{isPublish,jdbcType=INTEGER},
+      </if>
+      <if test="clickCount != null">
+        click_count = #{clickCount,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="isEnrolled != null">
+        is_enrolled = #{isEnrolled,jdbcType=INTEGER},
+      </if>
+    </set>
+    where activity_id = #{activityId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProActivity">
+    update PRO_ACTIVITY
+    set activity_title = #{activityTitle,jdbcType=VARCHAR},
+      activity_content = #{activityContent,jdbcType=VARCHAR},
+      activity_status = #{activityStatus,jdbcType=VARCHAR},
+      activity_author = #{activityAuthor,jdbcType=VARCHAR},
+      activity_participator = #{activityParticipator,jdbcType=VARCHAR},
+      activity_image = #{activityImage,jdbcType=VARCHAR},
+      is_publish = #{isPublish,jdbcType=INTEGER},
+      click_count = #{clickCount,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      is_enrolled = #{isEnrolled,jdbcType=INTEGER}
+    where activity_id = #{activityId,jdbcType=BIGINT}
+  </update>
+</mapper>

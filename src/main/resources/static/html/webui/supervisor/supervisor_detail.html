@@ -100,6 +100,8 @@
 			 		fillSupervisorDetail(res.data.supervisorDetails[0]);
 					// 填充导师参加的项目
 					fillSupervisorProject(res.data.supervisorProjects[0]);
+					// 填充导师代表性成就
+					fillSupervisorAchievement(res.data.supervisorAchievements[0])
 				}else{
 			 		layer.msg("网络异常！");
 				}
@@ -154,7 +156,7 @@
 				const $children = (
 						'<div class="event-content blue-bg">\n' +
 						'          <h6 onclick="viewSupervisorProject('+supervisorProject.projects[i].projectId+')" style="cursor: pointer;"><span>'+supervisorProject.projects[i].projectName+'</span></h6>\n' +
-						'          <p class="event-meta"> <i class="las la-calendar-check"></i> '+supervisorProject.projects[i].updateTime+' | <span><i class="las la-clock"></i></span> <span>'+supervisorProject.projects[i].projectStatus+' </span>\n' +
+						'          <p class="event-meta"> <i class="las la-calendar-check"></i> '+supervisorProject.projects[i].updateTime+' | <span><i class="las la-clock"></i></span> <span>'+supervisorProject.projects[i].isGoing+' </span>\n' +
 						'          <br> <i class="las la-map-marker"></i> <span>'+supervisorProject.supervisorSchool+'</span> </p>\n' +
 						' </div>'
 				);
@@ -177,7 +179,7 @@
 	/**
 	 * 查询导师代表性成就
 	 */
-	function searchSupervisorAchievement() {
+/*	function searchSupervisorAchievement() {
 		var supervisorId = localStorage.getItem("supervisorId");
 
 		$.ajax({
@@ -186,13 +188,14 @@
 			data: "supervisorId="+supervisorId,
 			success: function (res) {
 				if(res.code = 200){
+					console.log(res);
 					fillSupervisorAchievement(res.data[0]);
 				}else{
 					layer.msg("网络异常！");
 				}
 			}
 		})
-	}
+	}*/
 
 	/**
 	 * 填充导师代表性成就

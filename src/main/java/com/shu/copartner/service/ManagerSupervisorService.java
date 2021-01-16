@@ -17,4 +17,6 @@ public interface ManagerSupervisorService {
     TableModel deleteSuperviosrById(String supervisorId);
 
     TableModel searchAllSupervisor(int page);
+
+    TableModel addSupervisorAchievement(String supervisorId,String achievement);
 }

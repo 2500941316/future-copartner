@@ -27,6 +27,7 @@
       <result column="project_name" jdbcType="VARCHAR" property="projectName" />
       <result column="project_status" jdbcType="VARCHAR" property="projectStatus" />
       <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="is_going" jdbcType="VARCHAR" property="isGoing" />
     </collection>
 
     <!--一对多查询导师代表性成就-->
@@ -146,9 +147,9 @@
   <select id="selectSupervisorProject" parameterType="java.lang.Long"  resultMap="BaseResultMap">
     select
         ps.supervisor_id,ps.supervisor_institute, ps.supervisor_school,
-        pp.project_id,  pp.project_name, pp.project_status, pp.update_time
+        pp.project_id,  pp.project_name, pp.project_status, pp.update_time, pp.is_going
     from PRO_SUPERVISOR ps, PRO_PROJECT pp
-    where ps.supervisor_id = pp.supervisor_id and pp.is_deleted = 0 and ps.supervisor_id = #{supervisorId}
+    where ps.supervisor_id = pp.supervisor_id and pp.is_deleted = 0 and ps.is_deleted = 0 and ps.supervisor_id = #{supervisorId}
         and pp.is_going in ('在创','可选')
   </select>
 

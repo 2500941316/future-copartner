@@ -244,7 +244,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             criteria.andIsGoingEqualTo(projectTwoStatus).andIsDeletedEqualTo(0);
             List<ProProject> proProjects = proProjectMapper.selectByExample(proProjectExample);
             PageInfo<ProProject> pageInfo = new PageInfo<>(proProjects);
-            log.info("search:"+pageInfo.getTotal());
+            //log.info("search:"+pageInfo.getTotal());
             return TableModel.success(proProjects,(int)pageInfo.getTotal());
         }catch (Exception e) {
             log.error(e.getMessage());

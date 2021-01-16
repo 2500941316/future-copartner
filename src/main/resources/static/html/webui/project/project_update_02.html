@@ -69,9 +69,10 @@
             <div class="jldiv">
                <div class="nametxt">项目简述：</div>
                <div class="inputtxt">
-                  <textarea id="description" name="" cols="" rows="" autocomplete="off"></textarea>
-                  <br /><span>最多可输入100个字</span>
+                  <textarea id="description" name="" cols="" rows="" autocomplete="off" onkeyUp="textLimitCheck(this, 100);"></textarea>
+                  <br /><span id="messageCount">0</span>/100
                </div>
+
             </div>
          </div>
       </div>
@@ -415,6 +416,13 @@
       }
    }
 
+   function textLimitCheck(thisArea, maxLength) {
+      if (thisArea.value.length > maxLength) {
+         thisArea.value = thisArea.value.substring(0, 100);
+         thisArea.focus();
+      }
+      messageCount.innerText = thisArea.value.length;
+   }
 </script>
 </body>
 </html>

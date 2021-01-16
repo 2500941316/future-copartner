@@ -100,6 +100,9 @@ public class UserSupervisorServiceImpl implements UserSupervisorService {
             List<ProSupervisor> supervisorProjects = this.proSupervisorMapper.selectSupervisorProject(Long.parseLong(supervisorId));
             map.put("supervisorProjects",supervisorProjects);
 
+            //3 根据id查询出导师代表性成就，并加入map
+            List<ProSupervisor> supervisorAchievements = this.proSupervisorMapper.selectSupervisorAchievement(Long.parseLong(supervisorId));
+            map.put("supervisorAchievements",supervisorAchievements);
             return TableModel.success(map,map.size());
         }catch (Exception e) {
             log.error(e.getMessage());

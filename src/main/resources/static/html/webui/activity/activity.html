@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>活动列表</title>
+  <script src='/html/webui/header/header.js'></script>
+  <link rel="stylesheet" type="text/css" href="/html/webui/activity/css/main.css">
+
+  <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
+  <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+
+  <style type="text/css">
+    #activityTitle:hover{
+      color: #ff7f21;
+    }
+    .bright{
+      color: #ff7f21;
+    }
+    .signUp{
+      float: right;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="content">
+    <div class="cont w1000">
+      <div class="title">
+        <span class="layui-breadcrumb" lay-separator="|">
+          <a href="javascript:;" class="active" style="font-size: 35px">活动列表</a>
+          <!--<a href="javascript:;">前端文章</a>
+          <a href="javascript:;">旅游杂记</a>-->
+        </span>
+      </div>
+      <div class="list-item" id="activityList">
+
+        <div class="item">
+          <div class="layui-fluid">
+            <div class="layui-row">
+              <div class="layui-col-xs12 layui-col-sm4 layui-col-md5">
+                <div class="img"><img src="/html/webui/activity/img/sy_img1.jpg" alt="" id="activityImage"></div>
+              </div>
+              <div class="layui-col-xs12 layui-col-sm8 layui-col-md7">
+                <div class="item-cont">
+                  <h3><span id="activityTitle">空间立体效果图，完美呈现最终效果</span><button class="layui-btn layui-btn-danger new-icon" id="new">new</button></h3>
+                  <h5>
+                    <span id="startTime"><i class="layui-icon layui-icon-date"></i> 2021/01/11</span>
+                    <span style="margin-left: 20px;" id="activityStatus"><i class="layui-icon layui-icon-tips"></i> 进行中</span>
+                  </h5>
+                  <p><span id="activityContent">室内设计作为一门新兴的学科，尽管还只是近数十年的事，但是人们有意识地对自己生活、生产活动的室内进行安排布置，甚至美化装饰，赋予室内环境以所祈使的气氛，却早巳从人类文明伊始的时期就已存在</span></p>
+                  <a href="activity_detail.html" class="go-icon"></a>
+                  <a href="activity_detail.html" style="float: right;color: #ff7f21">立即报名</a>
+                </div>
+            </div>
+            </div>
+           </div>
+        </div>
+
+      </div>
+      <!--分页-->
+      <div style="text-align: center;">
+        <div  id="page" ></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--引入页脚页面-->
+  <div id="footer"></div>
+
+
+  <script type="text/javascript">
+    $(function () {
+      $("#footer").load("/html/webui/footer/footer.html");
+      searchActivityList();
+    })
+
+    layui.config({
+      base: '/html/webui/activity/js/util/'
+    }).use(['element','laypage','jquery','menu'],function(){
+      element = layui.element,laypage = layui.laypage,$ = layui.$,menu = layui.menu;
+      laypage.render({
+        elem: 'demo'
+        ,count: 70 //数据总数，从服务端得到
+      });
+      menu.init();
+    })
+
+    /**
+     * 查询活动列表
+     * @param pageConf
+     */
+    function searchActivityList(pageConf) {
+      if (!pageConf) {
+        pageConf = {};
+        pageConf.pageSize = 5;
+        pageConf.currentPage = 1;
+
+      }
+      $.get("/user/activity/searchActivityList", pageConf, function (data) {
+        layui.use(['laypage', 'layer'], function () {
+          var page = layui.laypage;
+          page.render({
+            elem: 'page',
+            count: data.count,
+            curr: pageConf.currentPage,
+            limit: pageConf.pageSize,
+            first: "首页",
+            last: "尾页",
+            layout: [ 'count','prev', 'page', 'next', 'skip'],// 'limit',
+            jump: function (obj, first) {
+              if (!first) {
+                pageConf.currentPage = obj.curr;
+                pageConf.pageSize = obj.limit;
+                searchActivityList(pageConf);
+              }
+              fillActivityList(data.data); //页面填充
+            }
+          });
+        })
+      })
+    }
+
+    /**
+     * 填充活动列表信息
+     * @param activityInfo
+     */
+    function fillActivityList(activityInfo) {
+      console.log(activityInfo);
+      const $active =  $("#activityList");
+      $active.html("");
+      for(var i in activityInfo){
+        const $children = (
+               '<div class="item">\n' +
+               '          <div class="layui-fluid">\n' +
+               '            <div class="layui-row">\n' +
+               '              <div class="layui-col-xs12 layui-col-sm4 layui-col-md5">\n' +
+               '                <div class="img"><img src="'+activityInfo[i].activityImage+'" alt="" id="activityImage"></div>\n' +
+               '              </div>\n' +
+               '              <div class="layui-col-xs12 layui-col-sm8 layui-col-md7">\n' +
+               '                <div class="item-cont">\n' +
+               '                  <h3><span id="activityTitle" style="cursor: pointer;" onclick="viewActivityDetail('+activityInfo[i].activityId+')">'+activityInfo[i].activityTitle+'</span><button class="layui-btn layui-btn-danger new-icon" id="new">new</button></h3>\n' +
+               '                  <h5>\n' +
+               '                    <span id="startTime"><i class="layui-icon layui-icon-date"></i> '+activityInfo[i].startTime+'</span>\n' +
+               '                    <span style="margin-left: 20px;" id="activityStatus"><i class="layui-icon layui-icon-tips"></i> '+activityInfo[i].activityStatus+'</span>\n' +
+               '                  </h5>\n' +
+               '                  <p><span id="activityContent" class="activityContent">'+activityInfo[i].activityContent+'</span></p>\n' +
+               '                  <a href="#" onclick="viewActivityDetail('+activityInfo[i].activityId+')" class="go-icon"></a>\n' +
+               '                  <span id="'+activityInfo[i].activityId+'" class="signUp bright '+activityInfo[i].activityId+'" onclick="clickSignUp('+activityInfo[i].activityId+')" style="cursor: pointer">立即报名</span>\n' +
+               '                </div>\n' +
+               '            </div>\n' +
+               '            </div>\n' +
+               '           </div>\n' +
+               '        </div>'
+        );/*style="float: right;color: #ff7f21"*/
+        $active.append($children);
+
+        // 将当前用户已报名的活动，设置为‘已报名’状态
+        if(activityInfo[i].isEnrolled == 1){
+          document.getElementsByClassName(activityInfo[i].activityId)[0].classList.remove('bright'); // 移除样式
+          document.getElementById(activityInfo[i].activityId).innerText = "已报名";
+        }
+      }
+    }
+
+
+    /**
+     * 查看活动详情
+     * @param activityId
+     */
+    function viewActivityDetail(activityId) {
+      localStorage.setItem("activityId",activityId);
+      window.location.href = "/html/webui/activity/activity_detail.html";
+    }
+
+    /**
+     * 立即报名
+     * @param activityId
+     */
+    function clickSignUp(activityId){
+        if(document.getElementById(activityId).innerText == "立即报名"){
+
+          document.getElementsByClassName(activityId)[0].classList.remove('bright'); // 移除样式
+          document.getElementById(activityId).innerText = "已报名";
+          console.log("已报名");
+          enrollInActivity(activityId);
+        }else{
+          // 确认取消报名该活动
+          comfirmCancelEnroll(activityId);
+        /*  document.getElementsByClassName(activityId)[0].classList.add('bright'); // 添加样式
+          document.getElementById(activityId).innerText = "立即报名";
+          console.log("已取消");*/
+        }
+    }
+
+    /**
+     * 活动报名处理
+     * @param activityId
+     */
+    function enrollInActivity(activityId) {
+      $.ajax({
+        url: "/user/activity/enrollInActivity",
+        type: "GET",
+        data: "activityId="+activityId,
+        success: function (res) {
+          if(res.code = 200){
+            layer.msg('报名成功', {icon: 1,shade: 0.05,time: 2000});
+          }else{
+            layer.msg("网络异常！");
+          }
+        }
+      })
+    }
+
+    /**
+     *确认取消关注
+     */
+    function comfirmCancelEnroll(activityId) {
+      top.layer.confirm('确认取消报名？', {title: '提示'},function (index) {
+        cancelEnrollActivity(activityId);
+        layer.close(index);
+      });
+    }
+
+    /**
+     * 取消关注
+     * @param projectId
+     * @param follower
+     */
+    function cancelEnrollActivity(activityId) {
+      console.log(activityId);
+
+      $.ajax({
+        url: "/user/activity/cancelEnrollActivity",
+        type: "GET",
+        data: "activityId="+activityId,
+        success: function (res) {
+          if(res.code == 200){
+            layer.msg("已取消报名！", {icon: 7,shade: 0.05,time: 2000});
+            // 将活动转为‘立即报名’ 状态
+            document.getElementsByClassName(activityId)[0].classList.add('bright'); // 添加样式
+            document.getElementById(activityId).innerText = "立即报名";
+          }else{
+            top.layer.msg("网络异常");
+          }
+        }
+      })
+    }
+
+  </script>
+</body>
+</html>

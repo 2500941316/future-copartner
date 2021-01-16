@@ -81,7 +81,6 @@
                         <textarea id="description" name="" cols="" rows="" autocomplete="off" onkeyUp="textLimitCheck(this, 100);"></textarea>
                         <br /><span id="messageCount">0</span>/100
                     </div>
-
                 </div>
 
                 <div class="clear"></div>
@@ -207,7 +206,7 @@
     function fillProjectTeacher(supervisorInfo){
         //根据id查找对象，
         var obj=document.getElementById('projectSupervisor');
-        obj.add(new Option("请选择指导教师",""));
+        obj.options[0]= new Option("请选择指导教师","");
         for(var i in supervisorInfo){
             obj.options[i]=new Option(supervisorInfo[i].supervisorName,supervisorInfo[i].supervisorId);    //第一个参数为文本，第二个从参数为值
         }

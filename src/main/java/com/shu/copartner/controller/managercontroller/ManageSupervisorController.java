@@ -55,11 +55,16 @@ public class ManageSupervisorController {
      * @return
      */
     @PostMapping(value = "supervisorImgUpload")
-    public TableModel leassonImgUpload(MultipartFile file) {
+    public TableModel supervisorImgUpload(MultipartFile file) {
         return fileuploadService.supervisorImageUpload(file);
     }
 
 
+    /**
+     * 查询所有导师信息
+     * @param page
+     * @return
+     */
     @GetMapping("searchAllSupervisor")
     public TableModel searchAllSupervisor(@Size(min = 1) @RequestParam int page){
         return managerSupervisorService.searchAllSupervisor(page);
@@ -89,5 +94,16 @@ public class ManageSupervisorController {
         }
         //log.info(supervisorPublishVO.toString());
         return managerSupervisorService.updateSupervisorInfo(supervisorPublishVO);
+    }
+
+    /**
+     * 添加导师代表性成就
+     * @param supervisorId
+     * @param achievement
+     * @return
+     */
+    @GetMapping("addSupervisorAchievement")
+    public TableModel addSupervisorAchievement(@Size(min = 1) @RequestParam String supervisorId, @Size(min = 1) @RequestParam String achievement){
+        return managerSupervisorService.addSupervisorAchievement(supervisorId,achievement);
     }
 }

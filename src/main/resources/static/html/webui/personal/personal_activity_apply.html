@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/webui/js/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+
+
+    <title>个人工作台</title>
+</head>
+
+<body style="min-height: 850px">
+<div class="perRightcon">
+    <div class="ydc-column ydc-column-8">
+        <div class="ydc-release-content">
+            <div class="ydc-tabPanel ydc-tabPanel-release">
+                <div class="ydc-release-tab-head">
+                    <ul>
+                        <li class="hit">创建活动</li>
+                    </ul>
+                </div>
+                <div class="ydc-panes">
+                    <div class="ydc-pane" style="display:block;">
+                        <div class="ydc-release-form-group ">
+                            <!--<div class="ydc-warning-default">
+                                <p>标题字数需在1字到30字之间。</p>
+                            </div>-->
+                            <div class="ydc-release-form-group-input">
+                                <input type="text" name="title" lay-verify="title" autocomplete="off" id="activityTitle"
+                                       placeholder="请输入活动标题"
+                                       onkeyUp="textLimitCheck(this, 30);" class="layui-input">
+                                <div class="ydc-form-group-jl">
+                                    <span id="messageCount">0</span>
+                                    /30
+                                </div>
+                            </div>
+
+                            <div class="ydc-release-form-group-input" style="margin-top: 10px">
+                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                       placeholder="请设置活动开始时间 (格式： 年 - 月 - 日  时 : 分)" id="startTime"
+                                       class="layui-input"/>
+                            </div>
+                        </div>
+
+                        <div class="ydc-release-form-text">
+                                <textarea class="layui-textarea" id="activityRichText"
+                                          style="display: none">请填入活动内容或图片</textarea>
+                        </div>
+
+                        <div class="ydc-form-city" style="margin-top: 5px">
+                            <div class="layui-row">
+                                <div class="layui-col-xs6">
+                                    <div class="grid-demo grid-demo-bg1">
+                                        <div class="ydc-btn">
+                                            <button id="publish" class="btn">发布</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-col-xs6">
+                                    <div class="grid-demo">
+                                        <div class="layui-upload">
+                                            <button type="button" class="layui-btn" id="upImageBtn">
+                                                上传活动展览图
+                                            </button>
+                                            <div class="layui-upload-list">
+                                                <img class="layui-upload-img"
+                                                     style="width: 200px;height: 140px"
+                                                     id="imgId">
+                                                <p id="demoText"></p>
+                                            </div>
+
+                                            <input id="picture" style="display: none"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    //活动图片上传方法
+    layui.use('upload', function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#upImageBtn'
+            , url: '/user/activity/activityImgUpload'
+            , before: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#imgId').attr('src', result); //图片链接（base64）
+                });
+            }, done: function (res) {
+                if (res.data.src !== null) {
+                    $("#picture").val(res.data.src);
+                    return layer.msg('上传成功');
+                }
+            }, error: function () {
+            }
+        });
+    })
+
+
+    layui.use(['layer', 'layedit','laydate'], function () {
+        var layedit = layui.layedit;
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+        //富文本图片上传接口
+        layedit.set({
+            uploadImage: {
+                url: '/user/activity/activityImagesUpload' //接口url
+                , type: 'POST' //默认post
+            }
+        });
+        var editor = layedit.build('activityRichText', {
+            height: 300
+        })
+
+        laydate.render({
+            elem: '#startTime', // 时间组件 指定元素
+            format:'yyyy-MM-dd HH:mm',
+            type: 'datetime',
+        });
+
+        //点击发布按钮的操作
+        $("#publish").click(function () {
+            var activityTitle = $("#activityTitle").val();
+            var startTime = $("#startTime").val();
+            var activityContent = layedit.getContent(editor);
+            var activityImage = $("#picture").val();
+
+            if (activityTitle.length === 0 || startTime.length === 0
+                || activityContent.length === 0 || activityImage.length === 0 ) {
+                layer.msg('请填写完整信息！', {icon: 7,shade: 0.1,time: 2000});
+                return;
+            }
+            var data = {
+                activityTitle: activityTitle,
+                startTime: startTime,
+                activityContent: activityContent,
+                activityImage: activityImage,
+            };
+            layer.load(2);
+            $.ajax({
+                type: "POST",
+                url: "/user/activity/applyActivity",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    layer.closeAll('loading');
+                    if (data.code === 200) {
+                        layer.msg('提交成功！', {icon: 1,shade: 0.1,time: 2000});
+                    } else
+                        layer.msg('网络异常，请稍后重试');
+                },
+                error: function (data) {
+                    layer.closeAll('loading');
+                    layer.msg('参数异常');
+                }
+            });
+        })
+    });
+
+    /**
+     * 输入字数限制
+     * @param thisArea
+     * @param maxLength
+     */
+    function textLimitCheck(thisArea, maxLength) {
+        if (thisArea.value.length > maxLength) {
+            thisArea.value = thisArea.value.substring(0, 30);
+            thisArea.focus();
+        }
+        messageCount.innerText = thisArea.value.length;
+    }
+
+</script>
+</body>
+</html>

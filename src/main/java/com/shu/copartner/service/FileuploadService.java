@@ -45,4 +45,11 @@ public interface FileuploadService {
      */
     TableModel supervisorImageUpload(MultipartFile uploadfile);
 
+    /**
+     * 上传活动图片
+     * @param uploadfile
+     * @return
+     */
+    TableModel activityImageUpload(MultipartFile uploadfile);
+
 }

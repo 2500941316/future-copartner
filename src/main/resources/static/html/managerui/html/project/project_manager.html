@@ -23,6 +23,7 @@
             <li class="lf_li1"><a href="#">新闻管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/activity/activity_manager.html">活动管理</a></li>
         </ul>
     </div>
     <div id="con_rh">
@@ -99,14 +100,13 @@
             });
             //监听操作栏
             table.on('tool(projectTable)', function (obj) {
-                var supervisorData = obj.data;
                 if (obj.event === 'detail') {
-                    viewProjectInfo(supervisorData.projectId);
+                    viewProjectInfo(obj.data.projectId);
                 } else if (obj.event === 'edit') {
-                    editSupervisorInfo(supervisorData.projectId);
+                    editProjectInfo(obj.data.projectId);
                 } else if (obj.event === 'delete') {
                     layer.confirm('确认删除？', function (index) {
-                        deleteProjectInfo(supervisorData.projectId);
+                        deleteProjectInfo(obj.data.projectId);
                         layer.close(index);
                         obj.del();
                     });
@@ -154,9 +154,9 @@
 
     /**
      * 设置项状态
-     * @param supervisorId
+     * @param projectId
      */
-    function editSupervisorInfo(projectId) {
+    function editProjectInfo(projectId) {
         layer.open({
             type:1,
             area:['30%','25%'],

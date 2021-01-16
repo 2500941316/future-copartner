@@ -160,7 +160,30 @@ public class FileuploadServiceImpl implements FileuploadService {
         try {
             TableModel tableModel = new TableModel();
             String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
-            //String imageUrl = "hahahhaha";
+            //String imageUrl = "imageUrl";
+            Map<String, String> map = new HashMap<>();
+            map.put("src", Constants.FILEURL_FIRSTNAME + imageUrl);
+            map.put("title", uploadfile.getOriginalFilename());
+            tableModel.setCode(0);
+            tableModel.setData(map);
+            return tableModel;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_FILEUPLOAD_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 上传活动照片
+     * @param uploadfile
+     * @return
+     */
+    @Override
+    public TableModel activityImageUpload(MultipartFile uploadfile) {
+        try {
+            TableModel tableModel = new TableModel();
+            String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String imageUrl = "imageUrl";
             Map<String, String> map = new HashMap<>();
             map.put("src", Constants.FILEURL_FIRSTNAME + imageUrl);
             map.put("title", uploadfile.getOriginalFilename());
