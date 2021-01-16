@@ -14,6 +14,9 @@
     <result column="position" jdbcType="VARCHAR" property="position" />
     <result column="registryDate" jdbcType="TIMESTAMP" property="registrydate" />
     <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="lastVerifyDate" jdbcType="DATE" property="lastverifydate" />
+    <result column="verifyCode" jdbcType="VARCHAR" property="verifycode" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, auth, description, followProject, isDeleted, isLock, lastDate, loginTime, password, 
-    position, registryDate, type
+    position, registryDate, type, lastVerifyDate, verifyCode, phone
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProUserExample" resultMap="BaseResultMap">
     select
@@ -111,12 +114,14 @@
     insert into PRO_USER (id, auth, description, 
       followProject, isDeleted, isLock, 
       lastDate, loginTime, password, 
-      position, registryDate, type
+      position, registryDate, type, 
+      lastVerifyDate, verifyCode, phone
       )
     values (#{id,jdbcType=BIGINT}, #{auth,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{followproject,jdbcType=VARCHAR}, #{isdeleted,jdbcType=INTEGER}, #{islock,jdbcType=INTEGER}, 
       #{lastdate,jdbcType=TIMESTAMP}, #{logintime,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
-      #{position,jdbcType=VARCHAR}, #{registrydate,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}
+      #{position,jdbcType=VARCHAR}, #{registrydate,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
+      #{lastverifydate,jdbcType=DATE}, #{verifycode,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProUser">
@@ -158,6 +163,15 @@
       <if test="type != null">
         type,
       </if>
+      <if test="lastverifydate != null">
+        lastVerifyDate,
+      </if>
+      <if test="verifycode != null">
+        verifyCode,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -195,6 +209,15 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
+      </if>
+      <if test="lastverifydate != null">
+        #{lastverifydate,jdbcType=DATE},
+      </if>
+      <if test="verifycode != null">
+        #{verifycode,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,6 +266,15 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
+      <if test="record.lastverifydate != null">
+        lastVerifyDate = #{record.lastverifydate,jdbcType=DATE},
+      </if>
+      <if test="record.verifycode != null">
+        verifyCode = #{record.verifycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,7 +293,10 @@
       password = #{record.password,jdbcType=VARCHAR},
       position = #{record.position,jdbcType=VARCHAR},
       registryDate = #{record.registrydate,jdbcType=TIMESTAMP},
-      type = #{record.type,jdbcType=INTEGER}
+      type = #{record.type,jdbcType=INTEGER},
+      lastVerifyDate = #{record.lastverifydate,jdbcType=DATE},
+      verifyCode = #{record.verifycode,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -302,6 +337,15 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
+      <if test="lastverifydate != null">
+        lastVerifyDate = #{lastverifydate,jdbcType=DATE},
+      </if>
+      <if test="verifycode != null">
+        verifyCode = #{verifycode,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -317,7 +361,10 @@
       password = #{password,jdbcType=VARCHAR},
       position = #{position,jdbcType=VARCHAR},
       registryDate = #{registrydate,jdbcType=TIMESTAMP},
-      type = #{type,jdbcType=INTEGER}
+      type = #{type,jdbcType=INTEGER},
+      lastVerifyDate = #{lastverifydate,jdbcType=DATE},
+      verifyCode = #{verifycode,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

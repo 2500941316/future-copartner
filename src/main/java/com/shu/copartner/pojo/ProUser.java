@@ -28,6 +28,26 @@ public class ProUser implements Serializable {
 
     private Integer type;
 
+    private Date lastverifydate;
+
+    private String verifycode;
+
+    private String phone;
+
+    public ProUser() {
+
+    }
+
+    public ProUser(String phone, String verifycode) {
+        this.isdeleted = 0;
+        this.islock = 0;
+        this.lastdate = new Date();
+        this.logintime = 0;
+        this.registrydate = new Date();
+        this.phone = phone;
+        this.verifycode = verifycode;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -124,5 +144,29 @@ public class ProUser implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Date getLastverifydate() {
+        return lastverifydate;
+    }
+
+    public void setLastverifydate(Date lastverifydate) {
+        this.lastverifydate = lastverifydate;
+    }
+
+    public String getVerifycode() {
+        return verifycode;
+    }
+
+    public void setVerifycode(String verifycode) {
+        this.verifycode = verifycode == null ? null : verifycode.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 }

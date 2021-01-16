@@ -27,7 +27,7 @@ public class ExceptionAdvice {
     @ResponseBody
     public Object exceptionHandler(Exception e) {
         String message = e.getMessage();
-
+        Integer code = Integer.parseInt(message);
         switch (message) {
             case "0001":
                 message = Exceptions.SERVER_CONNECTION_ERROR.getEmsg();
@@ -57,6 +57,10 @@ public class ExceptionAdvice {
                 message = Exceptions.SERVER_FILEUPLOAD_ERROR.getEmsg();
                 break;
 
+            case "0008":
+                message = Exceptions.SERVER_PHONEISREGISTED_ERROR.getEmsg();
+                break;
+
             default:
                 message = Exceptions.SERVER_OTHER_ERROR.getEmsg();
                 e.printStackTrace();
@@ -64,7 +68,7 @@ public class ExceptionAdvice {
 
         }
         logger.error(message);
-        return TableModel.error(message);
+        return TableModel.error(code, message);
     }
 
     @ExceptionHandler

@@ -2,6 +2,7 @@ package com.shu.copartner.pojo;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class ProUserExample {
@@ -103,6 +104,32 @@ public class ProUserExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -872,6 +899,206 @@ public class ProUserExample {
 
         public Criteria andTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateIsNull() {
+            addCriterion("lastVerifyDate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateIsNotNull() {
+            addCriterion("lastVerifyDate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateEqualTo(Date value) {
+            addCriterionForJDBCDate("lastVerifyDate =", value, "lastverifydate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("lastVerifyDate <>", value, "lastverifydate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateGreaterThan(Date value) {
+            addCriterionForJDBCDate("lastVerifyDate >", value, "lastverifydate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("lastVerifyDate >=", value, "lastverifydate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateLessThan(Date value) {
+            addCriterionForJDBCDate("lastVerifyDate <", value, "lastverifydate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("lastVerifyDate <=", value, "lastverifydate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateIn(List<Date> values) {
+            addCriterionForJDBCDate("lastVerifyDate in", values, "lastverifydate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("lastVerifyDate not in", values, "lastverifydate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("lastVerifyDate between", value1, value2, "lastverifydate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastverifydateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("lastVerifyDate not between", value1, value2, "lastverifydate");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeIsNull() {
+            addCriterion("verifyCode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeIsNotNull() {
+            addCriterion("verifyCode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeEqualTo(String value) {
+            addCriterion("verifyCode =", value, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeNotEqualTo(String value) {
+            addCriterion("verifyCode <>", value, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeGreaterThan(String value) {
+            addCriterion("verifyCode >", value, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeGreaterThanOrEqualTo(String value) {
+            addCriterion("verifyCode >=", value, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeLessThan(String value) {
+            addCriterion("verifyCode <", value, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeLessThanOrEqualTo(String value) {
+            addCriterion("verifyCode <=", value, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeLike(String value) {
+            addCriterion("verifyCode like", value, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeNotLike(String value) {
+            addCriterion("verifyCode not like", value, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeIn(List<String> values) {
+            addCriterion("verifyCode in", values, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeNotIn(List<String> values) {
+            addCriterion("verifyCode not in", values, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeBetween(String value1, String value2) {
+            addCriterion("verifyCode between", value1, value2, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifycodeNotBetween(String value1, String value2) {
+            addCriterion("verifyCode not between", value1, value2, "verifycode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneIsNull() {
+            addCriterion("phone is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneIsNotNull() {
+            addCriterion("phone is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneEqualTo(String value) {
+            addCriterion("phone =", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotEqualTo(String value) {
+            addCriterion("phone <>", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneGreaterThan(String value) {
+            addCriterion("phone >", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneGreaterThanOrEqualTo(String value) {
+            addCriterion("phone >=", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneLessThan(String value) {
+            addCriterion("phone <", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneLessThanOrEqualTo(String value) {
+            addCriterion("phone <=", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneLike(String value) {
+            addCriterion("phone like", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotLike(String value) {
+            addCriterion("phone not like", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneIn(List<String> values) {
+            addCriterion("phone in", values, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotIn(List<String> values) {
+            addCriterion("phone not in", values, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneBetween(String value1, String value2) {
+            addCriterion("phone between", value1, value2, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotBetween(String value1, String value2) {
+            addCriterion("phone not between", value1, value2, "phone");
             return (Criteria) this;
         }
     }

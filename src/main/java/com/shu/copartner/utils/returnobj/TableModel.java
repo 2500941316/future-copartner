@@ -65,6 +65,13 @@ public class TableModel<T> {
         return tableModel;
     }
 
+    public static TableModel error(int code, Object data) {
+        TableModel tableModel = new TableModel();
+        tableModel.setCode(code);
+        tableModel.setData(data);
+        return tableModel;
+    }
+
     public static TableModel error(Integer code, String msg) {
         TableModel tableModel = new TableModel();
         tableModel.setCode(code);

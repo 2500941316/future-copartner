@@ -30,8 +30,6 @@ public class ProPerson implements Serializable {
 
     private String major;
 
-    private String phone;
-
     private String photourl;
 
     private String resumeurl;
@@ -146,14 +144,6 @@ public class ProPerson implements Serializable {
 
     public void setMajor(String major) {
         this.major = major == null ? null : major.trim();
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getPhotourl() {

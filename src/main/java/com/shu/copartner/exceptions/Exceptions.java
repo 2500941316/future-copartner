@@ -45,6 +45,11 @@ public enum Exceptions {
     SERVER_FILEUPLOAD_ERROR("0007", "文件上传异常"),
 
     /**
+     * 手机号已经注册异常
+     */
+    SERVER_PHONEISREGISTED_ERROR("0008", "手机号已经注册"),
+
+    /**
      * 未知异常
      */
     SERVER_OTHER_ERROR("0099", "未知异常");
