@@ -67,7 +67,7 @@ public class NewsApplyTest extends AbstractTestNGSpringContextTests {
         driver.get(TestStatic.INDEXURL);
         Thread.sleep(2000);
         driver.findElement(By.cssSelector(".current > .img-wrap")).click();
-        driver.findElement(By.linkText("个人")).click();
+        driver.findElement(By.linkText("个人工作台")).click();
         driver.findElement(By.linkText("发布新闻")).click();
         driver.switchTo().frame(0);
         /**
