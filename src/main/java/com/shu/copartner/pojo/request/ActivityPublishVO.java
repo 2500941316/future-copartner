@@ -1,6 +1,7 @@
 package com.shu.copartner.pojo.request;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -33,7 +34,7 @@ public class ActivityPublishVO {
     private String clickCount;
 
     @NotNull(message = "活动开始时间不能为空")
-    private Date startTime;
+    private String startTime;
 
     private Date updateTime;
 

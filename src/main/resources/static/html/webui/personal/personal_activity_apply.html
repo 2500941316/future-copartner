@@ -130,7 +130,7 @@
 
         laydate.render({
             elem: '#startTime', // 时间组件 指定元素
-            format:'yyyy-MM-dd HH:mm',
+            format:'yyyy-MM-dd HH:mm:ss',
             type: 'datetime',
         });
 
@@ -140,11 +140,14 @@
             var startTime = $("#startTime").val();
             var activityContent = layedit.getContent(editor);
             var activityImage = $("#picture").val();
-
             if (activityTitle.length === 0 || startTime.length === 0
-                || activityContent.length === 0 || activityImage.length === 0 ) {
-                layer.msg('请填写完整信息！', {icon: 7,shade: 0.1,time: 2000});
+                || activityContent.length === 0 ) {
+                layer.msg('请填写完整信息！', {icon: 7,shade: 0.01,time: 2000});
                 return;
+            }
+            if(activityImage.length === 0){
+                // 未上传图片，设置一个默认图片
+                activityImage = "/html/webui/activity/img/sy_img1.jpg";
             }
             var data = {
                 activityTitle: activityTitle,
@@ -161,7 +164,7 @@
                 success: function (data) {
                     layer.closeAll('loading');
                     if (data.code === 200) {
-                        layer.msg('提交成功！', {icon: 1,shade: 0.1,time: 2000});
+                        layer.msg('提交成功！', {icon: 1,time: 2000});
                     } else
                         layer.msg('网络异常，请稍后重试');
                 },

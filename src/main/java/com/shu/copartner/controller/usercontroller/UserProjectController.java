@@ -61,7 +61,6 @@ public class UserProjectController {
             log.error(result.getAllErrors().toString());
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
-        log.info("项目信息：" + projectApplyVO.toString());
         return proProjectService.projectApply(projectApplyVO, creater);
     }
 
@@ -93,7 +92,6 @@ public class UserProjectController {
      */
     @GetMapping("selectByCreater")
     public TableModel selectByCreater(@Size(min = 1) @RequestParam int currentPage) {
-   //     log.info("selectByCreater");
         return proProjectService.selectByCreater(currentPage,creater);
     }
 
@@ -104,7 +102,6 @@ public class UserProjectController {
      */
     @GetMapping("getProjectById")
     public TableModel getProjectById(@Size(min = 1) String projectId) {
-        log.info("projectId:"+projectId);
         return this.proProjectService.searchProjectById(projectId,creater);
     }
 
@@ -116,7 +113,6 @@ public class UserProjectController {
      */
     @GetMapping("getOtherProjectById")
     public TableModel getOtherProjectById(@Size(min = 1) @RequestParam int currentPage, @Size(min = 1) @RequestParam String projectId) {
-        //log.info("projectId:"+projectId+" currentPage: "+ currentPage);
         return this.proProjectService.searchOtherProjectById(currentPage,projectId);
     }
 
@@ -127,7 +123,6 @@ public class UserProjectController {
      */
     @PostMapping(value = "uploadPlan")
     public TableModel uploadPlan(MultipartFile file,@Size(min = 1) @RequestParam String projectId) throws IOException {
-        log.info("upPlan-projectId:"+projectId);
         return fileuploadService.managerPlanUploadFile(file, projectId);
     }
 
@@ -157,8 +152,6 @@ public class UserProjectController {
                                           @Size(min = 1) @RequestParam String projectCreater,
                                           @Size(min = 1) @RequestParam String projectTwoStatus
                                           ) {
-        log.info(currentPage+" "+projectName+" "+projectType+" "+ projectCreater+" "+ projectTwoStatus);
-
         return proProjectService.searchProjectByFour(currentPage,projectName,projectType,projectCreater,projectTwoStatus);
     }
 
@@ -175,7 +168,6 @@ public class UserProjectController {
      */
     @GetMapping("deleteProject")
     public TableModel deleteProject(@Size(min = 1) @RequestParam String projectId){
-        log.info("deleteProject_Id: "+projectId);
         return proProjectService.deleteProject(projectId);
     }
 
@@ -223,9 +215,7 @@ public class UserProjectController {
      */
     @GetMapping("searchUserOfFollowMe")
     public TableModel searchUserOfFollowMe(@Size(min = 1) @RequestParam String projectId){
-        log.info("projectId: "+projectId);
         return proProjectService.searchUserOfFollowMe(projectId);
     }
-
 
 }
