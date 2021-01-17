@@ -141,7 +141,7 @@
                '              </div>\n' +
                '              <div class="layui-col-xs12 layui-col-sm8 layui-col-md7">\n' +
                '                <div class="item-cont">\n' +
-               '                  <h3><span id="activityTitle" style="cursor: pointer;" onclick="viewActivityDetail('+activityInfo[i].activityId+')">'+activityInfo[i].activityTitle+'</span><button class="layui-btn layui-btn-danger new-icon" id="new">new</button></h3>\n' +
+               '                  <h3><span id="activityTitle" style="cursor: pointer;" onclick="viewActivityDetail('+activityInfo[i].activityId+')">'+activityInfo[i].activityTitle+'</span><button class="layui-btn layui-btn-danger new-icon '+i+1000+'" id="new">new</button></h3>\n' +
                '                  <h5>\n' +
                '                    <span id="startTime"><i class="layui-icon layui-icon-date"></i> '+activityInfo[i].startTime+'</span>\n' +
                '                    <span style="margin-left: 20px;" id="activityStatus"><i class="layui-icon layui-icon-tips"></i> '+activityInfo[i].activityStatus+'</span>\n' +
@@ -161,6 +161,14 @@
         if(activityInfo[i].isEnrolled == 1){
           document.getElementsByClassName(activityInfo[i].activityId)[0].classList.remove('bright'); // 移除样式
           document.getElementById(activityInfo[i].activityId).innerText = "已报名";
+        }
+        // 当前活动已结束，不可再报名，并且隐藏new
+        if(activityInfo[i].activityStatus === "已结束"){
+          document.getElementsByClassName(activityInfo[i].activityId)[0].classList.remove('bright'); // 移除样式
+          document.getElementById(activityInfo[i].activityId).innerText = "已结束";
+
+          // 隐藏new
+          document.getElementsByClassName(i+1000)[0].style.display = "none";
         }
       }
     }
@@ -186,7 +194,7 @@
           document.getElementById(activityId).innerText = "已报名";
           console.log("已报名");
           enrollInActivity(activityId);
-        }else{
+        }else if(document.getElementById(activityId).innerText == "已报名"){
           // 确认取消报名该活动
           comfirmCancelEnroll(activityId);
         /*  document.getElementsByClassName(activityId)[0].classList.add('bright'); // 添加样式
@@ -215,7 +223,7 @@
     }
 
     /**
-     *确认取消关注
+     *确认取消报名
      */
     function comfirmCancelEnroll(activityId) {
       top.layer.confirm('确认取消报名？', {title: '提示'},function (index) {

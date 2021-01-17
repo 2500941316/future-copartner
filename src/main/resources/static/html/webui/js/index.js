@@ -32,7 +32,7 @@ $(function () {
                 window.location.href = "html/webui/personal/person.html";
                 break;
             case 6:
-                window.location.href = "";
+                window.location.href = "/html/webui/activity/activity.html";
                 break;
             case 7:
                 window.location.href = "#";

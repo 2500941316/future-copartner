@@ -80,9 +80,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             PageHelper.startPage(currentPage, 4);
             proProjectExample.createCriteria().andProjectCreaterEqualTo(projectCreater).andIsDeletedEqualTo(0);
             List<ProProject>  proProjectsList = proProjectMapper.selectByExample(proProjectExample);
-
             PageInfo<ProProject> pageInfo = new PageInfo<>(proProjectsList);
-
             return TableModel.success(proProjectsList,(int)pageInfo.getTotal());
         }catch (Exception e) {
             log.error(e.getMessage());
@@ -152,7 +150,6 @@ public class ProProjectServiceImpl implements ProProjectService {
             proProject.setUpdateTime(new Date());
             //插入项目信息
             proProjectMapper.insert(proProject);
-            log.info("新增项目的id："+proProject.getProjectId());
 
             // 写到申请管理表中
             ProApplication proApplication = new ProApplication();
@@ -177,8 +174,6 @@ public class ProProjectServiceImpl implements ProProjectService {
     @Override
     public TableModel updateProject(ProjectApplyVO projectApplyVO) {
         try{
-            log.info("update");
-            log.info(projectApplyVO.toString());
             ProProject proProject = new ProProject();
             BeanUtils.copyProperties(projectApplyVO, proProject);
             // 每次修改就设置当前更新的时间
@@ -244,7 +239,6 @@ public class ProProjectServiceImpl implements ProProjectService {
             criteria.andIsGoingEqualTo(projectTwoStatus).andIsDeletedEqualTo(0);
             List<ProProject> proProjects = proProjectMapper.selectByExample(proProjectExample);
             PageInfo<ProProject> pageInfo = new PageInfo<>(proProjects);
-            //log.info("search:"+pageInfo.getTotal());
             return TableModel.success(proProjects,(int)pageInfo.getTotal());
         }catch (Exception e) {
             log.error(e.getMessage());
@@ -276,11 +270,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             PageHelper.startPage(currentPage, 3);
             proProjectExample.createCriteria().andProjectIdNotEqualTo(Long.parseLong(projectId)).andIsDeletedEqualTo(0);
             List<ProProject>  topNewsList = proProjectMapper.selectByExample(proProjectExample);
-
             PageInfo<ProProject> pageInfo = new PageInfo<>(topNewsList);
-            log.info("pageInfo-total:"+pageInfo.getTotal());
-            log.info(topNewsList.toString());
-
             return TableModel.success(topNewsList,(int)pageInfo.getTotal());
         }catch (Exception e) {
             log.error(e.getMessage());
