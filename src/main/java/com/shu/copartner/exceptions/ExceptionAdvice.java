@@ -61,6 +61,14 @@ public class ExceptionAdvice {
                 message = Exceptions.SERVER_PHONEISREGISTED_ERROR.getEmsg();
                 break;
 
+            case "0009":
+                message = Exceptions.SERVER_PHONENOTREGISTED_ERROR.getEmsg();
+                break;
+
+            case "0010":
+                message = Exceptions.SERVER_PHONECODEOUTOFDATE_ERROR.getEmsg();
+                break;
+
             default:
                 message = Exceptions.SERVER_OTHER_ERROR.getEmsg();
                 e.printStackTrace();

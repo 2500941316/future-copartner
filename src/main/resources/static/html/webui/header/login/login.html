@@ -24,7 +24,7 @@
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone"
                        for="LAY-user-login-cellphone"></label>
-                <input type="text" name="cellphone" id="LAY-user-login-cellphone" lay-verify="phone" placeholder="手机"
+                <input type="text" name="username" id="LAY-user-login-cellphone" lay-verify="phone" placeholder="手机"
                        class="layui-input">
             </div>
             <div class="layui-form-item">
@@ -32,14 +32,15 @@
                     <div class="layui-col-xs7">
                         <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"
                                for="LAY-user-login-vercode"></label>
-                        <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required"
+                        <input type="text" name="password" id="LAY-user-login-vercode" lay-verify="code"
                                placeholder="验证码" class="layui-input">
                     </div>
                     <div class="layui-col-xs5">
                         <div style="margin-left: 10px;">
-                            <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid"
-                                    id="LAY-user-getsmscode">获取验证码
-                            </button>
+                            <input onclick="getverifyCode(this)" type="button"
+                                   class="layui-btn layui-btn-primary layui-btn-fluid"
+                                   id="LAY-user-getsmscode" value="获取验证码" style="font-size: 10px">
+                            </input>
                         </div>
                     </div>
                 </div>
@@ -53,9 +54,11 @@
                 <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>
 
                 <a href="login.html" class="layadmin-user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
-                <a href="register.html"
+                <a href="#" onclick="toRegistry()"
                    class="layadmin-user-jump-change layadmin-link layui-hide-sm layui-show-xs-inline-block">注册</a>
             </div>
+
+
         </div>
     </div>
 </div>
@@ -66,6 +69,119 @@
         top: '100px',
         height: '450px',
     });
+
+    function toRegistry() {
+        parent.layer.close(index);
+        parent.layer.open({
+            type: 2
+            , area: ['1000px', '700px']
+            , btn: []
+            , anim: 1
+            , title: false
+            , closeBtn: true
+            , shade: 0.6
+            , id: 'LA'
+            , btnAlign: 'c'
+            , moveType: 1
+            , content: '/html/webui/header/login/register.html'
+        });
+    }
+
+    var $, form;
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        $ = layui.jquery;
+        form = layui.form;
+
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 5) {
+                    return '标题至少得5个字符啊';
+                }
+            }
+            , pass: [
+                /^[\S]{6,12}$/
+                , '密码必须6到12位，且不能出现空格'
+            ]
+            , code: [
+                /^[\S]{6}$/
+                , '验证码必须为6位，且不能出现空格'
+            ]
+            , content: function (value) {
+                layedit.sync(editIndex);
+            }
+        });
+
+        //监听提交
+        form.on('submit(LAY-user-reg-submit)', function (data) {
+            $.ajax({
+                type: "post",
+                url: "/public/login",
+                data: data.field,
+                success: function (data) {
+                    if (data.code === 200) {
+                        layer.msg('登录成功，马上跳转');
+                    } else if (data.code === 9)
+                        layer.msg('验证码错误');
+                },
+                error: function (data) {
+                    layer.msg('网络异常');
+                }
+            });
+        });
+    });
+
+    var clock = '';
+    var nums = 90;
+    var btn;
+
+    /**
+     * 获得短信验证码的方法
+     */
+    function getverifyCode(thisBtn) {
+        if ($('#LAY-user-login-cellphone').val().length !== 11) {
+            return;
+        }
+        $.ajax({
+            type: "get",
+            url: "/public/loginGetVerifyCode",
+            data: {
+                "phone": $('#LAY-user-login-cellphone').val()
+            },
+            success: function (data) {
+                if (data.code === 200) {
+                    btn = thisBtn;
+                    btn.disabled = true; //将按钮置为不可点击
+                    btn.value = '重新获取（' + nums + '）';
+                    clock = setInterval(doLoop, 1000); //一秒执行一次
+
+                } else if (data.code === 9)
+                    layer.msg('手机号码未注册，请先注册');
+            },
+            error: function (data) {
+                layer.msg('参数异常');
+            }
+        });
+    }
+
+    /**
+     * 发送验证码倒计时
+     */
+    function doLoop() {
+        nums--;
+        if (nums > 0) {
+            btn.value = '重新获取（' + nums + '）';
+        } else {
+            clearInterval(clock); //清除js定时器
+            btn.disabled = false;
+            btn.value = '发送验证码';
+            nums = 90;
+        }
+    }
+
 
 </script>
 </body>

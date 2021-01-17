@@ -1,10 +1,6 @@
 package com.shu.copartner.utils.constance;
 
-import io.swagger.models.auth.In;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +22,7 @@ public final class Constants {
     /**
      * @Description 用户名的长度
      */
-    public static final int USERNAME_LENGTH = 8;
+    public static final int USERNAME_LENGTH = 11;
 
     /**
      * @Description 每一页查询的个数
@@ -47,6 +43,16 @@ public final class Constants {
      * @Description 文件服务器的前缀
      */
     public static final String FILEURL_FIRSTNAME = "http://114.55.93.118/";
+
+
+    /**
+     * @Description 用户注册流程码
+     * 0:验证码
+     * 1：待审核
+     * 2.同意
+     * 3.驳回
+     */
+    public static final Integer[] REGISTER_CODE = {0, 1, 2, 3};
 
     /**
      * @Description 新闻发布流程processKey

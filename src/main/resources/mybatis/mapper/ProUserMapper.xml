@@ -14,7 +14,7 @@
     <result column="position" jdbcType="VARCHAR" property="position" />
     <result column="registryDate" jdbcType="TIMESTAMP" property="registrydate" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="lastVerifyDate" jdbcType="DATE" property="lastverifydate" />
+    <result column="lastVerifyDate" jdbcType="TIMESTAMP" property="lastverifydate" />
     <result column="verifyCode" jdbcType="VARCHAR" property="verifycode" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
   </resultMap>
@@ -121,7 +121,7 @@
       #{followproject,jdbcType=VARCHAR}, #{isdeleted,jdbcType=INTEGER}, #{islock,jdbcType=INTEGER}, 
       #{lastdate,jdbcType=TIMESTAMP}, #{logintime,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
       #{position,jdbcType=VARCHAR}, #{registrydate,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
-      #{lastverifydate,jdbcType=DATE}, #{verifycode,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}
+      #{lastverifydate,jdbcType=TIMESTAMP}, #{verifycode,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProUser">
@@ -211,7 +211,7 @@
         #{type,jdbcType=INTEGER},
       </if>
       <if test="lastverifydate != null">
-        #{lastverifydate,jdbcType=DATE},
+        #{lastverifydate,jdbcType=TIMESTAMP},
       </if>
       <if test="verifycode != null">
         #{verifycode,jdbcType=VARCHAR},
@@ -267,7 +267,7 @@
         type = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.lastverifydate != null">
-        lastVerifyDate = #{record.lastverifydate,jdbcType=DATE},
+        lastVerifyDate = #{record.lastverifydate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.verifycode != null">
         verifyCode = #{record.verifycode,jdbcType=VARCHAR},
@@ -294,7 +294,7 @@
       position = #{record.position,jdbcType=VARCHAR},
       registryDate = #{record.registrydate,jdbcType=TIMESTAMP},
       type = #{record.type,jdbcType=INTEGER},
-      lastVerifyDate = #{record.lastverifydate,jdbcType=DATE},
+      lastVerifyDate = #{record.lastverifydate,jdbcType=TIMESTAMP},
       verifyCode = #{record.verifycode,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -338,7 +338,7 @@
         type = #{type,jdbcType=INTEGER},
       </if>
       <if test="lastverifydate != null">
-        lastVerifyDate = #{lastverifydate,jdbcType=DATE},
+        lastVerifyDate = #{lastverifydate,jdbcType=TIMESTAMP},
       </if>
       <if test="verifycode != null">
         verifyCode = #{verifycode,jdbcType=VARCHAR},
@@ -362,7 +362,7 @@
       position = #{position,jdbcType=VARCHAR},
       registryDate = #{registrydate,jdbcType=TIMESTAMP},
       type = #{type,jdbcType=INTEGER},
-      lastVerifyDate = #{lastverifydate,jdbcType=DATE},
+      lastVerifyDate = #{lastverifydate,jdbcType=TIMESTAMP},
       verifyCode = #{verifycode,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}

@@ -2,7 +2,6 @@ package com.shu.copartner.pojo;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class ProUserExample {
@@ -104,32 +103,6 @@ public class ProUserExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -913,52 +886,52 @@ public class ProUserExample {
         }
 
         public Criteria andLastverifydateEqualTo(Date value) {
-            addCriterionForJDBCDate("lastVerifyDate =", value, "lastverifydate");
+            addCriterion("lastVerifyDate =", value, "lastverifydate");
             return (Criteria) this;
         }
 
         public Criteria andLastverifydateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("lastVerifyDate <>", value, "lastverifydate");
+            addCriterion("lastVerifyDate <>", value, "lastverifydate");
             return (Criteria) this;
         }
 
         public Criteria andLastverifydateGreaterThan(Date value) {
-            addCriterionForJDBCDate("lastVerifyDate >", value, "lastverifydate");
+            addCriterion("lastVerifyDate >", value, "lastverifydate");
             return (Criteria) this;
         }
 
         public Criteria andLastverifydateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("lastVerifyDate >=", value, "lastverifydate");
+            addCriterion("lastVerifyDate >=", value, "lastverifydate");
             return (Criteria) this;
         }
 
         public Criteria andLastverifydateLessThan(Date value) {
-            addCriterionForJDBCDate("lastVerifyDate <", value, "lastverifydate");
+            addCriterion("lastVerifyDate <", value, "lastverifydate");
             return (Criteria) this;
         }
 
         public Criteria andLastverifydateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("lastVerifyDate <=", value, "lastverifydate");
+            addCriterion("lastVerifyDate <=", value, "lastverifydate");
             return (Criteria) this;
         }
 
         public Criteria andLastverifydateIn(List<Date> values) {
-            addCriterionForJDBCDate("lastVerifyDate in", values, "lastverifydate");
+            addCriterion("lastVerifyDate in", values, "lastverifydate");
             return (Criteria) this;
         }
 
         public Criteria andLastverifydateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("lastVerifyDate not in", values, "lastverifydate");
+            addCriterion("lastVerifyDate not in", values, "lastverifydate");
             return (Criteria) this;
         }
 
         public Criteria andLastverifydateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("lastVerifyDate between", value1, value2, "lastverifydate");
+            addCriterion("lastVerifyDate between", value1, value2, "lastverifydate");
             return (Criteria) this;
         }
 
         public Criteria andLastverifydateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("lastVerifyDate not between", value1, value2, "lastverifydate");
+            addCriterion("lastVerifyDate not between", value1, value2, "lastverifydate");
             return (Criteria) this;
         }
 

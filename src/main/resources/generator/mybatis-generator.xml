@@ -58,8 +58,8 @@
         <!--        <table schema="" tableName="ACT_HI_TASKINST"></table>-->
         <!--        <table schema="" tableName="ACT_HI_VARINST"></table>-->
         <!--        <table schema="" tableName="ACT_RE_DEPLOYMENT"></table>-->
-        <table schema="" tableName="PRO_USER"></table>
-        <table schema="" tableName="PRO_PERSON"></table>
+        <table schema="" tableName="PRO_REGISTER"></table>
+<!--        <table schema="" tableName="PRO_PERSON"></table>-->
 
     </context>
 </generatorConfiguration>

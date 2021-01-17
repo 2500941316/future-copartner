@@ -50,6 +50,16 @@ public enum Exceptions {
     SERVER_PHONEISREGISTED_ERROR("0008", "手机号已经注册"),
 
     /**
+     * 手机未注册异常
+     */
+    SERVER_PHONENOTREGISTED_ERROR("0009", "手机号未注册"),
+
+    /**
+     * 短信验证码过期异常
+     */
+    SERVER_PHONECODEOUTOFDATE_ERROR("0010", "短信验证码过期异常"),
+
+    /**
      * 未知异常
      */
     SERVER_OTHER_ERROR("0099", "未知异常");

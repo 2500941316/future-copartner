@@ -6,5 +6,7 @@ import com.shu.copartner.utils.returnobj.TableModel;
  * @author cxy
  */
 public interface PublicAuthService {
-    TableModel getverifyCode(String phone);
+    TableModel  registerGetVrifyCode(String phone);
+
+    TableModel loginGetVerifyCode(String phone);
 }
