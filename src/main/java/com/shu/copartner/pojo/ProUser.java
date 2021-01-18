@@ -8,8 +8,6 @@ public class ProUser implements Serializable {
 
     private String auth;
 
-    private String description;
-
     private String followproject;
 
     private Integer isdeleted;
@@ -22,31 +20,11 @@ public class ProUser implements Serializable {
 
     private String password;
 
-    private String position;
-
     private Date registrydate;
 
     private Integer type;
 
-    private Date lastverifydate;
-
-    private String verifycode;
-
     private String phone;
-
-    public ProUser() {
-
-    }
-
-    public ProUser(String phone, String verifycode) {
-        this.isdeleted = 0;
-        this.islock = 0;
-        this.lastdate = new Date();
-        this.logintime = 0;
-        this.registrydate = new Date();
-        this.phone = phone;
-        this.verifycode = verifycode;
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -64,14 +42,6 @@ public class ProUser implements Serializable {
 
     public void setAuth(String auth) {
         this.auth = auth == null ? null : auth.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
     }
 
     public String getFollowproject() {
@@ -122,14 +92,6 @@ public class ProUser implements Serializable {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position == null ? null : position.trim();
-    }
-
     public Date getRegistrydate() {
         return registrydate;
     }
@@ -144,22 +106,6 @@ public class ProUser implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
-    }
-
-    public Date getLastverifydate() {
-        return lastverifydate;
-    }
-
-    public void setLastverifydate(Date lastverifydate) {
-        this.lastverifydate = lastverifydate;
-    }
-
-    public String getVerifycode() {
-        return verifycode;
-    }
-
-    public void setVerifycode(String verifycode) {
-        this.verifycode = verifycode == null ? null : verifycode.trim();
     }
 
     public String getPhone() {

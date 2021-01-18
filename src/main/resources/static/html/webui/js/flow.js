@@ -23,7 +23,12 @@ layui.use(['form', 'layedit', 'laydate'], function () {
     laydate.render({
         elem: '#date1'
     });
-
+    laydate.render({
+        elem: '#date2'
+    });
+    laydate.render({
+        elem: '#date3'
+    });
     //创建一个编辑器
     var editIndex = layedit.build('LAY_demo_editor');
 
@@ -45,14 +50,6 @@ layui.use(['form', 'layedit', 'laydate'], function () {
 
     form.on('select(aihao)', function (data) {
         category = data.value; //得到被选中的值
-        if (category === "学生" || category === "老师" || category === "个人" || category === "校友") {
-            //隐藏企业的form表单
-            document.getElementById("company").style.display = "none";
-            document.getElementById("singleMan").style.display = "block";
-        } else {
-            document.getElementById("company").style.display = "block";
-            document.getElementById("singleMan").style.display = "none";
-        }
     });
 
     //监听指定开关
@@ -64,7 +61,7 @@ layui.use(['form', 'layedit', 'laydate'], function () {
     });
 
     //监听提交
-    form.on('submit(demo1)', function (data) {
+    form.on('submit(LAY-user-reg-submits)', function (data) {
         layer.alert(JSON.stringify(data.field), {
             title: '最终的提交信息'
         })
@@ -78,6 +75,49 @@ layui.use(['form', 'layedit', 'laydate'], function () {
     });
 });
 
+
+/**
+ * 获得短信验证码的方法
+ */
+function getverifyCode(thisBtn) {
+    if ($('#LAY-user-login-cellphone').val().length !== 11) {
+        return;
+    }
+    $.ajax({
+        type: "get",
+        url: "/public/registerGetVrifyCode",
+        data: {
+            "phone": $('#LAY-user-login-cellphone').val()
+        },
+        success: function (data) {
+            if (data.code === 200) {
+                btn = thisBtn;
+                btn.disabled = true; //将按钮置为不可点击
+                btn.value = '重新获取（' + nums + '）';
+                clock = setInterval(doLoop, 1000); //一秒执行一次
+            } else if (data.code === 8)
+                layer.msg('手机号码已经注册，请直接登录');
+        },
+        error: function (data) {
+            layer.msg('参数异常');
+        }
+    });
+}
+
+/**
+ * 发送验证码倒计时
+ */
+function doLoop() {
+    nums--;
+    if (nums > 0) {
+        btn.value = '重新获取（' + nums + '）';
+    } else {
+        clearInterval(clock); //清除js定时器
+        btn.disabled = false;
+        btn.value = '发送验证码';
+        nums = 90;
+    }
+}
 
 //页面跳转
 function methodBtn(index, method, end) {
@@ -159,6 +199,15 @@ function loadFlowDiv(index) {
         $("#contA").siblings().addClass("contentList")
     }
     if (index == 2) {
+
+        if (category === "学生") {
+            document.getElementById("contents").innerHTML = $("#student").html();
+        } else if (category === "教师") {
+            document.getElementById("contents").innerHTML = $("#teacher").html();
+        } else {
+            document.getElementById("contents").innerHTML = $("#company").html();
+        }
+
         $("#contB").removeClass("contentList");
         $("#contB").siblings().addClass("contentList")
     }
@@ -184,6 +233,9 @@ function checkBtn(index, count) {
     $("#btnBack").hide();
     /*下一步点击事件*/
     $("#btnNext").click(function () {
+        if (category == null) {
+            return;
+        }
         methodBtn(index++, 'forward', false);
         if (index > maxstep) {
             maxstep = index;

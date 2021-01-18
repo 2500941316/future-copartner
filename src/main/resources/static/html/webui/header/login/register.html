@@ -21,13 +21,13 @@
 </head>
 <body>
 
-<div id="alert" class="" style="width: 970px">
+<div id="alert" class="" style="width: 1065px">
 
     <div class="layadmin-user-login-box layadmin-user-login-header">
         <h2>未来合伙人</h2>
         <p>会员注册</p>
     </div>
-    <div class="model-content">
+    <div class="model-content" style="margin-top: -30px">
         <div class="main">
             <div class="row">
                 <div class="col-md-12">
@@ -35,139 +35,42 @@
                         <div class="flowListBox"></div>
                     </div>
                 </div>
+                <hr class="layui-bg-gray" style="margin-bottom: 30px">
                 <div class="col-md-12" id="flowDiv">
-                    <form class="layui-form layui-form-pane" action="" style="width: 80%;margin: 0 auto">
+                    <form class="layui-form layui-form-pane" style="width: 90%;margin: 0 auto">
                         <ol id="iList">
                             <div id="contA">
-                                <hr class="layui-bg-gray" style="margin-bottom: 30px">
+
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">注册类别</label>
                                     <div class="layui-input-block">
                                         <select name="type" lay-filter="aihao">
                                             <option value=""></option>
-                                            <option value="个人" selected="">个人</option>
                                             <option value="学生">学生</option>
-                                            <option value="老师">老师</option>
-                                            <option value="校友">校友</option>
-                                            <option value="企业">企业</option>
-                                            <option value="孵化器">孵化器</option>
-                                            <option value="投资机构">投资机构</option>
-                                            <option value="其他">其他</option>
+                                            <option value="教师">教师</option>
+                                            <option value="校外会员">校外会员</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="contentList" id="contB">
-                                <hr class="layui-bg-gray" style="margin-bottom: 50px">
-
-                                <div id="singleMan">
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">姓名</label>
-                                        <div class="layui-input-inline">
-                                            <input type="text" name="name" lay-verify="required" placeholder="必填"
-                                                   autocomplete="off"
-                                                   class="layui-input">
-                                        </div>
-
-                                        <div class="layui-inline">
-                                            <label class="layui-form-label">出生日期</label>
-                                            <div class="layui-input-block">
-                                                <input type="text" name="birthday" id="date1" autocomplete="off"
-                                                       class="layui-input">
-                                            </div>
-                                        </div>
-                                        <div class="layui-inline">
-                                            <label class="layui-form-label">性别</label>
-                                            <div class="layui-input-inline">
-                                                <input type="radio" name="sex" value="男" title="男" checked="">
-                                                <input type="radio" name="sex" value="女" title="女">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">邮箱</label>
-                                        <div class="layui-input-inline">
-                                            <input type="text" name="mail" lay-verify="required" placeholder="请输入"
-                                                   autocomplete="off"
-                                                   class="layui-input">
-                                        </div>
-                                        <div class="layui-inline">
-                                            <label class="layui-form-label">学校</label>
-                                            <div class="layui-input-inline">
-                                                <input type="text" name="campus" lay-verify="required" placeholder="请输入"
-                                                       autocomplete="off"
-                                                       class="layui-input">
-                                            </div>
-                                        </div>
-                                        <div class="layui-inline">
-                                            <label class="layui-form-label">专业</label>
-                                            <div class="layui-input-inline">
-                                                <input type="text" name="major" lay-verify="required" placeholder="请输入"
-                                                       autocomplete="off"
-                                                       class="layui-input">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">学历</label>
-                                        <div class="layui-input-block">
-                                            <select name="education" lay-filter="aihao">
-                                                <option value=""></option>
-                                                <option value="0" selected="">专科</option>
-                                                <option value="1">本科</option>
-                                                <option value="2">研究生</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div id="company" style="display: none">
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">公司</label>
-                                        <div class="layui-input-inline">
-                                            <input type="text" name="company" lay-verify="required" placeholder="请输入"
-                                                   autocomplete="off"
-                                                   class="layui-input">
-                                        </div>
-                                        <div class="layui-inline">
-                                            <label class="layui-form-label">职位</label>
-                                            <div class="layui-input-inline">
-                                                <input type="text" name="jobname" lay-verify="required"
-                                                       placeholder="请输入"
-                                                       autocomplete="off"
-                                                       class="layui-input">
-                                            </div>
-                                        </div>
-                                        <div class="layui-inline">
-                                            <label class="layui-form-label">申请导师</label>
-                                            <div class="layui-input-inline">
-                                                <input type="radio" name="issupervisor" value="是" title="是">
-                                                <input type="radio" name="issupervisor" value="否" title="否" checked="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div id="contents"></div>
 
                             </div>
 
                             <div class="contentList" id="contC">
-                                <hr class="layui-bg-gray" style="margin-bottom: 50px">
 
                                 <div class="layui-form-item">
-                                    <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone"
+                                    <label class="layadmin-user-login-icon layui-icon "
                                            for="LAY-user-login-cellphone"></label>
-                                    <input type="text" name="cellphone" id="LAY-user-login-cellphone" lay-verify="phone"
+                                    <input type="text" name="phone" id="LAY-user-login-cellphone" lay-verify="phone"
                                            placeholder="手机"
                                            class="layui-input">
-
                                 </div>
                                 <div class="layui-form-item">
                                     <div class="layui-row">
                                         <div class="layui-col-xs7">
-                                            <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"
+                                            <label class="layadmin-user-login-icon layui-icon "
                                                    for="LAY-user-login-vercode"></label>
                                             <input type="text" name="verifycode" id="LAY-user-login-vercode"
                                                    lay-verify="number"
@@ -186,7 +89,7 @@
                                 </div>
                                 <div class="layui-form-item">
                                     <button class="layui-btn layui-btn-fluid" lay-submit
-                                            lay-filter="LAY-user-reg-submit">注 册
+                                            lay-filter="LAY-user-reg-submits">注 册
                                     </button>
                                 </div>
                             </div>
@@ -202,6 +105,228 @@
         <button type="button" class="btn btn-primary" id="btnBack">上一步</button>
         <button type="button" class="btn btn-success" style="float:right; margin-right:10px;" id="btnNext">下一步</button>
     </div>
+
+    <form class="layui-form layui-form-pane" style="width: 90%;margin: 0 auto">
+        <div id="student" style="display: none">
+            <span style="margin: 5px"> 基本信息</span>
+            <hr>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" lay-verify="required"
+                           placeholder="必填"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">入学日期</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="admissiondate" id="date1" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="sex" value="男" title="男" checked="">
+                        <input type="radio" name="sex" value="女" title="女">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">学号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="studentnumber" lay-verify="required"
+                           placeholder="请输入"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">学院</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="department" lay-verify="required"
+                               placeholder="请输入"
+                               autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">专业</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="major" lay-verify="required"
+                               placeholder="请输入"
+                               autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="teacher" style="display: none">
+            <span style="margin: 5px"> 基本信息</span>
+            <hr>
+            <div class="layui-form-item">
+                <label class="layui-form-label">教工号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="teachernumber" lay-verify="required"
+                           placeholder="请输入"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+                <label class="layui-form-label">学院</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="department" lay-verify="required" placeholder="请输入"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="mail" lay-verify="required"
+                               placeholder="请输入"
+                               autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="company" style="display: none">
+            <span style="margin: 5px"> 属性</span>
+            <hr>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否属于</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="like[write]" title="校友">
+                    <input type="checkbox" name="like[read]" title="校友企业">
+                    <input type="checkbox" name="like[game]" title="孵化器">
+                    <input type="checkbox" name="like[game]" title="投资机构">
+                    <input type="checkbox" name="like[game]" title="其他">
+                </div>
+            </div>
+
+            <span style="margin: 5px"> 个人信息</span>
+            <hr>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" lay-verify="required"
+                           placeholder="必填"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">出生日期</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="birthday" id="date2" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="sex" value="男" title="男" checked="">
+                        <input type="radio" name="sex" value="女" title="女">
+                    </div>
+                </div>
+            </div>
+
+            <span style="margin: 5px"> 教育经历</span>
+            <hr>
+            <div class="layui-form-item">
+                <label class="layui-form-label">学校</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="campus" lay-verify="required"
+                           placeholder="必填"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+
+
+                <label class="layui-form-label">专业</label>
+                <div class="layui-input-inline">
+                    <select name="major" lay-filter="aihao">
+                        <option value=""></option>
+                        <option value="0" selected="">专科</option>
+                        <option value="1">本科</option>
+                        <option value="2">研究生</option>
+                    </select>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">毕业时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="gradutedate" id="date3" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">学历</label>
+                <div class="layui-input-block">
+                    <select name="education" lay-filter="aihao">
+                        <option value=""></option>
+                        <option value="0" selected="">专科</option>
+                        <option value="1">本科</option>
+                        <option value="2">研究生</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <span style="margin: 5px"> 工作</span>
+            <hr>
+            <div class="layui-form-item">
+                <label class="layui-form-label">企业名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="company" lay-verify="required"
+                           placeholder="必填"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+                <label class="layui-form-label">职位</label>
+                <div class="layui-input-inline">
+                    <select name="workername" lay-filter="aihao">
+                        <option value=""></option>
+                        <option value="0" selected="">专科</option>
+                        <option value="1">本科</option>
+                        <option value="2">研究生</option>
+                    </select>
+                </div>
+            </div>
+            <span style="margin: 5px"> 介绍</span>
+            <hr>
+            <div class="layui-form-item">
+                <label class="layui-form-label">一句话介绍</label>
+                <div class="layui-input-block">
+                                            <textarea name="description" placeholder="请输入内容"
+                                                      class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">期望</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="like[project]" title="找项目">
+                    <input type="checkbox" name="like[student]" title="招学生">
+                    <input type="checkbox" name="like[other]" title="其他">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">成为导师</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="supervisor" value="是" title="是" checked="">
+                    <input type="radio" name="supervisor" value="否" title="否">
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
 </body>

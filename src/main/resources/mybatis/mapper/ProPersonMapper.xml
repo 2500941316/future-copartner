@@ -3,23 +3,19 @@
 <mapper namespace="com.shu.copartner.mapper.ProPersonMapper">
   <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProPerson">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="age" jdbcType="INTEGER" property="age" />
     <result column="birthDay" jdbcType="TIMESTAMP" property="birthday" />
     <result column="campus" jdbcType="VARCHAR" property="campus" />
     <result column="company" jdbcType="VARCHAR" property="company" />
-    <result column="department" jdbcType="VARCHAR" property="department" />
     <result column="education" jdbcType="VARCHAR" property="education" />
-    <result column="educationBackground" jdbcType="VARCHAR" property="educationbackground" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="experienceString" jdbcType="VARCHAR" property="experiencestring" />
-    <result column="isGraduate" jdbcType="CHAR" property="isgraduate" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gradutedate" jdbcType="DATE" property="gradutedate" />
     <result column="major" jdbcType="VARCHAR" property="major" />
-    <result column="photoUrl" jdbcType="VARCHAR" property="photourl" />
     <result column="resumeUrl" jdbcType="VARCHAR" property="resumeurl" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="vedioUrl" jdbcType="VARCHAR" property="vediourl" />
+    <result column="workername" jdbcType="VARCHAR" property="workername" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="supervisor" jdbcType="BIT" property="supervisor" />
+    <result column="expect" jdbcType="VARCHAR" property="expect" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -80,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, address, age, birthDay, campus, company, department, education, educationBackground, 
-    email, experienceString, isGraduate, major, photoUrl, resumeUrl, sex, username, vedioUrl
+    id, birthDay, campus, company, education, name, gradutedate, major, resumeUrl, sex, 
+    workername, description, supervisor, expect
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProPersonExample" resultMap="BaseResultMap">
     select
@@ -114,32 +110,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProPerson">
-    insert into PRO_PERSON (id, address, age, 
-      birthDay, campus, company, 
-      department, education, educationBackground, 
-      email, experienceString, isGraduate, 
-      major, photoUrl, resumeUrl, 
-      sex, username, vedioUrl
-      )
-    values (#{id,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
-      #{birthday,jdbcType=TIMESTAMP}, #{campus,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
-      #{department,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{educationbackground,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{experiencestring,jdbcType=VARCHAR}, #{isgraduate,jdbcType=CHAR}, 
-      #{major,jdbcType=VARCHAR}, #{photourl,jdbcType=VARCHAR}, #{resumeurl,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{vediourl,jdbcType=VARCHAR}
-      )
+    insert into PRO_PERSON (id, birthDay, campus, 
+      company, education, name, 
+      gradutedate, major, resumeUrl, 
+      sex, workername, description, 
+      supervisor, expect)
+    values (#{id,jdbcType=BIGINT}, #{birthday,jdbcType=TIMESTAMP}, #{campus,jdbcType=VARCHAR}, 
+      #{company,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{gradutedate,jdbcType=DATE}, #{major,jdbcType=VARCHAR}, #{resumeurl,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{workername,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{supervisor,jdbcType=BIT}, #{expect,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProPerson">
     insert into PRO_PERSON
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="address != null">
-        address,
-      </if>
-      <if test="age != null">
-        age,
       </if>
       <if test="birthday != null">
         birthDay,
@@ -150,29 +136,17 @@
       <if test="company != null">
         company,
       </if>
-      <if test="department != null">
-        department,
-      </if>
       <if test="education != null">
         education,
       </if>
-      <if test="educationbackground != null">
-        educationBackground,
+      <if test="name != null">
+        name,
       </if>
-      <if test="email != null">
-        email,
-      </if>
-      <if test="experiencestring != null">
-        experienceString,
-      </if>
-      <if test="isgraduate != null">
-        isGraduate,
+      <if test="gradutedate != null">
+        gradutedate,
       </if>
       <if test="major != null">
         major,
-      </if>
-      <if test="photourl != null">
-        photoUrl,
       </if>
       <if test="resumeurl != null">
         resumeUrl,
@@ -180,22 +154,22 @@
       <if test="sex != null">
         sex,
       </if>
-      <if test="username != null">
-        username,
+      <if test="workername != null">
+        workername,
       </if>
-      <if test="vediourl != null">
-        vedioUrl,
+      <if test="description != null">
+        description,
+      </if>
+      <if test="supervisor != null">
+        supervisor,
+      </if>
+      <if test="expect != null">
+        expect,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
-      </if>
-      <if test="address != null">
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="age != null">
-        #{age,jdbcType=INTEGER},
       </if>
       <if test="birthday != null">
         #{birthday,jdbcType=TIMESTAMP},
@@ -206,29 +180,17 @@
       <if test="company != null">
         #{company,jdbcType=VARCHAR},
       </if>
-      <if test="department != null">
-        #{department,jdbcType=VARCHAR},
-      </if>
       <if test="education != null">
         #{education,jdbcType=VARCHAR},
       </if>
-      <if test="educationbackground != null">
-        #{educationbackground,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="experiencestring != null">
-        #{experiencestring,jdbcType=VARCHAR},
-      </if>
-      <if test="isgraduate != null">
-        #{isgraduate,jdbcType=CHAR},
+      <if test="gradutedate != null">
+        #{gradutedate,jdbcType=DATE},
       </if>
       <if test="major != null">
         #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="photourl != null">
-        #{photourl,jdbcType=VARCHAR},
       </if>
       <if test="resumeurl != null">
         #{resumeurl,jdbcType=VARCHAR},
@@ -236,11 +198,17 @@
       <if test="sex != null">
         #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
+      <if test="workername != null">
+        #{workername,jdbcType=VARCHAR},
       </if>
-      <if test="vediourl != null">
-        #{vediourl,jdbcType=VARCHAR},
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisor != null">
+        #{supervisor,jdbcType=BIT},
+      </if>
+      <if test="expect != null">
+        #{expect,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -256,12 +224,6 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.address != null">
-        address = #{record.address,jdbcType=VARCHAR},
-      </if>
-      <if test="record.age != null">
-        age = #{record.age,jdbcType=INTEGER},
-      </if>
       <if test="record.birthday != null">
         birthDay = #{record.birthday,jdbcType=TIMESTAMP},
       </if>
@@ -271,29 +233,17 @@
       <if test="record.company != null">
         company = #{record.company,jdbcType=VARCHAR},
       </if>
-      <if test="record.department != null">
-        department = #{record.department,jdbcType=VARCHAR},
-      </if>
       <if test="record.education != null">
         education = #{record.education,jdbcType=VARCHAR},
       </if>
-      <if test="record.educationbackground != null">
-        educationBackground = #{record.educationbackground,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.email != null">
-        email = #{record.email,jdbcType=VARCHAR},
-      </if>
-      <if test="record.experiencestring != null">
-        experienceString = #{record.experiencestring,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isgraduate != null">
-        isGraduate = #{record.isgraduate,jdbcType=CHAR},
+      <if test="record.gradutedate != null">
+        gradutedate = #{record.gradutedate,jdbcType=DATE},
       </if>
       <if test="record.major != null">
         major = #{record.major,jdbcType=VARCHAR},
-      </if>
-      <if test="record.photourl != null">
-        photoUrl = #{record.photourl,jdbcType=VARCHAR},
       </if>
       <if test="record.resumeurl != null">
         resumeUrl = #{record.resumeurl,jdbcType=VARCHAR},
@@ -301,11 +251,17 @@
       <if test="record.sex != null">
         sex = #{record.sex,jdbcType=VARCHAR},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
+      <if test="record.workername != null">
+        workername = #{record.workername,jdbcType=VARCHAR},
       </if>
-      <if test="record.vediourl != null">
-        vedioUrl = #{record.vediourl,jdbcType=VARCHAR},
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisor != null">
+        supervisor = #{record.supervisor,jdbcType=BIT},
+      </if>
+      <if test="record.expect != null">
+        expect = #{record.expect,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -315,23 +271,19 @@
   <update id="updateByExample" parameterType="map">
     update PRO_PERSON
     set id = #{record.id,jdbcType=BIGINT},
-      address = #{record.address,jdbcType=VARCHAR},
-      age = #{record.age,jdbcType=INTEGER},
       birthDay = #{record.birthday,jdbcType=TIMESTAMP},
       campus = #{record.campus,jdbcType=VARCHAR},
       company = #{record.company,jdbcType=VARCHAR},
-      department = #{record.department,jdbcType=VARCHAR},
       education = #{record.education,jdbcType=VARCHAR},
-      educationBackground = #{record.educationbackground,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      experienceString = #{record.experiencestring,jdbcType=VARCHAR},
-      isGraduate = #{record.isgraduate,jdbcType=CHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      gradutedate = #{record.gradutedate,jdbcType=DATE},
       major = #{record.major,jdbcType=VARCHAR},
-      photoUrl = #{record.photourl,jdbcType=VARCHAR},
       resumeUrl = #{record.resumeurl,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
-      username = #{record.username,jdbcType=VARCHAR},
-      vedioUrl = #{record.vediourl,jdbcType=VARCHAR}
+      workername = #{record.workername,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      supervisor = #{record.supervisor,jdbcType=BIT},
+      expect = #{record.expect,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -339,12 +291,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProPerson">
     update PRO_PERSON
     <set>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="age != null">
-        age = #{age,jdbcType=INTEGER},
-      </if>
       <if test="birthday != null">
         birthDay = #{birthday,jdbcType=TIMESTAMP},
       </if>
@@ -354,29 +300,17 @@
       <if test="company != null">
         company = #{company,jdbcType=VARCHAR},
       </if>
-      <if test="department != null">
-        department = #{department,jdbcType=VARCHAR},
-      </if>
       <if test="education != null">
         education = #{education,jdbcType=VARCHAR},
       </if>
-      <if test="educationbackground != null">
-        educationBackground = #{educationbackground,jdbcType=VARCHAR},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="experiencestring != null">
-        experienceString = #{experiencestring,jdbcType=VARCHAR},
-      </if>
-      <if test="isgraduate != null">
-        isGraduate = #{isgraduate,jdbcType=CHAR},
+      <if test="gradutedate != null">
+        gradutedate = #{gradutedate,jdbcType=DATE},
       </if>
       <if test="major != null">
         major = #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="photourl != null">
-        photoUrl = #{photourl,jdbcType=VARCHAR},
       </if>
       <if test="resumeurl != null">
         resumeUrl = #{resumeurl,jdbcType=VARCHAR},
@@ -384,34 +318,36 @@
       <if test="sex != null">
         sex = #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
+      <if test="workername != null">
+        workername = #{workername,jdbcType=VARCHAR},
       </if>
-      <if test="vediourl != null">
-        vedioUrl = #{vediourl,jdbcType=VARCHAR},
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisor != null">
+        supervisor = #{supervisor,jdbcType=BIT},
+      </if>
+      <if test="expect != null">
+        expect = #{expect,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProPerson">
     update PRO_PERSON
-    set address = #{address,jdbcType=VARCHAR},
-      age = #{age,jdbcType=INTEGER},
-      birthDay = #{birthday,jdbcType=TIMESTAMP},
+    set birthDay = #{birthday,jdbcType=TIMESTAMP},
       campus = #{campus,jdbcType=VARCHAR},
       company = #{company,jdbcType=VARCHAR},
-      department = #{department,jdbcType=VARCHAR},
       education = #{education,jdbcType=VARCHAR},
-      educationBackground = #{educationbackground,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      experienceString = #{experiencestring,jdbcType=VARCHAR},
-      isGraduate = #{isgraduate,jdbcType=CHAR},
+      name = #{name,jdbcType=VARCHAR},
+      gradutedate = #{gradutedate,jdbcType=DATE},
       major = #{major,jdbcType=VARCHAR},
-      photoUrl = #{photourl,jdbcType=VARCHAR},
       resumeUrl = #{resumeurl,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      vedioUrl = #{vediourl,jdbcType=VARCHAR}
+      workername = #{workername,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      supervisor = #{supervisor,jdbcType=BIT},
+      expect = #{expect,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

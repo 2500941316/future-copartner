@@ -3,8 +3,11 @@ package com.shu.copartner.conf.springsecurity;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProUserMapper;
+import com.shu.copartner.mapper.ProVerifyMapper;
 import com.shu.copartner.pojo.ProUser;
 import com.shu.copartner.pojo.ProUserExample;
+import com.shu.copartner.pojo.ProVerify;
+import com.shu.copartner.pojo.ProVerifyExample;
 import com.shu.copartner.utils.constance.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,20 +34,26 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
     @Autowired
     ProUserMapper proUserMapper;
 
+    @Autowired
+    ProVerifyMapper proVerifyMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) {
         if (username.length() == Constants.USERNAME_LENGTH) {
             //数据库中查询手机号对应的权限和验证码，并且验证时间是否5分钟内
-
-            ProUserExample proUserExample = new ProUserExample();
-            proUserExample.createCriteria().andPhoneEqualTo(username).andLastverifydateGreaterThanOrEqualTo(new Date());
-            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
-            if (proUsers.isEmpty()) {
+            ProVerifyExample proVerifyExample = new ProVerifyExample();
+            proVerifyExample.createCriteria().andPhoneEqualTo(username).andVerifydateGreaterThanOrEqualTo(new Date());
+            List<ProVerify> proVerifies = proVerifyMapper.selectByExample(proVerifyExample);
+            if (proVerifies.isEmpty()) {
                 throw new BusinessException(Exceptions.SERVER_PHONECODEOUTOFDATE_ERROR.getEcode());
             }
 
+            //去user表中查询用户的权限
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(username).andIsdeletedEqualTo(Integer.parseInt(Constants.NO_DELETED));
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
             String auth = proUsers.get(0).getAuth();
-            String password = proUsers.get(0).getVerifycode();
+            String password = String.valueOf(proVerifies.get(0).getVerifycode());
             List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
             grantedAuthorities.add(new SimpleGrantedAuthority(auth));
             return new User(username, new BCryptPasswordEncoder().encode(password), grantedAuthorities);

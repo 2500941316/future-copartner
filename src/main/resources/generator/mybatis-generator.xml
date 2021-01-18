@@ -58,7 +58,11 @@
         <!--        <table schema="" tableName="ACT_HI_TASKINST"></table>-->
         <!--        <table schema="" tableName="ACT_HI_VARINST"></table>-->
         <!--        <table schema="" tableName="ACT_RE_DEPLOYMENT"></table>-->
-        <table schema="" tableName="PRO_REGISTER"></table>
+<!--        <table schema="" tableName="PRO_USER"></table>-->
+<!--        <table schema="" tableName="PRO_TEACHER"></table>-->
+<!--        <table schema="" tableName="PRO_STUDENT"></table>-->
+<!--        <table schema="" tableName="PRO_REGISTER"></table>-->
+        <table schema="" tableName="PRO_VERIFY"></table>
 <!--        <table schema="" tableName="PRO_PERSON"></table>-->
 
     </context>

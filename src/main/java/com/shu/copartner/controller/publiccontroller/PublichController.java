@@ -3,6 +3,7 @@ package com.shu.copartner.controller.publiccontroller;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.pojo.request.NewsPublishVO;
+import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.service.PublicAuthService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
@@ -62,12 +63,12 @@ public class PublichController {
      * @return
      */
     @PostMapping("registry")
-    public TableModel registry(@RequestBody @Valid NewsPublishVO newsPublishVO, BindingResult result) {
+    public TableModel registry(@RequestBody @Valid PublicRegistryInfoVO registryInfoVO, BindingResult result) {
         if (result.hasErrors()) {
             log.error(result.getAllErrors().toString());
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
-        return null;
+        return publicAuthService.registry(registryInfoVO);
     }
 
 }

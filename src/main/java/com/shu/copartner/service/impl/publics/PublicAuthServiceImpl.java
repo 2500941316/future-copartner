@@ -4,14 +4,14 @@ import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProRegisterMapper;
 import com.shu.copartner.mapper.ProUserMapper;
-import com.shu.copartner.pojo.ProRegister;
-import com.shu.copartner.pojo.ProRegisterExample;
-import com.shu.copartner.pojo.ProUser;
-import com.shu.copartner.pojo.ProUserExample;
+import com.shu.copartner.mapper.ProVerifyMapper;
+import com.shu.copartner.pojo.*;
+import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.service.PublicAuthService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +32,9 @@ public class PublicAuthServiceImpl implements PublicAuthService {
 
     @Autowired
     ProRegisterMapper proRegisterMapper;
+
+    @Autowired
+    ProVerifyMapper proVerifyMapper;
 
     /**
      * applystatus: 0.发送验证码  1.提交申请  2.同意  3.驳回
@@ -62,16 +65,21 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         int code = (int) ((Math.random() * 9 + 1) * 100000);
         code = 111111;
 
-        //如果没有注册过则插入register表新用户，具体的分类信息在管理员指定
-        ProRegister proRegister = new ProRegister(phone, String.valueOf(code));
+        //调用短信发送服务
+        System.out.println("发送了验证码：" + code);
+
         //设置验证码过期时间
         Calendar beforeTime = Calendar.getInstance();
         beforeTime.add(Calendar.MINUTE, +5);
-        proRegister.setVerifydate(beforeTime.getTime());
-        proRegisterMapper.insert(proRegister);
 
-        //调用短信发送服务
-        System.out.println("发送了验证码：" + code);
+        //如果没有注册过则插入验证表中
+        ProVerify proVerify = new ProVerify(phone, code, beforeTime.getTime());
+        if (proVerifyMapper.selectByPrimaryKey(phone) == null) {
+            proVerifyMapper.insert(proVerify);
+        } else {
+            proVerifyMapper.updateByPrimaryKeySelective(proVerify);
+        }
+
         return TableModel.success();
     }
 
@@ -98,12 +106,19 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         System.out.println("发送了验证码：" + code);
 
         //将最新的验证码和过期时间存入数据库
-        ProUser proUser = proUsers.get(0);
         Calendar beforeTime = Calendar.getInstance();
         beforeTime.add(Calendar.MINUTE, +5);
-        proUser.setVerifycode(String.valueOf(code));
-        proUser.setLastverifydate(beforeTime.getTime());
-        proUserMapper.updateByPrimaryKeySelective(proUser);
+
+        ProVerify proVerify = new ProVerify(phone, code, beforeTime.getTime());
+        proVerifyMapper.updateByPrimaryKeySelective(proVerify);
+
         return TableModel.success();
+    }
+
+
+    @Override
+    public TableModel registry(PublicRegistryInfoVO registryInfoVO) {
+        System.out.println(registryInfoVO);
+        return null;
     }
 }

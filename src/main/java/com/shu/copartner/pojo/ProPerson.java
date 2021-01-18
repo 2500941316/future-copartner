@@ -6,39 +6,31 @@ import java.util.Date;
 public class ProPerson implements Serializable {
     private Long id;
 
-    private String address;
-
-    private Integer age;
-
     private Date birthday;
 
     private String campus;
 
     private String company;
 
-    private String department;
-
     private String education;
 
-    private String educationbackground;
+    private String name;
 
-    private String email;
-
-    private String experiencestring;
-
-    private String isgraduate;
+    private Date gradutedate;
 
     private String major;
-
-    private String photourl;
 
     private String resumeurl;
 
     private String sex;
 
-    private String username;
+    private String workername;
 
-    private String vediourl;
+    private String description;
+
+    private Boolean supervisor;
+
+    private String expect;
 
     private static final long serialVersionUID = 1L;
 
@@ -48,22 +40,6 @@ public class ProPerson implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public Date getBirthday() {
@@ -90,14 +66,6 @@ public class ProPerson implements Serializable {
         this.company = company == null ? null : company.trim();
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department == null ? null : department.trim();
-    }
-
     public String getEducation() {
         return education;
     }
@@ -106,36 +74,20 @@ public class ProPerson implements Serializable {
         this.education = education == null ? null : education.trim();
     }
 
-    public String getEducationbackground() {
-        return educationbackground;
+    public String getName() {
+        return name;
     }
 
-    public void setEducationbackground(String educationbackground) {
-        this.educationbackground = educationbackground == null ? null : educationbackground.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
-    public String getEmail() {
-        return email;
+    public Date getGradutedate() {
+        return gradutedate;
     }
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    public String getExperiencestring() {
-        return experiencestring;
-    }
-
-    public void setExperiencestring(String experiencestring) {
-        this.experiencestring = experiencestring == null ? null : experiencestring.trim();
-    }
-
-    public String getIsgraduate() {
-        return isgraduate;
-    }
-
-    public void setIsgraduate(String isgraduate) {
-        this.isgraduate = isgraduate == null ? null : isgraduate.trim();
+    public void setGradutedate(Date gradutedate) {
+        this.gradutedate = gradutedate;
     }
 
     public String getMajor() {
@@ -144,14 +96,6 @@ public class ProPerson implements Serializable {
 
     public void setMajor(String major) {
         this.major = major == null ? null : major.trim();
-    }
-
-    public String getPhotourl() {
-        return photourl;
-    }
-
-    public void setPhotourl(String photourl) {
-        this.photourl = photourl == null ? null : photourl.trim();
     }
 
     public String getResumeurl() {
@@ -170,19 +114,35 @@ public class ProPerson implements Serializable {
         this.sex = sex == null ? null : sex.trim();
     }
 
-    public String getUsername() {
-        return username;
+    public String getWorkername() {
+        return workername;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+    public void setWorkername(String workername) {
+        this.workername = workername == null ? null : workername.trim();
     }
 
-    public String getVediourl() {
-        return vediourl;
+    public String getDescription() {
+        return description;
     }
 
-    public void setVediourl(String vediourl) {
-        this.vediourl = vediourl == null ? null : vediourl.trim();
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
+    }
+
+    public Boolean getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(Boolean supervisor) {
+        this.supervisor = supervisor;
+    }
+
+    public String getExpect() {
+        return expect;
+    }
+
+    public void setExpect(String expect) {
+        this.expect = expect == null ? null : expect.trim();
     }
 }

@@ -1,58 +1,54 @@
 package com.shu.copartner.pojo;
 
-import com.shu.copartner.utils.constance.Constants;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class ProRegister implements Serializable {
     private Long id;
 
-    private String name;
+    private String type;
 
-    private String sex;
+    private Integer applystatus;
+
+    private String advice;
 
     private String phone;
 
-    private String mail;
+    private Date applydate;
 
     private Date birthday;
-
-    private String type;
-
-    private String major;
-
-    private String education;
 
     private String campus;
 
     private String company;
 
-    private String jobname;
+    private String education;
+
+    private Date gradutedate;
+
+    private String major;
+
+    private String workername;
 
     private String description;
 
-    private Boolean issupervisor;
+    private Boolean supervisor;
 
-    private String identity;
+    private String expect;
 
-    private Integer applystatus;
+    private String name;
 
-    private Integer category;
+    private String department;
 
-    private Date applytime;
+    private String sex;
 
-    private String verifycode;
+    private Date admissiondate;
 
-    private Date verifydate;
+    private String studentnumber;
 
-    private String advice;
+    private String teachernumber;
 
-    public ProRegister(String phone, String verifycode) {
-        this.applystatus = Constants.REGISTER_CODE[0];
-        this.phone = phone;
-        this.verifycode = verifycode;
-    }
+    private String mail;
 
     private static final long serialVersionUID = 1L;
 
@@ -64,20 +60,28 @@ public class ProRegister implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
-    public String getSex() {
-        return sex;
+    public Integer getApplystatus() {
+        return applystatus;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
+    public void setApplystatus(Integer applystatus) {
+        this.applystatus = applystatus;
+    }
+
+    public String getAdvice() {
+        return advice;
+    }
+
+    public void setAdvice(String advice) {
+        this.advice = advice == null ? null : advice.trim();
     }
 
     public String getPhone() {
@@ -88,12 +92,12 @@ public class ProRegister implements Serializable {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public String getMail() {
-        return mail;
+    public Date getApplydate() {
+        return applydate;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail == null ? null : mail.trim();
+    public void setApplydate(Date applydate) {
+        this.applydate = applydate;
     }
 
     public Date getBirthday() {
@@ -102,30 +106,6 @@ public class ProRegister implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major == null ? null : major.trim();
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
     }
 
     public String getCampus() {
@@ -144,12 +124,36 @@ public class ProRegister implements Serializable {
         this.company = company == null ? null : company.trim();
     }
 
-    public String getJobname() {
-        return jobname;
+    public String getEducation() {
+        return education;
     }
 
-    public void setJobname(String jobname) {
-        this.jobname = jobname == null ? null : jobname.trim();
+    public void setEducation(String education) {
+        this.education = education == null ? null : education.trim();
+    }
+
+    public Date getGradutedate() {
+        return gradutedate;
+    }
+
+    public void setGradutedate(Date gradutedate) {
+        this.gradutedate = gradutedate;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major == null ? null : major.trim();
+    }
+
+    public String getWorkername() {
+        return workername;
+    }
+
+    public void setWorkername(String workername) {
+        this.workername = workername == null ? null : workername.trim();
     }
 
     public String getDescription() {
@@ -160,67 +164,75 @@ public class ProRegister implements Serializable {
         this.description = description == null ? null : description.trim();
     }
 
-    public Boolean getIssupervisor() {
-        return issupervisor;
+    public Boolean getSupervisor() {
+        return supervisor;
     }
 
-    public void setIssupervisor(Boolean issupervisor) {
-        this.issupervisor = issupervisor;
+    public void setSupervisor(Boolean supervisor) {
+        this.supervisor = supervisor;
     }
 
-    public String getIdentity() {
-        return identity;
+    public String getExpect() {
+        return expect;
     }
 
-    public void setIdentity(String identity) {
-        this.identity = identity == null ? null : identity.trim();
+    public void setExpect(String expect) {
+        this.expect = expect == null ? null : expect.trim();
     }
 
-    public Integer getApplystatus() {
-        return applystatus;
+    public String getName() {
+        return name;
     }
 
-    public void setApplystatus(Integer applystatus) {
-        this.applystatus = applystatus;
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
-    public Integer getCategory() {
-        return category;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setCategory(Integer category) {
-        this.category = category;
+    public void setDepartment(String department) {
+        this.department = department == null ? null : department.trim();
     }
 
-    public Date getApplytime() {
-        return applytime;
+    public String getSex() {
+        return sex;
     }
 
-    public void setApplytime(Date applytime) {
-        this.applytime = applytime;
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
     }
 
-    public String getVerifycode() {
-        return verifycode;
+    public Date getAdmissiondate() {
+        return admissiondate;
     }
 
-    public void setVerifycode(String verifycode) {
-        this.verifycode = verifycode == null ? null : verifycode.trim();
+    public void setAdmissiondate(Date admissiondate) {
+        this.admissiondate = admissiondate;
     }
 
-    public Date getVerifydate() {
-        return verifydate;
+    public String getStudentnumber() {
+        return studentnumber;
     }
 
-    public void setVerifydate(Date verifydate) {
-        this.verifydate = verifydate;
+    public void setStudentnumber(String studentnumber) {
+        this.studentnumber = studentnumber == null ? null : studentnumber.trim();
     }
 
-    public String getAdvice() {
-        return advice;
+    public String getTeachernumber() {
+        return teachernumber;
     }
 
-    public void setAdvice(String advice) {
-        this.advice = advice == null ? null : advice.trim();
+    public void setTeachernumber(String teachernumber) {
+        this.teachernumber = teachernumber == null ? null : teachernumber.trim();
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail == null ? null : mail.trim();
     }
 }
