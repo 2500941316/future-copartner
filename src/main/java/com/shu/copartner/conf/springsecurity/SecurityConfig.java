@@ -33,17 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-                .cors().and().csrf().disable()
-                .headers().frameOptions().sameOrigin()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(new EntryPoint()).and()
-                .requestMatchers()
-                .and()
-                .authorizeRequests()
+                .cors()
+                .and().csrf().disable().headers().frameOptions().sameOrigin()
+                .and().exceptionHandling().authenticationEntryPoint(new EntryPoint())
+                .and().authorizeRequests()
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin().loginProcessingUrl("/public/login")
+                .and().formLogin().loginProcessingUrl("/public/login")
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailHandler)
                 .and().rememberMe()
