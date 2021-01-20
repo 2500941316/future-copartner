@@ -224,4 +224,12 @@ public final class Constants {
     public static final String ACTIVITY_IN_START = "进行中";
     public static final String ACTIVITY_AFTER_START = "已结束";
 
+    /**
+     * 直播状态设置
+     */
+    public static final String LIVE_BEFORE_START = "未开始";
+    public static final String LIVE_IN_START = "正在直播";
+    public static final String LIVE_AFTER_START = "已结束";
+
+
 }

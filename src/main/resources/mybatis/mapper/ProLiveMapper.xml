@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProLiveMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProLive">
+    <id column="live_id" jdbcType="BIGINT" property="liveId" />
+    <result column="live_title" jdbcType="VARCHAR" property="liveTitle" />
+    <result column="live_url" jdbcType="VARCHAR" property="liveUrl" />
+    <result column="live_description" jdbcType="VARCHAR" property="liveDescription" />
+    <result column="live_duration" jdbcType="INTEGER" property="liveDuration" />
+    <result column="live_status" jdbcType="VARCHAR" property="liveStatus" />
+    <result column="live_image" jdbcType="VARCHAR" property="liveImage" />
+    <result column="click_times" jdbcType="VARCHAR" property="clickTimes" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="is_issue" jdbcType="INTEGER" property="isIssue" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    live_id, live_title, live_url, live_description, live_duration, live_status, live_image, 
+    click_times, start_time, update_time, end_time, is_issue, is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProLiveExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_LIVE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_LIVE
+    where live_id = #{liveId,jdbcType=BIGINT}
+        and is_deleted = 0
+  </select>
+
+  <!--查询直播列表-->
+  <select id="selectAllLives" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_LIVE
+    where is_deleted = 0
+    order by start_time desc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_LIVE
+    where live_id = #{liveId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProLiveExample">
+    delete from PRO_LIVE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProLive" keyProperty="liveId" useGeneratedKeys="true">
+    insert into PRO_LIVE (live_id, live_title, live_url, 
+      live_description, live_duration, live_status, 
+      live_image, click_times, start_time, 
+      update_time, end_time, is_issue, 
+      is_deleted)
+    values (#{liveId,jdbcType=BIGINT}, #{liveTitle,jdbcType=VARCHAR}, #{liveUrl,jdbcType=VARCHAR}, 
+      #{liveDescription,jdbcType=VARCHAR}, #{liveDuration,jdbcType=INTEGER}, #{liveStatus,jdbcType=VARCHAR}, 
+      #{liveImage,jdbcType=VARCHAR}, #{clickTimes,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isIssue,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLive" keyProperty="liveId" useGeneratedKeys="true">
+    insert into PRO_LIVE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="liveId != null">
+        live_id,
+      </if>
+      <if test="liveTitle != null">
+        live_title,
+      </if>
+      <if test="liveUrl != null">
+        live_url,
+      </if>
+      <if test="liveDescription != null">
+        live_description,
+      </if>
+      <if test="liveDuration != null">
+        live_duration,
+      </if>
+      <if test="liveStatus != null">
+        live_status,
+      </if>
+      <if test="liveImage != null">
+        live_image,
+      </if>
+      <if test="clickTimes != null">
+        click_times,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="isIssue != null">
+        is_issue,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="liveId != null">
+        #{liveId,jdbcType=BIGINT},
+      </if>
+      <if test="liveTitle != null">
+        #{liveTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="liveUrl != null">
+        #{liveUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="liveDescription != null">
+        #{liveDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="liveDuration != null">
+        #{liveDuration,jdbcType=INTEGER},
+      </if>
+      <if test="liveStatus != null">
+        #{liveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="liveImage != null">
+        #{liveImage,jdbcType=VARCHAR},
+      </if>
+      <if test="clickTimes != null">
+        #{clickTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isIssue != null">
+        #{isIssue,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProLiveExample" resultType="java.lang.Long">
+    select count(*) from PRO_LIVE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_LIVE
+    <set>
+      <if test="record.liveId != null">
+        live_id = #{record.liveId,jdbcType=BIGINT},
+      </if>
+      <if test="record.liveTitle != null">
+        live_title = #{record.liveTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveUrl != null">
+        live_url = #{record.liveUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveDescription != null">
+        live_description = #{record.liveDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveDuration != null">
+        live_duration = #{record.liveDuration,jdbcType=INTEGER},
+      </if>
+      <if test="record.liveStatus != null">
+        live_status = #{record.liveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveImage != null">
+        live_image = #{record.liveImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clickTimes != null">
+        click_times = #{record.clickTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isIssue != null">
+        is_issue = #{record.isIssue,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_LIVE
+    set live_id = #{record.liveId,jdbcType=BIGINT},
+      live_title = #{record.liveTitle,jdbcType=VARCHAR},
+      live_url = #{record.liveUrl,jdbcType=VARCHAR},
+      live_description = #{record.liveDescription,jdbcType=VARCHAR},
+      live_duration = #{record.liveDuration,jdbcType=INTEGER},
+      live_status = #{record.liveStatus,jdbcType=VARCHAR},
+      live_image = #{record.liveImage,jdbcType=VARCHAR},
+      click_times = #{record.clickTimes,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      is_issue = #{record.isIssue,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProLive">
+    update PRO_LIVE
+    <set>
+      <if test="liveTitle != null">
+        live_title = #{liveTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="liveUrl != null">
+        live_url = #{liveUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="liveDescription != null">
+        live_description = #{liveDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="liveDuration != null">
+        live_duration = #{liveDuration,jdbcType=INTEGER},
+      </if>
+      <if test="liveStatus != null">
+        live_status = #{liveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="liveImage != null">
+        live_image = #{liveImage,jdbcType=VARCHAR},
+      </if>
+      <if test="clickTimes != null">
+        click_times = #{clickTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isIssue != null">
+        is_issue = #{isIssue,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where live_id = #{liveId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProLive">
+    update PRO_LIVE
+    set live_title = #{liveTitle,jdbcType=VARCHAR},
+      live_url = #{liveUrl,jdbcType=VARCHAR},
+      live_description = #{liveDescription,jdbcType=VARCHAR},
+      live_duration = #{liveDuration,jdbcType=INTEGER},
+      live_status = #{liveStatus,jdbcType=VARCHAR},
+      live_image = #{liveImage,jdbcType=VARCHAR},
+      click_times = #{clickTimes,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_issue = #{isIssue,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=INTEGER}
+    where live_id = #{liveId,jdbcType=BIGINT}
+  </update>
+</mapper>

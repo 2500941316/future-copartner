@@ -59,6 +59,11 @@ public class ManagerSupervisorServiceImpl implements ManagerSupervisorService {
         return TableModel.success();
     }
 
+    /**
+     * 导师信息修改
+     * @param supervisorPublishVO
+     * @return
+     */
     @Override
     public TableModel updateSupervisorInfo(SupervisorPublishVO supervisorPublishVO) {
         try{

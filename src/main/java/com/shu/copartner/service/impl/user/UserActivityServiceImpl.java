@@ -162,11 +162,7 @@ public class UserActivityServiceImpl implements UserActivityService {
                 // 如果之前已经取消报名该活动，再次报名时就直接置is_deleted为0
                 proEnroll001.setIsDeleted(0);
                 proEnroll001.setEnrollTime(new Date());
-                proEnroll001.setActivityId(Long.parseLong(activityId));
-                proEnroll001.setPersonId(userId);
-                ProEnrollExample proEnrollExample = new ProEnrollExample();
-                proEnrollExample.createCriteria().andActivityIdEqualTo(Long.parseLong(activityId)).andPersonIdEqualTo(userId);
-                this.proEnrollMapper.updateByExampleSelective(proEnroll001, proEnrollExample);
+                this.proEnrollMapper.updateByPrimaryKeySelective(proEnroll001);
             } else {
                 // 第一次报名该活动则将信息写入 报名表
                 ProEnroll proEnroll = new ProEnroll();
@@ -264,6 +260,16 @@ public class UserActivityServiceImpl implements UserActivityService {
                 }else if(pa.getStartTime().before(new Date(System.currentTimeMillis()))) {
                     //log.info(pa.getStartTime() + "- 进行中");
                     pa.setActivityStatus(Constants.ACTIVITY_IN_START);// 活动 '进行中'
+                    try {
+                        // 更新数据库中的活动状态
+                        proActivityMapper.updateByPrimaryKeySelective(pa);
+                    }catch (Exception e){
+                        log.error(e.getMessage());
+                        throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+                    }
+                }else if(pa.getStartTime().after(new Date(System.currentTimeMillis()))) {
+                    //log.info(pa.getStartTime() + "- 未开始");
+                    pa.setActivityStatus(Constants.ACTIVITY_AFTER_START);// 活动 '未开始'
                     try {
                         // 更新数据库中的活动状态
                         proActivityMapper.updateByPrimaryKeySelective(pa);

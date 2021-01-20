@@ -149,14 +149,14 @@
     where project_id != #{projectId,jdbcType=BIGINT} and is_deleted = 0
   </select>
 
-  <!--根据创建人查询项目信息-->
+  <!--根据creater查询项目信息-->
   <select id="selectByCreater" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from PRO_PROJECT
     where project_creater = #{projectCreater,jdbcType=VARCHAR} and is_deleted = 0
   </select>
-
+  
   <!--根据标志值查询素有待审批项目-->
   <select id="selectProjectByToken" resultMap="BaseResultMap">
     select

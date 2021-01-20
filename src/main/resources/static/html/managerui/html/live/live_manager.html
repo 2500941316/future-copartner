@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>个人工作台</title>
+    <script src='/html/webui/header/header.js'></script>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+    <script type="text/javascript" src="/html/managerui/js/leasson_manager.js"></script>
+</head>
+<body>
+<!--引入页头页面-->
+<div id="hy_con">
+    <div id="con_lf">
+        <h2>管理列表</h2>
+        <ul>
+            <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/project/project_manager.html">项目管理</a></li>
+            <li class="lf_li1"><a href="#">新闻管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/activity/activity_manager.html">活动管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/live/live_manager.html">直播管理</a></li>
+        </ul>
+    </div>
+    <div id="con_rh">
+        <div class="con_rh_con">
+            <p class="rh_title">直播管理</p>
+            <div class="layui-tab" lay-filter="demo">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">直播信息发布</li>
+                    <li class="layui-this" onclick="liveInfoManage()">直播信息管理</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+
+                        <div class="perRightcon">
+                            <div class="ydc-column ydc-column-8">
+                                <div class="ydc-release-content">
+                                    <div class="ydc-tabPanel ydc-tabPanel-release">
+                                        <div class="ydc-panes">
+                                            <div class="ydc-pane" style="display:block;">
+                                                <div class="ydc-form-city" style="margin-top: 5px">
+                                                    <div class="layui-row">
+                                                        <div class="layui-col-xs9">
+                                                            <div class="aui-card-form-item">
+                                                                <label class="aui-card-form-label">直播标题:</label>
+                                                                <div class="aui-card-form-input">
+                                                                    <input type="text" style="width: 300px" required
+                                                                           id="liveTitle"
+                                                                           lay-verify="required" placeholder="请填写直播标题"
+                                                                           autocomplete="off" class="layui-input">
+                                                                </div>
+                                                            </div>
+                                                            <div class="aui-card-form-item">
+                                                                <label class="aui-card-form-label">直播链接:</label>
+                                                                <div class="aui-card-form-input">
+                                                                    <input type="text" style="width: 300px" required
+                                                                           id="liveUrl"
+                                                                           lay-verify="required"
+                                                                           placeholder="请完整填写直播链接"
+                                                                           autocomplete="off" class="layui-input">
+                                                                </div>
+                                                            </div>
+                                                            <div class="aui-card-form-item">
+                                                                <label class="aui-card-form-label">开始时间:</label>
+                                                                <div class="aui-card-form-input">
+                                                                    <input type="text" style="width: 300px" required
+                                                                           id="startTime"
+                                                                           lay-verify="required"
+                                                                           placeholder="直播开始时间（格式：2021-01-01 08:00:00）"
+                                                                           autocomplete="off" class="layui-input">
+                                                                </div>
+                                                            </div>
+                                                            <div class="aui-card-form-item">
+                                                                <label class="aui-card-form-label">直播时长:</label>
+                                                                <div class="aui-card-form-input" >
+                                                                    <select id="liveDuration" style="width: 300px">
+                                                                        <option value="1">1小时</option>
+                                                                        <option value="2">2小时</option>
+                                                                        <option value="3">3小时</option>
+                                                                        <option value="4">4小时</option>
+                                                                        <option value="5">5小时</option>
+                                                                        <option value="6">6小时</option>
+                                                                        <option value="7">7小时</option>
+                                                                        <option value="8">8小时</option>
+                                                                        <option value="9">9小时</option>
+                                                                        <option value="10">10小时</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                              <div class="aui-card-form-item">
+                                                                  <label class="aui-card-form-label">直播简述:</label>
+                                                                  <div class="aui-card-form-input">
+                                                                      <textarea id="liveDescription" style="width: 300px" required
+                                                                                autocomplete="off"
+                                                                                onkeyUp="liveTextLimitCheck(this, 60);"
+                                                                                ></textarea>
+                                                                      <br /><span id="messageCount">0</span>/60
+                                                                  </div>
+                                                              </div>
+
+                                                        </div>
+
+                                                        <div class="layui-col-xs3">
+                                                            <div class="grid-demo">
+                                                                <div class="layui-upload">
+                                                                    <div class="layui-upload-list">
+                                                                        <img class="layui-upload-img"
+                                                                             style="height: 140px;width: 200px;"
+                                                                             id="imgId">
+                                                                        <p id="demoText"></p>
+                                                                    </div>
+                                                                    <button type="button" class="layui-btn" id="upImageBtn">
+                                                                        上传直播照片
+                                                                    </button>
+                                                                    <input id="picture" style="display: none"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="ydc-release-form-text">
+                                                    <div class="ydc-btn" style="height: 50px;padding-top: 20px;">
+                                                        <button id="publishSup" class="btn">发布</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--直播信息管理模块-->
+                    <div class="layui-tab-item">
+                        <!--引入layui表格-->
+                        <table id="live" lay-filter="liveTable"></table>
+
+                        <script type="text/html" id="liveOperate">
+                          <!--  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="manage">管理</a>-->
+                            <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+                        </script>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--引入尾部页面-->
+<div id="footer"></div>
+
+
+<script type="application/javascript">
+
+    // 时间组件
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startTime', //指定元素
+            format: 'yyyy-MM-dd HH:mm:ss',
+            type: 'datetime',
+            trigger: 'click'
+        });
+    });
+
+    //直播图片上传方法
+    layui.use('upload', function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#upImageBtn'
+            , url: '/manager/supervisor/supervisorImgUpload'
+            , before: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#imgId').attr('src', result); //图片链接（base64）
+                });
+            }, done: function (res) {
+                if (res.data.src !== null) {
+                    $("#picture").val(res.data.src);
+                    return layer.msg('上传成功');
+                }
+            }, error: function () {
+            }
+        });
+    })
+
+        //点击发布按钮的操作
+        $("#publishSup").click(function () {
+            var liveTitle = $("#liveTitle").val();
+            var liveUrl = $("#liveUrl").val();
+            var startTime = $("#startTime").val();
+            var liveDuration = $("#liveDuration").val();
+            var liveDescription = $("#liveDescription").val();
+            var liveImage = $("#picture").val();
+
+            if (liveTitle.length === 0 || liveUrl.length === 0 || startTime.length === 0
+                ||liveDuration.length === 0) {
+                top.layer.msg('请填写完整信息！',{icon: 7,shade: 0.01});
+                return;
+            }
+            if(liveImage.length === 0){
+                // 没有上传照片，则设置一个默认照片
+                liveImage = "/html/webui/live/image/1532513058.jpg";
+            }
+            var data = {
+                 liveTitle: liveTitle,
+                 liveUrl: liveUrl,
+                 startTime : startTime,
+                 liveDuration : liveDuration,
+                 liveDescription : liveDescription,
+                 liveImage : liveImage,
+            };
+            //console.log(data);
+            $.ajax({
+                type: "POST",
+                url: "/manager/live/publishLiveInfo",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.code === 200) {
+                        layer.msg('发布成功', {icon: 1, shade: 0.01});
+                    } else
+                        layer.msg('网络异常，请稍后重试');
+                },
+                error: function (data) {
+                    layer.msg('参数异常');
+                }
+            });
+        })
+
+    /**
+     *直播信息管理表格
+     */
+    function liveInfoManage(){
+        layui.use('table', function () {
+            var table = layui.table;
+            var data = [{
+                liveId: "1",
+                liveTitle: '上海大学',
+                liveUrl: "htttps://shu.edu.cn",
+                startTime: '2021-01-19',
+                liveDuration: '1小时'
+            }];
+            table.render({
+                elem: '#live'
+                , url: '/manager/live/searchAllLives'
+                //,data: data
+                , title: '直播信息管理表'
+                , cols: [[
+                    {
+                        field: 'liveId', title: 'ID', fixed: 'left', width: 80,unresize: true, sort: true, align: 'center',type:'numbers'
+                    }
+                    , {field: 'liveTitle', title: '直播标题', align: 'center'}
+                    , {field: 'liveUrl', title: '直播链接', align: 'center'}
+                    , {field: 'startTime', title: '开始时间',width: 150, sort: true, align: 'center'}
+                    , {field: 'liveDuration', title: '直播时长',width: 80, align: 'center',templet: function (res) {
+                                return res.liveDuration+"h";
+                        }}
+                    , {field: 'liveStatus', title: '状态',  align: 'center'}
+                    , {fixed: 'right', title: '操作', toolbar: '#liveOperate', width: 150, align: 'center'}
+                ]]
+                , page: true
+                ,limits: [10]
+            });
+            //监听操作栏
+            table.on('tool(liveTable)', function (obj) {
+               if (obj.event === 'edit') {
+                    editLiveInfo(obj.data.liveId);
+                } else if (obj.event === 'delete') {
+                    layer.confirm('确认删除？', function (index) {
+                        deleteLiveInfo(obj.data.liveId);
+                        layer.close(index);
+                        obj.del();
+                    });
+                }
+            });
+        })
+    }
+
+
+    /**
+     * 删除直播信息
+     * @param liveId
+     */
+    function deleteLiveInfo(liveId) {
+        $.ajax({
+            url: "/manager/live/deleteLiveById",
+            type: "GET",
+            data: "liveId="+liveId,
+            success: function (res) {
+                if(res.code = 200){
+                    layer.msg("删除成功！",{icon: 1,shade: 0.01})
+                }else{
+                    layer.msg("网络异常！");
+                }
+            },
+            error: function () {
+                layer.msg("网络异常！");
+            }
+        })
+    }
+
+    /**
+     * 修改直播信息
+     * @param liveId
+     */
+    function editLiveInfo(liveId) {
+        localStorage.setItem("liveId",liveId);
+        layui.use("layer", function () {
+            var layer = layui.layer;
+            layer.open({
+                title:"直播信息修改",
+                type: 2,
+                area: ["60%", "80%"],
+                fixed: false, //不固定
+                maxmin: true,
+                content: "/html/managerui/html/live/edit_live.html"
+            });
+        });
+    }
+
+    function liveTextLimitCheck(thisArea, maxLength) {
+        if (thisArea.value.length > maxLength) {
+            thisArea.value = thisArea.value.substring(0, 60);
+            thisArea.focus();
+        }
+        messageCount.innerText = thisArea.value.length;
+    }
+
+</script>
+
+</body>
+</html>

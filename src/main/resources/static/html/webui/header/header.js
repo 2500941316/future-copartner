@@ -49,7 +49,7 @@ document.writeln("                    <a href=\'/html/webui/supervisor/superviso
 document.writeln("                    </a>");
 document.writeln("                </li>");
 document.writeln("                <li class=\'merchants\'>");
-document.writeln("                    <a href=\'#\'>直播");
+document.writeln("                    <a href=\'/html/webui/live/live.html\'>直播");
 document.writeln("                    </a>");
 document.writeln("                </li>");
 document.writeln("                <li class=\'college\'>");

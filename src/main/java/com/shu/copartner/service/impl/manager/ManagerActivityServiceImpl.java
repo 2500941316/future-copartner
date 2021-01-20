@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -126,13 +127,13 @@ public class ManagerActivityServiceImpl implements ManagerActivityService {
         try{
             ProActivity proActivity = new ProActivity();
             BeanUtils.copyProperties(activityPublishVO,proActivity);
+            proActivity.setStartTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(activityPublishVO.getStartTime()));
             this.proActivityMapper.updateByPrimaryKeySelective(proActivity);
             return TableModel.success();
         }catch (Exception e){
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
-
     }
 
     /**

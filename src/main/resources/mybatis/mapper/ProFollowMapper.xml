@@ -101,6 +101,15 @@
             and is_delete = 0
   </select>
 
+  <!--根据projectId，和follower查询 判断当前用户是否重复关注该项目-->
+  <select id="selectByPidFolloer02" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PRO_FOLLOW
+    where project_id = #{projectId,jdbcType=BIGINT}
+            and follower = #{follower}
+  </select>
+
 
   <!--根据当前用户 查询我关注的项目信息-->
   <select id="selectUserOfFollowMe" parameterType="java.lang.Long" resultMap="BaseResultMap">

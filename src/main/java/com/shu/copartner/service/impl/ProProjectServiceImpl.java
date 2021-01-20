@@ -320,15 +320,24 @@ public class ProProjectServiceImpl implements ProProjectService {
      * @return
      */
     @Override
-    public TableModel followProject(String projectId,String creater) throws ParseException {
+    public TableModel followProject(String projectId,String creater) {
         try{
-            // 将当前用户及关注的项目id写到follow表
-            ProFollow proFollow = new ProFollow();
-            proFollow.setProjectId(Long.parseLong(projectId));
-            proFollow.setFollower(creater);
-            proFollow.setFollowTime(new Date());
-            proFollow.setIsDelete(0);
-            proFollowMapper.insert(proFollow);
+            ProFollow proFollow001 = proFollowMapper.selectByPidFolloer02(Long.parseLong(projectId),creater);
+            if(ObjectUtils.isNotEmpty(proFollow001)){
+                // 如果之前关注过该项目，则直接将is_delete置为0
+                proFollow001.setFollowTime(new Date());
+                proFollow001.setIsDelete(0);
+                proFollowMapper.updateByPrimaryKeySelective(proFollow001);
+            }else{
+                // 第一次关注该项目，将当前用户及关注的项目id写到follow表
+                ProFollow proFollow = new ProFollow();
+                proFollow.setProjectId(Long.parseLong(projectId));
+                proFollow.setFollower(creater);
+                proFollow.setFollowTime(new Date());
+                proFollow.setIsDelete(0);
+              //  proFollowMapper.insert(proFollow);
+            }
+
         }catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());

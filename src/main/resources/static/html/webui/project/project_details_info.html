@@ -28,7 +28,7 @@
    <div class="DivLeft">
       <div class="DivCompany">
          <div class="DivCompany_img"><img src="/html/webui/images/p03.png" width="180"/></div>
-         <h1><a href="project_details_info.html"><span id="projectName2">项目名称</span></a><img src="/html/webui/images/16.png" /></h1>
+         <h1><a href="project_details_info.html"><span id="projectName2"><!--项目名称--></span></a><img src="/html/webui/images/16.png" /></h1>
          <div class="DivLeft_1">
             <div class="gz1"><span  id="follow">+关注</span></div>  <!--onclick="clickFollow()"-->
             <div class="gz2">答复率<span>100.0%</span></div>
@@ -64,7 +64,7 @@
          <div class="divJob_1">
             <div class="divJob_l">
                <div class="tit">
-                  <h2> <span id="projectName">项目名称</span></h2>
+                  <h2> <span id="projectName"><!--项目名称--></span></h2>
                   <!--<div class="ly">
                     <a href="">给HR留言</a>
                   </div>-->
@@ -121,7 +121,8 @@
             <div class="title">其他项目</div>
          </div>
          <div id="otherProject">
-            <div class="jobotherlist">
+            <!--其他项目列表-->
+            <!--<div class="jobotherlist">
                <div class="jobtype">
                   <div class="jobtypel">
                      <p><a href="jobtype.html">项目名称</a> [类型]</p>
@@ -132,7 +133,7 @@
                   </div>
                   <div class="clear"></div>
                </div>
-            </div>
+            </div>-->
          </div>
          <!--分页-->
          <div style="margin-top: 50px;">
@@ -440,7 +441,7 @@
          data: "projectId="+projectId,
          success: function(res){
             if(res.code == 200){
-               top.layer.msg("已关注");
+               top.layer.msg("已关注",{icon:1,shade: 0.05,time: 1000});
             }else{
                top.layer.msg("网络异常");
             }
@@ -474,7 +475,7 @@
          data: cancelInfo,
          success: function (res) {
             if(res.code == 200){
-               top.layer.msg("已取消关注！");
+               top.layer.msg("已取消关注！",{icon:1,shade: 0.05,time: 1000});
 
                document.getElementById("follow").innerText = "+关注";
                $('.DivLeft_1 .gz1').css('background', '#50BA8C');
