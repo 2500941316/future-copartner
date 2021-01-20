@@ -132,63 +132,63 @@ public class ProStudentExample {
             addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
-        public Criteria andIdIsNull() {
-            addCriterion("id is null");
+        public Criteria andStudentidIsNull() {
+            addCriterion("studentid is null");
             return (Criteria) this;
         }
 
-        public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
+        public Criteria andStudentidIsNotNull() {
+            addCriterion("studentid is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
-            addCriterion("id =", value, "id");
+        public Criteria andStudentidEqualTo(Long value) {
+            addCriterion("studentid =", value, "studentid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
-            addCriterion("id <>", value, "id");
+        public Criteria andStudentidNotEqualTo(Long value) {
+            addCriterion("studentid <>", value, "studentid");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
-            addCriterion("id >", value, "id");
+        public Criteria andStudentidGreaterThan(Long value) {
+            addCriterion("studentid >", value, "studentid");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("id >=", value, "id");
+        public Criteria andStudentidGreaterThanOrEqualTo(Long value) {
+            addCriterion("studentid >=", value, "studentid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
-            addCriterion("id <", value, "id");
+        public Criteria andStudentidLessThan(Long value) {
+            addCriterion("studentid <", value, "studentid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
-            addCriterion("id <=", value, "id");
+        public Criteria andStudentidLessThanOrEqualTo(Long value) {
+            addCriterion("studentid <=", value, "studentid");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
-            addCriterion("id in", values, "id");
+        public Criteria andStudentidIn(List<Long> values) {
+            addCriterion("studentid in", values, "studentid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
-            addCriterion("id not in", values, "id");
+        public Criteria andStudentidNotIn(List<Long> values) {
+            addCriterion("studentid not in", values, "studentid");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
-            addCriterion("id between", value1, value2, "id");
+        public Criteria andStudentidBetween(Long value1, Long value2) {
+            addCriterion("studentid between", value1, value2, "studentid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
-            addCriterion("id not between", value1, value2, "id");
+        public Criteria andStudentidNotBetween(Long value1, Long value2) {
+            addCriterion("studentid not between", value1, value2, "studentid");
             return (Criteria) this;
         }
 

@@ -10,7 +10,7 @@ public interface ProPersonMapper {
 
     int deleteByExample(ProPersonExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long personid);
 
     int insert(ProPerson record);
 
@@ -18,7 +18,7 @@ public interface ProPersonMapper {
 
     List<ProPerson> selectByExample(ProPersonExample example);
 
-    ProPerson selectByPrimaryKey(Long id);
+    ProPerson selectByPrimaryKey(Long personid);
 
     int updateByExampleSelective(@Param("record") ProPerson record, @Param("example") ProPersonExample example);
 

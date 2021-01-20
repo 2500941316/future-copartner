@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shu.copartner.mapper.ProStudentMapper">
   <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProStudent">
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="studentid" jdbcType="BIGINT" property="studentid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="department" jdbcType="VARCHAR" property="department" />
     <result column="major" jdbcType="VARCHAR" property="major" />
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, department, major, sex, Admissiondate, studentnumber
+    studentid, name, department, major, sex, Admissiondate, studentnumber
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProStudentExample" resultMap="BaseResultMap">
     select
@@ -89,11 +89,11 @@
     select 
     <include refid="Base_Column_List" />
     from PRO_STUDENT
-    where id = #{id,jdbcType=BIGINT}
+    where studentid = #{studentid,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_STUDENT
-    where id = #{id,jdbcType=BIGINT}
+    where studentid = #{studentid,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProStudentExample">
     delete from PRO_STUDENT
@@ -102,18 +102,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProStudent">
-    insert into PRO_STUDENT (id, name, department, 
+    insert into PRO_STUDENT (studentid, name, department, 
       major, sex, Admissiondate, 
       studentnumber)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
+    values (#{studentid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
       #{major,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{admissiondate,jdbcType=DATE}, 
       #{studentnumber,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProStudent">
     insert into PRO_STUDENT
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="studentid != null">
+        studentid,
       </if>
       <if test="name != null">
         name,
@@ -135,8 +135,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
+      <if test="studentid != null">
+        #{studentid,jdbcType=BIGINT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -167,8 +167,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update PRO_STUDENT
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+      <if test="record.studentid != null">
+        studentid = #{record.studentid,jdbcType=BIGINT},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -195,7 +195,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update PRO_STUDENT
-    set id = #{record.id,jdbcType=BIGINT},
+    set studentid = #{record.studentid,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
       department = #{record.department,jdbcType=VARCHAR},
       major = #{record.major,jdbcType=VARCHAR},
@@ -228,7 +228,7 @@
         studentnumber = #{studentnumber,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where studentid = #{studentid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProStudent">
     update PRO_STUDENT
@@ -238,6 +238,6 @@
       sex = #{sex,jdbcType=VARCHAR},
       Admissiondate = #{admissiondate,jdbcType=DATE},
       studentnumber = #{studentnumber,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where studentid = #{studentid,jdbcType=BIGINT}
   </update>
 </mapper>

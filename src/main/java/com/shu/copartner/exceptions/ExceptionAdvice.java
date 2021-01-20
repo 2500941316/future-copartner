@@ -69,6 +69,17 @@ public class ExceptionAdvice {
                 message = Exceptions.SERVER_PHONECODEOUTOFDATE_ERROR.getEmsg();
                 break;
 
+            case "0011":
+                message = Exceptions.SERVER_PHONECODEERROR_ERROR.getEmsg();
+                break;
+
+            case "0012":
+                message = Exceptions.SERVER_PHONECODENOTEXIST_ERROR.getEmsg();
+                break;
+            case "0013":
+                message = Exceptions.SERVER_REGISTERISEXIST_ERROR.getEmsg();
+                break;
+
             default:
                 message = Exceptions.SERVER_OTHER_ERROR.getEmsg();
                 e.printStackTrace();

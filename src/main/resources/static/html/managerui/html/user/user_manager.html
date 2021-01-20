@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>个人工作台</title>
+    <title>人员管理</title>
     <script src='/html/webui/header/header.js'></script>
     <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
@@ -29,24 +29,22 @@
     </div>
     <div id="con_rh">
         <div class="con_rh_con">
-            <p class="rh_title">项目管理</p>
+            <p class="rh_title">人员管理</p>
             <div class="layui-tab" lay-filter="demo">
                 <ul class="layui-tab-title">
-                    <li class="layui-this">项目信息管理</li>
+                    <li class="layui-this">注册审批</li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
                         <!--引入layui表格-->
-                        <table id="project" lay-filter="projectTable"></table>
+                        <table id="register" lay-filter="projectTable"></table>
 
                         <script type="text/html" id="projectOperate">
                             <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-                            <a class="layui-btn layui-btn-xs" lay-event="edit">设置</a>
-                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+                            <a class="layui-btn layui-btn-xs" lay-event="pass">通过</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reject">驳回</a>
                         </script>
-
                     </div>
-
                 </div>
 
                 <form class="layui-form" id="test" style="display:none">
@@ -70,31 +68,57 @@
 <script type="application/javascript">
 
     $(function () {
-        supervisorInfoManage();
+        RegisterManage();
     })
 
     /**
      *项目信息管理表格
      */
-    function supervisorInfoManage(){
+    function RegisterManage() {
         layui.use('table', function () {
             var table = layui.table;
 
             // 项目信息管理表格
             table.render({
-                elem: '#project'
-                , url: '/manager/project/searchAllProject'
-                //,data: data
-                , title: '项目信息管理表'
+                elem: '#register'
+                , url: '/manager/user/searchAllRegistry'
+                , parseData: function (res) { //res 即为原始返回的数据
+                    //处理类型赋值
+                    for (var i in res.data) {
+                        switch (res.data[i].auth) {
+                            case "ROLE_STUDENT":
+                                res.data[i].auth = "学生";
+                                break;
+                            case "ROLE_TEACHER":
+                                res.data[i].auth = "教师";
+                                break;
+                            case "ROLE_PERSON":
+                                res.data[i].auth = "校外人员";
+                                break;
+                        }
+                    }
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.count, //解析数据长度
+                        "data": res.data //解析数据列表
+                    };
+                }
                 , cols: [[
                     {
-                        field: 'projectId', title: 'ID', fixed: 'left', width: 80,unresize: true, sort: true, align: 'center',type:'numbers'
+                        field: 'id',
+                        title: 'ID',
+                        fixed: 'left',
+                        width: 80,
+                        unresize: true,
+                        sort: true,
+                        align: 'center',
+                        type: 'numbers'
                     }
-                    , {field: 'projectName', title: '项目名称', align: 'center'}
-                    , {field: 'projectCreater', title: '创建人', align: 'center'}
-                    , {field: 'projectTeacher', title: '指导教师', sort: true, align: 'center'}
-                    , {field: 'isGoing', title: '状态', align: 'center'}
-                    , {field: 'starttime', title: '开始时间', align: 'center'}
+                    , {field: 'auth', title: '类型', align: 'center'}
+                    , {field: 'phone', title: '账号', align: 'center'}
+                    , {field: 'name', title: '姓名', width: 80, align: 'center'}
+                    , {field: 'applydate', title: '申请日期', sort: true, align: 'center'}
                     , {fixed: 'right', title: '操作', toolbar: '#projectOperate', width: 180, align: 'center'}
                 ]]
                 , page: true
@@ -102,14 +126,20 @@
             //监听操作栏
             table.on('tool(projectTable)', function (obj) {
                 if (obj.event === 'detail') {
-                    viewProjectInfo(obj.data.projectId);
-                } else if (obj.event === 'edit') {
-                    editProjectInfo(obj.data.projectId);
-                } else if (obj.event === 'delete') {
-                    layer.confirm('确认删除？', function (index) {
-                        deleteProjectInfo(obj.data.projectId);
-                        layer.close(index);
-                        obj.del();
+                    viewProjectInfo(obj);
+                } else if (obj.event === 'pass') {
+                    passRegistry(obj.data);
+                } else if (obj.event === 'reject') {
+                    layer.prompt({
+                        formType: 2,
+                        value: '',
+                        title: '请输入驳回原因'
+                    }, function (value, index) {
+                        if (value != null) {
+                            operateProject(obj.data.id, value);
+                            layer.close(index);
+                            obj.del();
+                        }
                     });
                 }
             });
@@ -117,85 +147,57 @@
     }
 
     /**
-     * 对话框查看项目信息
-     * @param projectId
+     * 对话框查看注册人信息
      */
-    function viewProjectInfo(projectId) {
-        localStorage.setItem("projectId", projectId);
-        layui.use("layer", function () {
-            var layer = layui.layer;
-            layer.open({
-                type: 2,
-                area: ["90%", "100%"],
-                fixed: false, //不固定
-                maxmin: true,
-                content: "/html/webui/project/project_details_info.html",
-            });
+    function viewProjectInfo(obj) {
+        layer.open({
+            type: 1,
+            area: ['30%', '25%'],
+            title: '状态设置'
+            , content: $("#test"),
+            shade: 0.1,
+            btn: []
         });
     }
 
+
     /**
-     * 删除项目信息
-     * @param projectId
+     * 驳回注册申请
      */
-    function deleteProjectInfo(projectId) {
+    function operateProject(id, value) {
         $.ajax({
-            url: "/manager/project/deleteProjectById",
+            url: "/manager/user/rejectRegistry",
             type: "GET",
-            data: "projectId="+projectId,
+            data: {
+                "id": id,
+                "value": value
+            },
             success: function (res) {
-                if(res.code = 200){
-                    layer.msg("删除成功！",{shade: 0.01})
-                }else{
+                if (res.code === 200) {
+                    layer.msg("驳回成功！", {shade: 0.01})
+                } else {
                     layer.msg("网络异常！");
                 }
             }
         })
     }
 
-    /**
-     * 设置项状态
-     * @param projectId
-     */
-    function editProjectInfo(projectId) {
-        layer.open({
-            type:1,
-            area:['30%','25%'],
-            title: '状态设置'
-            ,content: $("#test"),
-            shade: 0.1,
-            btn: ['提交']
-            ,btn1: function(index, layero){
-                // 获取选中的状态值
-                var isGoing = $('#test input[name="type"]:checked ').val()
-                updatePorjectIsGoing(projectId,isGoing);
-                layer.close(index);
-            },
-            cancel: function(layero,index){
-                layer.closeAll();
-            }
-        });
-    }
 
     /**
-     * 更新项目状态，在创or可选
-     * @param projectId
-     * @param isGoing
+     * 通过注册请求
      */
-    function updatePorjectIsGoing(projectId,isGoing){
-        var updateData = {
-            projectId: projectId,
-            isGoing: isGoing
-        }
+    function passRegistry(obj) {
         $.ajax({
-            url: "/manager/project/updateProjectIsGoing",
-            type: "GET",
-            data: updateData,
+            url: "/manager/user/passRegistry",
+            type: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(obj),
             success: function (res) {
-                if(res.code = 200){
-                    layer.msg("设置成功！")
-                    supervisorInfoManage(); // 刷新表格
-                }else{
+                if (res.code === 200) {
+                    layer.msg("审批成功！", {shade: 0.01})
+                } else {
                     layer.msg("网络异常！");
                 }
             }

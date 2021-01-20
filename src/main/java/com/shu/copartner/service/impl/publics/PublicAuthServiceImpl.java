@@ -10,13 +10,16 @@ import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.service.PublicAuthService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,7 +52,7 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         //查找该手机号是否注册过，如果注册过则返回已经注册
         ProUserExample proUserExample = new ProUserExample();
         ProRegisterExample proRegisterExample = new ProRegisterExample();
-        proRegisterExample.createCriteria().andPhoneEqualTo(phone).andApplystatusEqualTo(Constants.REGISTER_CODE[1]);
+        proRegisterExample.createCriteria().andPhoneEqualTo(phone).andApplystatusEqualTo(Constants.REGISTER_CODE[2]);
         proUserExample.createCriteria().andPhoneEqualTo(phone);
         try {
             proUsers = proUserMapper.selectByExample(proUserExample);
@@ -118,7 +121,40 @@ public class PublicAuthServiceImpl implements PublicAuthService {
 
     @Override
     public TableModel registry(PublicRegistryInfoVO registryInfoVO) {
-        System.out.println(registryInfoVO);
-        return null;
+        //1.从数据库中查询验证码
+        ProVerify proVerify = proVerifyMapper.selectByPrimaryKey(registryInfoVO.getPhone());
+
+        if (proVerify == null) {
+            throw new BusinessException(Exceptions.SERVER_PHONECODENOTEXIST_ERROR.getEcode());
+        }
+        //如果验证码不相等
+        if (!registryInfoVO.getVerifycode().equals(proVerify.getVerifycode() + "")) {
+            throw new BusinessException(Exceptions.SERVER_PHONECODEERROR_ERROR.getEcode());
+        }
+
+        //如果验证码未过期
+        if (proVerify.getVerifydate().before(new Date())) {
+            throw new BusinessException(Exceptions.SERVER_PHONECODEOUTOFDATE_ERROR.getEcode());
+        }
+
+        //如果已经提交注册且状态为正在审核或者同意则不能继续注册
+        ProRegisterExample proRegisterExample = new ProRegisterExample();
+        proRegisterExample.createCriteria().andPhoneEqualTo(registryInfoVO.getPhone()).andApplystatusEqualTo(Constants.REGISTER_CODE[0]);
+        proRegisterExample.or().andApplystatusEqualTo(Constants.REGISTER_CODE[1]);
+        List<ProRegister> proRegisters = proRegisterMapper.selectByExample(proRegisterExample);
+        if (!proRegisters.isEmpty()) {
+            throw new BusinessException(Exceptions.SERVER_REGISTERISEXIST_ERROR.getEcode());
+        }
+
+        //将注册信息插入注册表中
+        ProRegister proRegister = new ProRegister();
+        BeanUtils.copyProperties(registryInfoVO, proRegister);
+        try {
+            proRegisterMapper.insert(proRegister);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+        return TableModel.success();
     }
 }

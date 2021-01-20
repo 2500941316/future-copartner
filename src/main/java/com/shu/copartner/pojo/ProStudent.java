@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ProStudent implements Serializable {
-    private Long id;
+    private Long studentid;
 
     private String name;
 
@@ -20,12 +20,12 @@ public class ProStudent implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
-        return id;
+    public Long getStudentid() {
+        return studentid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setStudentid(Long studentid) {
+        this.studentid = studentid;
     }
 
     public String getName() {

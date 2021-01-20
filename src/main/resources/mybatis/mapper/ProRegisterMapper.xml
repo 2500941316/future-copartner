@@ -3,7 +3,7 @@
 <mapper namespace="com.shu.copartner.mapper.ProRegisterMapper">
   <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProRegister">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="auth" jdbcType="VARCHAR" property="auth" />
     <result column="applystatus" jdbcType="INTEGER" property="applystatus" />
     <result column="advice" jdbcType="VARCHAR" property="advice" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
@@ -17,7 +17,6 @@
     <result column="workername" jdbcType="VARCHAR" property="workername" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="supervisor" jdbcType="BIT" property="supervisor" />
-    <result column="expect" jdbcType="VARCHAR" property="expect" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="department" jdbcType="VARCHAR" property="department" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
@@ -25,6 +24,15 @@
     <result column="studentnumber" jdbcType="VARCHAR" property="studentnumber" />
     <result column="teachernumber" jdbcType="VARCHAR" property="teachernumber" />
     <result column="mail" jdbcType="VARCHAR" property="mail" />
+    <result column="expectproject" jdbcType="VARCHAR" property="expectproject" />
+    <result column="expectstudent" jdbcType="VARCHAR" property="expectstudent" />
+    <result column="expectother" jdbcType="VARCHAR" property="expectother" />
+    <result column="labelperson" jdbcType="VARCHAR" property="labelperson" />
+    <result column="labelalumnus" jdbcType="VARCHAR" property="labelalumnus" />
+    <result column="labelalumnicompany" jdbcType="VARCHAR" property="labelalumnicompany" />
+    <result column="labelincubator" jdbcType="VARCHAR" property="labelincubator" />
+    <result column="labelinstitutions" jdbcType="VARCHAR" property="labelinstitutions" />
+    <result column="labelother" jdbcType="VARCHAR" property="labelother" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -85,9 +93,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, applystatus, advice, phone, applydate, birthDay, campus, company, education, 
-    gradutedate, major, workername, description, supervisor, expect, name, department, 
-    sex, admissiondate, studentnumber, teachernumber, mail
+    id, auth, applystatus, advice, phone, applydate, birthDay, campus, company, education, 
+    gradutedate, major, workername, description, supervisor, name, department, sex, admissiondate, 
+    studentnumber, teachernumber, mail, expectproject, expectstudent, expectother, labelperson, 
+    labelalumnus, labelalumnicompany, labelincubator, labelinstitutions, labelother
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProRegisterExample" resultMap="BaseResultMap">
     select
@@ -120,22 +129,28 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProRegister">
-    insert into PRO_REGISTER (id, type, applystatus, 
+    insert into PRO_REGISTER (id, auth, applystatus, 
       advice, phone, applydate, 
       birthDay, campus, company, 
       education, gradutedate, major, 
       workername, description, supervisor, 
-      expect, name, department, 
-      sex, admissiondate, studentnumber, 
-      teachernumber, mail)
-    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{applystatus,jdbcType=INTEGER}, 
+      name, department, sex, 
+      admissiondate, studentnumber, teachernumber, 
+      mail, expectproject, expectstudent, 
+      expectother, labelperson, labelalumnus, 
+      labelalumnicompany, labelincubator, labelinstitutions, 
+      labelother)
+    values (#{id,jdbcType=BIGINT}, #{auth,jdbcType=VARCHAR}, #{applystatus,jdbcType=INTEGER}, 
       #{advice,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{applydate,jdbcType=TIMESTAMP}, 
       #{birthday,jdbcType=TIMESTAMP}, #{campus,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
       #{education,jdbcType=VARCHAR}, #{gradutedate,jdbcType=DATE}, #{major,jdbcType=VARCHAR}, 
       #{workername,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{supervisor,jdbcType=BIT}, 
-      #{expect,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{admissiondate,jdbcType=DATE}, #{studentnumber,jdbcType=VARCHAR}, 
-      #{teachernumber,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR})
+      #{name,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{admissiondate,jdbcType=DATE}, #{studentnumber,jdbcType=VARCHAR}, #{teachernumber,jdbcType=VARCHAR}, 
+      #{mail,jdbcType=VARCHAR}, #{expectproject,jdbcType=VARCHAR}, #{expectstudent,jdbcType=VARCHAR}, 
+      #{expectother,jdbcType=VARCHAR}, #{labelperson,jdbcType=VARCHAR}, #{labelalumnus,jdbcType=VARCHAR}, 
+      #{labelalumnicompany,jdbcType=VARCHAR}, #{labelincubator,jdbcType=VARCHAR}, #{labelinstitutions,jdbcType=VARCHAR}, 
+      #{labelother,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProRegister">
     insert into PRO_REGISTER
@@ -143,8 +158,8 @@
       <if test="id != null">
         id,
       </if>
-      <if test="type != null">
-        type,
+      <if test="auth != null">
+        auth,
       </if>
       <if test="applystatus != null">
         applystatus,
@@ -185,9 +200,6 @@
       <if test="supervisor != null">
         supervisor,
       </if>
-      <if test="expect != null">
-        expect,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -209,13 +221,40 @@
       <if test="mail != null">
         mail,
       </if>
+      <if test="expectproject != null">
+        expectproject,
+      </if>
+      <if test="expectstudent != null">
+        expectstudent,
+      </if>
+      <if test="expectother != null">
+        expectother,
+      </if>
+      <if test="labelperson != null">
+        labelperson,
+      </if>
+      <if test="labelalumnus != null">
+        labelalumnus,
+      </if>
+      <if test="labelalumnicompany != null">
+        labelalumnicompany,
+      </if>
+      <if test="labelincubator != null">
+        labelincubator,
+      </if>
+      <if test="labelinstitutions != null">
+        labelinstitutions,
+      </if>
+      <if test="labelother != null">
+        labelother,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
+      <if test="auth != null">
+        #{auth,jdbcType=VARCHAR},
       </if>
       <if test="applystatus != null">
         #{applystatus,jdbcType=INTEGER},
@@ -256,9 +295,6 @@
       <if test="supervisor != null">
         #{supervisor,jdbcType=BIT},
       </if>
-      <if test="expect != null">
-        #{expect,jdbcType=VARCHAR},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -280,6 +316,33 @@
       <if test="mail != null">
         #{mail,jdbcType=VARCHAR},
       </if>
+      <if test="expectproject != null">
+        #{expectproject,jdbcType=VARCHAR},
+      </if>
+      <if test="expectstudent != null">
+        #{expectstudent,jdbcType=VARCHAR},
+      </if>
+      <if test="expectother != null">
+        #{expectother,jdbcType=VARCHAR},
+      </if>
+      <if test="labelperson != null">
+        #{labelperson,jdbcType=VARCHAR},
+      </if>
+      <if test="labelalumnus != null">
+        #{labelalumnus,jdbcType=VARCHAR},
+      </if>
+      <if test="labelalumnicompany != null">
+        #{labelalumnicompany,jdbcType=VARCHAR},
+      </if>
+      <if test="labelincubator != null">
+        #{labelincubator,jdbcType=VARCHAR},
+      </if>
+      <if test="labelinstitutions != null">
+        #{labelinstitutions,jdbcType=VARCHAR},
+      </if>
+      <if test="labelother != null">
+        #{labelother,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.shu.copartner.pojo.ProRegisterExample" resultType="java.lang.Long">
@@ -294,8 +357,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=VARCHAR},
+      <if test="record.auth != null">
+        auth = #{record.auth,jdbcType=VARCHAR},
       </if>
       <if test="record.applystatus != null">
         applystatus = #{record.applystatus,jdbcType=INTEGER},
@@ -336,9 +399,6 @@
       <if test="record.supervisor != null">
         supervisor = #{record.supervisor,jdbcType=BIT},
       </if>
-      <if test="record.expect != null">
-        expect = #{record.expect,jdbcType=VARCHAR},
-      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -360,6 +420,33 @@
       <if test="record.mail != null">
         mail = #{record.mail,jdbcType=VARCHAR},
       </if>
+      <if test="record.expectproject != null">
+        expectproject = #{record.expectproject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expectstudent != null">
+        expectstudent = #{record.expectstudent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expectother != null">
+        expectother = #{record.expectother,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelperson != null">
+        labelperson = #{record.labelperson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelalumnus != null">
+        labelalumnus = #{record.labelalumnus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelalumnicompany != null">
+        labelalumnicompany = #{record.labelalumnicompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelincubator != null">
+        labelincubator = #{record.labelincubator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelinstitutions != null">
+        labelinstitutions = #{record.labelinstitutions,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelother != null">
+        labelother = #{record.labelother,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -368,7 +455,7 @@
   <update id="updateByExample" parameterType="map">
     update PRO_REGISTER
     set id = #{record.id,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=VARCHAR},
+      auth = #{record.auth,jdbcType=VARCHAR},
       applystatus = #{record.applystatus,jdbcType=INTEGER},
       advice = #{record.advice,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
@@ -382,14 +469,22 @@
       workername = #{record.workername,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
       supervisor = #{record.supervisor,jdbcType=BIT},
-      expect = #{record.expect,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       department = #{record.department,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
       admissiondate = #{record.admissiondate,jdbcType=DATE},
       studentnumber = #{record.studentnumber,jdbcType=VARCHAR},
       teachernumber = #{record.teachernumber,jdbcType=VARCHAR},
-      mail = #{record.mail,jdbcType=VARCHAR}
+      mail = #{record.mail,jdbcType=VARCHAR},
+      expectproject = #{record.expectproject,jdbcType=VARCHAR},
+      expectstudent = #{record.expectstudent,jdbcType=VARCHAR},
+      expectother = #{record.expectother,jdbcType=VARCHAR},
+      labelperson = #{record.labelperson,jdbcType=VARCHAR},
+      labelalumnus = #{record.labelalumnus,jdbcType=VARCHAR},
+      labelalumnicompany = #{record.labelalumnicompany,jdbcType=VARCHAR},
+      labelincubator = #{record.labelincubator,jdbcType=VARCHAR},
+      labelinstitutions = #{record.labelinstitutions,jdbcType=VARCHAR},
+      labelother = #{record.labelother,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -397,8 +492,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProRegister">
     update PRO_REGISTER
     <set>
-      <if test="type != null">
-        type = #{type,jdbcType=VARCHAR},
+      <if test="auth != null">
+        auth = #{auth,jdbcType=VARCHAR},
       </if>
       <if test="applystatus != null">
         applystatus = #{applystatus,jdbcType=INTEGER},
@@ -439,9 +534,6 @@
       <if test="supervisor != null">
         supervisor = #{supervisor,jdbcType=BIT},
       </if>
-      <if test="expect != null">
-        expect = #{expect,jdbcType=VARCHAR},
-      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -463,12 +555,39 @@
       <if test="mail != null">
         mail = #{mail,jdbcType=VARCHAR},
       </if>
+      <if test="expectproject != null">
+        expectproject = #{expectproject,jdbcType=VARCHAR},
+      </if>
+      <if test="expectstudent != null">
+        expectstudent = #{expectstudent,jdbcType=VARCHAR},
+      </if>
+      <if test="expectother != null">
+        expectother = #{expectother,jdbcType=VARCHAR},
+      </if>
+      <if test="labelperson != null">
+        labelperson = #{labelperson,jdbcType=VARCHAR},
+      </if>
+      <if test="labelalumnus != null">
+        labelalumnus = #{labelalumnus,jdbcType=VARCHAR},
+      </if>
+      <if test="labelalumnicompany != null">
+        labelalumnicompany = #{labelalumnicompany,jdbcType=VARCHAR},
+      </if>
+      <if test="labelincubator != null">
+        labelincubator = #{labelincubator,jdbcType=VARCHAR},
+      </if>
+      <if test="labelinstitutions != null">
+        labelinstitutions = #{labelinstitutions,jdbcType=VARCHAR},
+      </if>
+      <if test="labelother != null">
+        labelother = #{labelother,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProRegister">
     update PRO_REGISTER
-    set type = #{type,jdbcType=VARCHAR},
+    set auth = #{auth,jdbcType=VARCHAR},
       applystatus = #{applystatus,jdbcType=INTEGER},
       advice = #{advice,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
@@ -482,14 +601,22 @@
       workername = #{workername,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       supervisor = #{supervisor,jdbcType=BIT},
-      expect = #{expect,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       department = #{department,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       admissiondate = #{admissiondate,jdbcType=DATE},
       studentnumber = #{studentnumber,jdbcType=VARCHAR},
       teachernumber = #{teachernumber,jdbcType=VARCHAR},
-      mail = #{mail,jdbcType=VARCHAR}
+      mail = #{mail,jdbcType=VARCHAR},
+      expectproject = #{expectproject,jdbcType=VARCHAR},
+      expectstudent = #{expectstudent,jdbcType=VARCHAR},
+      expectother = #{expectother,jdbcType=VARCHAR},
+      labelperson = #{labelperson,jdbcType=VARCHAR},
+      labelalumnus = #{labelalumnus,jdbcType=VARCHAR},
+      labelalumnicompany = #{labelalumnicompany,jdbcType=VARCHAR},
+      labelincubator = #{labelincubator,jdbcType=VARCHAR},
+      labelinstitutions = #{labelinstitutions,jdbcType=VARCHAR},
+      labelother = #{labelother,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

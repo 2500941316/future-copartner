@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ProPerson implements Serializable {
-    private Long id;
+    private Long personid;
 
     private Date birthday;
 
@@ -30,16 +30,32 @@ public class ProPerson implements Serializable {
 
     private Boolean supervisor;
 
-    private String expect;
+    private String expectproject;
+
+    private String expectstudent;
+
+    private String expectother;
+
+    private String labelperson;
+
+    private String labelalumnus;
+
+    private String labelalumnicompany;
+
+    private String labelincubator;
+
+    private String labelinstitutions;
+
+    private String labelother;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
-        return id;
+    public Long getPersonid() {
+        return personid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPersonid(Long personid) {
+        this.personid = personid;
     }
 
     public Date getBirthday() {
@@ -138,11 +154,75 @@ public class ProPerson implements Serializable {
         this.supervisor = supervisor;
     }
 
-    public String getExpect() {
-        return expect;
+    public String getExpectproject() {
+        return expectproject;
     }
 
-    public void setExpect(String expect) {
-        this.expect = expect == null ? null : expect.trim();
+    public void setExpectproject(String expectproject) {
+        this.expectproject = expectproject == null ? null : expectproject.trim();
+    }
+
+    public String getExpectstudent() {
+        return expectstudent;
+    }
+
+    public void setExpectstudent(String expectstudent) {
+        this.expectstudent = expectstudent == null ? null : expectstudent.trim();
+    }
+
+    public String getExpectother() {
+        return expectother;
+    }
+
+    public void setExpectother(String expectother) {
+        this.expectother = expectother == null ? null : expectother.trim();
+    }
+
+    public String getLabelperson() {
+        return labelperson;
+    }
+
+    public void setLabelperson(String labelperson) {
+        this.labelperson = labelperson == null ? null : labelperson.trim();
+    }
+
+    public String getLabelalumnus() {
+        return labelalumnus;
+    }
+
+    public void setLabelalumnus(String labelalumnus) {
+        this.labelalumnus = labelalumnus == null ? null : labelalumnus.trim();
+    }
+
+    public String getLabelalumnicompany() {
+        return labelalumnicompany;
+    }
+
+    public void setLabelalumnicompany(String labelalumnicompany) {
+        this.labelalumnicompany = labelalumnicompany == null ? null : labelalumnicompany.trim();
+    }
+
+    public String getLabelincubator() {
+        return labelincubator;
+    }
+
+    public void setLabelincubator(String labelincubator) {
+        this.labelincubator = labelincubator == null ? null : labelincubator.trim();
+    }
+
+    public String getLabelinstitutions() {
+        return labelinstitutions;
+    }
+
+    public void setLabelinstitutions(String labelinstitutions) {
+        this.labelinstitutions = labelinstitutions == null ? null : labelinstitutions.trim();
+    }
+
+    public String getLabelother() {
+        return labelother;
+    }
+
+    public void setLabelother(String labelother) {
+        this.labelother = labelother == null ? null : labelother.trim();
     }
 }

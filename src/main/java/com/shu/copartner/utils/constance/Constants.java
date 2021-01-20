@@ -47,12 +47,11 @@ public final class Constants {
 
     /**
      * @Description 用户注册流程码
-     * 0:验证码
      * 1：待审核
      * 2.同意
      * 3.驳回
      */
-    public static final Integer[] REGISTER_CODE = {0, 1, 2, 3};
+    public static final Integer[] REGISTER_CODE = {1, 2, 3};
 
     /**
      * @Description 新闻发布流程processKey

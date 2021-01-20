@@ -5,23 +5,20 @@ import com.shu.copartner.utils.constance.Constants;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
  * @author cxy
  */
 @Data
-public class PublicRegistryInfoVO {
+public class PassRegistryVO {
 
     private Long id;
-
-    private String auth;
-
-    private Integer applystatus;
-
-    private String advice;
-
+    @NotBlank(message = "手机号不能为空")
     private String phone;
+    @NotBlank(message = "身份不能为空")
+    private String auth;
 
     private Date applydate;
 
@@ -83,8 +80,8 @@ public class PublicRegistryInfoVO {
 
     private String labelother;
 
-    PublicRegistryInfoVO() {
-        this.applydate = new Date();
-        this.applystatus = Constants.REGISTER_CODE[0];
-    }
+    private int applystatus = Constants.REGISTER_CODE[1];
+
+    private Date registryDate = new Date();
+
 }
