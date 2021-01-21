@@ -52,7 +52,7 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         //查找该手机号是否注册过，如果注册过则返回已经注册
         ProUserExample proUserExample = new ProUserExample();
         ProRegisterExample proRegisterExample = new ProRegisterExample();
-        proRegisterExample.createCriteria().andPhoneEqualTo(phone).andApplystatusEqualTo(Constants.REGISTER_CODE[2]);
+        proRegisterExample.createCriteria().andPhoneEqualTo(phone).andApplystatusNotEqualTo(Constants.REGISTER_CODE[2]);
         proUserExample.createCriteria().andPhoneEqualTo(phone);
         try {
             proUsers = proUserMapper.selectByExample(proUserExample);
@@ -140,7 +140,7 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         //如果已经提交注册且状态为正在审核或者同意则不能继续注册
         ProRegisterExample proRegisterExample = new ProRegisterExample();
         proRegisterExample.createCriteria().andPhoneEqualTo(registryInfoVO.getPhone()).andApplystatusEqualTo(Constants.REGISTER_CODE[0]);
-        proRegisterExample.or().andApplystatusEqualTo(Constants.REGISTER_CODE[1]);
+        proRegisterExample.or().andPhoneEqualTo(registryInfoVO.getPhone()).andApplystatusEqualTo(Constants.REGISTER_CODE[1]);
         List<ProRegister> proRegisters = proRegisterMapper.selectByExample(proRegisterExample);
         if (!proRegisters.isEmpty()) {
             throw new BusinessException(Exceptions.SERVER_REGISTERISEXIST_ERROR.getEcode());

@@ -80,11 +80,12 @@ public class ManagerUserServiceImpl implements ManagerUserService {
         //将注册记录状态置为2，插入user表和对应得角色表
         ProRegister proRegister = new ProRegister();
         BeanUtils.copyProperties(passRegistryVO, proRegister);
-        proRegisterMapper.insert(proRegister);
+        proRegister.setApplystatus(Constants.REGISTER_CODE[1]);
+        proRegisterMapper.updateByPrimaryKeySelective(proRegister);
 
         //在User表中创建记录
         ProUser proUser = new ProUser();
-        BeanUtils.copyProperties(passRegistryVO, proRegister);
+        BeanUtils.copyProperties(passRegistryVO, proUser);
         proUserMapper.insert(proUser);
 
         //根据auth的不同，在角色表中插入记录
@@ -96,7 +97,7 @@ public class ManagerUserServiceImpl implements ManagerUserService {
                 break;
             case "ROLE_TEACHER":
                 ProTeacher proTeacher = new ProTeacher();
-                BeanUtils.copyProperties(passRegistryVO, proRegister);
+                BeanUtils.copyProperties(passRegistryVO, proTeacher);
                 proTeacherMapper.insert(proTeacher);
                 break;
             case "ROLE_PERSON":

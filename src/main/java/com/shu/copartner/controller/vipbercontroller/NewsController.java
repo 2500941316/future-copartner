@@ -1,4 +1,4 @@
-package com.shu.copartner.controller.groupcontroller;
+package com.shu.copartner.controller.vipbercontroller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author
- * @date 2020/12/19 12:07
+ * @date 2020/12/19 12:09
  * @description
  */
 @RestController
-@RequestMapping("manager")
+@RequestMapping("vip")
 @CrossOrigin
-public class GroupController {
+public class NewsController {
 }

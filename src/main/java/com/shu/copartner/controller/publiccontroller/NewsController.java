@@ -1,16 +1,16 @@
-package com.shu.copartner.controller.companycontroller;
+package com.shu.copartner.controller.publiccontroller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author
- * @date 2020/12/19 12:07
- * @description
+ * @author cxy
  */
 @RestController
-@RequestMapping("manager")
+@RequestMapping("public")
 @CrossOrigin
-public class CompanyController {
+@Slf4j
+public class NewsController {
 }

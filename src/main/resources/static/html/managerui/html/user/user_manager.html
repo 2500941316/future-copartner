@@ -47,15 +47,249 @@
                     </div>
                 </div>
 
-                <form class="layui-form" id="test" style="display:none">
+
+                <form class="layui-form layui-form-pane" lay-filter="student" id="student"
+                      style="width: 90%;margin: 0 auto;display: none">
+                    <span style="margin: 5px"> 基本信息</span>
+                    <hr>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">状态：</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="type" value="在创" title="在创" checked>
-                            <input type="radio" name="type" value="可选" title="可选">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" lay-verify="required" disabled
+                                   placeholder="必填"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">入学日期</label>
+                            <div class="layui-inline">
+                                <input type="text" disabled name="admissiondate" class="layui-input" id="test1">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">性别</label>
+                            <div class="layui-input-inline">
+                                <input type="radio" name="sex" disabled value="男" title="男" checked="">
+                                <input type="radio" name="sex" disabled value="女" title="女">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">学号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="studentnumber" lay-verify="number"
+                                   placeholder="请输入"
+                                   disabled
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">学院</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="department" lay-verify="required"
+                                       placeholder="请输入"
+                                       disabled
+                                       autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">专业</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="major" lay-verify="required"
+                                       placeholder="请输入"
+                                       disabled
+                                       autocomplete="off"
+                                       class="layui-input">
+                            </div>
                         </div>
                     </div>
                 </form>
+
+                <form class="layui-form layui-form-pane" lay-filter="teacher" id="teacher"
+                      style="width: 90%;margin: 0 auto;display: none">
+                    <span style="margin: 5px"> 基本信息</span>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">教工号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="teachernumber" lay-verify="required"
+                                   placeholder="请输入"
+                                   disabled
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="name" lay-verify="required"
+                                       placeholder="请输入"
+                                       disabled
+                                       autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">学院</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="department" lay-verify="required" placeholder="请输入"
+                                       autocomplete="off"
+                                       disabled
+                                       class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">邮箱</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="mail" lay-verify="email"
+                                       placeholder="请输入"
+                                       disabled
+                                       autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="layui-form layui-form-pane" lay-filter="company" id="company"
+                      style="width: 90%;margin: 0 auto;display: none">
+                    <span style="margin: 5px"> 属性</span>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否属于</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" disabled name="labelperson" title="个人">
+                            <input type="checkbox" disabled name="labelalumnus" title="校友">
+                            <input type="checkbox" disabled name="labelalumnicompany" title="校友企业">
+                            <input type="checkbox" disabled name="labelincubator" title="孵化器">
+                            <input type="checkbox" disabled name="labelinstitutions" title="投资机构">
+                            <input type="checkbox" disabled name="labelother" title="其他">
+                        </div>
+                    </div>
+
+                    <span style="margin: 5px"> 个人信息</span>
+                    <hr>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" lay-verify="required"
+                                   placeholder="必填"
+                                   disabled
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">出生日期</label>
+                            <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+                                <input type="text" disabled class="layui-input" name="birthday" id="birthday">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">性别</label>
+                            <div class="layui-input-inline">
+                                <input type="radio" disabled name="sex" value="男" title="男" checked="">
+                                <input type="radio" disabled name="sex" value="女" title="女">
+                            </div>
+                        </div>
+                    </div>
+
+                    <span style="margin: 5px"> 教育经历</span>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">学校</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="campus" lay-verify="required"
+                                   placeholder="必填"
+                                   disabled
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+
+
+                        <label class="layui-form-label">专业</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="major" lay-verify="required"
+                                   placeholder="必填"
+                                   disabled
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">毕业时间</label>
+                            <div class="layui-input-block">
+                                <input type="text" disabled name="gradutedate" id="gradutedate" autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">学历</label>
+                        <div class="layui-input-block">
+                            <select name="education" disabled lay-filter="required">
+                                <option value=""></option>
+                                <option value="0" selected="">专科</option>
+                                <option value="1">本科</option>
+                                <option value="2">研究生</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <span style="margin: 5px"> 工作</span>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">企业名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="company" lay-verify="required"
+                                   placeholder="必填"
+                                   disabled
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <label class="layui-form-label">职位</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="workername" lay-verify="required"
+                                   placeholder="必填"
+                                   disabled
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <span style="margin: 5px"> 介绍</span>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">一句话介绍</label>
+                        <div class="layui-input-block">
+                                            <textarea name="description" placeholder="请输入内容" disabled
+                                                      class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">期望</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" disabled name="expectproject" title="找项目">
+                            <input type="checkbox" disabled name="expectstudent" title="找学生">
+                            <input type="checkbox" disabled name="expectother" title="其他">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">成为导师</label>
+                        <div class="layui-input-block">
+                            <input type="radio" disabled name="supervisor" value="true" title="是" checked="">
+                            <input type="radio" disabled name="supervisor" value="false" title="否">
+                        </div>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
@@ -66,10 +300,14 @@
 
 
 <script type="application/javascript">
-
+    var form;
     $(function () {
         RegisterManage();
     })
+
+    layui.use(['form'], function () {
+        form = layui.form;
+    });
 
     /**
      *项目信息管理表格
@@ -128,7 +366,7 @@
                 if (obj.event === 'detail') {
                     viewProjectInfo(obj);
                 } else if (obj.event === 'pass') {
-                    passRegistry(obj.data);
+                    passRegistry(obj);
                 } else if (obj.event === 'reject') {
                     layer.prompt({
                         formType: 2,
@@ -150,11 +388,25 @@
      * 对话框查看注册人信息
      */
     function viewProjectInfo(obj) {
+        var type;
+        //表单赋值
+        if (obj.data.auth === "学生") {
+            form.val('student', obj.data);
+            type = "student";
+        } else if (obj.data.auth === "教师") {
+            form.val('teacher', obj.data);
+            type = "teacher";
+        } else {
+            form.val('company', obj.data);
+            type = "company";
+        }
+
+
         layer.open({
             type: 1,
-            area: ['30%', '25%'],
-            title: '状态设置'
-            , content: $("#test"),
+            area: ['1080px'],
+            title: '注册信息',
+            content: $("#" + type),
             shade: 0.1,
             btn: []
         });
@@ -187,16 +439,29 @@
      * 通过注册请求
      */
     function passRegistry(obj) {
+        switch (obj.data.auth) {
+            case "学生":
+                obj.data.auth = "ROLE_STUDENT";
+                break;
+            case "教师":
+                obj.data.auth = "ROLE_TEACHER";
+                break;
+            case "校外人员":
+                obj.data.auth = "ROLE_PERSON";
+                break;
+        }
+
         $.ajax({
             url: "/manager/user/passRegistry",
             type: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
-            data: JSON.stringify(obj),
+            data: JSON.stringify(obj.data),
             success: function (res) {
                 if (res.code === 200) {
                     layer.msg("审批成功！", {shade: 0.01})
+                    obj.del();
                 } else {
                     layer.msg("网络异常！");
                 }

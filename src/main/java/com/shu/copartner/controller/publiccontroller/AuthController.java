@@ -23,7 +23,7 @@ import javax.validation.Valid;
 @RequestMapping("public")
 @CrossOrigin
 @Slf4j
-public class PublichController {
+public class AuthController {
 
     @Autowired
     PublicAuthService publicAuthService;

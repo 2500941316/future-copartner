@@ -40,6 +40,16 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         if (username.length() == Constants.USERNAME_LENGTH) {
+
+            //查询user表中，判断用户是否已经注册
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andIsdeletedEqualTo(Integer.valueOf(Constants.NO_DELETED)).andPhoneEqualTo(username)
+                    .andIslockEqualTo(Integer.parseInt(Constants.NO_DELETED));
+            List<ProUser> proUsersList = proUserMapper.selectByExample(proUserExample);
+            if (proUsersList.size() == 0) {
+                throw new BusinessException(Exceptions.SERVER_PHONENOTREGISTED_ERROR.getEcode());
+            }
+
             //数据库中查询手机号对应的权限和验证码，并且验证时间是否5分钟内
             ProVerifyExample proVerifyExample = new ProVerifyExample();
             proVerifyExample.createCriteria().andPhoneEqualTo(username).andVerifydateGreaterThanOrEqualTo(new Date());
@@ -49,9 +59,9 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
             }
 
             //去user表中查询用户的权限
-            ProUserExample proUserExample = new ProUserExample();
-            proUserExample.createCriteria().andPhoneEqualTo(username).andIsdeletedEqualTo(Integer.parseInt(Constants.NO_DELETED));
-            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            ProUserExample newProUserExample = new ProUserExample();
+            newProUserExample.createCriteria().andPhoneEqualTo(username).andIsdeletedEqualTo(Integer.parseInt(Constants.NO_DELETED));
+            List<ProUser> proUsers = proUserMapper.selectByExample(newProUserExample);
             String auth = proUsers.get(0).getAuth();
             String password = String.valueOf(proVerifies.get(0).getVerifycode());
             List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();

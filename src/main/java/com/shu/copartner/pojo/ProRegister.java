@@ -1,8 +1,10 @@
 package com.shu.copartner.pojo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-
+@Data
 public class ProRegister implements Serializable {
     private Long id;
 
