@@ -69,7 +69,7 @@ public class NewsViewTest  extends AbstractTestNGSpringContextTests {
         wait.until(new ExpectedCondition<WebElement>() {
             @Override
             public WebElement apply(WebDriver text) {
-                return text.findElement(By.linkText("新1闻"));
+                return text.findElement(By.linkText("精彩上大"));
             }
         }).click();
         Thread.sleep(1500);

@@ -60,6 +60,21 @@ public enum Exceptions {
     SERVER_PHONECODEOUTOFDATE_ERROR("0010", "短信验证码过期异常"),
 
     /**
+     * 短信验证码错误异常
+     */
+    SERVER_PHONECODEERROR_ERROR("0011", "短信验证码错误异常"),
+
+    /**
+     * 验证码不存在异常
+     */
+    SERVER_PHONECODENOTEXIST_ERROR("0012", "短信验证码不存在"),
+
+    /**
+     * 验证码不存在异常
+     */
+    SERVER_REGISTERISEXIST_ERROR("0013", "注册申请已经存在"),
+
+    /**
      * 未知异常
      */
     SERVER_OTHER_ERROR("0099", "未知异常");

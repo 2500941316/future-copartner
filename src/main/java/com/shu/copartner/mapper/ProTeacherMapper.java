@@ -10,7 +10,7 @@ public interface ProTeacherMapper {
 
     int deleteByExample(ProTeacherExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long teacherid);
 
     int insert(ProTeacher record);
 
@@ -18,7 +18,7 @@ public interface ProTeacherMapper {
 
     List<ProTeacher> selectByExample(ProTeacherExample example);
 
-    ProTeacher selectByPrimaryKey(Long id);
+    ProTeacher selectByPrimaryKey(Long teacherid);
 
     int updateByExampleSelective(@Param("record") ProTeacher record, @Param("example") ProTeacherExample example);
 

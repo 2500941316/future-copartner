@@ -1,7 +1,13 @@
 var colorList;
 var count;
 var category;
-
+var form;
+var layer;
+var layedit;
+var laydate;
+var clock = '';
+var nums = 90;
+var btn;
 $(function () {
     count = 3;
     loadFlow(count);
@@ -11,24 +17,11 @@ $(function () {
 
 
 layui.use(['form', 'layedit', 'laydate'], function () {
-    var form = layui.form
-        , layer = layui.layer
-        , layedit = layui.layedit
-        , laydate = layui.laydate;
+    form = layui.form;
+    layer = layui.layer;
+    layedit = layui.layedit;
+    laydate = layui.laydate;
 
-    //日期
-    laydate.render({
-        elem: '#date'
-    });
-    laydate.render({
-        elem: '#date1'
-    });
-    laydate.render({
-        elem: '#date2'
-    });
-    laydate.render({
-        elem: '#date3'
-    });
     //创建一个编辑器
     var editIndex = layedit.build('LAY_demo_editor');
 
@@ -62,9 +55,37 @@ layui.use(['form', 'layedit', 'laydate'], function () {
 
     //监听提交
     form.on('submit(LAY-user-reg-submits)', function (data) {
-        layer.alert(JSON.stringify(data.field), {
-            title: '最终的提交信息'
-        })
+        $.ajax({
+            type: "post",
+            url: "/public/registry",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(data.field),
+            success: function (data) {
+                if (data.code === 200) {
+                    parent.layer.closeAll();
+                    parent.layer.msg('提交成功，请等待管理员审核');
+                } else if (data.code === 10) {
+                    layer.msg('验证码过期');
+                    return false;
+                } else if (data.code === 11) {
+                    layer.msg('验证码错误');
+                    return false;
+                } else if (data.code === 12) {
+                    layer.msg('验证码验证异常，请重新验证');
+                    return false;
+                } else if (data.code === 13) {
+                    layer.msg('您已经注册过，请等待管理员审核');
+                    return false;
+                } else {
+                    return false;
+                }
+            },
+            error: function (data) {
+                layer.msg('网络异常');
+            }
+        });
         return false;
     });
 
@@ -194,28 +215,39 @@ function loadFlow(count) {
 //加载内容详情
 function loadFlowDiv(index) {
 
-    if (index == 1) {
+    if (index === 1) {
         $("#contA").removeClass("contentList");
         $("#contA").siblings().addClass("contentList")
     }
-    if (index == 2) {
+    if (index === 2) {
 
-        if (category === "学生") {
+        if (category === "ROLE_STUDENT") {
             document.getElementById("contents").innerHTML = $("#student").html();
-        } else if (category === "教师") {
+            laydate.render({
+                elem: document.getElementById('test1')
+            });
+        } else if (category === "ROLE_TEACHER") {
             document.getElementById("contents").innerHTML = $("#teacher").html();
         } else {
             document.getElementById("contents").innerHTML = $("#company").html();
+            laydate.render({
+                elem: document.getElementById('birthday')
+            });
+            laydate.render({
+                elem: document.getElementById('gradutedate')
+            });
         }
+        form.render();
+
 
         $("#contB").removeClass("contentList");
         $("#contB").siblings().addClass("contentList")
     }
-    if (index == 3) {
+    if (index === 3) {
         $("#contC").removeClass("contentList");
         $("#contC").siblings().addClass("contentList")
     }
-    if (index == 4) {
+    if (index === 4) {
         $("#contD").removeClass("contentList");
         $("#contD").siblings().addClass("contentList")
     }

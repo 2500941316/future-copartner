@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ProUser implements Serializable {
-    private Long id;
+    private Long userid;
 
     private String auth;
 
@@ -22,18 +22,16 @@ public class ProUser implements Serializable {
 
     private Date registrydate;
 
-    private Integer type;
-
     private String phone;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
-        return id;
+    public Long getUserid() {
+        return userid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserid(Long userid) {
+        this.userid = userid;
     }
 
     public String getAuth() {
@@ -98,14 +96,6 @@ public class ProUser implements Serializable {
 
     public void setRegistrydate(Date registrydate) {
         this.registrydate = registrydate;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 
     public String getPhone() {

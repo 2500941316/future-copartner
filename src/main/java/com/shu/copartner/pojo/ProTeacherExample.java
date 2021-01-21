@@ -104,63 +104,63 @@ public class ProTeacherExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andIdIsNull() {
-            addCriterion("id is null");
+        public Criteria andTeacheridIsNull() {
+            addCriterion("teacherid is null");
             return (Criteria) this;
         }
 
-        public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
+        public Criteria andTeacheridIsNotNull() {
+            addCriterion("teacherid is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
-            addCriterion("id =", value, "id");
+        public Criteria andTeacheridEqualTo(Long value) {
+            addCriterion("teacherid =", value, "teacherid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
-            addCriterion("id <>", value, "id");
+        public Criteria andTeacheridNotEqualTo(Long value) {
+            addCriterion("teacherid <>", value, "teacherid");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
-            addCriterion("id >", value, "id");
+        public Criteria andTeacheridGreaterThan(Long value) {
+            addCriterion("teacherid >", value, "teacherid");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("id >=", value, "id");
+        public Criteria andTeacheridGreaterThanOrEqualTo(Long value) {
+            addCriterion("teacherid >=", value, "teacherid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
-            addCriterion("id <", value, "id");
+        public Criteria andTeacheridLessThan(Long value) {
+            addCriterion("teacherid <", value, "teacherid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
-            addCriterion("id <=", value, "id");
+        public Criteria andTeacheridLessThanOrEqualTo(Long value) {
+            addCriterion("teacherid <=", value, "teacherid");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
-            addCriterion("id in", values, "id");
+        public Criteria andTeacheridIn(List<Long> values) {
+            addCriterion("teacherid in", values, "teacherid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
-            addCriterion("id not in", values, "id");
+        public Criteria andTeacheridNotIn(List<Long> values) {
+            addCriterion("teacherid not in", values, "teacherid");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
-            addCriterion("id between", value1, value2, "id");
+        public Criteria andTeacheridBetween(Long value1, Long value2) {
+            addCriterion("teacherid between", value1, value2, "teacherid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
-            addCriterion("id not between", value1, value2, "id");
+        public Criteria andTeacheridNotBetween(Long value1, Long value2) {
+            addCriterion("teacherid not between", value1, value2, "teacherid");
             return (Criteria) this;
         }
 

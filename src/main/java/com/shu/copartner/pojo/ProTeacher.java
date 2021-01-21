@@ -3,7 +3,7 @@ package com.shu.copartner.pojo;
 import java.io.Serializable;
 
 public class ProTeacher implements Serializable {
-    private Long id;
+    private Long teacherid;
 
     private String teachernumber;
 
@@ -13,12 +13,12 @@ public class ProTeacher implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
-        return id;
+    public Long getTeacherid() {
+        return teacherid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTeacherid(Long teacherid) {
+        this.teacherid = teacherid;
     }
 
     public String getTeachernumber() {

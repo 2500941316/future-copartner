@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shu.copartner.mapper.ProTeacherMapper">
   <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProTeacher">
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="teacherid" jdbcType="BIGINT" property="teacherid" />
     <result column="teachernumber" jdbcType="VARCHAR" property="teachernumber" />
     <result column="mail" jdbcType="VARCHAR" property="mail" />
     <result column="department" jdbcType="VARCHAR" property="department" />
@@ -66,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, teachernumber, mail, department
+    teacherid, teachernumber, mail, department
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProTeacherExample" resultMap="BaseResultMap">
     select
@@ -86,11 +86,11 @@
     select 
     <include refid="Base_Column_List" />
     from PRO_TEACHER
-    where id = #{id,jdbcType=BIGINT}
+    where teacherid = #{teacherid,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_TEACHER
-    where id = #{id,jdbcType=BIGINT}
+    where teacherid = #{teacherid,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProTeacherExample">
     delete from PRO_TEACHER
@@ -99,16 +99,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProTeacher">
-    insert into PRO_TEACHER (id, teachernumber, mail, 
+    insert into PRO_TEACHER (teacherid, teachernumber, mail, 
       department)
-    values (#{id,jdbcType=BIGINT}, #{teachernumber,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, 
+    values (#{teacherid,jdbcType=BIGINT}, #{teachernumber,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, 
       #{department,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProTeacher">
     insert into PRO_TEACHER
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="teacherid != null">
+        teacherid,
       </if>
       <if test="teachernumber != null">
         teachernumber,
@@ -121,8 +121,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
+      <if test="teacherid != null">
+        #{teacherid,jdbcType=BIGINT},
       </if>
       <if test="teachernumber != null">
         #{teachernumber,jdbcType=VARCHAR},
@@ -144,8 +144,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update PRO_TEACHER
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+      <if test="record.teacherid != null">
+        teacherid = #{record.teacherid,jdbcType=BIGINT},
       </if>
       <if test="record.teachernumber != null">
         teachernumber = #{record.teachernumber,jdbcType=VARCHAR},
@@ -163,7 +163,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update PRO_TEACHER
-    set id = #{record.id,jdbcType=BIGINT},
+    set teacherid = #{record.teacherid,jdbcType=BIGINT},
       teachernumber = #{record.teachernumber,jdbcType=VARCHAR},
       mail = #{record.mail,jdbcType=VARCHAR},
       department = #{record.department,jdbcType=VARCHAR}
@@ -184,13 +184,13 @@
         department = #{department,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where teacherid = #{teacherid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProTeacher">
     update PRO_TEACHER
     set teachernumber = #{teachernumber,jdbcType=VARCHAR},
       mail = #{mail,jdbcType=VARCHAR},
       department = #{department,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where teacherid = #{teacherid,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shu.copartner.mapper.ProUserMapper">
   <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProUser">
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="userid" jdbcType="BIGINT" property="userid" />
     <result column="auth" jdbcType="VARCHAR" property="auth" />
     <result column="followProject" jdbcType="VARCHAR" property="followproject" />
     <result column="isDeleted" jdbcType="INTEGER" property="isdeleted" />
@@ -11,7 +11,6 @@
     <result column="loginTime" jdbcType="INTEGER" property="logintime" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="registryDate" jdbcType="TIMESTAMP" property="registrydate" />
-    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -73,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, auth, followProject, isDeleted, isLock, lastDate, loginTime, password, registryDate, 
-    type, phone
+    userid, auth, followProject, isDeleted, isLock, lastDate, loginTime, password, registryDate, 
+    phone
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProUserExample" resultMap="BaseResultMap">
     select
@@ -94,11 +93,11 @@
     select 
     <include refid="Base_Column_List" />
     from PRO_USER
-    where id = #{id,jdbcType=BIGINT}
+    where userid = #{userid,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_USER
-    where id = #{id,jdbcType=BIGINT}
+    where userid = #{userid,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProUserExample">
     delete from PRO_USER
@@ -107,20 +106,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProUser">
-    insert into PRO_USER (id, auth, followProject, 
+    insert into PRO_USER (userid, auth, followProject, 
       isDeleted, isLock, lastDate, 
       loginTime, password, registryDate, 
-      type, phone)
-    values (#{id,jdbcType=BIGINT}, #{auth,jdbcType=VARCHAR}, #{followproject,jdbcType=VARCHAR}, 
+      phone)
+    values (#{userid,jdbcType=BIGINT}, #{auth,jdbcType=VARCHAR}, #{followproject,jdbcType=VARCHAR}, 
       #{isdeleted,jdbcType=INTEGER}, #{islock,jdbcType=INTEGER}, #{lastdate,jdbcType=TIMESTAMP}, 
       #{logintime,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{registrydate,jdbcType=TIMESTAMP}, 
-      #{type,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProUser">
     insert into PRO_USER
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="userid != null">
+        userid,
       </if>
       <if test="auth != null">
         auth,
@@ -146,16 +145,13 @@
       <if test="registrydate != null">
         registryDate,
       </if>
-      <if test="type != null">
-        type,
-      </if>
       <if test="phone != null">
         phone,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
+      <if test="userid != null">
+        #{userid,jdbcType=BIGINT},
       </if>
       <if test="auth != null">
         #{auth,jdbcType=VARCHAR},
@@ -181,9 +177,6 @@
       <if test="registrydate != null">
         #{registrydate,jdbcType=TIMESTAMP},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
-      </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
@@ -198,8 +191,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update PRO_USER
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+      <if test="record.userid != null">
+        userid = #{record.userid,jdbcType=BIGINT},
       </if>
       <if test="record.auth != null">
         auth = #{record.auth,jdbcType=VARCHAR},
@@ -225,9 +218,6 @@
       <if test="record.registrydate != null">
         registryDate = #{record.registrydate,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
-      </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
@@ -238,7 +228,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update PRO_USER
-    set id = #{record.id,jdbcType=BIGINT},
+    set userid = #{record.userid,jdbcType=BIGINT},
       auth = #{record.auth,jdbcType=VARCHAR},
       followProject = #{record.followproject,jdbcType=VARCHAR},
       isDeleted = #{record.isdeleted,jdbcType=INTEGER},
@@ -247,7 +237,6 @@
       loginTime = #{record.logintime,jdbcType=INTEGER},
       password = #{record.password,jdbcType=VARCHAR},
       registryDate = #{record.registrydate,jdbcType=TIMESTAMP},
-      type = #{record.type,jdbcType=INTEGER},
       phone = #{record.phone,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -280,14 +269,11 @@
       <if test="registrydate != null">
         registryDate = #{registrydate,jdbcType=TIMESTAMP},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where userid = #{userid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProUser">
     update PRO_USER
@@ -299,8 +285,7 @@
       loginTime = #{logintime,jdbcType=INTEGER},
       password = #{password,jdbcType=VARCHAR},
       registryDate = #{registrydate,jdbcType=TIMESTAMP},
-      type = #{type,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where userid = #{userid,jdbcType=BIGINT}
   </update>
 </mapper>
