@@ -27,14 +27,16 @@
 
 		<div class="newslist" id="livesList">
 			<!--直播内容入口-->
-		   <!-- <div class="news_li">
+		    <!--<div class="news_li">
                 <img src="/html/webui/live/image/1534140894.jpg" width="160" height="160" />
-					<a href="news_article.html#?colid=220&id=374" class="lives_txt" title="中瀚石林HR专业服务形象">
+					<a href="news_article.html#?colid=220&id=374" class="news_txt" title="中瀚石林HR专业服务形象">
 						<span id="liveTitle">中瀚石林HR专业服务形象</span>
 						<p id="liveDescription">十七网络根据中瀚石林行业性质，为其打造集颜值与内涵为一体的企业官网。</p>
 						<H5 id="startTime">2018-02-08 <span id="liveStatus" style="float:right;">正在直播</span></H5>
 					</a>
             </div>-->
+
+
 
 			</div>
 		<div class="clear"></div>
@@ -103,7 +105,7 @@
 			const $children = (
 					'<div class="news_li">\n' +
 					'    <img src="'+liveInfo[i].liveImage+'" width="160" height="160" />\n' +
-					'    <a href="'+liveInfo[i].liveUrl+'" class="lives_txt" title="#" target="_top">\n' +
+					'    <a href="'+liveInfo[i].liveUrl+'"  class="news_txt" title="#" target="_blank">\n' +
 					'        <span>'+liveInfo[i].liveTitle+'</span>\n' +
 					'        <p>'+liveInfo[i].liveDescription+'</p>\n' +
 					'        <H5 >'+liveInfo[i].startTime+' <span  style="float:right;">'+liveInfo[i].liveStatus+'</span></H5>\n' +

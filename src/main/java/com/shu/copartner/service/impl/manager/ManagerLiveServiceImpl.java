@@ -53,7 +53,7 @@ public class ManagerLiveServiceImpl implements ManagerLiveService {
             ProLive proLive = new ProLive();
             BeanUtils.copyProperties(livePublishVO,proLive);
             proLive.setLiveDuration(Integer.parseInt(livePublishVO.getLiveDuration())); // 设置直播时长
-            if(proLive.getLiveUrl().indexOf("https://") < 0 || proLive.getLiveUrl().indexOf("http://") < 0){
+            if(proLive.getLiveUrl().indexOf("https://") < 0 && proLive.getLiveUrl().indexOf("http://") < 0){
                 proLive.setLiveUrl("https://"+proLive.getLiveUrl());
             }
             proLive.setStartTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(livePublishVO.getStartTime()));
@@ -77,7 +77,7 @@ public class ManagerLiveServiceImpl implements ManagerLiveService {
             ProLive proLive = new ProLive();
             BeanUtils.copyProperties(livePublishVO,proLive);
             proLive.setLiveDuration(Integer.parseInt(livePublishVO.getLiveDuration())); // 设置直播时长
-            if(proLive.getLiveUrl().indexOf("https://") < 0 || proLive.getLiveUrl().indexOf("http://") < 0){
+            if(proLive.getLiveUrl().indexOf("https://") < 0 && proLive.getLiveUrl().indexOf("http://") < 0){
                 proLive.setLiveUrl("https://"+proLive.getLiveUrl());
             }
             proLive.setStartTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(livePublishVO.getStartTime()));
@@ -203,6 +203,9 @@ public class ManagerLiveServiceImpl implements ManagerLiveService {
         System.out.println(newString);*/
 
        String str = "https://www.baidu.com";
-       System.out.println(str.indexOf("httpss://")+"");
+       if(str.indexOf("https://") < 0 && str.indexOf("http://") < 0){
+           System.out.println("不含有https://");
+       }
+       System.out.println(str.indexOf("https://")+"");
     }
 }
