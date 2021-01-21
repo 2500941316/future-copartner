@@ -8,6 +8,7 @@ document.writeln("    <link type=\'text/css\' rel=\'stylesheet\' href=\'/html/we
 document.writeln("    <script src=\'/html/managerui/js/layui/layui.js\'></script>");
 document.writeln("    <script src=\'/html/webui/js/jquery-3.5.1.min.js\'></script>");
 document.writeln("    <script type=\'text/javascript\' src=\'/html/webui/js/news.js\'></script>");
+document.writeln("    <script type=\'text/javascript\' src=\'/html/webui/js/interceptor.js\'></script>");
 document.writeln("");
 document.writeln("</head>");
 document.writeln("<body>");

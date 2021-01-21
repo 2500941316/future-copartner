@@ -1,21 +1,20 @@
-package com.shu.copartner.controller.publiccontroller;
+package com.shu.copartner.controller.vipbercontroller;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.utils.returnobj.TableModel;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author cxy
+ * @author
+ * @date 2020/12/19 12:09
+ * @description
  */
 @RestController
-@RequestMapping("public")
+@RequestMapping("vip")
 @CrossOrigin
-@Slf4j
-public class NewsController {
-
+public class VipNewsController {
     /**
      * 发布新闻
      *
@@ -29,5 +28,4 @@ public class NewsController {
         }
         return null;
     }
-
 }
