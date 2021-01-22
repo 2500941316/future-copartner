@@ -1,121 +1,117 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>直播</title>
-<meta http-equiv="content-type" content="text/html" charset="utf-8"/>
+    <title>直播</title>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8"/>
 
     <script src='/html/webui/header/header.js'></script>
-
     <link rel="stylesheet" href="/html/webui/live/css/commonLive.css">
     <link rel="stylesheet" href="/html/webui/live/css/listcommon.master.css">
-	<link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
-	<script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
 
 
 </head>
 <body>
-    <div class="plwrap">
-    	<!--内容-->
-		<div class="plistContent">
-<!--	<p class="plTitle4 pc"><img src="/html/webui/live/image/manronews_title.png" alt="十七新闻资讯_网站建设"/></p>-->
-	<p class="plTitle1 pc">直播列表</p>
+<div class="plwrap">
+    <!--内容-->
+    <div class="plistContent">
+        <!--	<p class="plTitle4 pc"><img src="/html/webui/live/image/manronews_title.png" alt="十七新闻资讯_网站建设"/></p>-->
+        <p class="plTitle1 pc">直播列表</p>
 
-	<p class="plTitle4 pc">Hot Lives</p>
-	<p class="plslogan pc"><!--放眼国际，着眼未来，我们探索不止--></p>
+        <p class="plTitle4 pc">Hot Lives</p>
+        <p class="plslogan pc"><!--放眼国际，着眼未来，我们探索不止--></p>
 
-	<div class="newscon" >
+        <div class="newscon">
 
-		<div class="newslist" id="livesList">
-			<!--直播内容入口-->
-		    <!--<div class="news_li">
-                <img src="/html/webui/live/image/1534140894.jpg" width="160" height="160" />
-					<a href="news_article.html#?colid=220&id=374" class="news_txt" title="中瀚石林HR专业服务形象">
-						<span id="liveTitle">中瀚石林HR专业服务形象</span>
-						<p id="liveDescription">十七网络根据中瀚石林行业性质，为其打造集颜值与内涵为一体的企业官网。</p>
-						<H5 id="startTime">2018-02-08 <span id="liveStatus" style="float:right;">正在直播</span></H5>
-					</a>
-            </div>-->
+            <div class="newslist" id="livesList">
+                <!--直播内容入口-->
+                <!--<div class="news_li">
+                    <img src="/html/webui/live/image/1534140894.jpg" width="160" height="160" />
+                        <a href="news_article.html#?colid=220&id=374" class="news_txt" title="中瀚石林HR专业服务形象">
+                            <span id="liveTitle">中瀚石林HR专业服务形象</span>
+                            <p id="liveDescription">十七网络根据中瀚石林行业性质，为其打造集颜值与内涵为一体的企业官网。</p>
+                            <H5 id="startTime">2018-02-08 <span id="liveStatus" style="float:right;">正在直播</span></H5>
+                        </a>
+                </div>-->
 
 
-
-			</div>
-		<div class="clear"></div>
+            </div>
+            <div class="clear"></div>
         </div>
 
     </div>
 </div>
-	<!--分页-->
-	<div style="text-align: center;">
-		<div  id="page" ></div>
-	</div>
+<!--分页-->
+<div style="text-align: center;">
+    <div id="page"></div>
+</div>
 
 <!--引入页脚页面-->
 <div id="footer"></div>
 
 <script type="application/javascript">
 
-	$(function () {
-		searchLivesList();
-	})
+    $(function () {
+        searchLivesList();
+    })
 
-	/**
-	 * 查询直播列表
-	 * @param pageConf
-	 */
-	function searchLivesList(pageConf) {
-		if (!pageConf) {
-			pageConf = {};
-			pageConf.pageSize = 8; // 每页最多8条
-			pageConf.currentPage = 1;
+    /**
+     * 查询直播列表
+     * @param pageConf
+     */
+    function searchLivesList(pageConf) {
+        if (!pageConf) {
+            pageConf = {};
+            pageConf.pageSize = 8; // 每页最多8条
+            pageConf.currentPage = 1;
 
-		}
-		$.get("/user/live/searchLiveList", pageConf, function (data) {
-			layui.use(['laypage', 'layer'], function () {
-				var page = layui.laypage;
-				page.render({
-					elem: 'page',
-					count: data.count,
-					curr: pageConf.currentPage,
-					limit: pageConf.pageSize,
-					first: "首页",
-					last: "尾页",
-					layout: [ 'count','prev', 'page', 'next', 'skip'],// 'limit',
-					jump: function (obj, first) {
-						if (!first) {
-							pageConf.currentPage = obj.curr;
-							pageConf.pageSize = obj.limit;
-							searchLivesList(pageConf);
-						}
-						fillLiveList(data.data); //页面填充
-					}
-				});
-			})
-		})
-	}
+        }
+        $.get("/user/live/searchLiveList", pageConf, function (data) {
+            layui.use(['laypage', 'layer'], function () {
+                var page = layui.laypage;
+                page.render({
+                    elem: 'page',
+                    count: data.count,
+                    curr: pageConf.currentPage,
+                    limit: pageConf.pageSize,
+                    first: "首页",
+                    last: "尾页",
+                    layout: ['count', 'prev', 'page', 'next', 'skip'],// 'limit',
+                    jump: function (obj, first) {
+                        if (!first) {
+                            pageConf.currentPage = obj.curr;
+                            pageConf.pageSize = obj.limit;
+                            searchLivesList(pageConf);
+                        }
+                        fillLiveList(data.data); //页面填充
+                    }
+                });
+            })
+        })
+    }
 
-	/**
-	 * 填充直播列表信息
-	 * @param liveInfo
-	 */
-	function fillLiveList(liveInfo) {
-		console.log(liveInfo);
-		const $active =  $("#livesList");
-		$active.html("");
-		for(var i in liveInfo){
-			const $children = (
-					'<div class="news_li">\n' +
-					'    <img src="'+liveInfo[i].liveImage+'" width="160" height="160" />\n' +
-					'    <a href="'+liveInfo[i].liveUrl+'"  class="news_txt" title="#" target="_blank">\n' +
-					'        <span>'+liveInfo[i].liveTitle+'</span>\n' +
-					'        <p>'+liveInfo[i].liveDescription+'</p>\n' +
-					'        <H5 >'+liveInfo[i].startTime+' <span  style="float:right;">'+liveInfo[i].liveStatus+'</span></H5>\n' +
-					'    </a>\n' +
-					'</div>'
+    /**
+     * 填充直播列表信息
+     * @param liveInfo
+     */
+    function fillLiveList(liveInfo) {
+        console.log(liveInfo);
+        const $active = $("#livesList");
+        $active.html("");
+        for (var i in liveInfo) {
+            const $children = (
+                '<div class="news_li">\n' +
+                '    <img src="' + liveInfo[i].liveImage + '" width="160" height="160" />\n' +
+                '    <a href="' + liveInfo[i].liveUrl + '"  class="news_txt" title="#" target="_blank">\n' +
+                '        <span>' + liveInfo[i].liveTitle + '</span>\n' +
+                '        <p>' + liveInfo[i].liveDescription + '</p>\n' +
+                '        <H5 >' + liveInfo[i].startTime + ' <span  style="float:right;">' + liveInfo[i].liveStatus + '</span></H5>\n' +
+                '    </a>\n' +
+                '</div>'
 
-			);
-			$active.append($children);
-		}
-	}
+            );
+            $active.append($children);
+        }
+    }
 
 </script>
 

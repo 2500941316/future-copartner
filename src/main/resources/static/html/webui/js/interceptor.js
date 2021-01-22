@@ -1,13 +1,13 @@
+var $ = layui.jquery;
 $.ajaxSetup({
     dataType: "json",
     cache: false,
-    // headers: {
-    //     "token": token
-    // },
+
     xhrFields: {
         withCredentials: true
     },
-    complete: function (xhr) {
+    complete: function (xhr, status) {
+        console.log(status)
         var responseData = xhr.responseJSON;
         console.log(responseData)
         if (responseData != null) {
@@ -19,5 +19,11 @@ $.ajaxSetup({
         //  alert("200")
         // parent.location.href = baseURL + 'login.html';
         // }
+    },
+    error: function (xhr, status, error) {
+        alert("错误信息: " + xhr.status + " " + xhr.statusText);
+    },
+    success: function (result, status, xhr) {
+        //alert("成功信息: " + xhr.status + " " + xhr.statusText);
     }
 });

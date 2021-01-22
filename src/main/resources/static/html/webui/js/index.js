@@ -1,3 +1,4 @@
+var $ = layui.jquery;
 $(function () {
     $("#footer").load("/html/webui/footer/footer.html");
 

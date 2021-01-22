@@ -1,6 +1,7 @@
 var colorList;
 var count;
 var category;
+var $ = layui.jquery;
 var form;
 var layer;
 var layedit;
