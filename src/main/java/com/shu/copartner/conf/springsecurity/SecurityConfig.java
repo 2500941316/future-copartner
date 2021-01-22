@@ -58,14 +58,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  * 前端权限
                  */
                 .antMatchers("/html/webui/personal/**").hasAnyRole("PERSON", "TEACHER", "STUDENT", "MANAGER")
-                .antMatchers("/html/webui/managerui/**").hasAnyRole("MANAGER")
+                .antMatchers("/html/managerui/**").hasAnyRole("MANAGER")
                 //首页
                 .antMatchers("/").permitAll()
                 .antMatchers("/index.html").permitAll()
                 //前端页面除了个人工作台
                 .antMatchers("/html/webui/**").permitAll()
-                //layui
-                .antMatchers("/html/managerui/js/**").permitAll()
 
                 /**
                  * 后端api权限

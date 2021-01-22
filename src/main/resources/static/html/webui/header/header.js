@@ -8,7 +8,6 @@ document.writeln("    <link href=\'/html/webui/css/head_style.css\' rel=\'styles
 document.writeln("    <link href=\'/html/webui/js/layui/css/layui.css\' rel=\'stylesheet\' type=\'text/css\'/>");
 document.writeln("    <script src=\'/html/webui/js/layui/layui.all.js\'></script>");
 document.writeln("    <script type=\'text/javascript\' src=\'/html/webui/js/interceptor.js\'></script>");
-document.writeln("");
 document.writeln("</head>");
 document.writeln("<body>");
 document.writeln("");
@@ -118,6 +117,8 @@ document.writeln("        });");
 document.writeln("    }");
 document.writeln("");
 document.writeln("</script>");
+document.writeln("");
+document.writeln("");
 document.writeln("");
 document.writeln("</body>");
 document.writeln("</html>");

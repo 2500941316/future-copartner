@@ -1,6 +1,8 @@
 package com.shu.copartner.utils.constance;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,6 +54,13 @@ public final class Constants {
      * 3.驳回
      */
     public static final Integer[] REGISTER_CODE = {1, 2, 3};
+
+    /**
+     *需要登录才能访问的界面
+     */
+    public static final List<String> ROUTE_URL = Arrays.asList("/html/managerui/index.html", "/html/webui/personal/person.html");
+
+    public static final String INDEX_URL = "http://localhost:8080/index.html";
 
     /**
      * @Description 新闻发布流程processKey

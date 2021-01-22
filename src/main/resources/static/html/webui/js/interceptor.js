@@ -1,29 +1,45 @@
 var $ = layui.jquery;
+var layer = layui.layer;
 $.ajaxSetup({
     dataType: "json",
     cache: false,
-
     xhrFields: {
         withCredentials: true
     },
+    beforeSend: function (xhr) {
+    },
     complete: function (xhr, status) {
-        console.log(status)
         var responseData = xhr.responseJSON;
-        console.log(responseData)
-        if (responseData != null) {
-            console.log(responseData.code)
+        if (responseData != null && responseData.code === 405) {
+            //先重定向到
+            openLogin();
         }
-
-        //token过期，则跳转到登录页面
-        // if (xhr.responseJSON.code === 200) {
-        //  alert("200")
-        // parent.location.href = baseURL + 'login.html';
-        // }
     },
     error: function (xhr, status, error) {
-        alert("错误信息: " + xhr.status + " " + xhr.statusText);
     },
     success: function (result, status, xhr) {
-        //alert("成功信息: " + xhr.status + " " + xhr.statusText);
+        var responseData = xhr.responseJSON;
+        console.log(responseData)
     }
 });
+
+/**
+ * 路由检测，如果是
+ */
+
+
+function openLogin() {
+    layer.open({
+        type: 2
+        , area: ['30%', '52%']
+        , btn: []
+        , anim: 1
+        , title: false
+        , closeBtn: true
+        , shade: 0.6
+        , id: 'LAY_layuipro'
+        , btnAlign: 'c'
+        , moveType: 1
+        , content: '/html/webui/header/login/login.html'
+    });
+}

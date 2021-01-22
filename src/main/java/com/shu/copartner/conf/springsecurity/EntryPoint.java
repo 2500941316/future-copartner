@@ -1,6 +1,7 @@
 package com.shu.copartner.conf.springsecurity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -18,10 +19,18 @@ import java.io.IOException;
  */
 @Component
 public class EntryPoint implements AuthenticationEntryPoint {
-    private ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+    private final ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
+
+        //如果是非法跳转路由，则重定向到首页
+        if (Constants.ROUTE_URL.contains(request.getRequestURI())) {
+            response.sendRedirect(Constants.INDEX_URL);
+            return;
+        }
+
         TableModel tableModel = new TableModel();
         tableModel.setCode(405);
         tableModel.setMsg("访问权限不足");
