@@ -1,5 +1,6 @@
 package com.shu.copartner.service.impl.publics;
 
+import com.alibaba.fastjson.JSON;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProRegisterMapper;
@@ -15,12 +16,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.security.Principal;
+import java.util.*;
 
 /**
  * @author cxy
@@ -156,5 +159,24 @@ public class PublicAuthServiceImpl implements PublicAuthService {
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
         return TableModel.success();
+    }
+
+
+    @Override
+    public TableModel checkAuth(Principal principal) {
+        GrantedAuthority authority = null;
+        if (ObjectUtils.isEmpty(principal)) {
+            return TableModel.error();
+        }
+        log.info(principal.getName() + "访问");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
+        if (iterator.hasNext()) {
+            authority = iterator.next();
+        }
+        TableModel tableModel = new TableModel();
+        tableModel.setMsg(authentication.getName());
+        tableModel.setData(authority.getAuthority());
+        return TableModel.success(tableModel, 1);
     }
 }

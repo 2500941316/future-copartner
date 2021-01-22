@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 /**
  * @author
@@ -69,6 +70,17 @@ public class AuthController {
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
         return publicAuthService.registry(registryInfoVO);
+    }
+
+    /**
+     * 判断是否登录接口
+     *
+     * @return
+     */
+    @GetMapping("checkAuth")
+    public TableModel checkAuth(Principal principal) {
+
+        return publicAuthService.checkAuth(principal);
     }
 
 }

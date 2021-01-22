@@ -126,7 +126,10 @@
                 data: data.field,
                 success: function (data) {
                     if (data.code === 200) {
-                        layer.msg('登录成功，马上跳转');
+                        localStorage.setItem("username", data.msg);
+                        localStorage.setItem("auth", data.data);
+                        layer.closeAll();
+                        parent.location.replace(document.referrer);
                     } else if (data.code === 9) {
                         layer.msg('手机号未注册，请先完成注册');
                     } else if (data.code === 302)

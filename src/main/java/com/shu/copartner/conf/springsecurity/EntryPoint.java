@@ -27,7 +27,7 @@ public class EntryPoint implements AuthenticationEntryPoint {
 
         //如果是非法跳转路由，则重定向到首页
         if (Constants.ROUTE_URL.contains(request.getRequestURI())) {
-            response.sendRedirect(Constants.INDEX_URL);
+            response.sendRedirect(Constants.ERROR_URL);
             return;
         }
 

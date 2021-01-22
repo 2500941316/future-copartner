@@ -60,7 +60,7 @@ public final class Constants {
      */
     public static final List<String> ROUTE_URL = Arrays.asList("/html/managerui/index.html", "/html/webui/personal/person.html");
 
-    public static final String INDEX_URL = "http://localhost:8080/index.html";
+    public static final String ERROR_URL = "http://localhost:8080/html/webui/header/login/error.html";
 
     /**
      * @Description 新闻发布流程processKey
