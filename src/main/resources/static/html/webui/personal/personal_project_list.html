@@ -73,7 +73,7 @@
             pageConf.pageSize = 4; // 每页显示条数
             pageConf.currentPage = 1; // 当前页
         }
-        $.get("/user/project/selectByCreater", pageConf, function (data) {
+        $.get("/vip/project/selectByCreater", pageConf, function (data) {
             layui.use(['laypage', 'layer'], function () {
                 var page = layui.laypage;
                 page.render({
@@ -197,7 +197,7 @@
             // 上传计划书
             upload.render({
                 elem: elemId
-                , url: '/user/project/uploadPlan'
+                , url: '/vip/project/uploadPlan'
                 , data: {
                     projectId: currentProjectId
                 }
@@ -229,7 +229,7 @@
             //上传视频
             upload.render({
                 elem: elemId
-                ,url: '/user/project/uploadVideo'
+                ,url: '/vip/project/uploadVideo'
                 ,data: {projectId: currentProjectId}
                 ,accept: 'video' //视频
                 ,done: function(res){
@@ -273,7 +273,7 @@
     function deleteProject(projectId) {
         top.layer.confirm('确认删除？', function (index) {
             $.ajax({
-                url: '/user/project/deleteProject',
+                url: '/vip/project/deleteProject',
                 data: "projectId="+projectId,
                 type: "GET",
                 success: function (res) {

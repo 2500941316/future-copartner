@@ -33,7 +33,7 @@ function searchProject(pageConf) {
             pageConf.projectCreater= $("#projectCreaterInput").val(),
             pageConf.projectTwoStatus= projectTwoStatus === "" ? "在创" : projectTwoStatus
     }
-    $.get("/user/project/searchProjectByFour", pageConf, function (data) {
+    $.get("/public/project/searchProjectByFour", pageConf, function (data) {
         layui.use(['laypage', 'layer'], function () {
             var page = layui.laypage;
             page.render({
@@ -115,7 +115,7 @@ function searchProject(pageConf) {
         pageConf.projectCreater= $("#projectCreaterInput").val(),
         pageConf.projectTwoStatus= projectTwoStatus === "" ? "在创" : projectTwoStatus
     }
-    $.get("/user/project/searchProjectByFour", pageConf, function (data) {
+    $.get("/public/project/searchProjectByFour", pageConf, function (data) {
         layui.use(['laypage', 'layer'], function () {
             var page = layui.laypage;
             page.render({
@@ -143,7 +143,7 @@ function searchProject(pageConf) {
  * 请求所有项目数据
  */
 function getAllProjectData() {
-    $.get("/user/project/getAllProject", function (data) {
+    $.get("/public/project/getAllProject", function (data) {
         console.log(data)
         fillProjectOverview(data.data);
     })

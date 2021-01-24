@@ -8,8 +8,8 @@
     <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
-    <link rel="stylesheet" type="text/css" href="/html/managerui/js/layui/css/layui.css"/>
-    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/webui/js/layui/layui.all.js"></script>
 
 </head>
 <body>
@@ -126,14 +126,16 @@
 
 <script type="application/javascript">
 
+    var $ = layui.jquery;
+
     $(function () {
         searchSupervisorDetail();
     })
 
     //导师图片上传方法
     layui.use('upload', function () {
-        var $ = layui.jquery
-            , upload = layui.upload;
+       // var $ = layui.jquery
+        var upload = layui.upload;
         //普通图片上传
         var uploadInst = upload.render({
             elem: '#upImageBtn'
@@ -171,7 +173,7 @@
     function searchSupervisorDetail() {
         var supervisorId = localStorage.getItem("supervisorId");
         $.ajax({
-            url: "/user/supervisor/searchSuperviosrById",
+            url: "/public/supervisor/searchSuperviosrById",
             type: "GET",
             data: "supervisorId="+supervisorId,
             success: function (res) {
