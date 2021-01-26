@@ -10,8 +10,8 @@ public class TestStatic {
     /**
      * 火狐浏览器的驱动value
      */
-    // public static final String FIREFOXDRIVERVALUE = "C:\\Users\\cxy\\AppData\\Local\\Google\\Chrome\\Application\\chromedriver.exe";
-     public static final String FIREFOXDRIVERVALUE = "/usr/local/bin/chromedriver";
+     // public static final String FIREFOXDRIVERVALUE = "C:\\Users\\cxy\\AppData\\Local\\Google\\Chrome\\Application\\chromedriver.exe";
+      public static final String FIREFOXDRIVERVALUE = "/usr/local/bin/chromedriver";
 
     /**
      * 火狐浏览器BROWSER_LOGFILE
