@@ -1,14 +1,12 @@
-package com.shu.copartner.controller.usercontroller;
+package com.shu.copartner.controller.vipbercontroller;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.pojo.request.ActivityPublishVO;
-import com.shu.copartner.pojo.request.SupervisorPublishVO;
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.UserActivityService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +22,9 @@ import javax.validation.constraints.Size;
  */
 @Slf4j
 @RestController
-@RequestMapping("user/activity")
+@RequestMapping("vip/activity")
 @CrossOrigin
-public class UserActivityController {
+public class VipActivityController {
     // 模拟当前用户
     private static final String creater = "user";
     // 模拟当前用户id

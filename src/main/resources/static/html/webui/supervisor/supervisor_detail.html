@@ -88,7 +88,7 @@
 	function searchSupervisorDetail() {
 		var supervisorId = localStorage.getItem("supervisorId");
 		 $.ajax({
-			 url: "/user/supervisor/searchSuperviosrById",
+			 url: "/public/supervisor/searchSuperviosrById",
 			 type: "GET",
 			 data: "supervisorId="+supervisorId,
 			 success: function (res) {

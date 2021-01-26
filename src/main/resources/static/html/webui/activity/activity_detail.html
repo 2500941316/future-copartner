@@ -69,7 +69,7 @@
     function searchActivityDetail() {
       var activityId = localStorage.getItem("activityId");
       $.ajax({
-        url: "/user/activity/searchActivityById",
+        url: "/public/activity/searchActivityById",
         type: "GET",
         data: "activityId="+activityId,
         success: function (res) {

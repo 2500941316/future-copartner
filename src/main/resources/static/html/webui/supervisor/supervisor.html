@@ -16,28 +16,31 @@
 
  <body>
 
- <div class="searchbox2">
-		 <input type="text" name="" id="searchPlaceholder" class="import" placeholder="请输入导师名称">
-		 <button onclick="searchSupervisorByName()" value="搜   索" class="btn-search2" >搜   索</button>
- </div>
+
 
  	<!-- Event Section -->
  	<div class="event-area section-padding" style="padding: 0 0;">
  		<div class="container" >
 			<div class="row">
 				<div class="col-lg-10 offset-lg-1 text-center">
-					<div class="section-title">
+					<div class="section-title" style="margin-bottom: 0px;margin-top: 10px">
 						<h2> 导师 <b>推荐 </b></h2>
 						<p>假如我是诗人，我将以满腔的热情写下诗篇，赞美大海的辽阔和深远。
 							并把它献给您——我的胸怀博大，知识精深的老师。</p>
 						<!--<hr style="height:1px;border:none;border-top:1px solid #555555;" />
 						<hr class="layui-bg-cyan">
 						<hr class="layui-bg-blue">-->
-						<hr class="layui-bg-black">
+						
+						<!--<hr class="layui-bg-black">-->
 					</div>
 
 				</div>
 
+			</div>
+			<!--搜索框-->
+			<div class="searchbox2" style="margin-top: 0">
+				<input type="text" name="" id="searchPlaceholder" class="import" placeholder="请输入导师名称" οnkeypress="searchSupervisorByName()">
+				<button onclick="searchSupervisorByName()" value="搜   索" class="btn-search2" >搜   索</button>
 			</div>
 
  			<div class="row" id="supervisorList">
@@ -61,6 +64,13 @@
 		 searchSupervisorList();
 	 })
 
+	 //绑定搜索回车按键
+	 $('.import').bind('keypress', function (event) {
+		 if (event.keyCode == "13") {
+			 searchSupervisorByName();
+		 }
+	 })
+
 	 /**
 	  * 查询导师列表
 	  */
@@ -71,7 +81,7 @@
 			 pageConf.currentPage = 1;
 
 		 }
-		 $.get("/user/supervisor/searchSupervisorList", pageConf, function (data) {
+		 $.get("/public/supervisor/searchSupervisorList", pageConf, function (data) {
 			 layui.use(['laypage', 'layer'], function () {
 				 var page = layui.laypage;
 				 page.render({
@@ -143,7 +153,7 @@
 	 function searchSupervisorByName() {
 	 	var supervisorName = $("#searchPlaceholder").val();
 	 	$.ajax({
-			url: "/user/supervisor/searchSupervisorByName",
+			url: "/public/supervisor/searchSupervisorByName",
 			type: "GET",
 			data: "supervisorName="+supervisorName,
 			success: function (res) {

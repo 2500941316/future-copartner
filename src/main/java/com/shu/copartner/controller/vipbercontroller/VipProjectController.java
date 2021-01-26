@@ -1,4 +1,4 @@
-package com.shu.copartner.controller.usercontroller;
+package com.shu.copartner.controller.vipbercontroller;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.TaskService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.authentication.logout.LogoutSuccessEventPublishingLogoutHandler;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +18,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Map;
 
 /**
  * @author
@@ -28,9 +26,9 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("user/project")
+@RequestMapping("vip/project")
 @CrossOrigin
-public class UserProjectController {
+public class VipProjectController {
     // 模拟当前用户
     public static String creater = "user";
 

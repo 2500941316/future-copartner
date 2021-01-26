@@ -29,11 +29,11 @@
                 </th>
                 <th width="15%" style="border-right:1px #EDEDED solid;">查看时间</th>
             </tr>-->
-            <tr class="Gray">
+           <!-- <tr class="Gray">
                 <td colspan="2">
                     <div class="whoGz">
                         <a href="jobtype.html" class="zwtype">项目名称</a>
-                       <!-- <a href="company.html" class="gstype">河北同源科技发展有限公司</a>-->
+                       &lt;!&ndash; <a href="company.html" class="gstype">河北同源科技发展有限公司</a>&ndash;&gt;
                         <div class="whoGz1">
                             <span id="projectCreater">张三</span> |
                             <span id="projectType">新零售</span> |
@@ -46,9 +46,9 @@
                     <span></span>
                     <span class="gzsqbtn">查看关注人</span>
                 </td>
-            </tr>
+            </tr>-->
 
-            <tr class="Gray">
+          <!--  <tr class="Gray">
                 <td colspan="2">
                     <div class="whoGz">
                         <a href="jobtype.html" class="zwtype">商务助理</a>
@@ -61,7 +61,7 @@
                     <span>2018-01-03 14:54</span>
                     <span class="gzsqbtn">立即申请</span>
                 </td>
-            </tr>
+            </tr>-->
             </tbody>
         </table>
     </div>
@@ -90,7 +90,7 @@
             pageConf.pageSize = 4; // 每页显示条数
             pageConf.currentPage = 1; // 当前页
         }
-        $.get("/user/project/selectByCreater", pageConf, function (data) {
+        $.get("/vip/project/selectByCreater", pageConf, function (data) {
             layui.use(['laypage', 'layer'], function () {
                 var page = layui.laypage;
                 page.render({
@@ -173,7 +173,7 @@
             var high = 40; //表头高度
             table.render({
                 elem: '#displayBoxTable'
-                , url: '/user/project/searchUserOfFollowMe'
+                , url: '/vip/project/searchUserOfFollowMe'
                 ,where: {projectId: thisProjectId}
                 , title: '关注用户信息'
                 ,smartReloadModel:true

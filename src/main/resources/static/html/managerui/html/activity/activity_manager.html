@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
-    <script type="text/javascript" src="/html/managerui/js/leasson_manager.js"></script>
+    <script src="/html/webui/js/layui/layui.js"></script>
 </head>
 <body>
 <!--引入页头页面-->
@@ -81,11 +81,13 @@
 
 
 <script type="application/javascript">
+
     $(function () {
         $("#footer").load("/html/webui/footer/footer.html");
-
         searchActivityInfo();
     })
+
+   var form = layui.form;
 
     /**
      *活动信息管理表格
@@ -201,23 +203,25 @@
      * @param projectId
      */
     function manageActivityInfo(info) {
+        var $=layui.jquery;
+        var form = layui.form;
+        // 获取选中的状态值
         layer.open({
             type:1,
             area:['30%','25%'],
-            title: '活动状态设置'
-            ,content: $("#test"),
+            title: '活动状态设置',
+            content: $("#test"),
             shade: 0.1,
             btn: ['提交']
             ,btn1: function(index, layero){
-                // 获取选中的状态值
-                var typeValue = $('#test input[name="type"]:checked ').val()
-                if(typeValue == info.isPublish){
-                    layer.msg("状态重复", {icon: 2,shade: 0.1,time: 2000,shift: 6});
+                    var typeValue = $('#test input[name="type"]:checked ').val()
+                    if(typeValue == info.isPublish){
+                        layer.msg("状态重复", {icon: 2,shade: 0.1,time: 2000,shift: 6});
+                        layer.close(index);
+                        return;
+                    }
+                    updateActivityStatus(info.activityId,typeValue);
                     layer.close(index);
-                    return;
-                }
-                updateActivityStatus(info.activityId,typeValue);
-                layer.close(index);
             },
             cancel: function(layero,index){
                 layer.closeAll();

@@ -4,8 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
-    <link type="text/css" rel="stylesheet" href="/html/managerui/js/layui/css/layui.css"/>
-    <script type="text/javascript" src="/html/managerui/js/layui/layui.js"></script>
+    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+    <script type="text/javascript" src="/html/webui/js/layui/layui.all.js"></script>
 
 
     <title>活动信息修改</title>
@@ -82,6 +82,8 @@
 
 <script type="text/javascript">
 
+    var $ = layui.jquery;
+
     $(function () {
         searchActivityDetail();
     })
@@ -92,7 +94,7 @@
     function searchActivityDetail(){
         var activityId = localStorage.getItem("activityId");
         $.ajax({
-            url: "/user/activity/searchActivityById",
+            url: "/public/activity/searchActivityById",
             type: "GET",
             data: "activityId="+activityId,
             success: function (res) {
@@ -178,7 +180,7 @@
         //普通图片上传
         var uploadInst = upload.render({
             elem: '#upImageBtn'
-            , url: '/user/activity/activityImgUpload'
+            , url: '/vip/activity/activityImgUpload'
             , before: function (obj) {
                 obj.preview(function (index, file, result) {
                     $('#imgId').attr('src', result); //图片链接（base64）
@@ -201,7 +203,7 @@
         //富文本图片上传接口
         layedit.set({
             uploadImage: {
-                url: '/user/activity/activityImagesUpload' //接口url
+                url: '/vip/activity/activityImagesUpload' //接口url
                 , type: 'POST' //默认post
             }
         });

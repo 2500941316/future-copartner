@@ -13,7 +13,7 @@
 <body>
 <div class="plwrap">
     <!--内容-->
-    <div class="plistContent">
+    <div class="plistContent" style="padding-top: 20px;">
         <!--	<p class="plTitle4 pc"><img src="/html/webui/live/image/manronews_title.png" alt="十七新闻资讯_网站建设"/></p>-->
         <p class="plTitle1 pc">直播列表</p>
 
@@ -65,7 +65,7 @@
             pageConf.currentPage = 1;
 
         }
-        $.get("/user/live/searchLiveList", pageConf, function (data) {
+        $.get("/public/live/searchLiveList", pageConf, function (data) {
             layui.use(['laypage', 'layer'], function () {
                 var page = layui.laypage;
                 page.render({

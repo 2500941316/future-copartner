@@ -1,4 +1,4 @@
-package com.shu.copartner.controller.usercontroller;
+package com.shu.copartner.controller.publiccontroller;
 
 import com.shu.copartner.service.UserSupervisorService;
 import com.shu.copartner.utils.returnobj.TableModel;
@@ -15,9 +15,9 @@ import javax.validation.constraints.Size;
  */
 @Slf4j
 @RestController
-@RequestMapping("user/supervisor")
+@RequestMapping("public/supervisor")
 @CrossOrigin
-public class UserSupervisorController {
+public class PublicSupervisorController {
 
     @Autowired
     private UserSupervisorService userSupervisorService;

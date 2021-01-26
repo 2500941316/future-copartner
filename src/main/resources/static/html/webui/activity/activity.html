@@ -22,17 +22,14 @@
 </head>
 <body>
 
-  <div class="content">
+  <div class="content" style="padding-top: 50px ">
     <div class="cont w1000">
       <div class="title">
-        <span class="layui-breadcrumb" lay-separator="|">
-          <a href="javascript:;" class="active" style="font-size: 35px">活动列表</a>
-          <!--<a href="javascript:;">前端文章</a>
-          <a href="javascript:;">旅游杂记</a>-->
-        </span>
+        <a href="javascript:;" class="active" style="font-size: 35px">活动列表</a>
       </div>
-      <div class="list-item" id="activityList">
 
+      <div class="list-item" id="activityList">
+        <!--活动列表-->
         <!--<div class="item">
           <div class="layui-fluid">
             <div class="layui-row">
@@ -96,7 +93,7 @@
         pageConf.currentPage = 1;
 
       }
-      $.get("/user/activity/searchActivityList", pageConf, function (data) {
+      $.get("/public/activity/searchActivityList", pageConf, function (data) {
         layui.use(['laypage', 'layer'], function () {
           var page = layui.laypage;
           page.render({
@@ -125,7 +122,6 @@
      * @param activityInfo
      */
     function fillActivityList(activityInfo) {
-      console.log(activityInfo);
       const $active =  $("#activityList");
       $active.html("");
       for(var i in activityInfo){
@@ -145,7 +141,7 @@
                '                  </h5>\n' +
                '                  <p><span id="activityContent" class="activityContent">'+activityInfo[i].activityContent+'</span></p>\n' +
                '                  <a href="#" onclick="viewActivityDetail('+activityInfo[i].activityId+')" class="go-icon"></a>\n' +
-               '                  <span id="'+activityInfo[i].activityId+'" class="signUp bright '+activityInfo[i].activityId+'" onclick="clickSignUp('+activityInfo[i].activityId+')" style="cursor: pointer">立即报名</span>\n' +
+               '                  <span id="'+activityInfo[i].activityId+'" class="signUp bright '+activityInfo[i].activityId+'" onclick="checkLogin('+activityInfo[i].activityId+')" style="cursor: pointer">立即报名</span>\n' +
                '                </div>\n' +
                '            </div>\n' +
                '            </div>\n' +
@@ -170,7 +166,6 @@
       }
     }
 
-
     /**
      * 查看活动详情
      * @param activityId
@@ -181,15 +176,25 @@
     }
 
     /**
+     *报名和取消报名，先验证是否登录
+     */
+    function checkLogin(activityId) {
+      if (localStorage.getItem("username") != null) {
+        clickSignUp(activityId)
+      } else {
+        layer.msg("请先完成登录！", {icon: 7,shade: 0.05,time: 2000});
+      }
+    }
+    /**
      * 立即报名
      * @param activityId
      */
     function clickSignUp(activityId){
         if(document.getElementById(activityId).innerText == "立即报名"){
 
-          document.getElementsByClassName(activityId)[0].classList.remove('bright'); // 移除样式
-          document.getElementById(activityId).innerText = "已报名";
-          console.log("已报名");
+         /* document.getElementsByClassName(activityId)[0].classList.remove('bright'); // 移除样式
+          document.getElementById(activityId).innerText = "已报名";*/
+          //console.log("已报名");
           enrollInActivity(activityId);
         }else if(document.getElementById(activityId).innerText == "已报名"){
           // 确认取消报名该活动
@@ -206,11 +211,13 @@
      */
     function enrollInActivity(activityId) {
       $.ajax({
-        url: "/user/activity/enrollInActivity",
+        url: "/vip/activity/enrollInActivity",
         type: "GET",
         data: "activityId="+activityId,
         success: function (res) {
           if(res.code = 200){
+            document.getElementsByClassName(activityId)[0].classList.remove('bright'); // 移除样式
+            document.getElementById(activityId).innerText = "已报名";
             layer.msg('报名成功', {icon: 1,shade: 0.05,time: 2000});
           }else{
             layer.msg("网络异常！");
@@ -235,15 +242,13 @@
      * @param follower
      */
     function cancelEnrollActivity(activityId) {
-      console.log(activityId);
-
       $.ajax({
-        url: "/user/activity/cancelEnrollActivity",
+        url: "/vip/activity/cancelEnrollActivity",
         type: "GET",
         data: "activityId="+activityId,
         success: function (res) {
           if(res.code == 200){
-            layer.msg("已取消报名！", {icon: 7,shade: 0.05,time: 2000});
+            layer.msg("已取消报名！", {icon: 1,shade: 0.05,time: 2000});
             // 将活动转为‘立即报名’ 状态
             document.getElementsByClassName(activityId)[0].classList.add('bright'); // 添加样式
             document.getElementById(activityId).innerText = "立即报名";

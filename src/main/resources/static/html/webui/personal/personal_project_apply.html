@@ -145,7 +145,7 @@
 
         }
         $.ajax({
-            url: "/user/project/projectApply",    //请求的url地址
+            url: "/vip/project/projectApply",    //请求的url地址
             dataType: "json",   //返回格式为json
             contentType: "application/json",
             async: true, //请求是否异步，默认为异步，这也是ajax重要特性
@@ -184,7 +184,7 @@
     function addOptionTeacher() {
         // 获取导师信息
         $.ajax({
-            url: "/user/supervisor/searchAllSupervisor",
+            url: "/vip/supervisor/searchAllSupervisor",
             type: "GET",
             success: function (res) {
                 if(res.code == 200){

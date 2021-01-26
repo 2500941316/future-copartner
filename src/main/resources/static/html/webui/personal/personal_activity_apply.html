@@ -4,6 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+    <script src="/html/webui/js/layui/layui.all.js"></script>
     <title>个人工作台</title>
 </head>
 
@@ -108,10 +110,11 @@
     })
 
 
-    layui.use(['layer', 'layedit','laydate'], function () {
+    layui.use(['layer', 'layedit','laydate','jquery'], function () {
         var layedit = layui.layedit;
         var layer = layui.layer;
         var laydate = layui.laydate;
+        var $ = layui.$;
         //富文本图片上传接口
         layedit.set({
             uploadImage: {
