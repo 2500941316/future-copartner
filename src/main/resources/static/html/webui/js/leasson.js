@@ -23,7 +23,7 @@ layui.use('element', function () {
 function getLeassonInfo() {
     $.ajax({
         type: "GET",
-        url: "/user/leasson/getLeassonInfo",
+        url: "/public/leasson/getLeassonInfo",
         success: function (data) {
             if (data.code === 200) {
                 //设置默认的视频id
@@ -45,7 +45,7 @@ function getLeassonInfo() {
 function getCourseInfoById(courseId) {
     $.ajax({
         type: "GET",
-        url: "/user/leasson/getcourseInfo_vedio",
+        url: "/public/leasson/getcourseInfo_vedio",
         data: {
             courseId: courseId
         },

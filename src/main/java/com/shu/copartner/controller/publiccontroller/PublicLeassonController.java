@@ -1,4 +1,4 @@
-package com.shu.copartner.controller.usercontroller;
+package com.shu.copartner.controller.publiccontroller;
 
 import com.shu.copartner.service.UserLeassonService;
 import com.shu.copartner.utils.returnobj.TableModel;
@@ -11,11 +11,11 @@ import javax.validation.constraints.Size;
 /**
  * @author cxy
  */
-@RestController
-@RequestMapping("user/leasson")
-@CrossOrigin
 @Slf4j
-public class UserLeassonController {
+@RestController
+@RequestMapping("public/leasson")
+@CrossOrigin
+public class PublicLeassonController {
 
     @Autowired
     UserLeassonService userLeassonService;
@@ -41,4 +41,5 @@ public class UserLeassonController {
     public TableModel getcourseInfo_vedio(@Size Long courseId) {
         return userLeassonService.getcourseInfoVedio(courseId);
     }
+
 }

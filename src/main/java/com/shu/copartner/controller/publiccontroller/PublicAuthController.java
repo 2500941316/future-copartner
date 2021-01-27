@@ -24,7 +24,7 @@ import java.security.Principal;
 @RequestMapping("public")
 @CrossOrigin
 @Slf4j
-public class AuthController {
+public class PublicAuthController {
 
     @Autowired
     PublicAuthService publicAuthService;

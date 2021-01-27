@@ -69,7 +69,7 @@ function doData(arrParO) {
 function news_index_init() {
     $.ajax({
         type: "GET",
-        url: "/user/news/getNewsIndexInfo",
+        url: "/public/news/getNewsIndexInfo",
         success: function (data) {
             if (data.code === 200) {
                 renderNewsPage_topNews(data.data.topNewsList);
@@ -90,7 +90,7 @@ function news_content_init() {
     if (newsId != null) {
         $.ajax({
             type: "GET",
-            url: "/user/news/searchNewsById",
+            url: "/public/news/searchNewsById",
             data: "newsId=" + newsId,
             success: function (data) {
                 if (data.code === 200) {
@@ -110,7 +110,7 @@ function initCatagoryNews(page) {
     var keyword = localStorage.getItem("news_catagory");
     $.ajax({
         type: "GET",
-        url: "/user/news/searchNewsByKeywords",
+        url: "/public/news/searchNewsByKeywords",
         data: {
             page: page,
             keyword: keyword
