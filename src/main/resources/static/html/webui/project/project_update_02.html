@@ -3,7 +3,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css" />
-<script type="text/javascript" src="/html/webui/js/personal.js"></script>
+   <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+   <script src="/html/webui/js/layui/layui.all.js"></script>
+
+   <script type="text/javascript" src="/html/webui/js/personal.js"></script>
 
 
 <title>修改项目信息</title>
@@ -155,6 +158,9 @@
    </div>
 
 <script type="text/javascript">
+
+   var $ = layui.jquery;
+
    $(function () {
       addOptionTeacher();
       getProjectData();
@@ -172,12 +178,15 @@
       //执行一个laydate实例
       laydate.render({
          elem: '#peopleTime' //指定元素
+         ,trigger: 'click'
       });
       laydate.render({
          elem: '#matchTime'
+         ,trigger: 'click'
       });
       laydate.render({
          elem: '#cooperationTime'
+         ,trigger: 'click'
       });
       laydate.render({
          elem: '#activityTime'
@@ -212,7 +221,7 @@
    function getProjectData() {
       var projectId = localStorage.getItem("projectId");
       $.ajax({
-         url: "/user/project/getProjectById",
+         url: "/public/project/getProjectById",
          async: true,
          data: "projectId=" + projectId,
          type: "GET",   //请求方式
@@ -294,7 +303,7 @@
       }
       console.log(updataProject)
       $.ajax({
-         url: "/user/project/updateProject",
+         url: "/vip/project/updateProject",
          dataType: "json",
          contentType: "application/json",
          data: JSON.stringify(updataProject),
@@ -358,7 +367,7 @@
          top.layer.msg("请填写信息！");
       }
       $.ajax({
-         url: "/user/project/updateProject",
+         url: "/vip/project/updateProject",
          dataType: "json",
          contentType: "application/json",
          data: JSON.stringify(landmarkData),
@@ -388,7 +397,7 @@
    function addOptionTeacher() {
       // 获取导师信息
       $.ajax({
-         url: "/user/supervisor/searchAllSupervisor",
+         url: "/public/supervisor/searchAllSupervisor",
          type: "GET",
          success: function (res) {
             if(res.code == 200){

@@ -99,6 +99,7 @@
     <include refid="Base_Column_List" />
     from PRO_ACTIVITY
     where activity_id = #{activityId,jdbcType=BIGINT}
+        and is_deleted = 0
   </select>
 
   <!--查询已发布活动列表-->

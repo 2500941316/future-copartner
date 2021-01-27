@@ -3,13 +3,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>项目</title>
 </head>
+<link type="text/css" rel="stylesheet" href="/html/webui/css/searchJob.css" />
 <script src='/html/webui/header/header.js'></script>
+
+<script type='text/javascript' src='/html/webui/js/interceptor.js'></script>
 <body>
 <div class="clear"></div>
 <div class="meetingDiv">
-   <div class="part1">
+   <!--<div class="part1">
        <a href="#"><img width="100%" src="/html/webui/images/img1.png"/></a>
-   </div>
+   </div>-->
     <div class="searchDiv">
         <div class="search1">
             <div class="sea1_2">
@@ -40,8 +43,8 @@
    <div class="part3">
      <div class="part3L">
         <div class="jianli">
-           <span>在创，可加入项目全在这儿，立即注册可关注项目进展并加入项目。</span>
-           <span><a href="">立即注册</a></span>
+           <span>在创，可加入项目全在这儿，立即登录可关注项目进展并加入项目。</span>
+           <span><a id="loginLabelA" href="#" onclick='openLogin()'><span id="loginNow">立即登录</span></a></span>
         </div>
         <div class="zph">
              <ul id="tabmeet">
@@ -75,7 +78,7 @@
      </div>
      <div class="part3R">
         <div class="part3_1">
-           <a href="">登录即可申请项目>></a>
+            <a id="loginLabelRight" href="#" onclick='openLogin()'><span id="login">登录即可申请项目>></span></a>
         </div>
         <div class="part3_2">
            <h1>项目总览</h1>
@@ -127,7 +130,7 @@
         } else {
             $('.star').removeClass('current');
             $(this).addClass('current');
-            console.log(document.getElementsByClassName('current')[0].innerHTML)
+           // console.log(document.getElementsByClassName('current')[0].innerHTML)
             projectTwoStatus = document.getElementsByClassName('current')[0].innerHTML
             if(projectTwoStatus == "在创项目"){
                 projectTwoStatus = "在创";

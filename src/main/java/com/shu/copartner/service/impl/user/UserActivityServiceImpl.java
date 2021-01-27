@@ -7,6 +7,7 @@ import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProActivityMapper;
 import com.shu.copartner.mapper.ProEnrollMapper;
 import com.shu.copartner.pojo.ProActivity;
+import com.shu.copartner.pojo.ProActivityExample;
 import com.shu.copartner.pojo.ProEnroll;
 import com.shu.copartner.pojo.ProEnrollExample;
 import com.shu.copartner.pojo.request.ActivityPublishVO;
@@ -201,6 +202,47 @@ public class UserActivityServiceImpl implements UserActivityService {
             this.proEnrollMapper.updateByExampleSelective(proEnroll, proEnrollExample);
             return TableModel.success();
         } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 查询我创建的活动
+     * @param currentPage
+     * @param username
+     * @return
+     */
+    @Override
+    public TableModel searchMyCreatedActivity(int currentPage, String username) {
+        try{
+            PageHelper.startPage(currentPage,4);
+            ProActivityExample proActivityExample = new ProActivityExample();
+            proActivityExample.createCriteria().andActivityAuthorEqualTo(username).andIsDeletedEqualTo(0);
+            List<ProActivity> proActivityList = proActivityMapper.selectByExample(proActivityExample);
+            PageInfo pageInfo = new PageInfo(proActivityList);
+             return TableModel.success(proActivityList,(int)pageInfo.getTotal());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 删除活动，is_deleted置 1
+     * @param activityId
+     * @return
+     */
+    @Override
+    public TableModel deleteActivityById(String activityId) {
+        try{
+            ProActivity proActivity = new ProActivity();
+            proActivity.setActivityId(Long.parseLong(activityId));
+            proActivity.setIsDeleted(1);
+            proActivity.setUpdateTime(new Date());
+            proActivityMapper.updateByPrimaryKeySelective(proActivity);
+            return TableModel.success();
+        }catch (Exception e){
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }

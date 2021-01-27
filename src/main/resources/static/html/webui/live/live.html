@@ -51,6 +51,7 @@
 <script type="application/javascript">
 
     $(function () {
+        $("#footer").load("/html/webui/footer/footer.html");
         searchLivesList();
     })
 
@@ -94,7 +95,7 @@
      * @param liveInfo
      */
     function fillLiveList(liveInfo) {
-        console.log(liveInfo);
+        //console.log(liveInfo);
         const $active = $("#livesList");
         $active.html("");
         for (var i in liveInfo) {

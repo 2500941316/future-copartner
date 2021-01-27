@@ -27,7 +27,7 @@ $(function () {
                 window.location.href = "/html/webui/supervisor/supervisor.html";
                 break;
             case 3:
-                window.location.href = "#";
+                window.location.href = "/html/webui/live/live.html";
                 break;
             case 4:
                 window.location.href = "/html/webui/leasson/leasson.html";

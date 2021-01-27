@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <script src="/html/webui/js/layui/layui.js"></script>
 </head>
 <body>
 <!--引入页头页面-->
@@ -102,7 +103,7 @@
                 if (obj.event === 'detail') {
                     viewProjectInfo(obj.data.projectId);
                 } else if (obj.event === 'edit') {
-                    editProjectInfo(obj.data.projectId);
+                    editProjectInfo(obj.data);
                 } else if (obj.event === 'delete') {
                     layer.confirm('确认删除？', function (index) {
                         deleteProjectInfo(obj.data.projectId);
@@ -155,7 +156,9 @@
      * 设置项状态
      * @param projectId
      */
-    function editProjectInfo(projectId) {
+    function editProjectInfo(info) {
+        var $=layui.jquery;
+        var form = layui.form;
         layer.open({
             type:1,
             area:['30%','25%'],
@@ -166,7 +169,12 @@
             ,btn1: function(index, layero){
                 // 获取选中的状态值
                 var isGoing = $('#test input[name="type"]:checked ').val()
-                updatePorjectIsGoing(projectId,isGoing);
+                if(isGoing == info.isGoing){
+                    layer.msg("状态重复", {icon: 2,shade: 0.1,time: 2000,shift: 6});
+                    layer.close(index);
+                    return;
+                }
+                updatePorjectIsGoing(info.projectId,isGoing);
                 layer.close(index);
             },
             cancel: function(layero,index){

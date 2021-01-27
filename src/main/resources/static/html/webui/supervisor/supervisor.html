@@ -124,7 +124,7 @@
 					' 				  </div>\n' +
 					' 			   <div class="col-lg-7">\n' +
 					' 				 <div class="event-content">\n' +
-					' 					<h6><span id="supervisorName">'+supervisorInfo[i].supervisorName+'</span></h6>\n' +
+					' 					<h6><span id="supervisorName" onclick="viewSupervisorDetail('+supervisorInfo[i].supervisorId+')" style="cursor: pointer">'+supervisorInfo[i].supervisorName+'</span></h6>\n' +
 					'                   <p class="event-meta"> <i class="las la-clock"></i> <span ><span id="supervisorStatus" style="margin-right: 5px;">'+supervisorInfo[i].supervisorStatus+' </span>| <i class="las la-map-marker"></i> </span>  <span id="supervisorInstitute">'+supervisorInfo[i].supervisorInstitute+'</span> </p>\n' +
 					'                   <p id="supervisorDescription">'+supervisorInfo[i].supervisorDescription+'</p>\n' +
 					'                   <a href="#" onclick="viewSupervisorDetail('+supervisorInfo[i].supervisorId+')">Read More</a>\n' +

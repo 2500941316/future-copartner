@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
-    <script type="text/javascript" src="/html/webui/js/personal.js"></script>
+    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+    <script src="/html/webui/js/layui/layui.all.js"></script>
+<!--    <script type="text/javascript" src="/html/webui/js/personal.js"></script>-->
 </head>
 <body>
 <div class="perRightcon">
@@ -77,6 +79,8 @@
 </div>
 
 <script type="application/javascript">
+    var $ = layui.jquery;
+
     $(function () {
         searchProjectByCreater();
     })

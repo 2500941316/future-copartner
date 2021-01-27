@@ -1,3 +1,5 @@
+var $ = layui.jquery;
+var layer = layui.layer;
 $(function () {
     $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
@@ -7,10 +9,27 @@ $(function () {
         getAllProjectData(); // 填充右侧项目总览
     }
 
+    checkLogin();
+
 })
 
 
 // project.html
+
+/**
+ * 检查是否登录
+ * @param activityId
+ */
+function checkLogin() {
+    if (localStorage.getItem("username") != null) {
+        document.getElementById("loginNow").innerText = "已登录";
+        document.getElementById("loginLabelA").onclick = function(){return "#"};
+
+        document.getElementById("login").innerText = "已登录，可申请项目>>";
+        document.getElementById("loginLabelRight").onclick = function(){ window.location.href =  "/html/webui/personal/person.html"};
+    }
+}
+
 
 /**
  * 根据输入的值搜索项目
@@ -144,7 +163,7 @@ function searchProject(pageConf) {
  */
 function getAllProjectData() {
     $.get("/public/project/getAllProject", function (data) {
-        console.log(data)
+        //console.log(data)
         fillProjectOverview(data.data);
     })
 }

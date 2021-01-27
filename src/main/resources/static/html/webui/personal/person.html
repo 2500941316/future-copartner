@@ -3,8 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
     <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
     <script src='/html/webui/header/header.js'></script>
+    <script src='/html/webui/js/personal.js'></script>
     <title>个人工作台</title>
 </head>
 
@@ -41,6 +43,7 @@
             </div>
             <ul>
                 <li><a onclick="redirecTo('/html/webui/personal/personal_activity_apply.html')" href="#">创建活动</a></li>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_activity_mycreated.html')" href="#">我的创建</a></li>
             </ul>
 
             <div class="NavLeftBox twoNav">
@@ -117,8 +120,9 @@
 
 <!--引入页脚页面-->
 <div style="bottom:0;" id="footer"></div>
-<script type="text/javascript" src="/html/webui/js/personal.js"></script>
+
 <script type="text/javascript">
+    var $ = layui.jquery;
 
     $(function () {
         redirecTo("/html/webui/personal/personal_info.html");

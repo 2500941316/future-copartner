@@ -5,7 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
-    <script type="text/javascript" src="/html/webui/js/personal.js"></script>
+    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+    <script src="/html/webui/js/layui/layui.all.js"></script>
+   <!-- <script type="text/javascript" src="/html/webui/js/personal.js"></script>-->
 
 
     <title>创建项目</title>
@@ -91,6 +93,7 @@
 
 
 <script type="text/javascript">
+    var $ = layui.jquery;
 
     $(function () {
         addOptionTeacher();
@@ -184,11 +187,11 @@
     function addOptionTeacher() {
         // 获取导师信息
         $.ajax({
-            url: "/vip/supervisor/searchAllSupervisor",
+            url: "/public/supervisor/searchAllSupervisor",
             type: "GET",
             success: function (res) {
                 if(res.code == 200){
-                    console.log(res);
+                    //console.log(res);
                     fillProjectTeacher(res.data);
                 }else{
                     top.layer.msg("网络异常");

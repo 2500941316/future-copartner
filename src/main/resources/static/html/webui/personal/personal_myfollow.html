@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <title>我的关注</title>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
-    <script type="text/javascript" src="/html/webui/js/personal.js"></script>
+    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+    <script src="/html/webui/js/layui/layui.all.js"></script>
+ <!--   <script type="text/javascript" src="/html/webui/js/personal.js"></script>-->
 
 
 </head>
@@ -44,6 +46,8 @@
 </div>
 
 <script type="text/javascript">
+    var $ = layui.jquery;
+
     $(function () {
         searchMyFollowProject();
     })
@@ -152,7 +156,7 @@
      * @param projectId
      */
     function viewProjectDetail(projectId) {
-        layer.msg("projectId:"+projectId);
+       // layer.msg("projectId:"+projectId);
         localStorage.setItem("projectId",projectId);
         //window.open("/html/webui/project/project_details_info.html");
         window.location.href = "/html/webui/project/project_details_info.html";
