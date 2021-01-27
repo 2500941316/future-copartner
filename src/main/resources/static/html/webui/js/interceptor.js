@@ -111,7 +111,7 @@ function logout() {
         success: function (data) {
             if (data.code === 200) {
                 localStorage.clear();
-                window.location.href = window.location.href;
+                window.location.href = "http://localhost:8080/";
             }
         },
         error: function (data) {

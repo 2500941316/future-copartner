@@ -9,6 +9,8 @@ var laydate;
 var clock = '';
 var nums = 90;
 var btn;
+
+
 $(function () {
     count = 3;
     loadFlow(count);
