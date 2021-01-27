@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+import java.security.Principal;
 
 /**
  * @author
@@ -117,5 +118,24 @@ public class VipActivityController {
         return userActivityService.cancelEnrollActivity(activityId,userId);
     }
 
+    /**
+     * 查询我创建的活动
+     * @param currentPage
+     * @param principal
+     * @return
+     */
+    @GetMapping("searchMyCreatedActivity")
+    public TableModel searchMyCreatedActivity(@Size(min = 1) @RequestParam int currentPage, Principal principal){
+        return userActivityService.searchMyCreatedActivity(currentPage,principal.getName());
+    }
 
+    /**
+     * 删除活动
+     * @param activityId
+     * @return
+     */
+    @GetMapping("deleteActivityById")
+    public TableModel deleteActivityById(@Size(min = 1) @RequestParam String activityId){
+        return userActivityService.deleteActivityById(activityId);
+    }
 }

@@ -149,7 +149,6 @@
    if(top.location!=self.location)top.location=self.location;
 
    $(function () {
-      $("#header").load("/html/webui/header/header.html");
       $("#footer").load("/html/webui/footer/footer.html");
 
       getProjectData();
@@ -169,13 +168,13 @@
    function getProjectData() {
       var projectId = localStorage.getItem("projectId");
       $.ajax({
-         url: "/user/project/getProjectById",
+         url: "/public/project/getProjectById",
          async: true,
          data: "projectId=" + projectId,
          type: "GET",   //请求方式
          success: function (req) {
             if (req.code == 200) {
-               console.log(req)
+               //console.log(req)
                fillProjectInfo(req.data)
             } else {
                layer.msg("网络异常，请稍后重试！")
@@ -183,7 +182,7 @@
          },
          error: function (req) {
             //请求出错处理
-            console.log(req);
+            //console.log(req);
             layer.msg("参数异常");
          }
        })
@@ -287,23 +286,27 @@
    }
 
    $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').click(function () {
-      if(document.getElementById("follow").innerText == "+关注" && document.getElementById("follow2").innerText == "立即关注"){
+      if (localStorage.getItem("username") != null) {
+         if(document.getElementById("follow").innerText == "+关注" && document.getElementById("follow2").innerText == "立即关注"){
 
-         $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').css('background', 'grey');
-         document.getElementById("follow").innerText = "已关注";
-         document.getElementById("follow2").innerText = "已关注";
+            $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').css('background', 'grey');
+            document.getElementById("follow").innerText = "已关注";
+            document.getElementById("follow2").innerText = "已关注";
 
-         followProject(localStorage.getItem("projectId"));
-         //console.log("关注："+localStorage.getItem("projectId"));
-      }else{
-         comfirmCancelFollow(localStorage.getItem("projectId"),document.getElementById("projectCreater").innerText);
-        /* document.getElementById("follow").innerText = "+关注";
-         $('.DivLeft_1 .gz1').css('background', '#50BA8C');
-         $('.divJob_2 .divJob_2_1').css('background', '#F96B2D');
-         document.getElementById("follow2").innerText = "立即关注";*/
-
-         //console.log("取消关注"+localStorage.getItem("projectId")+document.getElementById("projectCreater").innerText);
+            followProject(localStorage.getItem("projectId"));
+            //console.log("关注："+localStorage.getItem("projectId"));
+         }else{
+            comfirmCancelFollow(localStorage.getItem("projectId"),document.getElementById("projectCreater").innerText);
+            /* document.getElementById("follow").innerText = "+关注";
+             $('.DivLeft_1 .gz1').css('background', '#50BA8C');
+             $('.divJob_2 .divJob_2_1').css('background', '#F96B2D');
+             document.getElementById("follow2").innerText = "立即关注";*/
+            //console.log("取消关注"+localStorage.getItem("projectId")+document.getElementById("projectCreater").innerText);
+         }
+      } else {
+         layer.msg("请先完成登录！", {icon: 7,shade: 0.05,time: 2000});
       }
+
    })
    // 关注
 /*   function clickFollow() {
@@ -323,13 +326,13 @@
       var projectId = localStorage.getItem("projectId");
 
       $.ajax({
-         url: "/user/project/getOtherProjectById",
+         url: "/public/project/getOtherProjectById",
          async: true,
          data: "projectId=" + projectId,
          type: "GET",   //请求方式
          success: function (req) {
             if (req.code == 200) {
-               console.log(req)
+               //console.log(req)
                fillOtherProjectInfo(req.data)
             } else {
                layer.msg("网络异常，请稍后重试！")
@@ -337,7 +340,7 @@
          },
          error: function (req) {
             //请求出错处理
-            console.log(req);
+            //console.log(req);
             layer.msg("参数异常");
          }
       })
@@ -398,8 +401,8 @@
          pageConf.currentPage = 1;
          pageConf.projectId = localStorage.getItem("projectId");
       }
-      $.get("/user/project/getOtherProjectById", pageConf, function (data) {
-         console.log(data);
+      $.get("/public/project/getOtherProjectById", pageConf, function (data) {
+         //console.log(data);
          layui.use(['laypage', 'layer'], function () {
             var page = layui.laypage;
             page.render({
@@ -429,9 +432,9 @@
     * @param projectId
     */
    function followProject(projectId){
-      console.log("关注")
+      //console.log("关注")
       $.ajax({
-         url: "/user/project/followProject",
+         url: "/vip/project/followProject",
          type: "GET",
          data: "projectId="+projectId,
          success: function(res){
@@ -463,9 +466,9 @@
          projectId: projectId,
          follower: follower
       }
-      console.log(cancelInfo);
+      //console.log(cancelInfo);
       $.ajax({
-         url: "/user/project/cancelFollowProject",
+         url: "/vip/project/cancelFollowProject",
          type: "GET",
          data: cancelInfo,
          success: function (res) {

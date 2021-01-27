@@ -5,8 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
-    <script type="text/javascript" src="/html/webui/js/personal.js"></script>
-
+    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+    <script src="/html/webui/js/layui/layui.all.js"></script>
+    <!--<script type="text/javascript" src="/html/webui/js/personal.js"></script>-->
     <title>我的项目</title>
 
     <style type="text/css">
@@ -54,8 +55,10 @@
 </div>
 
 <script type="text/javascript">
+
+    var $ = layui.jquery;
     // 弹出层
-    layui.use(['upload','layer'], function(){
+    layui.use(['upload','layer','jquery'], function(){
         var layer = layui.layer;
         var upload = layui.upload;
     });

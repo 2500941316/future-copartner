@@ -9,7 +9,9 @@ import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.TaskService;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.io.IOException;
+import java.security.Principal;
 import java.text.ParseException;
 
 /**
@@ -31,6 +34,7 @@ import java.text.ParseException;
 public class VipProjectController {
     // 模拟当前用户
     public static String creater = "user";
+
 
   /*  *
      * 处理项目表
@@ -89,7 +93,8 @@ public class VipProjectController {
      * @return
      */
     @GetMapping("selectByCreater")
-    public TableModel selectByCreater(@Size(min = 1) @RequestParam int currentPage) {
+    public TableModel selectByCreater(@Size(min = 1) @RequestParam int currentPage,Principal principal) {
+        log.info("用户名："+principal.getName());
         return proProjectService.selectByCreater(currentPage,creater);
     }
 

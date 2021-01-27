@@ -18,4 +18,8 @@ public interface UserActivityService {
     TableModel enrollInActivity(String activityId,Long userId,String creater);
 
     TableModel cancelEnrollActivity(String activityId,Long userId);
+
+    TableModel searchMyCreatedActivity(int currentPage,String username);
+
+    TableModel deleteActivityById(String activityId);
 }
