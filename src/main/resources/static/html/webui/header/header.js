@@ -65,7 +65,7 @@ document.writeln("");
 document.writeln("            </ul>");
 document.writeln("        </div>");
 document.writeln("        <div id=\'layerDemo\' class=\'m-login\'>");
-document.writeln("            <a id='loginBtn'  onclick=\'openLogin()\' class=\'u-btn  sign\'>登录</a>");
+document.writeln("            <a id='loginBtn' style='display: none'  onclick=\'openLogin()\' class=\'u-btn  sign\'>登录</a>");
 document.writeln("            <i onmouseover=\'showUser()\' id='userIcon' style='display: none;font-size: 28px;color: #1E9FFF;'   class=\'layui-icon  layui-icon-username\'></i>");
 document.writeln("            <a id='logoutBtn' style='display: none'  onclick=\'logout()\' class=\'u-btn  sign\'>注销</a>");
 document.writeln("            <a id='manager' style='display: none'  href=\'#\' class=\'u-btn  free\'>管理端</a>");
