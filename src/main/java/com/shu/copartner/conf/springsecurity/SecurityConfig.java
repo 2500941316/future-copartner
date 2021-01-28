@@ -69,7 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  * 后端api权限
                  */
                 .antMatchers("/public/**").permitAll()
-                .antMatchers("/user/**").permitAll()
                 .antMatchers("/vip/**").hasAnyRole("PERSON", "TEACHER", "STUDENT", "MANAGER")
                 .antMatchers("/manager/**").hasRole("MANAGER")
 
