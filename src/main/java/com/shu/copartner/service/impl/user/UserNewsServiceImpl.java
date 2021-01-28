@@ -1,6 +1,7 @@
 package com.shu.copartner.service.impl.user;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ActRuTaskMapper;
@@ -120,7 +121,8 @@ public class UserNewsServiceImpl implements UserNewsService {
         List<ProNews> recentlyNewsList = null;
         List<ProNews> topNewsList = null;
         try {
-            //每个种类查询3条最新的新闻
+            long startTime = System.currentTimeMillis();
+        //每个种类查询3条最新的新闻
             for (String newsCatagory : newsCatagories) {
                 ProNewsExample proNewsExample = new ProNewsExample();
                 proNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
@@ -135,9 +137,9 @@ public class UserNewsServiceImpl implements UserNewsService {
                 categoriesNewsList.add(proNews);
             }
 
-            //查询最新的两个置顶的新闻和新闻内容
+        //查询最新的两个置顶的新闻和新闻内容
             ProNewsExample proNewsExample = new ProNewsExample();
-            ProNewsExample recentNewsExample = new ProNewsExample();
+        ProNewsExample recentNewsExample = new ProNewsExample();
             proNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
             PageHelper.startPage(1, 2);
             proNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED)
@@ -149,7 +151,7 @@ public class UserNewsServiceImpl implements UserNewsService {
                 }
             }
 
-            //查询最新的10个点击度最高的新闻
+       // 查询最新的10个点击度最高的新闻
             recentNewsExample.setOrderByClause(Constants.NEW_DESCBYCLICKTIME);
             recentNewsExample.createCriteria().andIsauditEqualTo(Constants.NEW_AUTHED).andIsdeletedEqualTo(Constants.NO_DELETED);
             PageHelper.startPage(1, Constants.PAGESIZE);
@@ -157,14 +159,18 @@ public class UserNewsServiceImpl implements UserNewsService {
             for (ProNews proNews : recentlyNewsList) {
                 proNews.setNewsContent(null);
             }
+
+            long endTime = System.currentTimeMillis();
+            System.out.println(endTime - startTime);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
+
         newsTitleMap.put("topNewsList", topNewsList);
         newsTitleMap.put("recently_NewsList", recentlyNewsList);
         newsTitleMap.put("categoriesNewsList", categoriesNewsList);
-        return TableModel.success(newsTitleMap, newsTitleMap.size());
+         return TableModel.success(newsTitleMap, newsTitleMap.size());
     }
 
     @Override
@@ -205,6 +211,27 @@ public class UserNewsServiceImpl implements UserNewsService {
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
         return TableModel.success(resList, resList.size());
+    }
+
+
+    @Override
+    public TableModel searchMyNews(int page, String phone) {
+        List<ProNews> proNews;
+        //根据电话号码查询用户发布的所有新闻并且返回
+        ProNewsExample proNewsExample = new ProNewsExample();
+        proNewsExample.createCriteria().andNewsAuthorEqualTo(phone).andIsdeletedEqualTo(Constants.NO_DELETED);
+        PageHelper.startPage(page, Constants.PAGESIZE);
+        try {
+            proNews = proNewsMapper.selectByExample(proNewsExample);
+            for (ProNews proNew : proNews) {
+                proNew.setNewsContent(null);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+        PageInfo pageInfo = new PageInfo(proNews, 5);
+        return TableModel.tableSuccess(proNews, (int) pageInfo.getTotal());
     }
 
 

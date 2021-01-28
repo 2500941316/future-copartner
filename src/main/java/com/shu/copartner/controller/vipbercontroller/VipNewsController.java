@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 /**
  * @author
@@ -58,6 +59,21 @@ public class VipNewsController {
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
         return userNewsService.publisNews(newsPublishVO);
+    }
+
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
+     * @Description 查询自己发布的新闻
+     */
+    @GetMapping("searchMyNews")
+    @ResponseBody
+    public TableModel searchMyNews(@RequestParam int page, Principal principal) {
+        if (page <= 0) {
+            throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
+        }
+        return userNewsService.searchMyNews(page, principal.getName());
     }
 
 }

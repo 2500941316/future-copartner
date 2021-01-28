@@ -35,24 +35,36 @@
 
     table.render({
         elem: '#mynews'
-        , url: '/manager/project/searchProject'
+        , url: '/vip/news/searchMyNews'
         , title: '我的新闻'
-        , cols: [[
-            {
-                field: 'applicationId',
-                title: 'ID',
-                fixed: 'left',
-                width: 80,
-                unresize: true,
-                sort: true,
-                align: 'center',
-                type: 'numbers'
+        , parseData: function (res) {
+            for (var i in res.data) {
+                switch (res.data[i].isaudit) {
+                    case "0":
+                        res.data[i].isaudit = "待审核";
+                        break;
+                    case "1":
+                        res.data[i].isaudit = "批准上线";
+                        break;
+                    case "2":
+                        res.data[i].isaudit = "驳回修改";
+                        break;
+                }
             }
-            , {field: 'projectName', title: '项目名', align: 'center'}
-            , {field: 'projectCreater', title: '创建人', align: 'center'}
-            , {field: 'projectState', title: '状态', width: 150, sort: true, align: 'center'}
-            , {field: 'starttime', title: '开始时间', align: 'center'}
-            , {fixed: 'right', title: '操作', toolbar: '#projectOperate', width: 180, align: 'center'}
+            return {
+                "code": res.code,
+                "msg": res.message,
+                "count": res.count,
+                "data": res.data
+            };
+        }
+        , cols: [[
+            {field: 'newsTitle', title: '名称', align: 'center'}
+            , {field: 'newsCategory', title: '种类',width: 120, align: 'center'}
+            , {field: 'newsPublistime', title: '发布时间', width: 150, sort: true, align: 'center'}
+            , {field: 'newsBrowsecount', title: '浏览次数',width: 120, align: 'center'}
+            , {field: 'isaudit', title: '状态', align: 'center'}
+            , {field: 'newsAdvice', title: '意见', align: 'center'}
         ]]
         , page: true
     });
