@@ -42,5 +42,5 @@ public interface ProProjectService {
 
     boolean uploadProjectVideo(String videoUrl, String projectId);
 
-
+    TableModel selectCount(String username);
 }

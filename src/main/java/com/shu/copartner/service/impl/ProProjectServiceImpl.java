@@ -25,9 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author
@@ -510,6 +508,36 @@ public class ProProjectServiceImpl implements ProProjectService {
             }
         }
         return update > 0 ? true : false;
+    }
+
+    /**
+     * 分别查询我的项目，我的关注，关注我的个数
+     * @param username
+     * @return
+     */
+    @Override
+    public TableModel selectCount(String username) {
+        try{
+            Map<String,Long> countMap = new HashMap<>();
+            //我的项目 个数
+            Long countOfProject = proProjectMapper.selectCountOfProject(username);
+            log.info("project个数："+countOfProject);
+            countMap.put("countOfProject",countOfProject);
+
+            // 我关注的项目 个数
+            Long countOfMyFollow = proFollowMapper.selectCountOfMyFollow(username);
+            countMap.put("countOfMyFollow",countOfMyFollow);
+
+            // 关注我的项目 个数
+            Long countOFFollowMe = proFollowMapper.selectCountOfFollowMe(username);
+            countMap.put("countOFFollowMe",countOFFollowMe);
+
+            return TableModel.success(countMap,countMap.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+
     }
 
 

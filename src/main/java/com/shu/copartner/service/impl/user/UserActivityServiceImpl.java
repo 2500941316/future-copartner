@@ -6,22 +6,23 @@ import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProActivityMapper;
 import com.shu.copartner.mapper.ProEnrollMapper;
-import com.shu.copartner.pojo.ProActivity;
-import com.shu.copartner.pojo.ProActivityExample;
-import com.shu.copartner.pojo.ProEnroll;
-import com.shu.copartner.pojo.ProEnrollExample;
+import com.shu.copartner.mapper.ProUserMapper;
+import com.shu.copartner.pojo.*;
 import com.shu.copartner.pojo.request.ActivityPublishVO;
 import com.shu.copartner.service.UserActivityService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.Test;
 
+import javax.annotation.PreDestroy;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +48,23 @@ public class UserActivityServiceImpl implements UserActivityService {
     @Autowired
     private ProEnrollMapper proEnrollMapper;
 
+    @Autowired
+    private ProUserMapper proUserMapper;
+
+    @Override
+    public TableModel searchActivityListPublic(int currentPage) {
+        try {
+            // 当没有登录查询活动时直接查询出全部活动
+            PageHelper.startPage(currentPage, 5);
+            List<ProActivity> proActivityList = this.proActivityMapper.selectAllActivityPublished();
+            PageInfo pageInfo = new PageInfo(proActivityList);
+            return TableModel.success(proActivityList, (int) pageInfo.getTotal());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
     /**
      * 查询活动列表，每页最多5条
      *
@@ -54,29 +72,44 @@ public class UserActivityServiceImpl implements UserActivityService {
      * @return
      */
     @Override
-    public TableModel searchActivityList(int currentPage, Long userId) {
+    public TableModel searchActivityList(int currentPage, Principal principal) {
         try {
-            // 分页查询活动信息
-            PageHelper.startPage(currentPage, 5);
-            List<ProActivity> proActivityList = this.proActivityMapper.selectAllActivityPublished();
-            // 去除活动内容的html标签
-            for (ProActivity pa : proActivityList) {
-                pa.setActivityContent(delHtmlTag(pa.getActivityContent()));
-            }
+            if(StringUtils.isNotEmpty(principal.getName())){
+                //先根据用户名查询出其userId
+                ProUserExample proUserExample = new ProUserExample();
+                proUserExample.createCriteria().andPhoneEqualTo(principal.getName());
+                List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+                Long userId = proUsers.get(0).getUserid();
 
-            // 查询报名表 设置当前用户的报名活动
-            List<ProEnroll> proEnrolls = this.proEnrollMapper.selectEnrollByPersonId(userId);
-            this.fixTimeRun();// 定时任务
-            for (ProActivity pa : proActivityList) {
-                for (ProEnroll pe : proEnrolls) {
-                    if (pa.getActivityId() == pe.getActivityId()) {
-                        // 代表当前用户已报名该活动
-                        pa.setIsEnrolled(1);
+                // 分页查询活动信息
+                PageHelper.startPage(currentPage, 5);
+                List<ProActivity> proActivityList = this.proActivityMapper.selectAllActivityPublished();
+                // 去除活动内容的html标签
+                for (ProActivity pa : proActivityList) {
+                    pa.setActivityContent(delHtmlTag(pa.getActivityContent()));
+                }
+
+                // 查询报名表 设置当前用户的报名活动
+                List<ProEnroll> proEnrolls = this.proEnrollMapper.selectEnrollByPersonId(userId);
+                this.fixTimeRun();// 定时任务
+                for (ProActivity pa : proActivityList) {
+                    for (ProEnroll pe : proEnrolls) {
+                        if (pa.getActivityId() == pe.getActivityId()) {
+                            // 代表当前用户已报名该活动
+                            pa.setIsEnrolled(1);
+                        }
                     }
                 }
+                PageInfo pageInfo = new PageInfo(proActivityList);
+                return TableModel.success(proActivityList, (int) pageInfo.getTotal());
             }
+
+            // 当没有登录查询活动时直接查询出全部活动
+            PageHelper.startPage(currentPage, 5);
+            List<ProActivity> proActivityList = this.proActivityMapper.selectAllActivityPublished();
             PageInfo pageInfo = new PageInfo(proActivityList);
             return TableModel.success(proActivityList, (int) pageInfo.getTotal());
+
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
@@ -148,15 +181,20 @@ public class UserActivityServiceImpl implements UserActivityService {
 
     /**
      * 报名活动
-     *
      * @param activityId
-     * @param userId
      * @param creater
      * @return
      */
     @Override
-    public TableModel enrollInActivity(String activityId, Long userId, String creater) {
+    public TableModel enrollInActivity(String activityId, String creater) {
         try {
+            //先根据用户名查询出其userId
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(creater);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            Long userId = proUsers.get(0).getUserid();
+            log.info("用户id："+userId);
+
             // 将活动id与当前用户信息写到报名表中
             ProEnroll proEnroll001 = proEnrollMapper.selectEnrollByPersonActivityId(userId, Long.parseLong(activityId));
             if (ObjectUtils.isNotEmpty(proEnroll001)) {
@@ -185,20 +223,20 @@ public class UserActivityServiceImpl implements UserActivityService {
      * 取消报名活动,活动表is_deleted置 1
      *
      * @param activityId
-     * @param userId
+     * @param username
      * @return
      */
     @Override
-    public TableModel cancelEnrollActivity(String activityId, Long userId) {
+    public TableModel cancelEnrollActivity(String activityId, String username) {
         try {
             // 将活动id与当前用户信息写到报名表中
             ProEnroll proEnroll = new ProEnroll();
             proEnroll.setIsDeleted(1);
             proEnroll.setActivityId(Long.parseLong(activityId));
-            proEnroll.setPersonId(userId);
+            proEnroll.setPersonName(username);
             proEnroll.setUnerollTime(new Date()); // 取消关注的时间
             ProEnrollExample proEnrollExample = new ProEnrollExample();
-            proEnrollExample.createCriteria().andActivityIdEqualTo(Long.parseLong(activityId)).andPersonIdEqualTo(userId);
+            proEnrollExample.createCriteria().andActivityIdEqualTo(Long.parseLong(activityId)).andPersonNameEqualTo(username);
             this.proEnrollMapper.updateByExampleSelective(proEnroll, proEnrollExample);
             return TableModel.success();
         } catch (Exception e) {

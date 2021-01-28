@@ -63,12 +63,12 @@
 
 
   <!--引入页脚页面-->
-  <div id="footer"></div>
+  <div id="footer1"></div>
 
 
   <script type="text/javascript">
     $(function () {
-      $("#footer").load("/html/webui/footer/footer.html");
+      $("#footer1").load("/html/webui/footer/footer.html");
       searchActivityList();
     })
 
@@ -88,13 +88,20 @@
      * @param pageConf
      */
     function searchActivityList(pageConf) {
+      // 先确定当前是否登录，
+      var url;
+      if(localStorage.getItem("username") != null){
+        url = "/vip/activity/searchActivityList";
+      }else{
+        url = "/public/activity/searchActivityList";
+      }
       if (!pageConf) {
         pageConf = {};
         pageConf.pageSize = 5;
         pageConf.currentPage = 1;
 
       }
-      $.get("/public/activity/searchActivityList", pageConf, function (data) {
+      $.get(url, pageConf, function (data) {
         layui.use(['laypage', 'layer'], function () {
           var page = layui.laypage;
           page.render({

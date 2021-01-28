@@ -32,9 +32,6 @@ import java.text.ParseException;
 @RequestMapping("vip/project")
 @CrossOrigin
 public class VipProjectController {
-    // 模拟当前用户
-    public static String creater = "user";
-
 
   /*  *
      * 处理项目表
@@ -55,15 +52,16 @@ public class VipProjectController {
      * 项目申请
      * @param projectApplyVO
      * @param result
+     * @param principal 用于获取当前用户名
      * @return
      */
     @PostMapping("projectApply")
-    public TableModel projectApply(@RequestBody @Valid ProjectApplyVO projectApplyVO, BindingResult result) {
+    public TableModel projectApply(@RequestBody @Valid ProjectApplyVO projectApplyVO, BindingResult result,Principal principal) {
         if (result.hasErrors()) {
             log.error(result.getAllErrors().toString());
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
-        return proProjectService.projectApply(projectApplyVO, creater);
+        return proProjectService.projectApply(projectApplyVO, principal.getName());
     }
 
     /**
@@ -81,31 +79,27 @@ public class VipProjectController {
         return proProjectService.updateProject(projectApplyVO);
     }
 
-   /* @PostMapping("searchProjectById")
-    public TableModel searchProjectById(@RequestBody Map<String,String> map){
-         String projectId = map.get("projectId");
-         return this.proProjectService.searchProjectById(projectId);
-    }*/
-
     /**
      * 根据用户查询其所有项目
      * @param currentPage
+     * @param principal 获取当前用户
      * @return
      */
     @GetMapping("selectByCreater")
     public TableModel selectByCreater(@Size(min = 1) @RequestParam int currentPage,Principal principal) {
-        log.info("用户名："+principal.getName());
-        return proProjectService.selectByCreater(currentPage,creater);
+        //log.info("用户名："+principal.getName());
+        return proProjectService.selectByCreater(currentPage,principal.getName());
     }
 
     /**
      * 根据id查询项目
      * @param projectId
+     * @param principal
      * @return
      */
     @GetMapping("getProjectById")
-    public TableModel getProjectById(@Size(min = 1) String projectId) {
-        return this.proProjectService.searchProjectById(projectId,creater);
+    public TableModel getProjectById(@Size(min = 1) String projectId,Principal principal) {
+        return this.proProjectService.searchProjectById(projectId,principal.getName());
     }
 
     /**
@@ -177,27 +171,24 @@ public class VipProjectController {
     /**
      * 关注项目
      * @param projectId
+     * @param principal
      * @return
      * @throws ParseException
      */
     @GetMapping("followProject")
-    public TableModel followProject(@Size(min = 1) @RequestParam String projectId) throws ParseException {
-        // 登录了才能关注
-        if(StringUtils.isNotEmpty(creater)){
-            return proProjectService.followProject(projectId,creater);
-        }else{
-            return TableModel.error("登录后才能关注！");
-        }
+    public TableModel followProject(@Size(min = 1) @RequestParam String projectId,Principal principal) throws ParseException {
+        return proProjectService.followProject(projectId,principal.getName());
     }
 
     /**
      * 查询我关注的项目
      * @param currentPage
+     * @param principal
      * @return
      */
     @GetMapping("searchMyFollowProject")
-    public TableModel searchMyFollowProject(@Size(min = 1) @RequestParam int currentPage){
-        return proProjectService.searchMyFollowProject(currentPage,creater);
+    public TableModel searchMyFollowProject(@Size(min = 1) @RequestParam int currentPage,Principal principal){
+        return proProjectService.searchMyFollowProject(currentPage,principal.getName());
     }
 
     /**
@@ -219,6 +210,16 @@ public class VipProjectController {
     @GetMapping("searchUserOfFollowMe")
     public TableModel searchUserOfFollowMe(@Size(min = 1) @RequestParam String projectId){
         return proProjectService.searchUserOfFollowMe(projectId);
+    }
+
+    /**
+     * 查询我的项目，我的关注，关注我的个数
+     * @param principal
+     * @return
+     */
+    @GetMapping(value = "selectCount")
+    public TableModel selectCount(Principal principal) {
+        return proProjectService.selectCount(principal.getName());
     }
 
 }

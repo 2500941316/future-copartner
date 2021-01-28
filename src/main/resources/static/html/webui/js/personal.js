@@ -1,4 +1,4 @@
-var $ = layui.jquery;
+// $ = layui.jquery;
 $(document).ready(function () {
     //导航
     $('.navItem.other').hover(function () {

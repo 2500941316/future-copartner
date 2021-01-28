@@ -28,6 +28,12 @@ public interface ProFollowMapper {
     // 根据projectId查询
     List<ProFollow> selectUserOfFollowMe(@Param("projectId") Long projectId);
 
+    // 我关注的项目的个数
+    Long selectCountOfMyFollow(@Param("follower") String follower);
+
+    //查询关注我的项目 关注总个数，一个人同时关注我的十个项目结果就是10，不一定是人数，是关注总数
+    Long selectCountOfFollowMe(@Param("follower") String follower);
+
     int updateByExampleSelective(@Param("record") ProFollow record, @Param("example") ProFollowExample example);
 
     int updateByExample(@Param("record") ProFollow record, @Param("example") ProFollowExample example);

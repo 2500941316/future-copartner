@@ -166,9 +166,16 @@
     * 根据id请求当前项目数据
     */
    function getProjectData() {
+      // 先确定当前是否登录，
+      var url;
+      if(localStorage.getItem("username") != null){
+         url = "/vip/project/getProjectById";
+      }else{
+         url = "/public/project/getProjectById";
+      }
       var projectId = localStorage.getItem("projectId");
       $.ajax({
-         url: "/public/project/getProjectById",
+         url: url,
          async: true,
          data: "projectId=" + projectId,
          type: "GET",   //请求方式

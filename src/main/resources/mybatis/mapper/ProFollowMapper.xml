@@ -118,6 +118,21 @@
 				and f.is_delete = 0
   </select>
 
+  <!--查询我关注的项目的个数-->
+  <select id="selectCountOfMyFollow" parameterType="java.lang.String" resultType="java.lang.Long">
+     SELECT count(*) from PRO_FOLLOW
+        WHERE follower = #{follower}
+			and is_delete = 0
+  </select>
+
+  <!--查询关注我的项目 关注总个数，一个人同时关注我的十个项目结果就是10，不一定是人数，是关注总数-->
+  <select id="selectCountOfFollowMe" parameterType="java.lang.String" resultType="java.lang.Long">
+    SELECT count(*) from PRO_FOLLOW pf
+	 LEFT JOIN PRO_PROJECT pp ON pf.project_id = pp.project_id
+	    WHERE pf.follower = #{follower}
+			and pf.is_delete = 0
+  </select>
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_FOLLOW

@@ -51,6 +51,8 @@ public interface ProProjectMapper {
      */
     List<ProProject> selectMyFollowProject(@Param("follower") String follower);
 
+    Long selectCountOfProject(@Param("projectCreater") String projectCreater);
+
     ProProject selectByPrimaryKey(Long projectId);
 
     int updateByExampleSelective(@Param("record") ProProject record, @Param("example") ProProjectExample example);
