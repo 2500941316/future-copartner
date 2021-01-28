@@ -2,6 +2,7 @@ package com.shu.copartner.controller.managercontroller;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
+import com.shu.copartner.pojo.ProActivity;
 import com.shu.copartner.pojo.request.ProjectManagerOperationVO;
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.ManagerProjectService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+import java.security.Principal;
 
 /**
  * @author
@@ -112,7 +114,5 @@ public class ManageProjectController {
     public TableModel deleteProjectById(@Size(min = 1) @RequestParam String projectId) {
         return managerProjectService.deleteProjectById(projectId);
     }
-
-
 
 }

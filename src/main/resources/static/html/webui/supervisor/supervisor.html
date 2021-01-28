@@ -6,24 +6,27 @@
  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
  	<meta name="viewport" content="width=device-width, initial-scale=1">
 
- 	<title> 导师 </title>
+	 <title> 导师 </title>
 	 <script src='/html/webui/header/header.js'></script>
 	 <link href="assets/css/style.css" rel="stylesheet">
 	 <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 	 <link href="assets/css/line-awesome.min.css" rel="stylesheet">
-
+<style type="text/css">
+	#footer p{
+		margin-bottom: 0;
+	}
+</style>
  </head>
 
  <body>
-
-
-
  	<!-- Event Section -->
  	<div class="event-area section-padding" style="padding: 0 0;">
+
  		<div class="container" >
 			<div class="row">
 				<div class="col-lg-10 offset-lg-1 text-center">
 					<div class="section-title" style="margin-bottom: 0px;margin-top: 10px">
+
 						<h2> 导师 <b>推荐 </b></h2>
 						<p>假如我是诗人，我将以满腔的热情写下诗篇，赞美大海的辽阔和深远。
 							并把它献给您——我的胸怀博大，知识精深的老师。</p>
@@ -35,7 +38,6 @@
 					</div>
 
 				</div>
-
 			</div>
 			<!--搜索框-->
 			<div class="searchbox2" style="margin-top: 0">
@@ -46,21 +48,25 @@
  			<div class="row" id="supervisorList">
  				<!--导师列表具体内容-->
  			</div>
+
+
  		</div>
+
  	</div>
+	<!--分页-->
+	<div style="margin-right: 170px;float: right">
+		<div  id="page" ></div>
+	</div>
 
-	 <!--分页-->
-	 <div style="margin-right: 170px;float: right">
-		 <div  id="page" ></div>
-	 </div>
+	<!--引入页脚页面-->
+	<div id="footer"></div>
 
- <!--引入页脚页面-->
- <div id="footer"></div>
+
 
  <script type="text/javascript">
+	 var $ = layui.jquery;
 	 $(function () {
 		 $("#footer").load("/html/webui/footer/footer.html");
-
 		 searchSupervisorList();
 	 })
 

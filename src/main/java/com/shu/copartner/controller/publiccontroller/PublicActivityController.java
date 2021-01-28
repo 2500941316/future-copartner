@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Size;
+import java.security.Principal;
 
 
 /**
@@ -20,10 +21,6 @@ import javax.validation.constraints.Size;
 @RequestMapping("public/activity")
 @CrossOrigin
 public class PublicActivityController {
-    // 模拟当前用户
-    private static final String creater = "user";
-    // 模拟当前用户id
-    private static final Long userId = 1L;
 
     @Autowired
     private UserActivityService userActivityService;
@@ -35,8 +32,8 @@ public class PublicActivityController {
      */
     @GetMapping("searchActivityList")
     public TableModel searchActivityList(@Size(min = 1) @RequestParam int currentPage){
-
-        return userActivityService.searchActivityList(currentPage,userId);
+        //return userActivityService.searchActivityList(currentPage);
+        return userActivityService.searchActivityListPublic(currentPage);
     }
 
     /**

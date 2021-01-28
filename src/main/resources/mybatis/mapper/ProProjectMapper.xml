@@ -188,6 +188,13 @@
                 and f.follower = #{follower}
                 and f.is_delete = 0
   </select>
+
+  <!--查询我的项目个数-->
+  <select id="selectCountOfProject" parameterType="java.lang.String" resultType="java.lang.Long">
+     SELECT count(*) from PRO_PROJECT
+            WHERE project_creater = #{projectCreater}
+                and is_deleted = 0
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_PROJECT
     where project_id = #{projectId,jdbcType=BIGINT}

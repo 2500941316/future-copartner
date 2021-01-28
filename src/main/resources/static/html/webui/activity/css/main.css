@@ -34,7 +34,7 @@ body{font: 14px 宋体 Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-se
 .banner .text::before { position: absolute; right: -5px; content: '\FF1A';}
 
 
-.content{padding:100px 0 160px 0;}
+.content{padding:100px 0 10px 0;}/*上右下左*/
 .content .cont .title{margin-bottom: 40px;}
 .content .cont .title a{font-size: 16px; color: #000!important;}
 .content .cont .title .layui-breadcrumb span{position: relative; top: -1px; margin:0 16px;}
@@ -69,7 +69,7 @@ body{font: 14px 宋体 Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-se
 .content .review-version .list-cont .cont .text .data{float: right;} 
 
 
-.footer-wrap{border-top: 1px solid #402863;}
+/*.footer-wrap{border-top: 1px solid #402863;}
 .footer{padding:60px 0 80px 0; position: relative; overflow: hidden;}
 .footer .qrcode{float: left;}
 .footer .practice-mode{position: absolute; right: 0; overflow: hidden;}
@@ -77,7 +77,7 @@ body{font: 14px 宋体 Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-se
 .footer .practice-mode .text{color: #3f2863; float: left;}
 .footer .practice-mode .text h4{font-size: 20px; line-height: 60px;}
 .footer .practice-mode .text p{line-height: 32px;}
-.footer .practice-mode .text p span{padding-left: 24px;}
+.footer .practice-mode .text p span{padding-left: 24px;}*/
 
 
 

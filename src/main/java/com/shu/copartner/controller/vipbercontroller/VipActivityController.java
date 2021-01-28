@@ -26,10 +26,6 @@ import java.security.Principal;
 @RequestMapping("vip/activity")
 @CrossOrigin
 public class VipActivityController {
-    // 模拟当前用户
-    private static final String creater = "user";
-    // 模拟当前用户id
-    private static final Long userId = 1L;
 
     @Autowired
     private UserActivityService userActivityService;
@@ -42,12 +38,13 @@ public class VipActivityController {
     /**
      * 查询活动列表
      * @param currentPage
+     * @param principal
      * @return
      */
     @GetMapping("searchActivityList")
-    public TableModel searchActivityList(@Size(min = 1) @RequestParam int currentPage){
+    public TableModel searchActivityList(@Size(min = 1) @RequestParam int currentPage,Principal principal){
 
-        return userActivityService.searchActivityList(currentPage,userId);
+        return userActivityService.searchActivityList(currentPage,principal);
     }
 
 
@@ -86,36 +83,39 @@ public class VipActivityController {
      * 活动创建申请
      * @param activityPublishVO
      * @param result
+     * @param principal 用于获取当前用户
      * @return
      */
     @PostMapping(value = "applyActivity")
-    public TableModel applyActivityInfo(@RequestBody @Valid ActivityPublishVO activityPublishVO, BindingResult result) {
+    public TableModel applyActivityInfo(@RequestBody @Valid ActivityPublishVO activityPublishVO, BindingResult result,Principal principal) {
         if (result.hasErrors()) {
             log.error(result.getAllErrors().toString());
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
         log.info(activityPublishVO.toString());
-        return userActivityService.operateActivityApply(activityPublishVO,creater);
+        return userActivityService.operateActivityApply(activityPublishVO,principal.getName());
     }
 
     /**
      * 报名活动
      * @param activityId
+     * @param principal
      * @return
      */
     @GetMapping("enrollInActivity")
-    public TableModel enrollInActivity(@Size(min = 1) @RequestParam String activityId){
-        return userActivityService.enrollInActivity(activityId,userId,creater);
+    public TableModel enrollInActivity(@Size(min = 1) @RequestParam String activityId,Principal principal){
+        return userActivityService.enrollInActivity(activityId,principal.getName());
     }
 
     /**
      * 取消报名
      * @param activityId
+     * @param principal
      * @return
      */
     @GetMapping("cancelEnrollActivity")
-    public TableModel cancelEnrollActivity(@Size(min = 1) @RequestParam String activityId){
-        return userActivityService.cancelEnrollActivity(activityId,userId);
+    public TableModel cancelEnrollActivity(@Size(min = 1) @RequestParam String activityId,Principal principal){
+        return userActivityService.cancelEnrollActivity(activityId,principal.getName());
     }
 
     /**
