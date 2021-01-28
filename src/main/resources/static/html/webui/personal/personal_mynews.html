@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+    <script src="/html/webui/js/layui/layui.all.js"></script>
+    <title>个人工作台</title>
+</head>
+
+<body style="min-height: 850px">
+<div class="perRightcon">
+    <div class="ydc-column ydc-column-8">
+        <div class="ydc-release-content">
+            <div class="ydc-tabPanel ydc-tabPanel-release">
+
+                <table id="mynews" lay-filter="test"></table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var $ = layui.jquery;
+    var table = layui.table;
+
+    $(function () {
+        $("#header").load("/html/webui/header/header.html");
+        $("#footer").load("/html/webui/footer/footer.html");
+    });
+
+
+    table.render({
+        elem: '#mynews'
+        , url: '/manager/project/searchProject'
+        , title: '我的新闻'
+        , cols: [[
+            {
+                field: 'applicationId',
+                title: 'ID',
+                fixed: 'left',
+                width: 80,
+                unresize: true,
+                sort: true,
+                align: 'center',
+                type: 'numbers'
+            }
+            , {field: 'projectName', title: '项目名', align: 'center'}
+            , {field: 'projectCreater', title: '创建人', align: 'center'}
+            , {field: 'projectState', title: '状态', width: 150, sort: true, align: 'center'}
+            , {field: 'starttime', title: '开始时间', align: 'center'}
+            , {fixed: 'right', title: '操作', toolbar: '#projectOperate', width: 180, align: 'center'}
+        ]]
+        , page: true
+    });
+
+</script>
+</body>
+</html>
