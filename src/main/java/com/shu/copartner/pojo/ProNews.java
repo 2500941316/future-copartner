@@ -1,22 +1,12 @@
 package com.shu.copartner.pojo;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author cxy
- */
-@Data
 public class ProNews implements Serializable {
     private Long newsId;
 
     private String newsTitle;
-
-    private String newsIntroduction;
-
-    private String newsContent;
 
     private String newsAuthor;
 
@@ -52,22 +42,6 @@ public class ProNews implements Serializable {
 
     public void setNewsTitle(String newsTitle) {
         this.newsTitle = newsTitle == null ? null : newsTitle.trim();
-    }
-
-    public String getNewsIntroduction() {
-        return newsIntroduction;
-    }
-
-    public void setNewsIntroduction(String newsIntroduction) {
-        this.newsIntroduction = newsIntroduction == null ? null : newsIntroduction.trim();
-    }
-
-    public String getNewsContent() {
-        return newsContent;
-    }
-
-    public void setNewsContent(String newsContent) {
-        this.newsContent = newsContent == null ? null : newsContent.trim();
     }
 
     public String getNewsAuthor() {

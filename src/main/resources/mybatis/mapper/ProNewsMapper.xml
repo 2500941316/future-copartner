@@ -4,8 +4,6 @@
   <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProNews">
     <id column="news_id" jdbcType="BIGINT" property="newsId" />
     <result column="news_title" jdbcType="VARCHAR" property="newsTitle" />
-    <result column="news_introduction" jdbcType="VARCHAR" property="newsIntroduction" />
-    <result column="news_content" jdbcType="VARCHAR" property="newsContent" />
     <result column="news_author" jdbcType="VARCHAR" property="newsAuthor" />
     <result column="news_category" jdbcType="VARCHAR" property="newsCategory" />
     <result column="news_publisTime" jdbcType="TIMESTAMP" property="newsPublistime" />
@@ -15,6 +13,10 @@
     <result column="news_keywords" jdbcType="VARCHAR" property="newsKeywords" />
     <result column="isAudit" jdbcType="CHAR" property="isaudit" />
     <result column="news_advice" jdbcType="VARCHAR" property="newsAdvice" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.shu.copartner.pojo.ProNewsWithBLOBs">
+    <result column="news_introduction" jdbcType="LONGVARCHAR" property="newsIntroduction" />
+    <result column="news_content" jdbcType="LONGVARCHAR" property="newsContent" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,10 +77,28 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    news_id, news_title, news_introduction, news_content, news_author, news_category, 
-    news_publisTime, news_browseCount, isTopping, isDeleted, news_keywords, isAudit, 
-    news_advice
+    news_id, news_title, news_author, news_category, news_publisTime, news_browseCount, 
+    isTopping, isDeleted, news_keywords, isAudit, news_advice
   </sql>
+  <sql id="Blob_Column_List">
+    news_introduction, news_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.shu.copartner.pojo.ProNewsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from PRO_NEWS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProNewsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -93,9 +113,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from PRO_NEWS
     where news_id = #{newsId,jdbcType=BIGINT}
   </select>
@@ -109,19 +131,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.shu.copartner.pojo.ProNews" keyProperty="newsId" useGeneratedKeys="true">
-    insert into PRO_NEWS (news_id, news_title, news_introduction, 
-      news_content, news_author, news_category, 
-      news_publisTime, news_browseCount, isTopping, 
-      isDeleted, news_keywords, isAudit, 
-      news_advice)
-    values (#{newsId,jdbcType=BIGINT}, #{newsTitle,jdbcType=VARCHAR}, #{newsIntroduction,jdbcType=VARCHAR}, 
-      #{newsContent,jdbcType=VARCHAR}, #{newsAuthor,jdbcType=VARCHAR}, #{newsCategory,jdbcType=VARCHAR}, 
-      #{newsPublistime,jdbcType=TIMESTAMP}, #{newsBrowsecount,jdbcType=INTEGER}, #{istopping,jdbcType=CHAR}, 
-      #{isdeleted,jdbcType=CHAR}, #{newsKeywords,jdbcType=VARCHAR}, #{isaudit,jdbcType=CHAR}, 
-      #{newsAdvice,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProNewsWithBLOBs" keyProperty="newsId" useGeneratedKeys="true">
+    insert into PRO_NEWS (news_id, news_title, news_author, 
+      news_category, news_publisTime, news_browseCount, 
+      isTopping, isDeleted, news_keywords, 
+      isAudit, news_advice, news_introduction, 
+      news_content)
+    values (#{newsId,jdbcType=BIGINT}, #{newsTitle,jdbcType=VARCHAR}, #{newsAuthor,jdbcType=VARCHAR}, 
+      #{newsCategory,jdbcType=VARCHAR}, #{newsPublistime,jdbcType=TIMESTAMP}, #{newsBrowsecount,jdbcType=INTEGER}, 
+      #{istopping,jdbcType=CHAR}, #{isdeleted,jdbcType=CHAR}, #{newsKeywords,jdbcType=VARCHAR}, 
+      #{isaudit,jdbcType=CHAR}, #{newsAdvice,jdbcType=VARCHAR}, #{newsIntroduction,jdbcType=LONGVARCHAR}, 
+      #{newsContent,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProNews">
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProNewsWithBLOBs">
     insert into PRO_NEWS
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="newsId != null">
@@ -129,12 +151,6 @@
       </if>
       <if test="newsTitle != null">
         news_title,
-      </if>
-      <if test="newsIntroduction != null">
-        news_introduction,
-      </if>
-      <if test="newsContent != null">
-        news_content,
       </if>
       <if test="newsAuthor != null">
         news_author,
@@ -163,6 +179,12 @@
       <if test="newsAdvice != null">
         news_advice,
       </if>
+      <if test="newsIntroduction != null">
+        news_introduction,
+      </if>
+      <if test="newsContent != null">
+        news_content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="newsId != null">
@@ -170,12 +192,6 @@
       </if>
       <if test="newsTitle != null">
         #{newsTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="newsIntroduction != null">
-        #{newsIntroduction,jdbcType=VARCHAR},
-      </if>
-      <if test="newsContent != null">
-        #{newsContent,jdbcType=VARCHAR},
       </if>
       <if test="newsAuthor != null">
         #{newsAuthor,jdbcType=VARCHAR},
@@ -204,6 +220,12 @@
       <if test="newsAdvice != null">
         #{newsAdvice,jdbcType=VARCHAR},
       </if>
+      <if test="newsIntroduction != null">
+        #{newsIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newsContent != null">
+        #{newsContent,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.shu.copartner.pojo.ProNewsExample" resultType="java.lang.Long">
@@ -220,12 +242,6 @@
       </if>
       <if test="record.newsTitle != null">
         news_title = #{record.newsTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="record.newsIntroduction != null">
-        news_introduction = #{record.newsIntroduction,jdbcType=VARCHAR},
-      </if>
-      <if test="record.newsContent != null">
-        news_content = #{record.newsContent,jdbcType=VARCHAR},
       </if>
       <if test="record.newsAuthor != null">
         news_author = #{record.newsAuthor,jdbcType=VARCHAR},
@@ -254,7 +270,32 @@
       <if test="record.newsAdvice != null">
         news_advice = #{record.newsAdvice,jdbcType=VARCHAR},
       </if>
+      <if test="record.newsIntroduction != null">
+        news_introduction = #{record.newsIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.newsContent != null">
+        news_content = #{record.newsContent,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update PRO_NEWS
+    set news_id = #{record.newsId,jdbcType=BIGINT},
+      news_title = #{record.newsTitle,jdbcType=VARCHAR},
+      news_author = #{record.newsAuthor,jdbcType=VARCHAR},
+      news_category = #{record.newsCategory,jdbcType=VARCHAR},
+      news_publisTime = #{record.newsPublistime,jdbcType=TIMESTAMP},
+      news_browseCount = #{record.newsBrowsecount,jdbcType=INTEGER},
+      isTopping = #{record.istopping,jdbcType=CHAR},
+      isDeleted = #{record.isdeleted,jdbcType=CHAR},
+      news_keywords = #{record.newsKeywords,jdbcType=VARCHAR},
+      isAudit = #{record.isaudit,jdbcType=CHAR},
+      news_advice = #{record.newsAdvice,jdbcType=VARCHAR},
+      news_introduction = #{record.newsIntroduction,jdbcType=LONGVARCHAR},
+      news_content = #{record.newsContent,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -263,8 +304,6 @@
     update PRO_NEWS
     set news_id = #{record.newsId,jdbcType=BIGINT},
       news_title = #{record.newsTitle,jdbcType=VARCHAR},
-      news_introduction = #{record.newsIntroduction,jdbcType=VARCHAR},
-      news_content = #{record.newsContent,jdbcType=VARCHAR},
       news_author = #{record.newsAuthor,jdbcType=VARCHAR},
       news_category = #{record.newsCategory,jdbcType=VARCHAR},
       news_publisTime = #{record.newsPublistime,jdbcType=TIMESTAMP},
@@ -278,17 +317,11 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProNews">
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProNewsWithBLOBs">
     update PRO_NEWS
     <set>
       <if test="newsTitle != null">
         news_title = #{newsTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="newsIntroduction != null">
-        news_introduction = #{newsIntroduction,jdbcType=VARCHAR},
-      </if>
-      <if test="newsContent != null">
-        news_content = #{newsContent,jdbcType=VARCHAR},
       </if>
       <if test="newsAuthor != null">
         news_author = #{newsAuthor,jdbcType=VARCHAR},
@@ -317,14 +350,34 @@
       <if test="newsAdvice != null">
         news_advice = #{newsAdvice,jdbcType=VARCHAR},
       </if>
+      <if test="newsIntroduction != null">
+        news_introduction = #{newsIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newsContent != null">
+        news_content = #{newsContent,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where news_id = #{newsId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.shu.copartner.pojo.ProNewsWithBLOBs">
+    update PRO_NEWS
+    set news_title = #{newsTitle,jdbcType=VARCHAR},
+      news_author = #{newsAuthor,jdbcType=VARCHAR},
+      news_category = #{newsCategory,jdbcType=VARCHAR},
+      news_publisTime = #{newsPublistime,jdbcType=TIMESTAMP},
+      news_browseCount = #{newsBrowsecount,jdbcType=INTEGER},
+      isTopping = #{istopping,jdbcType=CHAR},
+      isDeleted = #{isdeleted,jdbcType=CHAR},
+      news_keywords = #{newsKeywords,jdbcType=VARCHAR},
+      isAudit = #{isaudit,jdbcType=CHAR},
+      news_advice = #{newsAdvice,jdbcType=VARCHAR},
+      news_introduction = #{newsIntroduction,jdbcType=LONGVARCHAR},
+      news_content = #{newsContent,jdbcType=LONGVARCHAR}
     where news_id = #{newsId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProNews">
     update PRO_NEWS
     set news_title = #{newsTitle,jdbcType=VARCHAR},
-      news_introduction = #{newsIntroduction,jdbcType=VARCHAR},
-      news_content = #{newsContent,jdbcType=VARCHAR},
       news_author = #{newsAuthor,jdbcType=VARCHAR},
       news_category = #{newsCategory,jdbcType=VARCHAR},
       news_publisTime = #{newsPublistime,jdbcType=TIMESTAMP},

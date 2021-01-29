@@ -35,6 +35,18 @@ public class PublicNewsController {
     /**
      * @author cxy
      * @date 2020/12/20 13:42
+     * @Description 用户查询新闻主页的所有信息的方法
+     */
+    @GetMapping("getNewsIndexCategoryInfo")
+    @ResponseBody
+    public TableModel getNewsIndexCategoryInfo() {
+        return userNewsService.getNewsIndexCategoryInfo();
+    }
+
+
+    /**
+     * @author cxy
+     * @date 2020/12/20 13:42
      * @Description 用户根据新闻id查询新闻的方法
      */
     @GetMapping("searchNewsById")

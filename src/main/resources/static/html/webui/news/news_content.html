@@ -5,25 +5,23 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>新闻内容</title>
     <link href="/html/webui/css/searchJob.css" rel="stylesheet" type="text/css"/>
+    <script src="/html/webui/js/vue.js"></script>
     <script src='/html/webui/header/header.js'></script>
-    <script src='/html/webui/js/news.js'></script>
 </head>
 
 <body>
-<!--引入页头页面-->
-<div class="jobnewsDiv_xq">
+<div class="jobnewsDiv_xq" id="app" style="color: #000000">
     <div class="XQcontent">
         <div class="XQleft">
             <div class="XQtitle">
-                <h1 id="news_title"></h1>
-                <h2>标签：[<a href="#" onclick="redirecTo()" id="news_category"></a>]
-                    发布日期：<span id="news_date"></span>
-                    阅读数：<span id="news_clickTimes"></span>
-                    作者： <span id="news_writer"></span></h2>
+                <h1 id="news_title">{{news.newsTitle}}</h1>
+                <h2>标签：[<a href="#" @click="redirecToCategory(news.newsCategory)" id="news_category">{{news.newsCategory}}</a>]
+                    发布日期：<span id="news_date">{{news.newsPublistime}}</span>
+                    阅读数：<span id="news_clickTimes">{{news.newsBrowsecount}}</span>
+                    作者： <span id="news_writer">{{news.newsAuthor}}</span></h2>
             </div>
             <div class="XQcon" id="news_content">
-                <!--新闻内容开始-->
-                <!--新闻内容结束-->
+                <div v-html="news.newsContent"></div>
             </div>
         </div>
         <div class="XQright">
@@ -32,6 +30,7 @@
                 <div class="con">
                     <div class="conl"></div>
                     <div id="latestNews" class="conr">
+                        <a href="#" v-for="news in clickNews" @click="toNew_content(news.newsId)">{{news.newsTitle}}</a>
                     </div>
                 </div>
             </div>
@@ -43,4 +42,82 @@
 <!--引入尾部页面-->
 <div id="footer"></div>
 </body>
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                news: {
+                    isaudit: "",
+                    isdeleted: "",
+                    istopping: "",
+                    newsAdvice: "",
+                    newsAuthor: "",
+                    newsBrowsecount: 0,
+                    newsCategory: "",
+                    newsContent: "",
+                    newsId: 0,
+                    newsKeywords: "",
+                    newsPublistime: "",
+                    newsTitle: "",
+                },
+                clickNews: [],
+            };
+        },
+        mounted: function () {
+            this.news_content_init();
+            $("#footer").load("/html/webui/footer/footer.html");
+        },
+        methods: {
+
+            /**
+             *跳转到新闻分类的方法
+             */
+            redirecToCategory(catagory) {
+                if (catagory.length > 0) {
+                    localStorage.setItem("news_catagory", catagory);
+                } else {
+                    //点了正文页分类条时
+                    localStorage.setItem("news_catagory", document.getElementById("news_category").innerText)
+                }
+                window.location.href = "/html/webui/news/news_catalog.html";
+            },
+
+            /**
+             * 跳转到新闻内容页面
+             */
+            toNew_content(newId) {
+                localStorage.setItem("newId", newId);
+                window.location.href = "/html/webui/news/news_content.html";
+            },
+
+            news_content_init() {
+                var newsId = localStorage.getItem("newId");
+                if (newsId != null) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/public/news/searchNewsById",
+                        data: "newsId=" + newsId,
+                        success: data => {
+                            if (data.code === 200) {
+                                this.news = data.data[0];
+                                this.clickNews = data.data[1];
+                                console.log(this.news)
+                            }
+                        },
+                        error: function (data) {
+                            layer.msg('网络异常');
+                        }
+                    });
+                }
+            }
+        },
+        watch: {
+            'message'() {
+            }
+        },
+    })
+
+</script>
 </html>

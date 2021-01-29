@@ -5,6 +5,7 @@ import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ActRuVariableMapper;
 import com.shu.copartner.mapper.ProNewsMapper;
 import com.shu.copartner.pojo.ProNews;
+import com.shu.copartner.pojo.ProNewsWithBLOBs;
 import com.shu.copartner.pojo.request.NewsManagerOperationVO;
 import com.shu.copartner.pojo.response.NewsInfoSo;
 import com.shu.copartner.service.ManagerNewsService;
@@ -74,13 +75,13 @@ public class ManagerNewsServiceImpl implements ManagerNewsService {
     @Override
     public TableModel operateNew(NewsManagerOperationVO newsManagerOperationVO) {
         //更新新闻状态:如果status值为1，则表示同意否则就是驳回
-        ProNews proNews = new ProNews();
-        BeanUtils.copyProperties(newsManagerOperationVO, proNews);
-        proNews.setNewsId(Long.parseLong(newsManagerOperationVO.getNewsId()));
+        ProNewsWithBLOBs proNewsWithBLOBs = new ProNewsWithBLOBs();
+        BeanUtils.copyProperties(newsManagerOperationVO, proNewsWithBLOBs);
+        proNewsWithBLOBs.setNewsId(Long.parseLong(newsManagerOperationVO.getNewsId()));
         try {
             //如果完成了审批任务，则将结果直接存入news表，同意的和拒绝的
             taskService.complete(newsManagerOperationVO.getTaskId());
-            proNewsMapper.updateByPrimaryKeySelective(proNews);
+            proNewsMapper.updateByPrimaryKeySelective(proNewsWithBLOBs);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
