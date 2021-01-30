@@ -6,6 +6,8 @@
   <title>活动详情</title>
   <script src='/html/webui/header/header.js'></script>
   <link rel="stylesheet" type="text/css" href="/html/webui/activity/css/main.css">
+
+  <script src='/html/webui/js/activity.js'></script>
 </head>
 <body>
 
@@ -57,40 +59,6 @@
   <div id="footer"></div>
 
   <script type="text/javascript">
-    $(function () {
-      $("#footer").load("/html/webui/footer/footer.html");
-
-      searchActivityDetail();
-    })
-
-    /**
-     * 根据id查询活动详细信息
-     */
-    function searchActivityDetail() {
-      var activityId = localStorage.getItem("activityId");
-      $.ajax({
-        url: "/public/activity/searchActivityById",
-        type: "GET",
-        data: "activityId="+activityId,
-        success: function (res) {
-          if(res.code = 200){
-           // console.log(res);
-            // 填充活动详情
-            fillActivityDetail(res.data[0]);
-          }else{
-            layer.msg("网络异常！");
-          }
-        }
-      })
-    }
-
-    function fillActivityDetail(activityDetail) {
-      document.getElementById("activityTitle").innerText = activityDetail.activityTitle;
-      document.getElementById("startTime").innerText = activityDetail.startTime;
-      document.getElementById("activityStatus").innerText = activityDetail.activityStatus;
-      document.getElementById("activityImage").src = activityDetail.activityImage; // src格式
-      document.getElementById("activityContent").innerHTML = activityDetail.activityContent;
-    }
 
   </script>
 </body>

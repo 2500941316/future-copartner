@@ -81,7 +81,7 @@
                <div class="jobsub">项目类型： <span id="projectType"></span></div>
                <div class="jobsub">开始时间： <span id="starttime"></span></div>
                <div class="jobsub">项目计划书： <a id="planUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
-               <div class="jobsub">项目视频： <a id="videoUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
+               <div class="jobsub">项目视频： <a id="videoUrl" onclick="lookVideo()" target="_blank" style="color: #0f72a4">点击查看</a></div>
                <div class="jobsub">项目状态： <span id="isGoing"></span></div>
 
             <!--   <div class="jobsub"></div>
@@ -134,6 +134,17 @@
          <div style="margin-top: 50px;">
             <div id="page"></div>
          </div>
+
+         <!--视频播放界面-->
+         <div class="grid-demo grid-demo-bg1" style="display: none" id="lookVideo">
+            <video id="vedio_url" src="" preload="auto"  style="margin-left: 4%;margin-top: 15px"
+                   width="90%" height="500px" controls>
+               <source type="video/ogg">
+               <source type="video/mp3">
+               您的浏览器不支持在线播放
+            </video>
+         </div>
+
          </div>
       </div>
    </div>
@@ -233,7 +244,7 @@
 
       projectInfo[0].videoUrl == "null" ?
               document.getElementById("videoUrl").innerText = "无" :
-              document.getElementById("videoUrl").href = projectInfo[0].videoUrl;
+              document.getElementById("vedio_url").src = projectInfo[0].videoUrl;
       projectInfo[0].videoUrl == "null" ?
               document.getElementById("videoUrl2").innerText = "无" :
               document.getElementById("videoUrl2").href = projectInfo[0].videoUrl;
@@ -492,6 +503,26 @@
             }
          }
       })
+   }
+
+
+   /**
+    * 查看项目视频
+    */
+   function lookVideo() {
+      var $=layui.jquery;
+      // 获取选中的状态值
+      layer.open({
+         type:1,
+         area:['60%','80%'],
+         title: '项目视频',
+         content: $("#lookVideo"),
+         shade: 0.1,
+         cancel: function(layero,index){
+            document.getElementById('vedio_url').pause();// 停止播放
+            layer.closeAll();
+         }
+      });
    }
 
 </script>

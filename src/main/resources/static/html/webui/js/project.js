@@ -8,7 +8,6 @@ $(function () {
         searchProject();// 填充搜索的项目
         getAllProjectData(); // 填充右侧项目总览
     }
-
     checkLogin();
 
 })
@@ -224,3 +223,4 @@ function fillProjectOverview(projectData) {
         }
     }
 }
+

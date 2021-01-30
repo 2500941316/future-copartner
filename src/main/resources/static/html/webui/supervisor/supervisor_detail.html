@@ -12,6 +12,13 @@
  	<link href="assets/css/line-awesome.min.css" rel="stylesheet">
  	<link href="assets/css/style.css" rel="stylesheet">
 
+	 <script src='/html/webui/js/supervisor.js'></script>
+
+	 <style type="text/css">
+		 #footer p{
+			 margin-bottom: 0;
+		 }
+	 </style>
  </head>
 
  <body>
@@ -72,153 +79,7 @@
 	<div id="footer"></div>
 
  <script type="application/javascript">
-	$(function () {
-		$("#footer").load("/html/webui/footer/footer.html")
 
-		searchSupervisorDetail();
-		//searchSupervisorProject();
-		//searchSupervisorAchievement();
-	})
-
-	layui.use('layer',function () {
-		var layer = layui.layer;
-	})
-
-	/**
-	 * 根据id查询导师详细信息
-	 */
-	function searchSupervisorDetail() {
-		var supervisorId = localStorage.getItem("supervisorId");
-		 $.ajax({
-			 url: "/public/supervisor/searchSuperviosrById",
-			 type: "GET",
-			 data: "supervisorId="+supervisorId,
-			 success: function (res) {
-			 	if(res.code = 200){
-			 		//console.log(res);
-			 		// 填充导师详情
-			 		fillSupervisorDetail(res.data.supervisorDetails[0]);
-					// 填充导师参加的项目
-					fillSupervisorProject(res.data.supervisorProjects[0]);
-					// 填充导师代表性成就
-					fillSupervisorAchievement(res.data.supervisorAchievements[0])
-				}else{
-			 		layer.msg("网络异常！");
-				}
-			 }
-		 })
-	 }
-
-	/**
-	 * 填充导师详细信息
-	 * @param supervisorInfo
-	 */
-	function fillSupervisorDetail(supervisorInfo) {
-		document.getElementById("supervisorName").innerText = supervisorInfo.supervisorName;
-		document.getElementById("supervisorInstitute").innerText = supervisorInfo.supervisorInstitute;
-		document.getElementById("supervisorEmail").innerText = supervisorInfo.supervisorEmail;
-
-		document.getElementById("supervisorImage").src = supervisorInfo.supervisorImage; // src格式
-		document.getElementById("supervisorName2").innerText = supervisorInfo.supervisorName;
-		document.getElementById("supervisorStatus").innerText = supervisorInfo.supervisorStatus;
-		document.getElementById("supervisorSchool").innerText = supervisorInfo.supervisorSchool;
-		document.getElementById("supervisorBriefIntro").innerHTML = supervisorInfo.supervisorBriefIntro; // html格式
-	}
-
-	/**
-	 * 根据导师id查询该导师参加的项目
-	 */
-	/*function searchSupervisorProject(){
-		var supervisorId = localStorage.getItem("supervisorId");
-		$.ajax({
-			url: "/user/supervisor/searchSupervisorProject",
-			type: "GET",
-			data: "supervisorId="+supervisorId,
-			success: function (res) {
-				if(res.code = 200){
-					fillSupervisorProject(res.data[0]);
-				}else{
-					layer.msg("网络异常！");
-				}
-			}
-		})
-	}*/
-
-	/**
-	 * 填充导师参与的项目信息
-	 * @param supervisorProject
-	 */
-	function fillSupervisorProject(supervisorProject) {
-		if(typeof (supervisorProject) != "undefined" ){
-			const $active = $("#supervisorProject");
-			$active.html("");
-			for(var i in supervisorProject.projects) {
-				const $children = (
-						'<div class="event-content blue-bg">\n' +
-						'          <h6 onclick="viewSupervisorProject('+supervisorProject.projects[i].projectId+')" style="cursor: pointer;"><span>'+supervisorProject.projects[i].projectName+'</span></h6>\n' +
-						'          <p class="event-meta"> <i class="las la-calendar-check"></i> '+supervisorProject.projects[i].updateTime+' | <span><i class="las la-clock"></i></span> <span>'+supervisorProject.projects[i].isGoing+' </span>\n' +
-						'          <br> <i class="las la-map-marker"></i> <span>'+supervisorProject.supervisorSchool+'</span> </p>\n' +
-						' </div>'
-				);
-				$active.append($children);
-			}
-		}else {
-			//console.log("无项目数据");
-		}
-	}
-
-	/**
-	 * 查看导师参加的项目详情
-	 * @param projectId
-	 */
-	function viewSupervisorProject(projectId) {
-		localStorage.setItem("projectId",projectId);
-		window.location.href = "/html/webui/project/project_details_info.html";
-	}
-
-	/**
-	 * 查询导师代表性成就
-	 */
-/*	function searchSupervisorAchievement() {
-		var supervisorId = localStorage.getItem("supervisorId");
-
-		$.ajax({
-			url: "/user/supervisor/searchSupervisorAchievement",
-			type: "GET",
-			data: "supervisorId="+supervisorId,
-			success: function (res) {
-				if(res.code = 200){
-					console.log(res);
-					fillSupervisorAchievement(res.data[0]);
-				}else{
-					layer.msg("网络异常！");
-				}
-			}
-		})
-	}*/
-
-	/**
-	 * 填充导师代表性成就
-	 * @param achievement
-	 */
-	function fillSupervisorAchievement(achievement) {
-		if(typeof (achievement) != "undefined" ) {
-			const $active = $("#supervisorAchievement");
-			$active.html("");
-			for (var i in achievement.logAchievements) {
-				const $children = (
-						'<ul>\n' +
-						' 	<li>\n' +
-						'       ' + achievement.logAchievements[i].logSupervisorAchievement + '     \n' +
-						' 	</li>\n' +
-						'</ul>'
-				);
-				$active.append($children);
-			}
-		}else{
-			//console.log("无代表性成就");
-		}
-	}
  </script>
 
  </body>

@@ -521,7 +521,6 @@ public class ProProjectServiceImpl implements ProProjectService {
             Map<String,Long> countMap = new HashMap<>();
             //我的项目 个数
             Long countOfProject = proProjectMapper.selectCountOfProject(username);
-            log.info("project个数："+countOfProject);
             countMap.put("countOfProject",countOfProject);
 
             // 我关注的项目 个数
