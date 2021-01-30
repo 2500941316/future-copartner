@@ -11,6 +11,7 @@
 	 <link href="assets/css/style.css" rel="stylesheet">
 	 <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 	 <link href="assets/css/line-awesome.min.css" rel="stylesheet">
+	 <script src='/html/webui/js/supervisor.js'></script>
 <style type="text/css">
 	#footer p{
 		margin-bottom: 0;
@@ -64,114 +65,12 @@
 
 
  <script type="text/javascript">
-	 var $ = layui.jquery;
-	 $(function () {
-		 $("#footer").load("/html/webui/footer/footer.html");
-		 searchSupervisorList();
-	 })
-
 	 //绑定搜索回车按键
 	 $('.import').bind('keypress', function (event) {
 		 if (event.keyCode == "13") {
 			 searchSupervisorByName();
 		 }
 	 })
-
-	 /**
-	  * 查询导师列表
-	  */
-	 function searchSupervisorList(pageConf) {
-		 if (!pageConf) {
-			 pageConf = {};
-			 pageConf.pageSize = 6;
-			 pageConf.currentPage = 1;
-
-		 }
-		 $.get("/public/supervisor/searchSupervisorList", pageConf, function (data) {
-			 layui.use(['laypage', 'layer'], function () {
-				 var page = layui.laypage;
-				 page.render({
-					 elem: 'page',
-					 count: data.count,
-					 curr: pageConf.currentPage,
-					 limit: pageConf.pageSize,
-					 first: "首页",
-					 last: "尾页",
-					 layout: [ 'prev', 'page', 'next', 'skip'],// 'limit','count',
-					 jump: function (obj, first) {
-						 if (!first) {
-							 pageConf.currentPage = obj.curr;
-							 pageConf.pageSize = obj.limit;
-							 searchSupervisorList(pageConf);
-						 }
-						 fillSupervisorList(data.data); //页面填充
-					 }
-				 });
-			 })
-		 })
-	 }
-
-	 /**
-	  * 填充导师列表信息
-	  * @param supervisorInfo
-	  */
-	 function fillSupervisorList(supervisorInfo) {
-		 const $active =  $("#supervisorList");
-		 $active.html("");
-		 for(var i in supervisorInfo){
-		 	const $children = (
-		 			'<div class="col-lg-6 col-md-6 col-12">\n' +
-					'  			<div class="single-event-wrap">\n' +
-					' 				<div class="row">\n' +
-					' 				<div class="col-lg-5">\n' +
-					' 				  <div class="event-bg bg-cover" id="supervisorImage" style="background-image: url('+supervisorInfo[i].supervisorImage+');">\n' +
-					' 						<span class="event-date" id="updateTime">'+supervisorInfo[i].updateTime+'</span>\n' +
-					' 					</div>\n' +
-					' 				  </div>\n' +
-					' 			   <div class="col-lg-7">\n' +
-					' 				 <div class="event-content">\n' +
-					' 					<h6><span id="supervisorName" onclick="viewSupervisorDetail('+supervisorInfo[i].supervisorId+')" style="cursor: pointer">'+supervisorInfo[i].supervisorName+'</span></h6>\n' +
-					'                   <p class="event-meta"> <i class="las la-clock"></i> <span ><span id="supervisorStatus" style="margin-right: 5px;">'+supervisorInfo[i].supervisorStatus+' </span>| <i class="las la-map-marker"></i> </span>  <span id="supervisorInstitute">'+supervisorInfo[i].supervisorInstitute+'</span> </p>\n' +
-					'                   <p id="supervisorDescription">'+supervisorInfo[i].supervisorDescription+'</p>\n' +
-					'                   <a href="#" onclick="viewSupervisorDetail('+supervisorInfo[i].supervisorId+')">Read More</a>\n' +
-					'                </div>\n' +
-					'              </div>\n' +
-					'             </div>\n' +
-					'           </div>\n' +
-					'         </div>'
-			);
-		 	$active.append($children);
-		 }
-	 }
-
-	 /**
-	  * 查看导师详情
-	  * @param supervisorId
-	  */
-	 function viewSupervisorDetail(supervisorId) {
-		 localStorage.setItem("supervisorId",supervisorId)
-		 window.location.href = "/html/webui/supervisor/supervisor_detail.html";
-	 }
-
-	 /**
-	  * 根据名称搜索导师
-	  */
-	 function searchSupervisorByName() {
-	 	var supervisorName = $("#searchPlaceholder").val();
-	 	$.ajax({
-			url: "/public/supervisor/searchSupervisorByName",
-			type: "GET",
-			data: "supervisorName="+supervisorName,
-			success: function (res) {
-				if(res.code == 200){
-					fillSupervisorList(res.data);
-				}else{
-					layer.msg("网络异常！");
-				}
-			}
-		})
-	 }
-
 
  </script>
 
