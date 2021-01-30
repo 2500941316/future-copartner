@@ -11,6 +11,7 @@ import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.service.PublicAuthService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
+import com.shu.copartner.utils.smstool.SmSender;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -67,12 +68,8 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         if (!proUsers.isEmpty() || !proRegisters.isEmpty()) {
             throw new BusinessException(Exceptions.SERVER_PHONEISREGISTED_ERROR.getEcode());
         }
-
+        //生成验证码
         int code = (int) ((Math.random() * 9 + 1) * 100000);
-        code = 111111;
-
-        //调用短信发送服务
-        System.out.println("发送了验证码：" + code);
 
         //设置验证码过期时间
         Calendar beforeTime = Calendar.getInstance();
@@ -85,6 +82,8 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         } else {
             proVerifyMapper.updateByPrimaryKeySelective(proVerify);
         }
+        //调用短信发送服务
+        SmSender.sendSmCode(phone, code);
 
         return TableModel.success();
     }
@@ -107,9 +106,7 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         }
 
         int code = (int) ((Math.random() * 9 + 1) * 100000);
-        code = 111111;
-        //调用短信发送服务
-        System.out.println("发送了验证码：" + code);
+
 
         //将最新的验证码和过期时间存入数据库
         Calendar beforeTime = Calendar.getInstance();
@@ -117,6 +114,8 @@ public class PublicAuthServiceImpl implements PublicAuthService {
 
         ProVerify proVerify = new ProVerify(phone, code, beforeTime.getTime());
         proVerifyMapper.updateByPrimaryKeySelective(proVerify);
+        //调用短信发送服务
+        SmSender.sendSmCode(phone, code);
 
         return TableModel.success();
     }
