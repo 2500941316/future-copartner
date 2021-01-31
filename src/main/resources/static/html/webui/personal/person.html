@@ -6,7 +6,7 @@
 
     <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
     <script src='/html/webui/header/header.js'></script>
-    <script src='/html/webui/js/personal.js'></script>
+    <!--<script src='/html/webui/js/personal.js'></script>-->
     <title>个人工作台</title>
 </head>
 
@@ -116,7 +116,7 @@
 <iframe scrolling="no" name="aa" id="iframe" width="900px" frameborder="0"
         src="#"
         onload="this.height=0;var fdh=(this.Document?this.Document.body.scrollHeight:this.contentDocument.body.offsetHeight);
-        this.height=(fdh>300?fdh:1100)"></iframe><!--this.height=(fdh>600?fdh:600)-->
+        this.height=(fdh>600?fdh:600)"></iframe><!--this.height=(fdh>600?fdh:600)-->
 
 <!--引入页脚页面-->
 <div style="bottom:0;" id="footer"></div>
@@ -130,7 +130,6 @@
         $("#footer").load("/html/webui/footer/footer.html");
 
         selectCount();
-
     });
 
     // 弹出层
