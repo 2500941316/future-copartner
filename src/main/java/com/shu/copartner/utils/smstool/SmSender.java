@@ -18,7 +18,7 @@ public class SmSender {
     public static void sendSmCode(String phone, Integer code) {
 
         String finalUrl = url + "appkey=" + appkey + "&&appsecret=" + appsecret +
-                "&mobile=" + phone + "&content=【未来合伙人】尊敬的用户,您的验证码为:" + code + ",五分钟内有效,不要告诉别人奥!";
+                "&mobile=" + phone + "&content=【短信验证】尊敬的未来合伙人用户,您的验证码为:" + code + ",五分钟内有效,不要告诉别人奥!";
         doPost(finalUrl);
     }
 
