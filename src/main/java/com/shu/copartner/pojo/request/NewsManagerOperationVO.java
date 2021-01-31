@@ -11,8 +11,6 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 public class NewsManagerOperationVO {
-    @NotBlank(message = "任务id不能为空")
-    private String taskId;
 
     @NotBlank(message = "新闻id不能为空")
     private String newsId;

@@ -5,6 +5,7 @@
     <id column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="verifycode" jdbcType="INTEGER" property="verifycode" />
     <result column="verifydate" jdbcType="TIMESTAMP" property="verifydate" />
+    <result column="status" jdbcType="BIT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    phone, verifycode, verifydate
+    phone, verifycode, verifydate, status
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProVerifyExample" resultMap="BaseResultMap">
     select
@@ -98,10 +99,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProVerify">
-    insert into PRO_VERIFY (phone, verifycode, verifydate
-      )
-    values (#{phone,jdbcType=VARCHAR}, #{verifycode,jdbcType=INTEGER}, #{verifydate,jdbcType=TIMESTAMP}
-      )
+    insert into PRO_VERIFY (phone, verifycode, verifydate, 
+      status)
+    values (#{phone,jdbcType=VARCHAR}, #{verifycode,jdbcType=INTEGER}, #{verifydate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProVerify">
     insert into PRO_VERIFY
@@ -115,6 +116,9 @@
       <if test="verifydate != null">
         verifydate,
       </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="phone != null">
@@ -125,6 +129,9 @@
       </if>
       <if test="verifydate != null">
         #{verifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -146,6 +153,9 @@
       <if test="record.verifydate != null">
         verifydate = #{record.verifydate,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -155,7 +165,8 @@
     update PRO_VERIFY
     set phone = #{record.phone,jdbcType=VARCHAR},
       verifycode = #{record.verifycode,jdbcType=INTEGER},
-      verifydate = #{record.verifydate,jdbcType=TIMESTAMP}
+      verifydate = #{record.verifydate,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -169,13 +180,17 @@
       <if test="verifydate != null">
         verifydate = #{verifydate,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
     </set>
     where phone = #{phone,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProVerify">
     update PRO_VERIFY
     set verifycode = #{verifycode,jdbcType=INTEGER},
-      verifydate = #{verifydate,jdbcType=TIMESTAMP}
+      verifydate = #{verifydate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=BIT}
     where phone = #{phone,jdbcType=VARCHAR}
   </update>
 </mapper>

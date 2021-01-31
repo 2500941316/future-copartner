@@ -1,7 +1,11 @@
 package com.shu.copartner.conf.springsecurity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shu.copartner.mapper.ProVerifyMapper;
+import com.shu.copartner.pojo.ProVerify;
+import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -21,6 +25,9 @@ import java.util.Iterator;
  */
 @Component
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Autowired
+    ProVerifyMapper proVerifyMapper;
     GrantedAuthority authority = null;
     private ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
 
@@ -34,6 +41,13 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
             authority = iterator.next();
         }
         tableModel.setData(authority.getAuthority());
+
+        //如果验证成功，则将本次的验证码状态置为false
+        ProVerify proVerify = new ProVerify();
+        proVerify.setPhone(authentication.getName());
+        proVerify.setStatus(Constants.FALSE);
+        proVerifyMapper.updateByPrimaryKeySelective(proVerify);
+
         String json = objectMapper.writeValueAsString(tableModel);
         response.setContentType("text/json;charset=utf-8");
         response.getWriter().write(json);

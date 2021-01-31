@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
-import com.shu.copartner.mapper.ActRuTaskMapper;
 import com.shu.copartner.mapper.ProNewsMapper;
 import com.shu.copartner.pojo.*;
 import com.shu.copartner.pojo.request.NewsPublishVO;
@@ -12,14 +11,10 @@ import com.shu.copartner.service.UserNewsService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -36,15 +31,6 @@ import java.util.regex.Pattern;
 public class UserNewsServiceImpl implements UserNewsService {
 
     @Autowired
-    RuntimeService runtimeService;
-
-    @Autowired
-    ActRuTaskMapper actRuTaskMapper;
-
-    @Autowired
-    TaskService taskService;
-
-    @Autowired
     ProNewsMapper proNewsMapper;
 
     @Override
@@ -55,27 +41,15 @@ public class UserNewsServiceImpl implements UserNewsService {
         Map<String, Object> map = new HashMap<>();
         map.put(Constants.NEWSAPPLY_PROCESS_USERALIGN, newsPublishVO.getNewsAuthor());
         try {
-            runtimeService.startProcessInstanceByKey(Constants.NEWSAPPLY_PROCESSKEY, map);
             //查询当前task表中得taskid
-            ActRuTaskExample actRuTaskExample = new ActRuTaskExample();
-            actRuTaskExample.createCriteria().andAssigneeEqualTo(newsPublishVO.getNewsAuthor()).andNameEqualTo(Constants.NEWSAPPLY_PROCESS_APPLYNAME);
-            List<ActRuTask> actRuTasks = actRuTaskMapper.selectByExample(actRuTaskExample);
-            //如果查询得任务结果唯一，则完成申请新闻任务，指定审批人为manager身份
-            if (actRuTasks.size() == 1) {
-                //将新闻插入新闻表中，状态isAuth置为0
-                ProNewsWithBLOBs proNewsWithBLOBs = new ProNewsWithBLOBs();
-                //生成主键插入：作者+时间戳
-                BeanUtils.copyProperties(newsPublishVO, proNewsWithBLOBs);
-                //插入新闻
-                proNewsMapper.insert(proNewsWithBLOBs);
-                String taskId = actRuTasks.get(0).getId();
-                taskService.setVariable(taskId, Constants.MANAGER_ROLE, Constants.MANAGER_ROLE);
-                taskService.setVariable(taskId, Constants.ACTIVITI_OBJECT_NAME, proNewsWithBLOBs.getNewsId());
-                taskService.complete(taskId);
-                return TableModel.success();
-            } else {
-                return TableModel.error();
-            }
+            //将新闻插入新闻表中，状态isAuth置为0
+            ProNewsWithBLOBs proNewsWithBLOBs = new ProNewsWithBLOBs();
+            //生成主键插入：作者+时间戳
+            BeanUtils.copyProperties(newsPublishVO, proNewsWithBLOBs);
+            //插入新闻
+            proNewsMapper.insert(proNewsWithBLOBs);
+            return TableModel.success();
+
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
@@ -164,7 +138,7 @@ public class UserNewsServiceImpl implements UserNewsService {
                 proNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
                 proNewsExample.createCriteria()
                         .andIsauditEqualTo(Constants.NEW_AUTHED)
-                       .andNewsCategoryEqualTo(newsCatagory)
+                        .andNewsCategoryEqualTo(newsCatagory)
                         .andIsdeletedEqualTo(Constants.NO_DELETED);
                 PageHelper.startPage(1, 3);
                 List<ProNews> proNews = proNewsMapper.selectByExample(proNewsExample);

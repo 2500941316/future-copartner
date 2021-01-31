@@ -1,10 +1,13 @@
 package com.shu.copartner.service.impl.manager;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ActRuVariableMapper;
 import com.shu.copartner.mapper.ProNewsMapper;
 import com.shu.copartner.pojo.ProNews;
+import com.shu.copartner.pojo.ProNewsExample;
 import com.shu.copartner.pojo.ProNewsWithBLOBs;
 import com.shu.copartner.pojo.request.NewsManagerOperationVO;
 import com.shu.copartner.pojo.response.NewsInfoSo;
@@ -32,43 +35,27 @@ import java.util.List;
 @Slf4j
 public class ManagerNewsServiceImpl implements ManagerNewsService {
 
-
-    @Autowired
-    private ActRuVariableMapper actRuVariableMapper;
-
-    @Autowired
-    private TaskService taskService;
-
     @Autowired
     ProNewsMapper proNewsMapper;
 
 
     @Override
     public TableModel searchNewsApplication(int page) {
-        List<NewsInfoSo> arrayList = new ArrayList<>();
-        long count;
+        List<ProNews> arrayList = new ArrayList<>();
+        int count;
         try {
-            count = taskService.createTaskQuery().taskAssignee(Constants.MANAGER_ROLE)
-                    .taskName(Constants.NEWSAPPLY_PROCESS_MANAGERNAME).count();
-            List<Task> taskList = taskService.createTaskQuery()
-                    .taskAssignee(Constants.MANAGER_ROLE)
-                    .taskName(Constants.NEWSAPPLY_PROCESS_MANAGERNAME)
-                    .listPage(Constants.PAGESIZE * (page - 1), Constants.PAGESIZE);
-            for (Task task : taskList) {
-                Object variable = taskService.getVariable(task.getId(), Constants.ACTIVITI_OBJECT_NAME);
-                if (variable != null) {
-                    ProNews proNews = proNewsMapper.selectByPrimaryKey((Long) variable);
-                    NewsInfoSo newsInfoSo = new NewsInfoSo();
-                    BeanUtils.copyProperties(proNews, newsInfoSo);
-                    newsInfoSo.setTaskId(task.getId());
-                    arrayList.add(newsInfoSo);
-                }
-            }
+            ProNewsExample proNewsExample = new ProNewsExample();
+            PageHelper.startPage(page, Constants.PAGESIZE);
+            proNewsExample.createCriteria().andIsdeletedEqualTo(Constants.NO_DELETED)
+                    .andIsauditEqualTo(Constants.NO_DELETED);
+            arrayList = proNewsMapper.selectByExample(proNewsExample);
+            PageInfo pageInfo = new PageInfo(arrayList, 5);
+            count = (int) pageInfo.getTotal();
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
-        return TableModel.tableSuccess(arrayList, (int) count);
+        return TableModel.tableSuccess(arrayList, count);
     }
 
 
@@ -79,8 +66,6 @@ public class ManagerNewsServiceImpl implements ManagerNewsService {
         BeanUtils.copyProperties(newsManagerOperationVO, proNewsWithBLOBs);
         proNewsWithBLOBs.setNewsId(Long.parseLong(newsManagerOperationVO.getNewsId()));
         try {
-            //如果完成了审批任务，则将结果直接存入news表，同意的和拒绝的
-            taskService.complete(newsManagerOperationVO.getTaskId());
             proNewsMapper.updateByPrimaryKeySelective(proNewsWithBLOBs);
         } catch (Exception e) {
             log.error(e.getMessage());

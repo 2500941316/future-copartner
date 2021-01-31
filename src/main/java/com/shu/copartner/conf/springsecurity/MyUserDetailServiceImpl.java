@@ -52,7 +52,7 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
 
             //数据库中查询手机号对应的权限和验证码，并且验证时间是否5分钟内
             ProVerifyExample proVerifyExample = new ProVerifyExample();
-            proVerifyExample.createCriteria().andPhoneEqualTo(username).andVerifydateGreaterThanOrEqualTo(new Date());
+            proVerifyExample.createCriteria().andPhoneEqualTo(username).andVerifydateGreaterThanOrEqualTo(new Date()).andStatusEqualTo(Constants.TRUE);
             List<ProVerify> proVerifies = proVerifyMapper.selectByExample(proVerifyExample);
             if (proVerifies.isEmpty()) {
                 throw new BusinessException(Exceptions.SERVER_PHONECODEOUTOFDATE_ERROR.getEcode());

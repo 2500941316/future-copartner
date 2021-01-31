@@ -10,11 +10,14 @@ public class ProVerify implements Serializable {
 
     private Date verifydate;
 
+    private Boolean status;
 
-    public ProVerify(String phone, Integer verifycode, Date verifydate) {
+
+    public ProVerify(String phone, Integer verifycode, Date verifydate,boolean status) {
         this.phone = phone;
         this.verifycode = verifycode;
         this.verifydate = verifydate;
+        this.status = status;
     }
 
     public ProVerify() {
@@ -44,5 +47,13 @@ public class ProVerify implements Serializable {
 
     public void setVerifydate(Date verifydate) {
         this.verifydate = verifydate;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

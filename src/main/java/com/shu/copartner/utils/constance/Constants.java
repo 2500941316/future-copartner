@@ -56,7 +56,7 @@ public final class Constants {
     public static final Integer[] REGISTER_CODE = {1, 2, 3};
 
     /**
-     *需要登录才能访问的界面
+     * 需要登录才能访问的界面
      */
     public static final List<String> ROUTE_URL = Arrays.asList("/html/managerui/index.html", "/html/webui/personal/person.html");
 
@@ -149,6 +149,15 @@ public final class Constants {
     public static final String LEASSON_FILETYPE_VEDIO = "vedio";
 
 
+    /**
+     * @Description TRUE标志位
+     */
+    public static final Boolean TRUE = true;
+
+    /**
+     * @Description False标志位
+     */
+    public static final Boolean FALSE = false;
     /**
      * @Description 未被删除标识位
      */

@@ -65,6 +65,6 @@
 <!--        <table schema="" tableName="PRO_PERSON"></table>-->
 <!--        <table schema="" tableName="PRO_USER"></table>-->
 <!--        <table schema="" tableName="PRO_STUDENT"></table>-->
-        <table schema="" tableName="PRO_NEWS"></table>
+        <table schema="" tableName="PRO_VERIFY"></table>
     </context>
 </generatorConfiguration>
