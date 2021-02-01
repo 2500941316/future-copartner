@@ -145,10 +145,10 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
             //删除课程对应的视频
             List<ProLeassonVedio> proLeassonVedios = proLeassonVedioMapper.selectByExample(proLeassonVedioExample);
             for (ProLeassonVedio leassonVedio : proLeassonVedios) {
-                if (leassonVedio.getCourseVedioUrl().isEmpty()) {
+                if (leassonVedio.getCourseVedioUrl()!=null) {
                     FastDfsClient.deleteFile(Constants.FASTDFSGROUPNAME, leassonVedio.getCourseVedioUrl().substring(Constants.FASTDFSSUBSTRLEN));
                 }
-                if (leassonVedio.getCourseVedioPptUrl().isEmpty()) {
+                if (leassonVedio.getCourseVedioPptUrl()!=null) {
                     FastDfsClient.deleteFile(Constants.FASTDFSGROUPNAME, leassonVedio.getCourseVedioPptUrl().substring(Constants.FASTDFSSUBSTRLEN));
                 }
             }

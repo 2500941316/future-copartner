@@ -131,7 +131,7 @@ public final class Constants {
     /**
      * @Description 推荐课程模块查询的数量
      */
-    public static final Integer LEASSON_CLICKNUMBER = 5;
+    public static final Integer LEASSON_CLICKNUMBER = 4;
 
     /**
      * @Description 课程页面按照点击数来排序

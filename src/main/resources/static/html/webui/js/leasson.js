@@ -1,4 +1,5 @@
 var $ = layui.jquery;
+var laypage = layui.laypage
 $(function () {
     $("#footer").load("/html/webui/footer/footer.html");
 
@@ -13,10 +14,20 @@ $(function () {
 });
 
 
-layui.use('element', function () {
-    var $ = layui.jquery
-        , element = layui.element;
-});
+//对课程首页信息分页展示
+function spliteLeasson(data) {
+    //调用分页
+    laypage.render({
+        elem: 'demo20'
+        , count: data.length
+        , limit: 6
+        , jump: function (obj) {
+            //模拟渲染
+            var thisData = data.concat().splice(obj.curr * obj.limit - obj.limit, obj.limit);
+            renderLeassons(thisData)
+        }
+    });
+}
 
 
 //查询所有的课程信息
@@ -30,7 +41,7 @@ function getLeassonInfo() {
                 if (data.data[0] != null) {
                     localStorage.setItem("courseId", data.data[0].courseId);
                 }
-                renderLeassons(data.data)
+                spliteLeasson(data.data);
             } else
                 layer.msg('网络异常，请稍后重试');
         },
@@ -51,10 +62,14 @@ function getCourseInfoById(courseId) {
         },
         success: function (data) {
             //将课程vedio类放入缓存
-            for (var i = 0; i < data.data.vedioList.length; i++) {
-                localStorage.setItem(data.data.vedioList[i].courseVedioId, data.data.vedioList[i].courseVedioUrl)
+            if (data.data.vedioList != null) {
+                for (var i = 0; i < data.data.vedioList.length; i++) {
+                    localStorage.setItem(data.data.vedioList[i].courseVedioId, data.data.vedioList[i].courseVedioUrl)
+                }
             }
+
             renderVedioPage(data.data);
+            renderClicksVedio(data.data.clickCourseList);
         }
     });
 }
@@ -72,9 +87,7 @@ function renderLeassons(arrParO) {
             '                                        <p class="slide-title">' + obj.courseName + '</p>\n' +
             '                                        <p class="slide-body">\n' +
             '                                        <span class="slide-body-nub">\n' +
-            '                                            <i class="slide-body-nub-icon"></i>\n' +
-            '                                            0\n' +
-            '                                        </span>\n' +
+            '                                            <i class="slide-body-nub-icon"></i>\n' + obj.courseClicktime + ' </span>\n' +
             '                                            <span class="slide-body-nup">\n' +
             '                                            <i class="slide-body-nup-icon"></i>\n' +
             '                                            0\n' +
@@ -96,7 +109,7 @@ function renderVedioPage(data) {
 
     document.getElementById("course_introduction").innerHTML = data.courseDescription;
     document.getElementById("curLeassonName").innerText = data.courseName;
-    if (data.vedioList != null) {
+    if (data.vedioList.length != 0) {
         localStorage.setItem("courseVedioId", data.vedioList[0].courseVedioId)
         document.getElementById("vedio_url").src = data.vedioList[0].courseVedioUrl;
     }
@@ -141,6 +154,28 @@ function renderVedioPage(data) {
         $active1.append($children);
     });
 }
+
+//渲染推荐视频方法
+function renderClicksVedio(arrParO) {
+    const $active = $("#clickTimeVedio");
+    $active.html("");
+    $.each(arrParO, function (i, obj) {
+        const $children = $(' <li onclick="redirecToVedio(' + obj.courseId + ')"><a href="#">\n' +
+            '                        <div class="image-ti">\n' +
+            '                            <img src="/html/webui/images/ad020.jpg" alt="">\n' +
+            '                        </div>\n' +
+            '                        <p class="slide-title">' + obj.courseName + '</p>\n' +
+            '                        <p class="slide-body">\n' +
+            '                            <span class="slide-body-nub"><i class="slide-body-nub-icon"></i>' + obj.courseClicktime + '</span>\n' +
+            '                            <span class="slide-body-nup"><i class="slide-body-nup-icon"></i>0</span>\n' +
+            '                            <span class="slide-body-price">免费</span>\n' +
+            '                        </p>\n' +
+            '                    </a>\n' +
+            '                    </li>');
+        $active.append($children);
+    });
+}
+
 
 //跳转到视频页的方法
 function redirecToVedio(courseId) {

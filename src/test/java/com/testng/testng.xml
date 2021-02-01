@@ -9,7 +9,8 @@
         <!--        </classes>-->
 
         <classes>
-            <class name="com.leassons.LeassonManageApply"></class>
+            <!--            <class name="com.leassons.LeassonManageApply"></class>-->
+            <class name="com.leassons.LeassonVedioPptUpload"></class>
         </classes>
     </test>
 </suite>
