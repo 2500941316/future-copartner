@@ -10,7 +10,6 @@ import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,7 +95,7 @@ public class FileuploadServiceImpl implements FileuploadService {
      */
     @Override
     public TableModel managerPlanUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
-        if (StringUtils.isNotEmpty(projectId)) {
+        if (projectId.isEmpty()) {
             log.info("文件名：" + uploadfile.getOriginalFilename());
             log.info("projectId:" + projectId);
             // 上传计划书，返回其存放路径
@@ -127,7 +126,7 @@ public class FileuploadServiceImpl implements FileuploadService {
     @Override
     public TableModel managerVideoUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
         TableModel tableModel = new TableModel();
-        if (StringUtils.isNotEmpty(projectId)) {
+        if (projectId.isEmpty()) {
             log.info("文件名：" + uploadfile.getOriginalFilename());
             log.info("projectId:" + projectId);
             // 上传视频，返回其存放路径

@@ -12,12 +12,9 @@ import com.shu.copartner.pojo.ProSupervisor;
 import com.shu.copartner.pojo.request.SupervisorPublishVO;
 import com.shu.copartner.service.ManagerSupervisorService;
 import com.shu.copartner.utils.returnobj.TableModel;
-import com.sun.codemodel.internal.writer.PrologCodeWriter;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

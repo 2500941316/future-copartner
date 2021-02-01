@@ -7,25 +7,18 @@ import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.*;
 import com.shu.copartner.mapper.ProProjectMapper;
 import com.shu.copartner.pojo.ProApplication;
-import com.shu.copartner.pojo.ProFollow;
 import com.shu.copartner.pojo.ProProject;
 import com.shu.copartner.pojo.request.ProjectManagerOperationVO;
 import com.shu.copartner.service.ManagerProjectService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,14 +32,6 @@ import java.util.Map;
 @Service
 public class ManagerProjectServiceImpl implements ManagerProjectService {
 
- /*   @Autowired
-    private RuntimeService runtimeService;
-
-    @Autowired
-    private ActRuVariableMapper actRuVariableMapper;
-
-    @Autowired
-    private TaskService taskService;*/
 
     @Autowired
     private ProProjectMapper proProjectMapper;

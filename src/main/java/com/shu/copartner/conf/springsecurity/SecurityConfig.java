@@ -76,7 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().formLogin().loginProcessingUrl("/public/login")
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailHandler)
-                .and().rememberMe().tokenValiditySeconds(60 * 60 * 24).tokenRepository(persistentTokenRepository)
+                .and().rememberMe()
+                .tokenValiditySeconds(60 * 60 * 24).tokenRepository(persistentTokenRepository)
                 .userDetailsService(myUserDetailService)
                 .and().logout().logoutSuccessHandler(new MyLogoutSuccessHandler()).deleteCookies("JSESSIONID");
     }

@@ -28,7 +28,7 @@ layui.use(['element', 'layer', 'upload',], function () {
             layer.open({
                 type: 1,
                 title: "上传进度", //不显示标题
-                //closeBtn: 0, //不显示关闭按钮
+                closeBtn: 0, //不显示关闭按钮
                 skin: 'layui-layer-demo', //样式类名
                 area: ['420px', 'auto'], //宽高
                 content: '<div style="margin: 10px 20px;"><div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="uploadfile"><div class="layui-progress-bar" lay-percent="" id="uploadfile"></div></div><p><span id="uploadfilemsg">正在上传</span></p></div>',
@@ -41,6 +41,7 @@ layui.use(['element', 'layer', 'upload',], function () {
         , progress: function (n, elem) {
             //上传进度回调
             var percent = n + '%'; //获取进度百分比
+            console.log(percent)
             $("#uploadfile").attr("lay-percent", percent);
             element.render();
         }
@@ -126,7 +127,7 @@ $(function () {
     $("#footer").load("/html/webui/footer/footer.html");
 });
 layui.config({
-    base: '/html/managerui/js/layui/'
+    base: '/html/webui/js/layui/'
 }).extend({
     treetable: 'treetable-lay/treetable'
 });

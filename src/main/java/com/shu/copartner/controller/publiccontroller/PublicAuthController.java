@@ -2,12 +2,10 @@ package com.shu.copartner.controller.publiccontroller;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
-import com.shu.copartner.pojo.request.NewsPublishVO;
 import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.service.PublicAuthService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +35,7 @@ public class PublicAuthController {
      */
     @GetMapping("registerGetVrifyCode")
     public TableModel registerGetVerifyCode(@RequestParam("phone") String phone) {
-        if (StringUtils.isEmpty(phone)) {
+        if (phone.isEmpty()) {
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
         return publicAuthService.registerGetVrifyCode(phone);
@@ -51,7 +49,7 @@ public class PublicAuthController {
      */
     @GetMapping("loginGetVerifyCode")
     public TableModel loginGetVerifyCode(@RequestParam("phone") String phone) {
-        if (StringUtils.isEmpty(phone)) {
+        if (phone.isEmpty()) {
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
         return publicAuthService.loginGetVerifyCode(phone);

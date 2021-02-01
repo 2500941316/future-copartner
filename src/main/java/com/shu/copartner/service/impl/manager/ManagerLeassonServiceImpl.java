@@ -18,7 +18,6 @@ import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -146,10 +145,10 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
             //删除课程对应的视频
             List<ProLeassonVedio> proLeassonVedios = proLeassonVedioMapper.selectByExample(proLeassonVedioExample);
             for (ProLeassonVedio leassonVedio : proLeassonVedios) {
-                if (StringUtils.isNotEmpty(leassonVedio.getCourseVedioUrl())) {
+                if (leassonVedio.getCourseVedioUrl().isEmpty()) {
                     FastDfsClient.deleteFile(Constants.FASTDFSGROUPNAME, leassonVedio.getCourseVedioUrl().substring(Constants.FASTDFSSUBSTRLEN));
                 }
-                if (StringUtils.isNotEmpty(leassonVedio.getCourseVedioPptUrl())) {
+                if (leassonVedio.getCourseVedioPptUrl().isEmpty()) {
                     FastDfsClient.deleteFile(Constants.FASTDFSGROUPNAME, leassonVedio.getCourseVedioPptUrl().substring(Constants.FASTDFSSUBSTRLEN));
                 }
             }

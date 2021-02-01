@@ -7,11 +7,7 @@ import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.ProProjectService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
-import org.activiti.engine.TaskService;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,9 +34,6 @@ public class VipProjectController {
      */
     @Autowired
     private ProProjectService proProjectService;
-
-    @Autowired
-    private TaskService taskService;
 
     /**
      * 上传文件

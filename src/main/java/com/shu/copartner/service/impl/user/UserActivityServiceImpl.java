@@ -13,15 +13,10 @@ import com.shu.copartner.service.UserActivityService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.Test;
-
-import javax.annotation.PreDestroy;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,7 +69,7 @@ public class UserActivityServiceImpl implements UserActivityService {
     @Override
     public TableModel searchActivityList(int currentPage, Principal principal) {
         try {
-            if(StringUtils.isNotEmpty(principal.getName())){
+            if(principal!=null){
                 //先根据用户名查询出其userId
                 ProUserExample proUserExample = new ProUserExample();
                 proUserExample.createCriteria().andPhoneEqualTo(principal.getName());
@@ -197,7 +192,7 @@ public class UserActivityServiceImpl implements UserActivityService {
 
             // 将活动id与当前用户信息写到报名表中
             ProEnroll proEnroll001 = proEnrollMapper.selectEnrollByPersonActivityId(userId, Long.parseLong(activityId));
-            if (ObjectUtils.isNotEmpty(proEnroll001)) {
+            if (proEnroll001!=null) {
                 // 如果之前已经取消报名该活动，再次报名时就直接置is_deleted为0
                 proEnroll001.setIsDeleted(0);
                 proEnroll001.setEnrollTime(new Date());

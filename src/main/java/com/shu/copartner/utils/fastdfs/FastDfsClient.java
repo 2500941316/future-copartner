@@ -1,7 +1,6 @@
 package com.shu.copartner.utils.fastdfs;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
@@ -65,7 +64,7 @@ public class FastDfsClient {
 
 
     private static String getFileExt(String fileName) {
-        if (StringUtils.isBlank(fileName) || !fileName.contains(".")) {
+        if (fileName.isEmpty() || !fileName.contains(".")) {
             return "";
         } else {
             return fileName.substring(fileName.lastIndexOf(".") + 1);
