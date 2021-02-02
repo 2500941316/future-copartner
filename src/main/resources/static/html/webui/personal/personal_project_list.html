@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
     <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
-    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
+
     <script src="/html/webui/js/layui/layui.all.js"></script>
     <script type="text/javascript" src="/html/webui/js/personal.js"></script>
     <title>我的项目</title>
@@ -24,7 +24,7 @@
 <body>
 
 <div class="perRightcon">
-    <div class="clear" style="margin-top: 15px"></div>
+        <div class="clear" style="margin-top: 15px"></div>
     <div class="commonTit">
         <h1 class="fl">我的项目</h1>
         <!--<div class="dqzt">
@@ -35,14 +35,14 @@
         <div class="clear"></div>
     </div>
 
-    <div class="jianliBox" id="tableDiv">
-        <!--展示数据-->
-    </div>
+        <div class="jianliBox" id="tableDiv">
+                <!--展示数据-->
+        </div>
 
-    <!--分页-->
-    <div style="float: right">
-        <div id="page"></div>
-    </div>
+        <!--分页-->
+        <div style="float: right">
+            <div id="page"></div>
+        </div>
 
     <div class="clear"></div>
     <div class="addJl">
@@ -64,8 +64,8 @@
         var upload = layui.upload;
     });
 
-    $(function () {
-        searchProjectByCreater();
+       $(function () {
+           searchProjectByCreater();
     })
 
     /**
@@ -107,83 +107,97 @@
      * @param projectData
      */
     function fillProjectInfo (projectData) {
-        console.log(projectData);
-        const $active = $("#tableDiv");
-        $active.html("");
-        for(var i in projectData){
-            // 计算有效元素个数百分比
-            var elemCount = Object.keys(projectData[i]).length;
-            // 计算元素个数百分比
-            var countPercent = elemCount / 46 ; // 38
-            countPercent = countPercent.toFixed(2) * 100;
+        //console.log(projectData);
+          const $active = $("#tableDiv");
+          $active.html("");
+          for(var i in projectData){
+              //计算非空元素个数
+              var elemCount = 0;
+              var element = projectData[i];
+              for(var index in element){
+                  if(element[index] != null){
+                      elemCount++;
+                  }
+              }
+              // 计算有效元素个数百分比
+              //var elemCount = Object.keys(projectData[i]).length;
+              // 计算元素个数百分比
+              var countPercent = elemCount / 38 ; // 38
+              countPercent = countPercent.toFixed(2) * 100;
+              if(countPercent > 100){
+                  countPercent = 100;
+              }
 
-            // 计算进度条 像素px 百分比
-            var linePercent = (elemCount / 46) * 200 ; // 38
-            linePercent = linePercent.toFixed(0);
+              // 计算进度条 像素px 百分比
+              var linePercent = (elemCount / 38) * 200 ; // 38
+              linePercent = linePercent.toFixed(0);
+              if(linePercent > 200){
+                  linePercent = 200;
+              }
 
-            console.log("countPercent: "+countPercent+" linePercent: "+linePercent);
+              //console.log("countPercent: "+countPercent+" linePercent: "+linePercent);
 
-            var $children = $(
-                ' <table id="myProjectTable" width="100%" border="0" cellpadding="0" cellspacing="5">\n' +
-                '            <tr id="first-tr">\n' +
-                '                <td colspan="5">\n' +
-                '                    <div class="jlpart1">\n' +
-                '                         <div class="jlName"><a href="#" onclick="viewProjectDetail('+projectData[i].projectId+')"><span id="projectName">'+ projectData[i].projectName +'</span></a></div>\n' +
-                '                         <div class="jlDate">开始时间：<span id="starttime">'+ projectData[i].starttime +'</span></div>\n' +
-                '                         <div class="jlDate">状态：<span id="projectStatus" style="font: bold">'+ projectData[i].projectStatus +'</span></div>\n' +
-                '                         <div class="jlFresh"><a href="/html/webui/personal/personal_project_list.html">更新</a></div>\n' +
-                '                    </div>\n' +
-                '                </td>\n' +
-                '            </tr>\n' +
-                '            <tr id="second-tr" >\n' +
-                '                <td width="61%">\n' +
-                '                    <div class="jlpart2">\n' +
-                '                        <div class="Orange" style="width: '+linePercent+'px;"></div>\n' +
-                '                    </div>\n' +
-                '                    <div class="jlpart3">\n' +
-                '                        完整度 '+countPercent+' %\n' +
-                '                        [ <a onclick="updateProjectInfo('+projectData[i].projectId+')" href="#">修改</a>\n' +
-                '                        <a onclick="viewProjectDetail('+projectData[i].projectId+')" href="#">查看</a> ]\n' +
+              var $children = $(
+                  ' <table id="myProjectTable" width="100%" border="0" cellpadding="0" cellspacing="5">\n' +
+                  '            <tr id="first-tr">\n' +
+                  '                <td colspan="5">\n' +
+                  '                    <div class="jlpart1">\n' +
+                  '                         <div class="jlName"><a href="#" onclick="viewProjectDetail('+projectData[i].projectId+')"><span id="projectName">'+ projectData[i].projectName +'</span></a></div>\n' +
+                  '                         <div class="jlDate">开始时间：<span id="starttime">'+ projectData[i].starttime +'</span></div>\n' +
+                  '                         <div class="jlDate">状态：<span id="projectStatus" style="font: bold">'+ projectData[i].projectStatus +'</span></div>\n' +
+                  '                         <div class="jlFresh"><a href="/html/webui/personal/personal_project_list.html">更新</a></div>\n' +
+                  '                    </div>\n' +
+                  '                </td>\n' +
+                  '            </tr>\n' +
+                  '            <tr id="second-tr" >\n' +
+                  '                <td width="61%">\n' +
+                  '                    <div class="jlpart2">\n' +
+                  '                        <div class="Orange" style="width: '+linePercent+'px; max-width: 200px"></div>\n' +
+                  '                    </div>\n' +
+                  '                    <div class="jlpart3">\n' +
+                  '                        完整度 '+countPercent+' %\n' +
+                  '                        [ <a onclick="updateProjectInfo('+projectData[i].projectId+')" href="#">修改</a>\n' +
+                  '                        <a onclick="viewProjectDetail('+projectData[i].projectId+')" href="#">查看</a> ]\n' +
                 /*  '                        <a href="#">下载</a> ]</div>\n' +*/
-                '                </td>\n' +
-                '            <td rowspan="2">\n' +
-                '                       <div class="jlpart4">\n' +
-                '                          <div class="red"><i class="layui-icon layui-icon-video"></i>  </div>\n' +
-                '                          <div class="tdname"><span id="currentVideoId" style="display:none;">'+projectData[i].projectId+'</span><button type="button" class="tdname1" style="border-style: none; outline: none;background: none; cursor: pointer" id="'+5+i+'">上传视频</button></div>\n' +
-                '                       </div>\n' +
-                '                </td>\n'+
-                '            <td rowspan="2">\n' +
-                '                       <div class="jlpart4">\n' +
-                '                          <div class="red"><i class="layui-icon layui-icon-upload-drag"></i>  </div>\n' +
-                '                          <div class="tdname"><span id="currentPlanId" style="display:none;">'+projectData[i].projectId+'</span> <button type="button"  class="tdname1" style="border-style: none; outline: none;background: none; cursor: pointer"  id="'+1+i+'" >上传计划书</button></div>\n' +
-                '                       </div>\n' +
-                '                </td>\n'+
-                '                <td rowspan="2">\n' +
-                '                    <div class="jlpart4">\n' +
-                '                        <div class="delicon"></div>\n' +
-                '                        <div class="tdname2" onclick="deleteProject('+projectData[i].projectId+')" style="cursor: pointer;">删除</div>\n' +
-                '                    </div>\n' +
-                '                </td>\n' +
+                  '                </td>\n' +
+                  '            <td rowspan="2">\n' +
+                  '                       <div class="jlpart4">\n' +
+                  '                          <div class="red"><i class="layui-icon layui-icon-video"></i>  </div>\n' +
+                  '                          <div class="tdname"><span id="currentVideoId" style="display:none;">'+projectData[i].projectId+'</span><button type="button" class="tdname1" style="border-style: none; outline: none;background: none; cursor: pointer" id="'+5+i+'">上传视频</button></div>\n' +
+                  '                       </div>\n' +
+                  '                </td>\n'+
+                  '            <td rowspan="2">\n' +
+                  '                       <div class="jlpart4">\n' +
+                  '                          <div class="red"><i class="layui-icon layui-icon-upload-drag"></i>  </div>\n' +
+                  '                          <div class="tdname"><span id="currentPlanId" style="display:none;">'+projectData[i].projectId+'</span> <button type="button"  class="tdname1" style="border-style: none; outline: none;background: none; cursor: pointer"  id="'+1+i+'" >上传计划书</button></div>\n' +
+                  '                       </div>\n' +
+                  '                </td>\n'+
+                  '                <td rowspan="2">\n' +
+                  '                    <div class="jlpart4">\n' +
+                  '                        <div class="delicon"></div>\n' +
+                  '                        <div class="tdname2" onclick="deleteProject('+projectData[i].projectId+')" style="cursor: pointer;">删除</div>\n' +
+                  '                    </div>\n' +
+                  '                </td>\n' +
 
-                '            </tr>\n' +
-                '            <tr id="third-tr">\n' +
-                '                <td width="61%">\n' +
-                '                </td>\n' +
-                '            </tr>\n' +
-                '            <tr id="fourth-tr">\n' +
-                '                <td colspan="5">\n' +
-                '                    <div class="divline"></div>\n' +
-                '                </td>\n' +
-                '            </tr>\n' +
-                '\n' +
-                '        </table>'
+                  '            </tr>\n' +
+                  '            <tr id="third-tr">\n' +
+                  '                <td width="61%">\n' +
+                  '                </td>\n' +
+                  '            </tr>\n' +
+                  '            <tr id="fourth-tr">\n' +
+                  '                <td colspan="5">\n' +
+                  '                    <div class="divline"></div>\n' +
+                  '                </td>\n' +
+                  '            </tr>\n' +
+                  '\n' +
+                  '        </table>'
 
-            );
-            $active.append($children);
-            // 将上传按钮渲染到每个循环的项目中,注意要与上传所在的button标签的id值对应
-            uploadPlan(1+i,projectData[i].projectId);
-            uploadVideo(5+i,projectData[i].projectId)
-        }
+           );
+              $active.append($children);
+              // 将上传按钮渲染到每个循环的项目中,注意要与上传所在的button标签的id值对应
+              uploadPlan(1+i,projectData[i].projectId);
+              uploadVideo(5+i,projectData[i].projectId)
+          }
     }
 
     /**
@@ -191,9 +205,9 @@
      * 动态绑定上传按钮，每个上传按钮都对应不同的id值
      */
     function uploadPlan(elemId,currentProjectId) {
-        // console.log(elemId+" : "+currentProjectId)
+       // console.log(elemId+" : "+currentProjectId)
         // 加上 # 作为动态绑定按钮的 elem值。
-        elemId = "#"+elemId;
+         elemId = "#"+elemId;
 
         layui.use(['upload','layer'], function() {
             var layer = layui.layer;
@@ -255,7 +269,7 @@
      * @param projectId
      */
     function viewProjectDetail(projectId) {
-        layer.msg("projectId:"+projectId);
+           layer.msg("projectId:"+projectId);
         localStorage.setItem("projectId",projectId);
         //window.open("/html/webui/project/project_details_info.html");
         window.location.href = "/html/webui/project/project_details_info.html";
