@@ -1,7 +1,10 @@
 package com.shu.copartner.conf.springsecurity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shu.copartner.mapper.ProUserMapper;
 import com.shu.copartner.mapper.ProVerifyMapper;
+import com.shu.copartner.pojo.ProUser;
+import com.shu.copartner.pojo.ProUserExample;
 import com.shu.copartner.pojo.ProVerify;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
@@ -15,7 +18,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author cxy
@@ -28,6 +33,10 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
     @Autowired
     ProVerifyMapper proVerifyMapper;
+
+    @Autowired
+    ProUserMapper proUserMapper;
+
     GrantedAuthority authority = null;
     private ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
 
@@ -47,6 +56,16 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         proVerify.setPhone(authentication.getName());
         proVerify.setStatus(Constants.FALSE);
         proVerifyMapper.updateByPrimaryKeySelective(proVerify);
+
+        //将用户表中的最后登录时间和次数更新
+        ProUserExample proUserExample = new ProUserExample();
+        proUserExample.createCriteria().andPhoneEqualTo(authentication.getName());
+        List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+
+        ProUser proUser = proUsers.get(0);
+        proUser.setLastdate(new Date());
+        proUser.setLogintime(proUser.getLogintime() + 1);
+        proUserMapper.updateByPrimaryKeySelective(proUser);
 
         String json = objectMapper.writeValueAsString(tableModel);
         response.setContentType("text/json;charset=utf-8");

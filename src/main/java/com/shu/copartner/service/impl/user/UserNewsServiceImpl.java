@@ -105,7 +105,7 @@ public class UserNewsServiceImpl implements UserNewsService {
 
             for (ProNewsWithBLOBs newsWithBLOBs : topNewsList) {
                 if (newsWithBLOBs.getNewsContent().length() > 100) {
-                    newsWithBLOBs.setNewsContent(delHtmlTag(newsWithBLOBs.getNewsContent().substring(0, 110)));
+                    newsWithBLOBs.setNewsContent(delHtmlTag(newsWithBLOBs.getNewsContent().substring(0, 100)));
                 }
             }
             // 查询最新的10个点击度最高的新闻
