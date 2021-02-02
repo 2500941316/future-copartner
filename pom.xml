@@ -36,6 +36,7 @@
         <guava>21.0</guava>
         <guava>27.0-jre</guava>
         <testng>6.11</testng>
+        <commons-lang3>3.8</commons-lang3>
     </properties>
 
     <dependencies>
@@ -109,6 +110,12 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>${pagehelper-spring}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3}</version>
         </dependency>
     </dependencies>
 
