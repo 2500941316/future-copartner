@@ -29,52 +29,6 @@ function checkLogin() {
     }
 }
 
-
-/**
- * 根据输入的值搜索项目
- */
-function searchProject(pageConf) {
-    /* let selectData ={
-         projectType: $("#projectTypeInput").val(),
-         projectName: $("#projectNameInput").val(),
-         projectCreater: $("#projectCreaterInput").val(),
-         projectTwoStatus: projectTwoStatus === "" ? "在创" : projectTwoStatus
-     }
-     console.log(selectData)*/
-    if (!pageConf) {
-        pageConf = {};
-        pageConf.pageSize = 5;
-        pageConf.currentPage = 1;
-
-        pageConf.projectType= $("#projectTypeInput").val(),
-            pageConf.projectName= $("#projectNameInput").val(),
-            pageConf.projectCreater= $("#projectCreaterInput").val(),
-            pageConf.projectTwoStatus= projectTwoStatus === "" ? "在创" : projectTwoStatus
-    }
-    $.get("/public/project/searchProjectByFour", pageConf, function (data) {
-        layui.use(['laypage', 'layer'], function () {
-            var page = layui.laypage;
-            page.render({
-                elem: 'page',
-                count: data.count,
-                curr: pageConf.currentPage,
-                limit: pageConf.pageSize,
-                first: "首页",
-                last: "尾页",
-                layout: ['count', 'prev', 'page', 'next', 'skip'],// 'limit',
-                jump: function (obj, first) {
-                    if (!first) {
-                        pageConf.currentPage = obj.curr;
-                        pageConf.pageSize = obj.limit;
-                        searchProject(pageConf);
-                    }
-                    fillProjectInfo(data.data); //页面填充
-                }
-            });
-        })
-    })
-}
-
 /**
  * 填充项目数据
  * @param projectInfo
@@ -125,7 +79,7 @@ function viewProjectDetail(projectId) {
 function searchProject(pageConf) {
     if (!pageConf) {
         pageConf = {};
-        pageConf.pageSize = 5;
+        pageConf.pageSize = 8;
         pageConf.currentPage = 1;
 
         pageConf.projectType= $("#projectTypeInput").val(),
