@@ -53,7 +53,7 @@ public class UserLeassonServiceImpl implements UserLeassonService {
             ProLeasson proLeasson = proLeassonMapper.selectByPrimaryKey(courseId);
 
             //如果课程已经删除则直接返回
-            if (proLeasson==null || proLeasson.getCourseIsdeleted().equals(Constants.BE_DELETED)) {
+            if (proLeasson == null || proLeasson.getCourseIsdeleted().equals(Constants.BE_DELETED)) {
                 return TableModel.error();
             }
 
@@ -62,9 +62,13 @@ public class UserLeassonServiceImpl implements UserLeassonService {
             //查询所有子目录的信息
             ProLeassonVedioExample proLeassonVedioExample = new ProLeassonVedioExample();
             proLeassonVedioExample.setOrderByClause(Constants.LEASSON_ASCBYNUMBER);
-            proLeassonVedioExample.createCriteria().andCourseIdEqualTo(courseId);
+            proLeassonVedioExample.createCriteria().andCourseIdEqualTo(courseId).andCourseVedioUrlIsNotNull().andCourseVedioPptUrlIsNotNull();
             List<ProLeassonVedio> proLeassonVedios = proLeassonVedioMapper.selectByExample(proLeassonVedioExample);
             leassonCourseVedioInfoSo.setVedioList(proLeassonVedios);
+
+            //将课程的点击数+1
+            proLeasson.setCourseClicktime(proLeasson.getCourseClicktime() + 1);
+            proLeassonMapper.updateByPrimaryKeySelective(proLeasson);
 
             //查询点击数最多的课程名单
             ProLeassonExample proLeassonExample = new ProLeassonExample();

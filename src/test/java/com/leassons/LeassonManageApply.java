@@ -61,5 +61,10 @@ public class LeassonManageApply extends BaseTest {
         driver.findElement(By.id("time")).sendKeys("500");
 
         Thread.sleep(1500);
+
+        driver.findElement(By.cssSelector(".layui-upload-file:nth-child(3)")).sendKeys("D:\\ad020.jpg");
+        Thread.sleep(2000);
+        driver.findElement(By.id("publish")).click();
+        Thread.sleep(2000);
     }
 }

@@ -52,10 +52,11 @@ a {
 
 /* 必要布局样式css */
 .floor-course {
+    min-height: 750px;
     position: relative;
     overflow: auto;
     background-color: #ffffff;
-    height: 690px;
+
 }
 
 .floor-content {
