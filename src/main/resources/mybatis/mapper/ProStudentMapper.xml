@@ -9,6 +9,14 @@
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="Admissiondate" jdbcType="DATE" property="admissiondate" />
     <result column="studentnumber" jdbcType="VARCHAR" property="studentnumber" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="birthdate" jdbcType="TIMESTAMP" property="birthdate" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="majorname" jdbcType="VARCHAR" property="majorname" />
+    <result column="logindate" jdbcType="TIMESTAMP" property="logindate" />
+    <result column="auth" jdbcType="VARCHAR" property="auth" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    studentid, name, department, major, sex, Admissiondate, studentnumber
+    studentid, name, department, major, sex, Admissiondate, studentnumber, phone, address, 
+    birthdate, email, majorname, logindate, auth, description
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProStudentExample" resultMap="BaseResultMap">
     select
@@ -104,10 +113,16 @@
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProStudent">
     insert into PRO_STUDENT (studentid, name, department, 
       major, sex, Admissiondate, 
-      studentnumber)
+      studentnumber, phone, address, 
+      birthdate, email, majorname, 
+      logindate, auth, description
+      )
     values (#{studentid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
       #{major,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{admissiondate,jdbcType=DATE}, 
-      #{studentnumber,jdbcType=VARCHAR})
+      #{studentnumber,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{birthdate,jdbcType=TIMESTAMP}, #{email,jdbcType=VARCHAR}, #{majorname,jdbcType=VARCHAR}, 
+      #{logindate,jdbcType=TIMESTAMP}, #{auth,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProStudent">
     insert into PRO_STUDENT
@@ -133,6 +148,30 @@
       <if test="studentnumber != null">
         studentnumber,
       </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="birthdate != null">
+        birthdate,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="majorname != null">
+        majorname,
+      </if>
+      <if test="logindate != null">
+        logindate,
+      </if>
+      <if test="auth != null">
+        auth,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="studentid != null">
@@ -155,6 +194,30 @@
       </if>
       <if test="studentnumber != null">
         #{studentnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null">
+        #{birthdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="majorname != null">
+        #{majorname,jdbcType=VARCHAR},
+      </if>
+      <if test="logindate != null">
+        #{logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auth != null">
+        #{auth,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,6 +251,30 @@
       <if test="record.studentnumber != null">
         studentnumber = #{record.studentnumber,jdbcType=VARCHAR},
       </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthdate != null">
+        birthdate = #{record.birthdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.majorname != null">
+        majorname = #{record.majorname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logindate != null">
+        logindate = #{record.logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.auth != null">
+        auth = #{record.auth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +288,15 @@
       major = #{record.major,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
       Admissiondate = #{record.admissiondate,jdbcType=DATE},
-      studentnumber = #{record.studentnumber,jdbcType=VARCHAR}
+      studentnumber = #{record.studentnumber,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      birthdate = #{record.birthdate,jdbcType=TIMESTAMP},
+      email = #{record.email,jdbcType=VARCHAR},
+      majorname = #{record.majorname,jdbcType=VARCHAR},
+      logindate = #{record.logindate,jdbcType=TIMESTAMP},
+      auth = #{record.auth,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +322,30 @@
       <if test="studentnumber != null">
         studentnumber = #{studentnumber,jdbcType=VARCHAR},
       </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null">
+        birthdate = #{birthdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="majorname != null">
+        majorname = #{majorname,jdbcType=VARCHAR},
+      </if>
+      <if test="logindate != null">
+        logindate = #{logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auth != null">
+        auth = #{auth,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
     </set>
     where studentid = #{studentid,jdbcType=BIGINT}
   </update>
@@ -237,7 +356,15 @@
       major = #{major,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       Admissiondate = #{admissiondate,jdbcType=DATE},
-      studentnumber = #{studentnumber,jdbcType=VARCHAR}
+      studentnumber = #{studentnumber,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      birthdate = #{birthdate,jdbcType=TIMESTAMP},
+      email = #{email,jdbcType=VARCHAR},
+      majorname = #{majorname,jdbcType=VARCHAR},
+      logindate = #{logindate,jdbcType=TIMESTAMP},
+      auth = #{auth,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
     where studentid = #{studentid,jdbcType=BIGINT}
   </update>
 </mapper>

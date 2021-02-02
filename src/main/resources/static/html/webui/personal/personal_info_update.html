@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+    <script src="/html/webui/js/layui/layui.all.js"></script>
+   <!-- <script type="text/javascript" src="/html/webui/js/personal.js"></script>-->
+
+
+    <title>信息修改</title>
+
+
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+
+<div class="perRightcon">
+        <div class="JlBoxCon">
+            <h1><span>信息修改</span></h1>
+
+            <div class="JlBoxLeft" id="student" style="display: none">
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>姓 名：</div>
+                    <div class="inputtxt">
+                        <input id="name" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>性 别：</div>
+                    <div class="inputtxt">
+                        <input id="sex" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>所在地：</div>
+                    <div class="inputtxt">
+                        <input id="address" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>手机号码：</div>
+                    <div class="inputtxt">
+                        <input id="phone" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt">电子邮箱：</div>
+                    <div class="inputtxt">
+                        <input id="email" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt">专业名称：</div>
+                    <div class="inputtxt">
+                        <input id="major" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="jldiv">
+                    <div class="nametxt">自我描述：</div>
+                    <div class="inputtxt">
+                        <textarea id="description" name="" cols="" rows="" autocomplete="off"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--teacher-->
+            <div class="JlBoxLeft" id="teacher" style="display: none">
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>姓 名：</div>
+                    <div class="inputtxt">
+                        <input id="nameTeacher" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>工 号：</div>
+                    <div class="inputtxt">
+                        <input id="numberTeacher" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>所在地：</div>
+                    <div class="inputtxt">
+                        <input id="addressTeacher" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>手机号码：</div>
+                    <div class="inputtxt">
+                        <input id="phoneTeacher" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt">电子邮箱：</div>
+                    <div class="inputtxt">
+                        <input id="emailTeacher" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt">所在学院：</div>
+                    <div class="inputtxt">
+                        <input id="departmentTeacher" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="jldiv">
+                    <div class="nametxt">个人简述：</div>
+                    <div class="inputtxt">
+                        <textarea id="descriptionTeacher" name="" cols="" rows="" autocomplete="off"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--person-->
+            <div class="JlBoxLeft" id="person" style="display: none">
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>姓 名：</div>
+                    <div class="inputtxt">
+                        <input id="namePerson" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>性 别：</div>
+                    <div class="inputtxt">
+                        <input id="sexPerson" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>所在地：</div>
+                    <div class="inputtxt">
+                        <input id="addressPerson" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="jldiv">
+                    <div class="nametxt"><span>*</span>手机号码：</div>
+                    <div class="inputtxt">
+                        <input id="phonePerson" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt">电子邮箱：</div>
+                    <div class="inputtxt">
+                        <input id="emailPerson" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt">专业名称：</div>
+                    <div class="inputtxt">
+                        <input id="majorPerson" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="jldiv">
+                    <div class="nametxt">企业名称：</div>
+                    <div class="inputtxt">
+                        <input id="companyPerson" name="" type="text" class="txt3" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="jldiv">
+                    <div class="nametxt">个人简述：</div>
+                    <div class="inputtxt">
+                        <textarea id="descriptionPerson" name="" cols="" rows="" autocomplete="off"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="clear"></div>
+            <div class="jldiv">
+                <a class="save" onclick="updateSubmit()">提交修改</a>
+            </div>
+        </div>
+</div>
+
+
+<script type="text/javascript">
+    var $ = layui.jquery;
+
+    $(function () {
+        getPersonalInfo();
+    })
+
+    /**
+     * 查询我的信息
+     */
+    function getPersonalInfo() {
+        $.ajax({
+            url: "/vip/user/selectPersonalInfo",
+            async: true,
+            type: "GET",   //请求方式
+            success: function (req) {
+                if (req.code == 200) {
+                    //console.log(req);
+                    if(req.data != null){
+                        fillInfo(req.data[0]);
+                    }
+                } else {
+                    layer.msg("网络异常，请稍后重试！")
+                }
+            }
+        })
+    }
+
+    /**
+     * 填充信息
+     * @param info
+     */
+    function fillInfo(info){
+        //console.log(info.auth);
+        if(info.auth === "ROLE_STUDENT"){
+            document.getElementById("student").style.display = "block";
+            fillStudentInfo(info);
+        }else if(info.auth === "ROLE_TEACHER"){
+            document.getElementById("teacher").style.display = "block";
+            fillTeacherInfo(info);
+        }else if(info.auth === "ROLE_PERSON"){
+            document.getElementById("person").style.display = "block";
+            fillPersonInfo(info);
+        }
+    }
+    function fillStudentInfo(info){
+        $("#name").val(info.name);
+        $("#sex").val(info.sex);
+        $("#address").val(info.name);
+        $("#phone").val(info.phone);
+        $("#email").val(info.email);
+        $("#major").val(info.major);
+        $("#description").val(info.description);
+    }
+    function fillTeacherInfo(info){
+        $("#nameTeacher").val(info.name);
+        $("#numberTeacher").val(info.teachernumber);
+        $("#addressTeacher").val(info.address);
+        $("#phoneTeacher").val(info.phone);
+        $("#emailTeacher").val(info.mail);
+        $("#departmentTeacher").val(info.department);
+        $("#descriptionTeacher").val(info.description);
+    }
+    function fillPersonInfo(info){
+        $("#namePerson").val(info.name);
+        $("#sexPerson").val(info.sex);
+        $("#addressPerson").val(info.name);
+        $("#phonePerson").val(info.phone);
+        $("#emailPerson").val(info.email);
+        $("#majorPerson").val(info.major);
+        $("#companyPerson").val(info.company);
+        $("#description").val(info.description);
+    }
+
+    function updateSubmit() {
+
+    }
+
+
+
+</script>
+
+</body>
+</html>

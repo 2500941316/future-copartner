@@ -48,6 +48,16 @@ public class ProPerson implements Serializable {
 
     private String labelother;
 
+    private String phone;
+
+    private String address;
+
+    private String email;
+
+    private Date logindate;
+
+    private String auth;
+
     private static final long serialVersionUID = 1L;
 
     public Long getPersonid() {
@@ -224,5 +234,45 @@ public class ProPerson implements Serializable {
 
     public void setLabelother(String labelother) {
         this.labelother = labelother == null ? null : labelother.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public Date getLogindate() {
+        return logindate;
+    }
+
+    public void setLogindate(Date logindate) {
+        this.logindate = logindate;
+    }
+
+    public String getAuth() {
+        return auth;
+    }
+
+    public void setAuth(String auth) {
+        this.auth = auth == null ? null : auth.trim();
     }
 }

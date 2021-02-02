@@ -36,7 +36,7 @@ public class ProjectApplyVO implements Serializable {
     private String projectName;
 
     @NotNull(message = "开始时间不能为空")
-    private Date starttime;
+    private String starttime;
 
     private String projectStatus;
 

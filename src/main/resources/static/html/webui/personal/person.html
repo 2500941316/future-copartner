@@ -4,8 +4,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
+
     <script src='/html/webui/header/header.js'></script>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
     <!--<script src='/html/webui/js/personal.js'></script>-->
     <title>个人工作台</title>
 </head>
@@ -71,14 +72,14 @@
             <div class="perRpart1_r">
                 <div class="PaName">您好！</div>
                 <div class="PaStatus">
-                    <span class="spStatus">上次登录时间：2020/12/17 15：03：11</span>
+                    <span class="spStatus">上次登录时间：<span id="logindate">2020-12-17 15:03:11</span></span>
                 </div>
                 <div class="clear"></div>
                 <div class="PaCon">
-                    <span class="span1">用户名：2500941316@qq.com <a href="#" class="a1">[未认证]</a> <a
-                            href="#" class="a2">修改密码</a></span>
+                    <span class="span1">用户名：<span id="name">2500941316@qq.com</span> <!--<a href="#" class="a1">[未认证]</a> <a
+                        href="#" class="a2">修改密码</a-->></span>
                     <span class="span2">微信： <a href="" class="a1">[未绑定]</a></span><br/>
-                    <span class="span3">手机号：177*******12 <a href="" class="a3">[已认证]</a> <a
+                    <span class="span3">手机号：<span id="phone">177*******12</span> <a href="" class="a3">[已认证]</a> <a
                             href="#" class="a2">修改</a></span>
                 </div>
             </div>
@@ -130,6 +131,7 @@
         $("#footer").load("/html/webui/footer/footer.html");
 
         selectCount();
+        selectPersonalInfo();
     });
 
     // 弹出层
@@ -170,6 +172,35 @@
         document.getElementById("myProject").innerText = info.countOfProject;
         document.getElementById("followMe").innerText = info.countOFFollowMe;
     }
+
+    /**
+     * 查询我的信息
+     */
+    function selectPersonalInfo() {
+        $.ajax({
+            url: "/vip/user/selectPersonalInfo",
+            async: true,
+            type: "GET",   //请求方式
+            success: function (req) {
+                if (req.code == 200) {
+                   // console.log(req);
+                    if(req.data != null){
+                        fillPersonalInfo(req.data[0]);
+                    }
+
+                } else {
+                    layer.msg("网络异常，请稍后重试！")
+                }
+            }
+        })
+    }
+    function fillPersonalInfo(info){
+        document.getElementById("logindate").innerText = info.logindate;
+        document.getElementById("name").innerText = info.name;
+        document.getElementById("phone").innerText = info.phone;
+    }
+
+
 
 </script>
 

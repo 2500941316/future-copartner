@@ -33,12 +33,12 @@ $(function () {
                 window.location.href = "/html/webui/leasson/leasson.html";
                 break;
             case 5:
-                window.location.href = "html/webui/personal/person.html";
-                break;
-            case 6:
                 window.location.href = "/html/webui/activity/activity.html";
                 break;
-            case 7:
+           /* case 6:
+                window.location.href = "/html/webui/activity/activity.html";
+                break;*/
+            case 6:
                 window.location.href = "#";
                 break;
             default:

@@ -24,6 +24,11 @@
     <result column="labelincubator" jdbcType="VARCHAR" property="labelincubator" />
     <result column="labelinstitutions" jdbcType="VARCHAR" property="labelinstitutions" />
     <result column="labelother" jdbcType="VARCHAR" property="labelother" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="logindate" jdbcType="TIMESTAMP" property="logindate" />
+    <result column="auth" jdbcType="VARCHAR" property="auth" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -87,7 +92,7 @@
     personid, birthDay, campus, company, education, name, gradutedate, major, resumeUrl, 
     sex, workername, description, supervisor, expectproject, expectstudent, expectother, 
     labelperson, labelalumnus, labelalumnicompany, labelincubator, labelinstitutions, 
-    labelother
+    labelother, phone, address, email, logindate, auth
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProPersonExample" resultMap="BaseResultMap">
     select
@@ -127,7 +132,9 @@
       supervisor, expectproject, expectstudent, 
       expectother, labelperson, labelalumnus, 
       labelalumnicompany, labelincubator, labelinstitutions, 
-      labelother)
+      labelother, phone, address, 
+      email, logindate, auth
+      )
     values (#{personid,jdbcType=BIGINT}, #{birthday,jdbcType=TIMESTAMP}, #{campus,jdbcType=VARCHAR}, 
       #{company,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{gradutedate,jdbcType=DATE}, #{major,jdbcType=VARCHAR}, #{resumeurl,jdbcType=VARCHAR}, 
@@ -135,7 +142,9 @@
       #{supervisor,jdbcType=BIT}, #{expectproject,jdbcType=VARCHAR}, #{expectstudent,jdbcType=VARCHAR}, 
       #{expectother,jdbcType=VARCHAR}, #{labelperson,jdbcType=VARCHAR}, #{labelalumnus,jdbcType=VARCHAR}, 
       #{labelalumnicompany,jdbcType=VARCHAR}, #{labelincubator,jdbcType=VARCHAR}, #{labelinstitutions,jdbcType=VARCHAR}, 
-      #{labelother,jdbcType=VARCHAR})
+      #{labelother,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{logindate,jdbcType=TIMESTAMP}, #{auth,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProPerson">
     insert into PRO_PERSON
@@ -206,6 +215,21 @@
       <if test="labelother != null">
         labelother,
       </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="logindate != null">
+        logindate,
+      </if>
+      <if test="auth != null">
+        auth,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="personid != null">
@@ -273,6 +297,21 @@
       </if>
       <if test="labelother != null">
         #{labelother,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="logindate != null">
+        #{logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auth != null">
+        #{auth,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -351,6 +390,21 @@
       <if test="record.labelother != null">
         labelother = #{record.labelother,jdbcType=VARCHAR},
       </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logindate != null">
+        logindate = #{record.logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.auth != null">
+        auth = #{record.auth,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -379,7 +433,12 @@
       labelalumnicompany = #{record.labelalumnicompany,jdbcType=VARCHAR},
       labelincubator = #{record.labelincubator,jdbcType=VARCHAR},
       labelinstitutions = #{record.labelinstitutions,jdbcType=VARCHAR},
-      labelother = #{record.labelother,jdbcType=VARCHAR}
+      labelother = #{record.labelother,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      logindate = #{record.logindate,jdbcType=TIMESTAMP},
+      auth = #{record.auth,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -450,6 +509,21 @@
       <if test="labelother != null">
         labelother = #{labelother,jdbcType=VARCHAR},
       </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="logindate != null">
+        logindate = #{logindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auth != null">
+        auth = #{auth,jdbcType=VARCHAR},
+      </if>
     </set>
     where personid = #{personid,jdbcType=BIGINT}
   </update>
@@ -475,7 +549,12 @@
       labelalumnicompany = #{labelalumnicompany,jdbcType=VARCHAR},
       labelincubator = #{labelincubator,jdbcType=VARCHAR},
       labelinstitutions = #{labelinstitutions,jdbcType=VARCHAR},
-      labelother = #{labelother,jdbcType=VARCHAR}
+      labelother = #{labelother,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      logindate = #{logindate,jdbcType=TIMESTAMP},
+      auth = #{auth,jdbcType=VARCHAR}
     where personid = #{personid,jdbcType=BIGINT}
   </update>
 </mapper>

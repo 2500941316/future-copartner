@@ -7,11 +7,12 @@
     <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
     <script src="/html/webui/js/layui/layui.all.js"></script>
     <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
+    <script type="text/javascript" src="/html/webui/js/personal.js"></script>
 </head>
 
 <body>
-<div class="clear"></div>
-<div class="myJL">
+<!--<div class="clear"></div>-->
+<!--<div class="myJL">
     <div class="titBox">
         <span>我的简历</span>
         <a href="personal_jl.html">上传简历</a>
@@ -41,22 +42,22 @@
             <a href="">下载</a>
         </div>
     </div>
-</div>
+</div>-->
 <div class="myJL">
     <div class="titBox">
         <span>我的信息</span>
-        <a href="personal_cai.html">修改信息</a>
+        <a href="#" onclick="updatePersonalInfo()">修改信息</a>
     </div>
     <div class="clear"></div>
 
 
     <!--我的信息-->
     <div class="JlBoxCon">
-        <div class="JlBoxLeft">
+        <div class="JlBoxLeft" id="student" style="display: none">
             <div class="jldiv">
                 <div class="nametxt"><span>*</span>姓 名：</div>
                 <div class="inputtxt">
-                    <label>陈兴宇</label>
+                    <label><span id="name"></span></label>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -64,28 +65,28 @@
             <div class="jldiv">
                 <div class="nametxt"><span>*</span>性 别：</div>
                 <div class="inputtxt">
-                    <label>男</label>
+                    <label><span id="sex"></span></label>
                 </div>
             </div>
-            <div class="clear"></div>
+            <!--<div class="clear"></div>
             <div class="jldiv">
                 <div class="nametxt"><span>*</span>出生年月：</div>
                 <div class="inputtxt">
                     <label>1990年01月</label>
                 </div>
-            </div>
+            </div>-->
             <div class="clear"></div>
             <div class="jldiv">
-                <div class="nametxt"><span>*</span>居住地：</div>
+                <div class="nametxt"><span>*</span>所在地：</div>
                 <div class="inputtxt">
-                    <label>上海市宝山区上海大学</label>
+                    <label><span id="address"></span></label>
                 </div>
             </div>
             <div class="clear"></div>
             <div class="jldiv">
                 <div class="nametxt"><span>*</span>手机号码：</div>
                 <div class="inputtxt">
-                    <label>152*******56</label>
+                    <label><span id="phone"></span></label>
 
                 </div>
             </div>
@@ -93,27 +94,230 @@
             <div class="jldiv">
                 <div class="nametxt"><span>*</span>电子邮箱：</div>
                 <div class="inputtxt">
-                    <label>sadsf@qq.com</label>
+                    <label><span id="email"></span></label>
                 </div>
             </div>
             <div class="clear"></div>
             <div class="jldiv">
                 <div class="nametxt"><span>*</span>专业名称：</div>
                 <div class="inputtxt">
-                    <label>计算机科学与技术</label>
+                    <label><span id="major"></span></label>
                 </div>
             </div>
 
             <div class="jldiv">
                 <div class="nametxt"><span>*</span>自我描述：</div>
                 <div class="inputtxt">
-                    <label>主要填写自己从事工作的岗位职责</label>
+                    <label><span id="description"></span></label>
                 </div>
             </div>
         </div>
 
+        <!--person-->
+        <div class="JlBoxLeft" id="person" style="display: none">
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>姓 名：</div>
+                <div class="inputtxt">
+                    <label><span id="namePerson"></span></label>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>性 别：</div>
+                <div class="inputtxt">
+                    <label><span id="sexPerson"></span></label>
+                </div>
+            </div>
+            <!--<div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>出生年月：</div>
+                <div class="inputtxt">
+                    <label>1990年01月</label>
+                </div>
+            </div>-->
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>所在地：</div>
+                <div class="inputtxt">
+                    <label><span id="addressPerson"></span></label>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>手机号码：</div>
+                <div class="inputtxt">
+                    <label><span id="phonePerson"></span></label>
+
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>电子邮箱：</div>
+                <div class="inputtxt">
+                    <label><span id="emailPerson"></span></label>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>专业名称：</div>
+                <div class="inputtxt">
+                    <label><span id="majorPerson"></span></label>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>企业名称：</div>
+                <div class="inputtxt">
+                    <label><span id="companyPerson"></span></label>
+                </div>
+            </div>
+
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>个人简述：</div>
+                <div class="inputtxt">
+                    <label><span id="descriptionPerson"></span></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="JlBoxLeft" id="teacher" style="display: none">
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>姓 名：</div>
+                <div class="inputtxt">
+                    <label><span id="nameTeacher"></span></label>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>工 号：</div>
+                <div class="inputtxt">
+                    <label><span id="numberTeacher"></span></label>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>所在地：</div>
+                <div class="inputtxt">
+                    <label><span id="addressTeacher"></span></label>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>手机号码：</div>
+                <div class="inputtxt">
+                    <label><span id="phoneTeacher"></span></label>
+
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>电子邮箱：</div>
+                <div class="inputtxt">
+                    <label><span id="emailTeacher"></span></label>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>所在学院：</div>
+                <div class="inputtxt">
+                    <label><span id="departmentTeacher"></span></label>
+                </div>
+            </div>
+
+            <div class="jldiv">
+                <div class="nametxt"><span>*</span>个人简述：</div>
+                <div class="inputtxt">
+                    <label><span id="descriptionTeacher"></span></label>
+                </div>
+            </div>
+        </div>
+
+
+        </div>
     </div>
 </div>
+
+<script type="application/javascript">
+    $(function () {
+        getPersonalInfo();
+    })
+
+    /**
+     * 查询我的信息
+     */
+    function getPersonalInfo() {
+        $.ajax({
+            url: "/vip/user/selectPersonalInfo",
+            async: true,
+            type: "GET",   //请求方式
+            success: function (req) {
+                if (req.code == 200) {
+                    //console.log(req);
+                    if(req.data != null){
+                        fillInfo(req.data[0]);
+                    }
+
+                } else {
+                    layer.msg("网络异常，请稍后重试！")
+                }
+            }
+        })
+    }
+
+    function fillInfo(info){
+        //console.log(info.auth);
+        if(info.auth === "ROLE_STUDENT"){
+            document.getElementById("student").style.display = "block";
+            fillStudentInfo(info);
+        }else if(info.auth === "ROLE_TEACHER"){
+            document.getElementById("teacher").style.display = "block";
+            fillTeacherInfo(info);
+        }else if(info.auth === "ROLE_PERSON"){
+            document.getElementById("person").style.display = "block";
+            fillPersonInfo(info);
+        }
+    }
+    function fillStudentInfo(info){
+        document.getElementById("name").innerText = info.name;
+        document.getElementById("sex").innerText = info.sex;
+        document.getElementById("address").innerText = info.address;
+        document.getElementById("phone").innerText = info.phone;
+        document.getElementById("email").innerText = info.email;
+        document.getElementById("major").innerText = info.major;
+        document.getElementById("description").innerText = info.description;
+    }
+    function fillTeacherInfo(info){
+        document.getElementById("nameTeacher").innerText = info.name;
+        document.getElementById("numberTeacher").innerText = info.teachernumber;
+        document.getElementById("addressTeacher").innerText = info.address;
+        document.getElementById("phoneTeacher").innerText = info.phone;
+        document.getElementById("emailTeacher").innerText = info.mail;
+        //document.getElementById("majorTeacher").innerText = info.major;
+        document.getElementById("departmentTeacher").innerText = info.department;
+        document.getElementById("descriptionTeacher").innerText = info.description;
+    }
+    function fillPersonInfo(info){
+        document.getElementById("namePerson").innerText = info.name;
+        document.getElementById("sexPerson").innerText = info.sex;
+        document.getElementById("addressPerson").innerText = info.address;
+        document.getElementById("phonePerson").innerText = info.phone;
+        document.getElementById("emailPerson").innerText = info.email;
+        document.getElementById("majorPerson").innerText = info.major;
+        document.getElementById("companyPerson").innerText = info.company;
+        document.getElementById("descriptionPerson").innerText = info.description;
+    }
+
+    function updatePersonalInfo() {
+        window.location.href = "/html/webui/personal/personal_info_update.html";
+    }
+</script>
+
 </body>
-<script type="text/javascript" src="/html/webui/js/personal.js"></script>
+
+
 </html>
