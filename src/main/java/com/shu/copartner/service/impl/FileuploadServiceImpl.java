@@ -10,9 +10,11 @@ import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -95,7 +97,7 @@ public class FileuploadServiceImpl implements FileuploadService {
      */
     @Override
     public TableModel managerPlanUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
-        if (projectId.isEmpty()) {
+        if (StringUtils.isNotEmpty(projectId)) {
             log.info("文件名：" + uploadfile.getOriginalFilename());
             log.info("projectId:" + projectId);
             // 上传计划书，返回其存放路径
@@ -125,20 +127,20 @@ public class FileuploadServiceImpl implements FileuploadService {
      */
     @Override
     public TableModel managerVideoUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
-        TableModel tableModel = new TableModel();
-        if (projectId.isEmpty()) {
+        //TableModel tableModel = new TableModel();
+        if (StringUtils.isNotEmpty(projectId)) {
             log.info("文件名：" + uploadfile.getOriginalFilename());
             log.info("projectId:" + projectId);
             // 上传视频，返回其存放路径
-            String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String videoUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
             //String planUrl = uploadfile.getOriginalFilename();
             // 文件存储路径加上服务器前缀
-            String finalPlanUrl = Constants.FILEURL_FIRSTNAME + planUrl;
+            String finalPlanUrl = Constants.FILEURL_FIRSTNAME + videoUrl;
             // 项目状态更新处理
             proProjectService.uploadProjectVideo(finalPlanUrl, projectId);
 
             Map<String, String> map = new HashMap<>();
-            map.put("VideoUrl", Constants.FILEURL_FIRSTNAME + planUrl);
+            map.put("VideoUrl", Constants.FILEURL_FIRSTNAME + videoUrl);
             map.put("title", uploadfile.getOriginalFilename());
             return TableModel.success(map, map.size());
         } else {

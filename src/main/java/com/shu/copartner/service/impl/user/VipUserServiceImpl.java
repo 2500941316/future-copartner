@@ -4,6 +4,7 @@ import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.*;
 import com.shu.copartner.pojo.*;
+import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.service.VipUserService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
@@ -79,5 +80,50 @@ public class VipUserServiceImpl implements VipUserService {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
+    }
+
+    /**
+     * 修改个人信息
+     * @param publicRegistryInfoVO
+     * @return
+     */
+    @Override
+    public TableModel updatePersonalInfo(PublicRegistryInfoVO publicRegistryInfoVO) {
+        try{
+            switch(publicRegistryInfoVO.getAuth()){
+                case "ROLE_STUDENT":
+                    ProStudent proStudent = new ProStudent();
+                    BeanUtils.copyProperties(publicRegistryInfoVO,proStudent);
+                    log.info(proStudent.toString());
+                    ProStudentExample proStudentExample = new ProStudentExample();
+                    proStudentExample.createCriteria().andPhoneEqualTo(proStudent.getPhone());
+                    proStudentMapper.updateByExampleSelective(proStudent,proStudentExample);
+                    break;
+                case "ROLE_TEACHER":
+                    ProTeacher proTeacher = new ProTeacher();
+                    BeanUtils.copyProperties(publicRegistryInfoVO,proTeacher);
+                    proTeacher.setMail(publicRegistryInfoVO.getEmail());
+                    log.info(proTeacher.toString());
+                    ProTeacherExample proTeacherExample = new ProTeacherExample();
+                    proTeacherExample.createCriteria().andPhoneEqualTo(proTeacher.getPhone());
+                    proTeacherMapper.updateByExampleSelective(proTeacher,proTeacherExample);
+                    break;
+                case "ROLE_PERSON":
+                    ProPerson proPerson = new ProPerson();
+                    BeanUtils.copyProperties(publicRegistryInfoVO,proPerson);
+                    log.info(proPerson.toString());
+                    ProPersonExample proPersonExample = new ProPersonExample();
+                    proPersonExample.createCriteria().andPhoneEqualTo(proPerson.getPhone());
+                    proPersonMapper.updateByExampleSelective(proPerson,proPersonExample);
+                    break;
+                default:
+                    break;
+            }
+        }catch(Exception e){
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+
+        return TableModel.success();
     }
 }

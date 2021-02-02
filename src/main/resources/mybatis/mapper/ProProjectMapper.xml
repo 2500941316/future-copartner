@@ -179,6 +179,7 @@
       #{isGoing}
     </foreach>
     and is_deleted = 0
+    order by starttime desc
   </select>
 
   <!--根据当前用户 查询我关注的项目信息-->

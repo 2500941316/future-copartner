@@ -198,7 +198,7 @@
             success: function (res) {
                 //请求成功时处理，一般只用到这一个
                 if (res.code == 200) {
-                    layer.msg("审核完成！")
+                    layer.msg("审核完成！",{icon: 1,shade: 0.05,time: 1000})
                 } else {
                     layer.msg("网络异常，请稍后重试！")
                 }

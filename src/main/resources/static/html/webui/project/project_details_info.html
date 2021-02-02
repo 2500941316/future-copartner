@@ -39,7 +39,7 @@
             <p>项目视频：<a id="videoUrl2" target="_blank" style="color: #0f72a4">点击查看</a></p>
             <p>项目计划书：<a id="planUrl2" target="_blank" style="color: #0f72a4">点击查看</a></p>
             <p>状态：<span id="isGoing2"></span></p>
-            <p>项目简述：<span id="description2"></span></p>
+            <!--<p>项目简述：<span id="description2"></span></p>-->
          </div>
          <div class="clear"></div>
 
@@ -53,7 +53,7 @@
    </div>
    <div class="DivRight">
       <div class="DivRight_1">
-         <a href="/index.html">>>首页</a></div>
+         <a href="/html/webui/project/project.html">>>返回</a></div>
       <div class="DivRight_2">
 
          <div class="divJob_1">
@@ -253,7 +253,7 @@
       document.getElementById("isGoing2").innerText = projectInfo[0].isGoing;
 
       document.getElementById("description").innerText = projectInfo[0].description;
-      document.getElementById("description2").innerText = projectInfo[0].description;
+      //document.getElementById("description2").innerText = projectInfo[0].description;
 
       // 填充项目里程碑信息
       if(projectInfo[0].projectPeopleNew != null){

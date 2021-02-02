@@ -36,14 +36,14 @@
                 </select>
                 <!--<input name="" type="text" placeholder="请选择类型" class="hytxt"/>-->
             </div>
-            <div class="sea1_4">
-                <a onclick="searchProject()">搜项目</a>
+            <div class="sea1_4" onclick="searchProject()">
+                <a >搜项目</a>
             </div>
         </div>
     </div>
    <div class="part3">
      <div class="part3L">
-        <div class="jianli">
+        <div class="jianli" id="leftLoginDiv">
            <span>在创，可加入项目全在这儿，立即登录可关注项目进展并加入项目。</span>
            <span><a id="loginLabelA" href="#" onclick='openLogin()'><span id="loginNow">立即登录</span></a></span>
         </div>
@@ -85,26 +85,32 @@
            <h1>项目总览</h1>
            <div class="con">
               <span>新零售</span>
+               <hr style="margin-top: 0">
                <div id="newRetail">
                </div>
 
               <span>文创</span>
+               <hr style="margin-top: 0">
                <div id="culture">
                </div>
 
               <span>科创</span>
+               <hr style="margin-top: 0">
                <div id="science">
                </div>
 
               <span>K12</span>
+               <hr style="margin-top: 0">
                <div id="K12">
                </div>
 
               <span>校园行</span>
+               <hr style="margin-top: 0">
                <div id="school">
                </div>
 
               <span>其他</span>
+               <hr style="margin-top: 0">
                <div id="others">
                </div>
            </div>
@@ -370,5 +376,5 @@
 
 </script>-->
 </body>
-<script type="application/javascript" src="/html/webui/js/project.js"></script>
+<!--<script type="application/javascript" src="/html/webui/js/project.js"></script>-->
 </html>

@@ -157,6 +157,7 @@ table.listtab tr.xxdetail.none{ display:none}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .iteml span.span3{color: #9f9f9f;font-size: 24px;font-family: 微软雅黑;}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr{ float:left;width: 600px;padding-top: 5px;padding-left: 15px;}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr a{ color: #3364cb;cursor: pointer;}
+.meetingDiv .part3 .part3L .zph #contentmeet .item .itemr a:hover{ color: #FA6D01;cursor: pointer;}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr span.schoolicon{ background:url(../images/23.png) no-repeat;width: 35px;height: 18px; display: inline-block;vertical-align:middle}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr .sub{ font-size:12px; margin-top:10px; font-family:"宋体";}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr .sub span{ padding-right:8px}
@@ -171,6 +172,7 @@ table.listtab tr.xxdetail.none{ display:none}
 .meetingDiv .part3 .part3R .part3_2 .con{font-family: "宋体";font-size: 12px;margin-top: 12px;}
 .meetingDiv .part3 .part3R .part3_2 .con span{display: block;font-weight: bold;line-height: 25px;}
 .meetingDiv .part3 .part3R .part3_2 .con a{color: #000;line-height: 30px; display: inline-block;cursor: pointer;}
+.meetingDiv .part3 .part3R .part3_2 .con a:hover{color: #000;line-height: 30px; display: inline-block;cursor: pointer;text-decoration:underline;color: #F66C01;}
 .meetingDiv .part3 .part3R .part3_3{ padding:20px; background: #F8F8F8;margin-top: 10px;}
 .meetingDiv .part3 .part3R .part3_3 .title{font-size: 16px;color: #F66C01;border-bottom: 2px #F66C01 solid;width: 78px;margin: 0 auto;text-align: center;padding-bottom:3px;}
 .meetingDiv .part3 .part3R .part3_3 .content{margin-top: 15px;}

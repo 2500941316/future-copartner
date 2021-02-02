@@ -275,4 +275,37 @@ public class ProPerson implements Serializable {
     public void setAuth(String auth) {
         this.auth = auth == null ? null : auth.trim();
     }
+
+    @Override
+    public String toString() {
+        return "ProPerson{" +
+                "personid=" + personid +
+                ", birthday=" + birthday +
+                ", campus='" + campus + '\'' +
+                ", company='" + company + '\'' +
+                ", education='" + education + '\'' +
+                ", name='" + name + '\'' +
+                ", gradutedate=" + gradutedate +
+                ", major='" + major + '\'' +
+                ", resumeurl='" + resumeurl + '\'' +
+                ", sex='" + sex + '\'' +
+                ", workername='" + workername + '\'' +
+                ", description='" + description + '\'' +
+                ", supervisor=" + supervisor +
+                ", expectproject='" + expectproject + '\'' +
+                ", expectstudent='" + expectstudent + '\'' +
+                ", expectother='" + expectother + '\'' +
+                ", labelperson='" + labelperson + '\'' +
+                ", labelalumnus='" + labelalumnus + '\'' +
+                ", labelalumnicompany='" + labelalumnicompany + '\'' +
+                ", labelincubator='" + labelincubator + '\'' +
+                ", labelinstitutions='" + labelinstitutions + '\'' +
+                ", labelother='" + labelother + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", logindate=" + logindate +
+                ", auth='" + auth + '\'' +
+                '}';
+    }
 }

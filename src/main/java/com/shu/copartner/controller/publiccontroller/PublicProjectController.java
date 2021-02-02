@@ -67,9 +67,22 @@ public class PublicProjectController {
         return proProjectService.searchProjectByFour(currentPage,projectName,projectType,projectCreater,projectTwoStatus);
     }
 
+    /**
+     * 查询所有项目
+     * @return
+     */
     @GetMapping("getAllProject")
     public TableModel getAllProject(){
         return proProjectService.searchAllProject();
+    }
+
+    /**
+     * 根据项目类型查询项目
+     * @return
+     */
+    @GetMapping("getProjectOverview")
+    public TableModel getProjectBytype(){
+        return proProjectService.getProjectBytype();
     }
 
 }

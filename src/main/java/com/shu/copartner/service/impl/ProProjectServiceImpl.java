@@ -18,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.Test;
 
 
 import java.text.SimpleDateFormat;
@@ -63,6 +64,7 @@ public class ProProjectServiceImpl implements ProProjectService {
     public TableModel selectByCreater(int currentPage, String projectCreater) {
         try {
             ProProjectExample proProjectExample = new ProProjectExample();
+            proProjectExample.setOrderByClause(Constants.PROJECT_DESCBYDATE);
             PageHelper.startPage(currentPage, 4);
             proProjectExample.createCriteria().andProjectCreaterEqualTo(projectCreater).andIsDeletedEqualTo(0);
             List<ProProject> proProjectsList = proProjectMapper.selectByExample(proProjectExample);
@@ -182,6 +184,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             PageHelper.startPage(currentPage, 8);
             /*proProjectExample.createCriteria().andProjectStatusEqualTo(projectTwoStatus).andProjectNameEqualTo(projectName).andProjectTypeEqualTo(projectType)
                     .andProjectCreaterEqualTo(projectCreater);*/
+            proProjectExample.setOrderByClause(Constants.PROJECT_DESCBYDATE); // 按照开始时间倒序查询
             ProProjectExample.Criteria criteria = proProjectExample.createCriteria();
             // 如果搜索值非空，就加上该搜索条件 进行模糊查询
             if (!StringUtils.isEmpty(projectName)) {
@@ -252,6 +255,33 @@ public class ProProjectServiceImpl implements ProProjectService {
     }
 
     /**
+     * 根据项目类型分别查询项目
+     * @return
+     */
+    @Override
+    public TableModel getProjectBytype() {
+        try{
+            List<ProProject> finalProjectList = new ArrayList<>();
+            // 每种type都循环一次
+            for(int i =0;i<Constants.PROJECT_CATAGORIES.length;i++){
+                String type = Constants.PROJECT_CATAGORIES[i];
+                ProProjectExample proProjectExample = new ProProjectExample();
+                proProjectExample.setOrderByClause(Constants.PROJECT_DESCBYDATE);// 按照时间倒序
+                proProjectExample.createCriteria().andProjectTypeEqualTo(type);
+                PageHelper.startPage(1,6); // 每种类型最多查询6个
+                List<ProProject> proProjects = proProjectMapper.selectByExample(proProjectExample);
+                for(ProProject p : proProjects){
+                    finalProjectList.add(p);
+                }
+            }
+            return TableModel.success(finalProjectList,finalProjectList.size());
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
      * 删除项目
      *
      * @param projectId
@@ -294,7 +324,7 @@ public class ProProjectServiceImpl implements ProProjectService {
                 proFollow.setFollower(creater);
                 proFollow.setFollowTime(new Date());
                 proFollow.setIsDelete(0);
-                //  proFollowMapper.insert(proFollow);
+                proFollowMapper.insert(proFollow);
             }
 
         } catch (Exception e) {
@@ -374,51 +404,61 @@ public class ProProjectServiceImpl implements ProProjectService {
      */
     @Override
     public boolean uploadProjectPlan(String planUrl, String projectId) {
-        ProProject proProject = new ProProject();
-        // 设置项目的状态
-        proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("51"));// 状态设置为 ’项目计划书审批中‘
-        proProject.setProjectStateToken("51");
-        //proProject.setPlanUrl(planUrl); // 计划书路径
-        proProject.setProjectId(Long.parseLong(projectId));
-        // 更新项目状态
-        int update = proProjectMapper.updateByPrimaryKeySelective(proProject);
+        try{
+            //log.info("上传项目计划书");
+            ProProject proProject = new ProProject();
+            // 设置项目的状态
+            proProject.setProjectStatus(Constants.PROJECT_STATE_TOKEN.get("51"));// 状态设置为 ’项目计划书审批中‘
+            proProject.setProjectStateToken("51");
+            //proProject.setPlanUrl(planUrl); // 计划书路径
+            proProject.setProjectId(Long.parseLong(projectId));
+            // 更新项目状态
+            int update = proProjectMapper.updateByPrimaryKeySelective(proProject);
 
-        // 更新审批表状态，并将计划书信息写到审批表中
-        List<ProApplication> proApplicationList = proApplicationMapper.selectByProjectId(Long.parseLong(projectId));
-        if (proApplicationList.size() == 1 && proApplicationList.get(0).getProjectStateToken().equals("41")) {
-            //视频也正在审批中，则新增一条记录代表来审批计划书
-            ProApplication proAppPlan = new ProApplication();
-            BeanUtils.copyProperties(proApplicationList.get(0), proAppPlan);
-            proAppPlan.setApplicationId(null);
-            proAppPlan.setPlanUrl(planUrl);
-            proAppPlan.setVideoUrl("null");
-            proAppPlan.setProjectStateToken("51");
-            proAppPlan.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
-            int insert = proApplicationMapper.insert(proAppPlan);
-            return insert > 0 ? true : false;
-        } else if (proApplicationList.size() == 1 && !proApplicationList.get(0).getProjectStateToken().equals("51")) {
-            // 视频不处于‘正在审批中’，直接更新为审批计划书状态
-            ProApplication proApp = proApplicationList.get(0);
-            proApp.setVideoUrl(planUrl);
-            proApp.setProjectStateToken("51");
-            proApp.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
-            ProApplicationExample proApplicationExample = new ProApplicationExample();
-            proApplicationExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId));
-            int updateAudit = proApplicationMapper.updateByExampleSelective(proApp, proApplicationExample);
-            return updateAudit > 0 ? true : false;
-        } else if (proApplicationList.size() > 1) {
-            // 计划书，视频审批记录都存在，则直接更新视频路径和审批状态
-            for (ProApplication p : proApplicationList) {
-                if (!p.getPlanUrl().equals("null")) {
-                    p.setPlanUrl(planUrl);
-                    p.setProjectStateToken("51");
-                    p.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
-                    int updatePlan = proApplicationMapper.updateByPrimaryKeySelective(p);
-                    return updatePlan > 0 ? true : false;
+            // 更新审批表状态，并将计划书信息写到审批表中
+            List<ProApplication> proApplicationList = proApplicationMapper.selectByProjectId(Long.parseLong(projectId));
+            if (proApplicationList.size() == 1 && proApplicationList.get(0).getProjectStateToken().equals("41")) {
+                log.info("审批计划书1");
+                //视频也正在审批中，则新增一条记录代表来审批计划书
+                ProApplication proAppPlan = new ProApplication();
+                BeanUtils.copyProperties(proApplicationList.get(0), proAppPlan);
+                proAppPlan.setApplicationId(null);
+                proAppPlan.setPlanUrl(planUrl);
+                proAppPlan.setVideoUrl("null");
+                proAppPlan.setProjectStateToken("51");
+                proAppPlan.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
+                int insert = proApplicationMapper.insert(proAppPlan);
+                return insert > 0 ? true : false;
+            } else if (proApplicationList.size() == 1 && !proApplicationList.get(0).getProjectStateToken().equals("51")) {
+                //log.info("审批计划书2");
+                // 视频不处于‘正在审批中’，直接更新为审批计划书状态
+                ProApplication proApp = proApplicationList.get(0);
+                proApp.setPlanUrl(planUrl);
+                proApp.setProjectStateToken("51");
+                proApp.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
+                ProApplicationExample proApplicationExample = new ProApplicationExample();
+                proApplicationExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId));
+                int updateAudit = proApplicationMapper.updateByExampleSelective(proApp, proApplicationExample);
+                return updateAudit > 0 ? true : false;
+            } else if (proApplicationList.size() > 1) {
+                //log.info("审批计划书3");
+                // 计划书，视频审批记录都存在，则直接更新计划书路径和审批状态
+                for (ProApplication p : proApplicationList) {
+                    if (!p.getPlanUrl().equals("null")) {
+                        p.setPlanUrl(planUrl);
+                        p.setProjectStateToken("51");
+                        p.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
+                        int updatePlan = proApplicationMapper.updateByPrimaryKeySelective(p);
+                        return updatePlan > 0 ? true : false;
+                    }
                 }
             }
+            return update > 0 ? true : false;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
-        return update > 0 ? true : false;
+
     }
 
     /**

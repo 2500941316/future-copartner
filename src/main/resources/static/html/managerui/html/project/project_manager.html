@@ -144,7 +144,7 @@
             data: "projectId="+projectId,
             success: function (res) {
                 if(res.code = 200){
-                    layer.msg("删除成功！",{shade: 0.01})
+                    layer.msg("删除成功！",{icon: 1,shade: 0.05,time: 1000})
                 }else{
                     layer.msg("网络异常！");
                 }
@@ -199,7 +199,7 @@
             data: updateData,
             success: function (res) {
                 if(res.code = 200){
-                    layer.msg("设置成功！")
+                    layer.msg("设置成功！",{icon: 1,shade: 0.05,time: 1000})
                     supervisorInfoManage(); // 刷新表格
                 }else{
                     layer.msg("网络异常！");

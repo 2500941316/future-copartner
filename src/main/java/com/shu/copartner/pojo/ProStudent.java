@@ -155,4 +155,25 @@ public class ProStudent implements Serializable {
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
     }
+
+    @Override
+    public String toString() {
+        return "ProStudent{" +
+                "studentid=" + studentid +
+                ", name='" + name + '\'' +
+                ", department='" + department + '\'' +
+                ", major='" + major + '\'' +
+                ", sex='" + sex + '\'' +
+                ", admissiondate=" + admissiondate +
+                ", studentnumber='" + studentnumber + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", birthdate=" + birthdate +
+                ", email='" + email + '\'' +
+                ", majorname='" + majorname + '\'' +
+                ", logindate=" + logindate +
+                ", auth='" + auth + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
