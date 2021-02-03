@@ -160,7 +160,7 @@ table.listtab tr.xxdetail.none{ display:none}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr a:hover{ color: #FA6D01;cursor: pointer;}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr span.schoolicon{ background:url(../images/23.png) no-repeat;width: 35px;height: 18px; display: inline-block;vertical-align:middle}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr .sub{ font-size:12px; margin-top:10px; font-family:"宋体";}
-.meetingDiv .part3 .part3L .zph #contentmeet .item .itemr .sub span{ padding-right:8px}
+.meetingDiv .part3 .part3L .zph #contentmeet .item .itemr .sub span{ padding-right:8px;}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr .sub a{ padding-right:8px}
 .meetingDiv .part3 .part3L .zph #contentmeet .item .itemr .sub img{ vertical-align:middle}
 .meetingDiv .part3 .part3L .zph #contentmeet .item:hover{ background:#F4F4F4}

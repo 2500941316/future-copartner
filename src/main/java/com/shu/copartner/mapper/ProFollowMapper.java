@@ -32,7 +32,7 @@ public interface ProFollowMapper {
     Long selectCountOfMyFollow(@Param("follower") String follower);
 
     //查询关注我的项目 关注总个数，一个人同时关注我的十个项目结果就是10，不一定是人数，是关注总数
-    Long selectCountOfFollowMe(@Param("follower") String follower);
+    Long selectCountOfFollowMe(@Param("projectCreater") String projectCreater);
 
     int updateByExampleSelective(@Param("record") ProFollow record, @Param("example") ProFollowExample example);
 

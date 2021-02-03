@@ -51,8 +51,8 @@ function fillProjectInfo(projectInfo) {
             '                        </div>\n' +
             '                        <div class="itemr">\n' +
             '                           <a onclick="viewProjectDetail('+projectInfo[i].projectId+')" class="tit" id="projectName">'+projectInfo[i].projectName+'</a>\n' +
-            '                           <div class="sub">\n' +
-            '                              <span>项目简述：</span> <span id="description">'+projectInfo[i].description+'</span>\n' +
+            '                           <div class="sub" >\n' +
+            '                              <span>项目简述：</span> <div id="description" style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 500px">'+projectInfo[i].description+'</div>\n' +
             '                           </div>\n' +
             '                        </div>\n' +
             '                     </div>'

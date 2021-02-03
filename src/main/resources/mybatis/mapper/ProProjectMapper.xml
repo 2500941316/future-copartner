@@ -174,12 +174,18 @@
     select
     <include refid="Base_Column_List" />
     from PRO_PROJECT
-    where is_going in
+    where <!--is_going in
     <foreach collection="isGoing" item="isGoing" open="(" close=")" separator=",">
       #{isGoing}
-    </foreach>
+    </foreach>-->
+    is_going is not null
     and is_deleted = 0
     order by starttime desc
+  </select>
+
+  <!--随机查询3个项目-->
+  <select id="selectRandom" resultMap="BaseResultMap">
+    SELECT * FROM PRO_PROJECT ORDER BY RAND() LIMIT 3;
   </select>
 
   <!--根据当前用户 查询我关注的项目信息-->
@@ -196,6 +202,17 @@
             WHERE project_creater = #{projectCreater}
                 and is_deleted = 0
   </select>
+
+  <!--查询我的被关注的项目-->
+  <select id="selectProjectBeFollowed" parameterType="java.lang.String" resultMap="BaseResultMap">
+     select DISTINCT pp.* from PRO_PROJECT pp
+		INNER JOIN PRO_FOLLOW pf ON pp.project_id = pf.project_id
+		WHERE pp.project_creater = #{projectCreater}
+					and pp.is_deleted = 0
+					and is_going is NOT NULL
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_PROJECT
     where project_id = #{projectId,jdbcType=BIGINT}

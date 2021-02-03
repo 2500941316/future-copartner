@@ -22,7 +22,7 @@
 <div class="jobtypeBox">
    <div class="DivLeft">
       <div class="DivCompany">
-         <div class="DivCompany_img"><img src="/html/webui/images/p03.png" width="180"/></div>
+         <div class="DivCompany_img"><img src="/html/webui/images/sh02.jpg" width="180"/></div>
          <h1><a href="project_details_info.html"><span id="projectName2"><!--项目名称--></span></a><img src="/html/webui/images/16.png" /></h1>
          <div class="DivLeft_1">
             <div class="gz1"><span  id="follow">+关注</span></div>  <!--onclick="clickFollow()"-->
@@ -36,8 +36,8 @@
             <p>成员：<span id="projectPeople2"></span></p>
             <p>项目类型：<span id="projectType2"></span></p>
             <p>开始时间：<span id="starttime2"></span></p>
-            <p>项目视频：<a id="videoUrl2" target="_blank" style="color: #0f72a4">点击查看</a></p>
-            <p>项目计划书：<a id="planUrl2" target="_blank" style="color: #0f72a4">点击查看</a></p>
+            <p>项目视频：<a id="videoUrl2" onclick="lookVideo()" style="color: #0f72a4;cursor: pointer">点击查看</a></p>
+            <p>项目计划书：<a id="planUrl2"onclick="lookPlan()" style="color: #0f72a4;cursor: pointer">点击查看</a></p>
             <p>状态：<span id="isGoing2"></span></p>
             <!--<p>项目简述：<span id="description2"></span></p>-->
          </div>
@@ -46,7 +46,7 @@
          <div class="DivLeft_4">
             <h2><span></span>猜你感兴趣</h2>
             <div id="interestProject">
-               <p><a href="searchJob_new.html">项目1</a></p>
+               <!--<p><a href="searchJob_new.html">项目1</a></p>-->
             </div>
          </div>
       </div>
@@ -80,8 +80,8 @@
                <div class="jobsub">项目成员： <span id="projectPeople"></span></div>
                <div class="jobsub">项目类型： <span id="projectType"></span></div>
                <div class="jobsub">开始时间： <span id="starttime"></span></div>
-               <div class="jobsub">项目计划书： <a id="planUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
-               <div class="jobsub">项目视频： <a id="videoUrl" onclick="lookVideo()" target="_blank" style="color: #0f72a4">点击查看</a></div>
+               <div class="jobsub">项目计划书： <a id="planUrl" onclick="lookPlan()" style="color: #0f72a4;cursor: pointer;">点击查看</a></div>
+               <div class="jobsub">项目视频： <a id="videoUrl" onclick="lookVideo()" style="color: #0f72a4;cursor: pointer;">点击查看</a></div>
                <div class="jobsub">项目状态： <span id="isGoing"></span></div>
 
             <!--   <div class="jobsub"></div>
@@ -91,13 +91,14 @@
          <div class="clear"></div>
          <div class="divJob_2">
             <div class="divJob_2_1"><span  id="follow2" href="#">立即关注</span></div> <!--onclick="clickFollow()"-->
+            <div class="divJob_2_4"><span  id="join" href="#">申请加入</span></div> <!--onclick="clickFollow()"-->
             <!--<div class="divJob_2_2" class="divJob_2_3">关注</div>-->
            <!-- <div style="margin-right: 20px"><button type="button" class="divJob_2_1" id="test3"><i class="layui-icon"></i>上传视频</button></div>-->
             <!--<div ><button type="button" class="divJob_2_1" style="margin-left: 20px;" id="test4"><i class="layui-icon"></i>上传计划书</button></div>-->
          </div>
          <div class="clear"></div>
          <div class="divJob_3">
-            <b>项目里程碑：</b><br />
+            <b style="font-size: large;font: bold;color: #FA6D01">项目里程碑：</b><br />
             <div id="projectLandmark" class="con">
                <span  id="projectPeopleNew" style="display: none">新成员加入：<span id="new"></span></span>
                <span  id="projectMatch" style="display: none">项目比赛：<span id="match"></span></span>
@@ -113,7 +114,7 @@
          </div>
          <div class="clear"></div>
          <div class="jobotherlist">
-            <div class="title">其他项目</div>
+            <div class="title" style="font-size: large;font: bold;color: #FA6D01">其他项目</div>
          </div>
          <div id="otherProject">
             <!--其他项目列表-->
@@ -145,6 +146,11 @@
             </video>
          </div>
 
+         <!--存放项目计划书路径-->
+         <div class="grid-demo grid-demo-bg1" style="display: none" id="lookPlan">
+            <span id="planSpan"></span>
+         </div>
+
          </div>
       </div>
    </div>
@@ -156,6 +162,8 @@
 <div id="footer"></div>
 
 <script type="text/javascript">
+
+   var $=layui.jquery;
    // 跳出当前iframe
    if(top.location!=self.location)top.location=self.location;
 
@@ -163,8 +171,8 @@
       $("#footer").load("/html/webui/footer/footer.html");
 
       getProjectData();
-     // getOtherProjectData();
-      initLayPage();
+     getOtherProjectData();
+      //initLayPage();
    });
 
    // 弹出层
@@ -193,7 +201,7 @@
          success: function (req) {
             if (req.code == 200) {
                //console.log(req)
-               fillProjectInfo(req.data)
+               fillProjectInfo(req.data[0])
             } else {
                layer.msg("网络异常，请稍后重试！")
             }
@@ -211,98 +219,106 @@
     * @param projectInfo
     */
    function fillProjectInfo(projectInfo) {
-      document.getElementById("projectName").innerText = projectInfo[0].projectName;
-      document.getElementById("projectName2").innerText = projectInfo[0].projectName;
+      document.getElementById("projectName").innerText = projectInfo.projectName;
+      document.getElementById("projectName2").innerText = projectInfo.projectName;
 
-      document.getElementById("projectCreater").innerText = projectInfo[0].projectCreater;
-      document.getElementById("projectCreater2").innerText = projectInfo[0].projectCreater;
+      document.getElementById("projectCreater").innerText = projectInfo.projectCreater;
+      document.getElementById("projectCreater2").innerText = projectInfo.projectCreater;
 
-      document.getElementById("mainPeople").innerText = projectInfo[0].mainPeople;
-      document.getElementById("mainPeople2").innerText = projectInfo[0].mainPeople;
+      document.getElementById("mainPeople").innerText = projectInfo.mainPeople;
+      document.getElementById("mainPeople2").innerText = projectInfo.mainPeople;
 
-     // document.getElementById("projectTeacher").innerText = projectInfo[0].projectTeacher;
-      document.getElementById("projectTeacher2").innerText = projectInfo[0].projectTeacher;
-      typeof (projectInfo[0].projectTeacher) == "undefined" ?
+     // document.getElementById("projectTeacher").innerText = projectInfo.projectTeacher;
+      document.getElementById("projectTeacher2").innerText = projectInfo.projectTeacher;
+      typeof (projectInfo.projectTeacher) == "undefined" ?
               document.getElementById("projectTeacher").innerText = "无" :
-              document.getElementById("projectTeacher").innerText = projectInfo[0].projectTeacher;
+              document.getElementById("projectTeacher").innerText = projectInfo.projectTeacher;
 
-      document.getElementById("projectPeople").innerText = projectInfo[0].projectPeople;
-      document.getElementById("projectPeople2").innerText = projectInfo[0].projectPeople;
+      document.getElementById("projectPeople").innerText = projectInfo.projectPeople;
+      document.getElementById("projectPeople2").innerText = projectInfo.projectPeople;
 
-      document.getElementById("projectType").innerText = projectInfo[0].projectType;
-      document.getElementById("projectType2").innerText = projectInfo[0].projectType;
+      document.getElementById("projectType").innerText = projectInfo.projectType;
+      document.getElementById("projectType2").innerText = projectInfo.projectType;
 
-      document.getElementById("starttime").innerText = projectInfo[0].starttime;
-      document.getElementById("starttime2").innerText = projectInfo[0].starttime;
+      document.getElementById("starttime").innerText = projectInfo.starttime;
+      document.getElementById("starttime2").innerText = projectInfo.starttime;
 
-      projectInfo[0].planUrl== "null" ?
+      projectInfo.planUrl== "null" ?
               document.getElementById("planUrl").innerText = "无" :
-              document.getElementById("planUrl").href = projectInfo[0].planUrl;
-      projectInfo[0].planUrl == "null" ?
+              document.getElementById("planSpan").innerText = projectInfo.planUrl;
+      projectInfo.planUrl == "null" ?
               document.getElementById("planUrl2").innerText = "无" :
-              document.getElementById("planUrl2").href = projectInfo[0].planUrl;
+              document.getElementById("planSpan").innerText = projectInfo.planUrl;
 
-      projectInfo[0].videoUrl == "null" ?
+      projectInfo.videoUrl == "null" ?
               document.getElementById("videoUrl").innerText = "无" :
-              document.getElementById("vedio_url").src = projectInfo[0].videoUrl;
-      projectInfo[0].videoUrl == "null" ?
+              document.getElementById("vedio_url").src = projectInfo.videoUrl;
+      projectInfo.videoUrl == "null" ?
               document.getElementById("videoUrl2").innerText = "无" :
-              document.getElementById("videoUrl2").href = projectInfo[0].videoUrl;
+              document.getElementById("vedio_url").src = projectInfo.videoUrl;
+              //document.getElementById("videoUrl2").href = projectInfo.videoUrl;
 
-      document.getElementById("isGoing").innerText = projectInfo[0].isGoing;
-      document.getElementById("isGoing2").innerText = projectInfo[0].isGoing;
+      document.getElementById("isGoing").innerText = projectInfo.isGoing;
+      document.getElementById("isGoing2").innerText = projectInfo.isGoing;
 
-      document.getElementById("description").innerText = projectInfo[0].description;
-      //document.getElementById("description2").innerText = projectInfo[0].description;
+      document.getElementById("description").innerText = projectInfo.description;
+      //document.getElementById("description2").innerText = projectInfo.description;
 
       // 填充项目里程碑信息
-      if(projectInfo[0].projectPeopleNew != null){
+      if(projectInfo.projectPeopleNew != null){
          document.getElementById("projectPeopleNew").style.display = "block";
-         document.getElementById("new").innerText = projectInfo[0].projectPeopleNew;
+         document.getElementById("new").innerText = projectInfo.projectPeopleNew;
 
       }
-      if(projectInfo[0].projectMatch != null){
+      if(projectInfo.projectMatch != null){
          document.getElementById("projectMatch").style.display = "block";
-         document.getElementById("match").innerText = projectInfo[0].projectMatch;
+         document.getElementById("match").innerText = projectInfo.projectMatch;
       }
-      if(projectInfo[0].projectCooperation != null){
+      if(projectInfo.projectCooperation != null){
          document.getElementById("projectCooperation").style.display = "block";
-         document.getElementById("cooperation").innerText = projectInfo[0].projectCooperation;
+         document.getElementById("cooperation").innerText = projectInfo.projectCooperation;
       }
-      if(projectInfo[0].projectActivity != null){
+      if(projectInfo.projectActivity != null){
          document.getElementById("projectActivity").style.display = "block";
-         document.getElementById("activity").innerText = projectInfo[0].projectActivity;
+         document.getElementById("activity").innerText = projectInfo.projectActivity;
       }
-      if(projectInfo[0].projectService != null){
+      if(projectInfo.projectService != null){
          document.getElementById("projectService").style.display = "block";
-         document.getElementById("service").innerText = projectInfo[0].projectService;
+         document.getElementById("service").innerText = projectInfo.projectService;
       }
-      if(projectInfo[0].projectFinance != null){
+      if(projectInfo.projectFinance != null){
          document.getElementById("projectFinance").style.display = "block";
-         document.getElementById("finance").innerText = projectInfo[0].projectFinance;
+         document.getElementById("finance").innerText = projectInfo.projectFinance;
       }
-      if(projectInfo[0].projectIncome != null){
+      if(projectInfo.projectIncome != null){
          document.getElementById("projectIncome").style.display = "block";
-         document.getElementById("income").innerText = projectInfo[0].projectIncome;
+         document.getElementById("income").innerText = projectInfo.projectIncome;
       }
-      if(projectInfo[0].projectCompany != null){
+      if(projectInfo.projectCompany != null){
          document.getElementById("projectCompany").style.display = "block";
-         document.getElementById("company").innerText = projectInfo[0].projectCompany;
+         document.getElementById("company").innerText = projectInfo.projectCompany;
       }
-      if(projectInfo[0].projectElseInfo != null){
+      if(projectInfo.projectElseInfo != null){
          document.getElementById("projectElseInfo").style.display = "block";
-         document.getElementById("elseInfo").innerText = projectInfo[0].projectElseInfo;
+         document.getElementById("elseInfo").innerText = projectInfo.projectElseInfo;
       }
 
-      if(projectInfo[0].projectFollowers == "1"){
+      //是否关注
+      if(projectInfo.projectFollowers === "1"){
          // 代表当前用户已关注该项目
          $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').css('background', 'grey');
          document.getElementById("follow").innerText = "已关注";
          document.getElementById("follow2").innerText = "已关注";
       }
 
+      //是否加入
+      if(projectInfo.primaryJob != null){
+         $('.divJob_2_4').css('background', 'grey');
+         document.getElementById("join").innerText = projectInfo.primaryJob;
+      }
    }
 
+   // 立即关注
    $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').click(function () {
       if (localStorage.getItem("username") != null) {
          if(document.getElementById("follow").innerText == "+关注" && document.getElementById("follow2").innerText == "立即关注"){
@@ -337,6 +353,24 @@
       }
    }*/
 
+   //申请加入
+   $('.divJob_2_4').click(function () {
+      if (localStorage.getItem("username") != null) {
+         if(document.getElementById("join").innerText == "申请加入"){
+            applyJoinProject(localStorage.getItem("projectId"));
+         }else{
+            //comfirmCancelFollow(localStorage.getItem("projectId"),document.getElementById("projectCreater").innerText);
+             document.getElementById("join").innerText = "申请加入";
+             $('.divJob_2_4').css('background', '#0e7bfe');
+            //console.log("取消关注"+localStorage.getItem("projectId")+document.getElementById("projectCreater").innerText);
+         }
+      } else {
+         layer.msg("请先完成登录！", {icon: 7,shade: 0.05,time: 2000});
+      }
+
+   })
+
+
    /**
     * 请求其他项目数据
     */
@@ -350,8 +384,9 @@
          type: "GET",   //请求方式
          success: function (req) {
             if (req.code == 200) {
-               //console.log(req)
-               fillOtherProjectInfo(req.data)
+               //console.log(req);
+               fillOtherProjectInfo(req.data.otherProject);
+               fillGuessProjectInfo(req.data.guessProject);
             } else {
                layer.msg("网络异常，请稍后重试！")
             }
@@ -371,15 +406,13 @@
    function fillOtherProjectInfo(otherProjectInfo) {
       const $active = $("#otherProject");
       $active.html("");
-      const $active2 = $("#interestProject");
-      $active2.html("");
       for(var i in otherProjectInfo){
             var $children = $(
                 ' <div class="jobotherlist">\n' +
                     '               <div class="jobtype">\n' +
-                    '                  <div class="jobtypel">\n' +
-                    '                     <p><a href="#" onclick="viewProjectDetail('+otherProjectInfo[i].projectId+')">'+otherProjectInfo[i].projectName+'</a> ['+otherProjectInfo[i].projectType+']</p>\n' +
-                    '                     <p><span class="red">'+otherProjectInfo[i].description+'</span></p>\n' +
+                    '                  <div class="jobtypel" style="width: 500px">\n' +
+                    '                     <p><a class="otherName" href="#" onclick="viewProjectDetail('+otherProjectInfo[i].projectId+')">'+otherProjectInfo[i].projectName+'</a> ['+otherProjectInfo[i].projectType+']</p>\n' +
+                    '                     <p class="red" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">'+otherProjectInfo[i].description+'</p>\n' +
                     '                  </div>\n' +
                     '                  <div class="jobtyper">\n' +
                     '                     <p>'+otherProjectInfo[i].isGoing+'</p>\n' +
@@ -390,12 +423,20 @@
 
             );
          $active.append($children);
+      }
+   }
 
-         // 左侧 ‘猜你喜欢’ 栏目显示的其他项目名称
-         var $children2 = $(
-                 '<p><a href="#" onclick="viewProjectDetail('+otherProjectInfo[i].projectId+')">'+otherProjectInfo[i].projectName+'</a></p>'
+   /**
+    * 填充左侧‘猜你喜欢’
+    * */
+   function fillGuessProjectInfo(guessProjectInfo) {
+      const $active = $("#interestProject");
+      $active.html("");
+      for (var i in guessProjectInfo) {
+         var $children = $(
+                 '<p onclick="viewProjectDetail(' + guessProjectInfo[i].projectId + ')"><a href="#">' + guessProjectInfo[i].projectName + '</a></p>'
          );
-         $active2.append($children2);
+         $active.append($children);
       }
    }
 
@@ -412,7 +453,7 @@
    /**
     * 初始化layui分页
     */
-   function initLayPage(pageConf) {
+   /*function initLayPage(pageConf) {
       if (!pageConf) {
          pageConf = {};
          pageConf.pageSize = 3;
@@ -443,7 +484,7 @@
 
          })
       });
-   }
+   }*/
 
    /**
     * 关注项目
@@ -510,19 +551,61 @@
     * 查看项目视频
     */
    function lookVideo() {
-      var $=layui.jquery;
-      // 获取选中的状态值
-      layer.open({
-         type:1,
-         area:['60%','80%'],
-         title: '项目视频',
-         content: $("#lookVideo"),
-         shade: 0.1,
-         cancel: function(layero,index){
-            document.getElementById('vedio_url').pause();// 停止播放
-            layer.closeAll();
+      if(document.getElementById("videoUrl").innerText === "点击查看"){
+         // 获取选中的状态值
+         layer.open({
+            type:1,
+            area:['60%','80%'],
+            title: '项目视频',
+            content: $("#lookVideo"),
+            shade: 0.1,
+            cancel: function(layero,index){
+               document.getElementById('vedio_url').pause();// 停止播放
+               layer.closeAll();
+            }
+         });
+      }
+   }
+
+   /**
+    * 查看项目计划书
+    */
+   function lookPlan() {
+      var textFile = document.getElementById("planSpan").innerText;
+      if(document.getElementById("planUrl").innerText === "点击查看"){
+         // 获取选中的状态值
+         layer.open({
+            type:2,
+            area:['60%','90%'],
+            title: '项目计划书',
+            content: textFile,
+            shade: 0.1,
+            cancel: function(layero,index){
+               layer.closeAll();
+            }
+         });
+      }
+   }
+
+   /**
+    * 申请加入项目
+    * @param projectId
+    */
+   function applyJoinProject(projectId) {
+      $.ajax({
+         url: "/vip/project/applyJoinProject",
+         type: "GET",
+         data: "projectId="+projectId,
+         success: function(res){
+            if(res.code == 200){
+               top.layer.msg("已申请",{icon:1,shade: 0.05,time: 1000});
+               $('.divJob_2_4').css('background', 'grey');
+               document.getElementById("join").innerText = "已申请";
+            }else{
+               top.layer.msg("网络异常");
+            }
          }
-      });
+      })
    }
 
 </script>

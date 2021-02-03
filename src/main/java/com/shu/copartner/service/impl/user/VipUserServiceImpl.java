@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,9 @@ public class VipUserServiceImpl implements VipUserService {
     @Autowired
     private ProPersonMapper proPersonMapper;
 
+    @Autowired
+    private ProVerifyMapper proVerifyMapper;
+
     /**
      * 查询我的信息
      * @param username
@@ -47,30 +51,39 @@ public class VipUserServiceImpl implements VipUserService {
     @Override
     public TableModel selectPersonalInfo(String username) {
         try{
+            //根据phone查询出登陆时间，直接用验证码时间代替
+            ProVerifyExample proVerifyExample = new ProVerifyExample();
+            proVerifyExample.createCriteria().andPhoneEqualTo(username);
+            List<ProVerify> proVerifies = proVerifyMapper.selectByExample(proVerifyExample);
+            Date logindate = proVerifies.get(0).getVerifydate();
             // 根据phone查询我的角色
             ProUserExample proUserExample = new ProUserExample();
             proUserExample.createCriteria().andPhoneEqualTo(username);
             List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
             String auth = proUsers.get(0).getAuth();
+
             // 根据角色及phone查询我的个人信息
             switch(auth){
                 case "ROLE_STUDENT":
                     ProStudentExample proStudentExample = new ProStudentExample();
                     proStudentExample.createCriteria().andPhoneEqualTo(username);
                     List<ProStudent> proStudentList = proStudentMapper.selectByExample(proStudentExample);
-                    proStudentList.get(0).setAuth("ROLE_STUDENT");
+                    proStudentList.get(0).setAuth("ROLE_STUDENT");// 设置角色
+                    proStudentList.get(0).setLogindate(logindate);// 设置登陆时间
                     return TableModel.success(proStudentList,proStudentList.size());
                 case "ROLE_TEACHER":
                     ProTeacherExample proTeacherExample = new ProTeacherExample();
                     proTeacherExample.createCriteria().andPhoneEqualTo(username);
                     List<ProTeacher> proTeacherList = proTeacherMapper.selectByExample(proTeacherExample);
-                    proTeacherList.get(0).setAuth("ROLE_TEACHER");
+                    proTeacherList.get(0).setAuth("ROLE_TEACHER");// 设置角色
+                    proTeacherList.get(0).setLogindate(logindate);// 设置登陆时间
                     return TableModel.success(proTeacherList,proTeacherList.size());
                 case "ROLE_PERSON":
                     ProPersonExample proPersonExample = new ProPersonExample();
                     proPersonExample.createCriteria().andPhoneEqualTo(username);
                     List<ProPerson> proPersonList = proPersonMapper.selectByExample(proPersonExample);
-                    proPersonList.get(0).setAuth("ROLE_PERSON");
+                    proPersonList.get(0).setAuth("ROLE_PERSON");// 设置角色
+                    proPersonList.get(0).setLogindate(logindate);// 设置登陆时间
                     return TableModel.success(proPersonList,proPersonList.size());
                 default:
                     break;

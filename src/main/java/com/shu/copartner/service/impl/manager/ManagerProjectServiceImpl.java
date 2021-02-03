@@ -107,9 +107,9 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
     @Override
     public TableModel searchAllProject(int page) {
         try{
-            String[] isgoing = {"在创","可选"};
+            //String[] isgoing = {"在创","可选"};
             PageHelper.startPage(page,10);
-            List<ProProject> allProject = proProjectMapper.selectAllProject(isgoing);
+            List<ProProject> allProject = proProjectMapper.selectAllProject();
             PageInfo pageInfo = new PageInfo(allProject);
             return TableModel.tableSuccess(allProject, (int)pageInfo.getTotal());
         }catch (Exception e) {

@@ -26,7 +26,7 @@
 <div class="perRightcon">
         <div class="clear" style="margin-top: 15px"></div>
     <div class="commonTit">
-        <h1 class="fl">我的项目<span style="font-size: 10px;">(上传文件请使用doc,docx,pdf,mp4格式)</span></h1>
+        <h1 class="fl">我的项目<span style="font-size: 10px;">(上传文件请使用pdf,mp4格式)</span></h1>
         <!--<div class="dqzt">
             <label>当前状态：</label>
             <span>目前处于离职状态，可即刻上岗</span>
@@ -53,6 +53,15 @@
     </div>
     <div class="clear"></div>
 
+    <div id="memberApply" style="display: none">
+        <table id="memberApplyTable" lay-filter="memberTable"></table>
+
+        <script type="text/html" id="memberOperate">
+            <a class="layui-btn layui-btn-xs" lay-event="pass">同意</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reject">拒绝</a>
+        </script>
+
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -158,7 +167,8 @@
                   '                        完整度 '+countPercent+' %\n' +
                   '                        [ <a onclick="updateProjectInfo('+projectData[i].projectId+')" href="#">修改</a>\n' +
                   '                        <a onclick="viewProjectDetail('+projectData[i].projectId+')" href="#">查看</a> ]\n' +
-                /*  '                        <a href="#">下载</a> ]</div>\n' +*/
+           /*       '                        <a href="#">邀请</a> ]\n' +*/
+                  '                        <a style="margin-left: 10px;color: red" onclick="viewMemberApply('+projectData[i].projectId+')" href="#">待处理</a> </div>\n' +
                   '                </td>\n' +
                   '            <td rowspan="2">\n' +
                   '                       <div class="jlpart4" id="'+5000+i+'">\n' +/*这里id从button移到div上了，使整个div都可被渲染成上传功能*/
@@ -217,7 +227,7 @@
                 elem: elemId
                 , url: '/vip/project/uploadPlan'
                 ,size: 1024*10
-                ,exts: 'pdf|doc|docx'// 设置允许上传的格式xls|xlsx|csv|zip|pdf|doc|docx|png|jpeg|jpg|gif
+                ,exts: 'pdf'// 设置允许上传的格式xls|xlsx|csv|zip|pdf|doc|docx|png|jpeg|jpg|gif
                 , data: {
                     projectId: currentProjectId
                 }
@@ -309,8 +319,58 @@
             })
             top.layer.close(index);
         });
+    }
 
+    //人员申请信息表格
+    var table = layui.table;
+    var data = [{
+        memberId: "1",
+        memberName: '张三',
+        memberPhone: '11011011011',
+        applyDate: '2021-01-01'
+    }];
+    // 项目申请审批表格
+    table.render({
+        elem: '#memberApplyTable',
+        //, url: '/manager/project/searchProject'
+        //   , height: 580
+        data: data,
+        title: '人员申请表',
+        cols: [[
+            {field: 'memberId', title: 'ID', fixed: 'left', width: 60,unresize: true, sort: true, align: 'center', type: 'numbers'},
+            {field: 'memberName', title: '姓名', width: 80,align: 'center'},
+            {field: 'memberPhone', title: '联系方式', width: 120,align: 'center'},
+            {field: 'applyDate', title: '申请时间',width: 120, align: 'center'},
+            {fixed: 'right', title: '操作', toolbar: '#memberOperate', width: 150, align: 'center'}
 
+        ]],
+        page: true
+    });
+    //监听工具条
+    table.on('tool(memberTable)', function (obj) {
+        var data = obj.data;
+       if (obj.event === 'pass') {
+                obj.del();
+        } else if (obj.event === 'reject') {
+               obj.del();
+        }
+    });
+
+    /**
+     * 查看人员申请界面
+     * @param projectId
+     */
+    function viewMemberApply(projectId){
+        layer.open({
+            type:1,
+            area:['60%','80%'],
+            title: '人员申请加入',
+            content: $("#memberApply"),
+            shade: 0.01,
+            cancel: function(layero,index){
+                layer.closeAll();
+            }
+        });
     }
 
 </script>

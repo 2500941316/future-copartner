@@ -97,13 +97,12 @@ public class VipProjectController {
 
     /**
      * 根据id查询当前项目之外的其他项目
-     * @param currentPage
      * @param projectId
      * @return
      */
-    @GetMapping("getOtherProjectById")
-    public TableModel getOtherProjectById(@Size(min = 1) @RequestParam int currentPage, @Size(min = 1) @RequestParam String projectId) {
-        return this.proProjectService.searchOtherProjectById(currentPage,projectId);
+    @GetMapping("getOtherProjectById")//@Size(min = 1) @RequestParam int currentPage,
+    public TableModel getOtherProjectById( @Size(min = 1) @RequestParam String projectId) {
+        return this.proProjectService.searchOtherProjectById(projectId);
     }
 
     /**
@@ -213,6 +212,28 @@ public class VipProjectController {
     @GetMapping(value = "selectCount")
     public TableModel selectCount(Principal principal) {
         return proProjectService.selectCount(principal.getName());
+    }
+
+    /**
+     * 查询我被关注的项目
+     * @param principal
+     * @return
+     */
+    @GetMapping(value = "searchProjectBeFollowed")
+    public TableModel selectProjectBeFollowed(@Size(min = 1) @RequestParam int currentPage,Principal principal) {
+        return proProjectService.selectProjectBeFollowed(currentPage,principal.getName());
+    }
+
+    /**
+     * 申请加入项目
+     * @param projectId
+     * @param principal
+     * @return
+     * @throws ParseException
+     */
+    @GetMapping("applyJoinProject")
+    public TableModel applyJoinProject(@Size(min = 1) @RequestParam String projectId,Principal principal) {
+        return proProjectService.applyJoinProject(projectId,principal.getName());
     }
 
 }

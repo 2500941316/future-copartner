@@ -24,7 +24,7 @@ public interface ProProjectService {
 
     TableModel searchProjectByFour(int currentPage, String projectName, String projectType, String projectCreater, String projectTwoStatus);
 
-    TableModel searchOtherProjectById(int currentPage, String projectId);
+    TableModel searchOtherProjectById(String projectId);
 
     TableModel searchAllProject();
 
@@ -45,4 +45,8 @@ public interface ProProjectService {
     boolean uploadProjectVideo(String videoUrl, String projectId);
 
     TableModel selectCount(String username);
+
+    TableModel selectProjectBeFollowed(int currentPage,String username);
+
+    TableModel applyJoinProject(String projectId,String username);
 }

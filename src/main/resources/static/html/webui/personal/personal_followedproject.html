@@ -94,7 +94,7 @@
             pageConf.pageSize = 4; // 每页显示条数
             pageConf.currentPage = 1; // 当前页
         }
-        $.get("/vip/project/selectByCreater", pageConf, function (data) {
+        $.get("/vip/project/searchProjectBeFollowed", pageConf, function (data) {
             layui.use(['laypage', 'layer'], function () {
                 var page = layui.laypage;
                 page.render({
@@ -111,7 +111,10 @@
                             pageConf.pageSize = obj.limit;
                             searchProjectByCreater(pageConf);
                         }
-                        fillProjectInfo(data.data); //页面填充
+                        //console.log(data);
+                        if(data.data != null){
+                            fillProjectInfo(data.data); //页面填充
+                        }
                     }
                 });
             })
@@ -142,7 +145,7 @@
                 '                        </div>\n' +
                 '                    </div>\n' +
                 '                </td>\n' +
-                '                <td><span id="projectStatus">'+projectData[i].projectStatus+'</span></td>\n' +
+                '                <td><span id="isGoing">'+projectData[i].isGoing+'</span></td>\n' +
                 '                <td>\n' +
                 '                    <span></span>\n' +
                 '                    <span class="gzsqbtn" onclick="viewUserOfFollowMe('+projectData[i].projectId+')">查看关注人</span>\n' +

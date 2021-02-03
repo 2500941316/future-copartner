@@ -260,5 +260,9 @@ public final class Constants {
      */
     public static final String[] PROJECT_CATAGORIES = new String[]{"新零售", "文创", "科创", "K12", "校园行", "其他"};
 
+    /**
+     * @Description 人员加入项目状态
+     */
+    public static final String[] MEMBER_PROJECT_STAUTS = new String[]{"已申请", "已加入", "已拒绝","已退出","已邀请"};
 
-        }
+}

@@ -129,8 +129,9 @@
   <select id="selectCountOfFollowMe" parameterType="java.lang.String" resultType="java.lang.Long">
     SELECT count(*) from PRO_FOLLOW pf
 	 LEFT JOIN PRO_PROJECT pp ON pf.project_id = pp.project_id
-	    WHERE pf.follower = #{follower}
+	    WHERE pp.project_creater = #{projectCreater}
 			and pf.is_delete = 0
+			and pp.is_going is NOT NULL
   </select>
 
 

@@ -39,13 +39,12 @@ public class PublicProjectController {
 
     /**
      * 根据id查询当前项目之外的其他项目
-     * @param currentPage
      * @param projectId
      * @return
      */
-    @GetMapping("getOtherProjectById")
-    public TableModel getOtherProjectById(@Size(min = 1) @RequestParam int currentPage, @Size(min = 1) @RequestParam String projectId) {
-        return this.proProjectService.searchOtherProjectById(currentPage,projectId);
+    @GetMapping("getOtherProjectById")//@Size(min = 1) @RequestParam int currentPage,
+    public TableModel getOtherProjectById( @Size(min = 1) @RequestParam String projectId) {
+        return this.proProjectService.searchOtherProjectById(projectId);
     }
 
     /**

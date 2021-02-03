@@ -43,13 +43,25 @@ public interface ProProjectMapper {
      * 查询所有项目
      * @return
      */
-    List<ProProject> selectAllProject(@Param("isGoing")String[] isGoing);
+    List<ProProject> selectAllProject();
+
+    /**
+     * 随机查询3个项目
+     * @return
+     */
+    List<ProProject> selectRandom();
 
     /**
      *查询我关注的项目
      * @return
      */
     List<ProProject> selectMyFollowProject(@Param("follower") String follower);
+
+    /**
+     *查询我的被关注的项目
+     * @return
+     */
+    List<ProProject> selectProjectBeFollowed(@Param("projectCreater") String projectCreater);
 
     Long selectCountOfProject(@Param("projectCreater") String projectCreater);
 

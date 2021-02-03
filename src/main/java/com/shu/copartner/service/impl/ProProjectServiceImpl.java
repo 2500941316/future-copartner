@@ -4,15 +4,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
-import com.shu.copartner.mapper.ProApplicationMapper;
-import com.shu.copartner.mapper.ProFollowMapper;
-import com.shu.copartner.mapper.ProProjectMapper;
+import com.shu.copartner.mapper.*;
 import com.shu.copartner.pojo.*;
 import com.shu.copartner.pojo.request.ProjectApplyVO;
 import com.shu.copartner.service.ProProjectService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.Test;
 
 
+import java.security.PrivilegedExceptionAction;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -42,6 +42,21 @@ public class ProProjectServiceImpl implements ProProjectService {
 
     @Autowired
     private ProFollowMapper proFollowMapper;
+
+    @Autowired
+    private ProUserMapper proUserMapper;
+
+    @Autowired
+    private ProStudentMapper proStudentMapper;
+
+    @Autowired
+    private ProTeacherMapper proTeacherMapper;
+
+    @Autowired
+    private ProPersonMapper proPersonMapper;
+
+    @Autowired
+    private ProMemberMapper proMemberMapper;
 
     /**
      * 新增项目信息到数据库
@@ -66,7 +81,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             ProProjectExample proProjectExample = new ProProjectExample();
             proProjectExample.setOrderByClause(Constants.PROJECT_DESCBYDATE);
             PageHelper.startPage(currentPage, 4);
-            proProjectExample.createCriteria().andProjectCreaterEqualTo(projectCreater).andIsDeletedEqualTo(0);
+            proProjectExample.createCriteria().andProjectCreaterEqualTo(projectCreater).andIsDeletedEqualTo(0).andIsGoingIsNotNull();
             List<ProProject> proProjectsList = proProjectMapper.selectByExample(proProjectExample);
             PageInfo<ProProject> pageInfo = new PageInfo<>(proProjectsList);
             return TableModel.success(proProjectsList, (int) pageInfo.getTotal());
@@ -129,10 +144,12 @@ public class ProProjectServiceImpl implements ProProjectService {
     @Override
     public TableModel updateProject(ProjectApplyVO projectApplyVO) {
         try {
+            //log.info(projectApplyVO.toString());
             ProProject proProject = new ProProject();
             BeanUtils.copyProperties(projectApplyVO, proProject);
             // 每次修改就设置当前更新的时间
             proProject.setUpdateTime(new Date());
+            proProject.setSupervisorId(Long.parseLong(projectApplyVO.getSupervisorId()));
             proProjectMapper.updateByPrimaryKeySelective(proProject);
             return TableModel.success();
         } catch (Exception e) {
@@ -157,6 +174,14 @@ public class ProProjectServiceImpl implements ProProjectService {
             if (proFollow != null) {
                 // 代表已关注该项目
                 proProject.setProjectFollowers("1");
+            }
+            ProMemberExample proMemberExample = new ProMemberExample();
+            proMemberExample.createCriteria().andMemberPhoneEqualTo(currentUser).andProjectIdEqualTo(Long.parseLong(projectId))
+                    .andIsDeletedEqualTo(0).andIsAuditBetween(0,1);
+            List<ProMember> members = proMemberMapper.selectByExample(proMemberExample);
+            if(members.size()>0){
+                //代表 已经申请或者加入该项目
+                proProject.setPrimaryJob(members.get(0).getJoinStatus());
             }
             // 将项目信息加入到数组里面返回
             List<ProProject> proProjects = new ArrayList<>();
@@ -222,15 +247,23 @@ public class ProProjectServiceImpl implements ProProjectService {
         }
     }*/
     @Override
-    public TableModel searchOtherProjectById(int currentPage, String projectId) {
+    public TableModel searchOtherProjectById(String projectId) {
         try {
+            Map<String,List<ProProject>> map = new HashMap<>();
             //根据id查询出数据添加到数组返回
             ProProjectExample proProjectExample = new ProProjectExample();
-            PageHelper.startPage(currentPage, 3);
-            proProjectExample.createCriteria().andProjectIdNotEqualTo(Long.parseLong(projectId)).andIsDeletedEqualTo(0);
-            List<ProProject> topNewsList = proProjectMapper.selectByExample(proProjectExample);
-            PageInfo<ProProject> pageInfo = new PageInfo<>(topNewsList);
-            return TableModel.success(topNewsList, (int) pageInfo.getTotal());
+            PageHelper.startPage(1, 3);
+            proProjectExample.setOrderByClause(Constants.PROJECT_DESCBYDATE);
+            proProjectExample.createCriteria().andProjectIdNotEqualTo(Long.parseLong(projectId))
+                    .andIsDeletedEqualTo(0).andIsGoingIsNotNull();
+            List<ProProject> otherProject = proProjectMapper.selectByExample(proProjectExample);
+            //PageInfo<ProProject> pageInfo = new PageInfo<>(topNewsList);
+            map.put("otherProject",otherProject);
+
+            //随机查询3个项目
+            List<ProProject> guessProject = proProjectMapper.selectRandom();
+            map.put("guessProject",guessProject);
+            return TableModel.success(map, map.size());
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
@@ -245,8 +278,8 @@ public class ProProjectServiceImpl implements ProProjectService {
     @Override
     public TableModel searchAllProject() {
         try {
-            String[] isGoing = {"在创", "可选"};
-            List<ProProject> proProjects = proProjectMapper.selectAllProject(isGoing);
+            //String[] isGoing = {"在创", "可选"};
+            List<ProProject> proProjects = proProjectMapper.selectAllProject();
             return TableModel.success(proProjects, proProjects.size());
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -539,6 +572,97 @@ public class ProProjectServiceImpl implements ProProjectService {
             countMap.put("countOFFollowMe", countOFFollowMe);
 
             return TableModel.success(countMap, countMap.size());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+
+    }
+
+    /**
+     * 查询我被关注的项目
+     * @param username
+     * @return
+     */
+    @Override
+    public TableModel selectProjectBeFollowed(int currentPage,String username) {
+        try{
+            PageHelper.startPage(currentPage,4);
+            List<ProProject> proProjectList = proProjectMapper.selectProjectBeFollowed(username);
+            PageInfo pageInfo = new PageInfo(proProjectList);
+            return TableModel.success(proProjectList,proProjectList.size());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+
+    }
+
+    /**
+     * 申请加入项目
+     * @param projectId
+     * @param username
+     * @return
+     */
+    @Override
+    public TableModel applyJoinProject(String projectId, String username) {
+        try{
+            // 根据phone查询我的角色
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(username);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String auth = proUsers.get(0).getAuth();
+            // 根据角色及phone查询我的个人信息
+            String myname = null;
+            switch(auth){
+                case "ROLE_STUDENT":
+                    ProStudentExample proStudentExample = new ProStudentExample();
+                    proStudentExample.createCriteria().andPhoneEqualTo(username);
+                    List<ProStudent> proStudentList = proStudentMapper.selectByExample(proStudentExample);
+                    proStudentList.get(0).setAuth("ROLE_STUDENT");// 设置角色
+                    myname = proStudentList.get(0).getName();
+                    break;
+                case "ROLE_TEACHER":
+                    ProTeacherExample proTeacherExample = new ProTeacherExample();
+                    proTeacherExample.createCriteria().andPhoneEqualTo(username);
+                    List<ProTeacher> proTeacherList = proTeacherMapper.selectByExample(proTeacherExample);
+                    proTeacherList.get(0).setAuth("ROLE_TEACHER");// 设置角色
+                    myname = proTeacherList.get(0).getName();
+                    break;
+                case "ROLE_PERSON":
+                    ProPersonExample proPersonExample = new ProPersonExample();
+                    proPersonExample.createCriteria().andPhoneEqualTo(username);
+                    List<ProPerson> proPersonList = proPersonMapper.selectByExample(proPersonExample);
+                    proPersonList.get(0).setAuth("ROLE_PERSON");// 设置角色
+                    myname = proPersonList.get(0).getName();
+                    break;
+                default:
+                    break;
+            }
+            ProMemberExample proMemberExample = new ProMemberExample();
+            proMemberExample.createCriteria().andMemberPhoneEqualTo(username).andProjectIdEqualTo((Long.parseLong(projectId)));
+            List<ProMember> proMembers = proMemberMapper.selectByExample(proMemberExample);
+            if(proMembers.size() > 0){
+                // 如果之前加入过该项目，则直接置is_deleted为o
+                ProMember proMemberCurrent = proMembers.get(0);
+                proMemberCurrent.setIsDeleted(0);
+                proMemberCurrent.setApplyDate(new Date());
+                proMemberCurrent.setIsAudit(0);
+                proMemberCurrent.setJoinStatus(Constants.MEMBER_PROJECT_STAUTS[0]);
+                proMemberMapper.updateByPrimaryKeySelective(proMemberCurrent);
+            }else{
+                //第一次申请加入该项目，设置成员申请信息
+                ProMember proMember = new ProMember();
+                proMember.setMemberName(myname);
+                proMember.setMemberPhone(username);
+                proMember.setProjectId(Long.parseLong(projectId));
+                proMember.setApplyDate(new Date());
+                proMember.setIsAudit(0);
+                proMember.setIsDeleted(0);
+                proMember.setJoinStatus(Constants.MEMBER_PROJECT_STAUTS[0]);
+                proMemberMapper.insertSelective(proMember);
+            }
+            return TableModel.success();
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());

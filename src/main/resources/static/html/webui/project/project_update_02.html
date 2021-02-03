@@ -55,7 +55,7 @@
                <div class="nametxt">辅导教师：</div>
                <div class="inputtxt">
                   <select name="" id="projectSupervisor" style="width: 235px;height: 35px;line-height: 35px;border: 1px #DBDBDB solid;border-radius: 4px;">
-                     <option value="" selected disabled hidden>请选择指导教师</option>
+
                   </select>
                </div>
             </div>
@@ -227,7 +227,8 @@
          type: "GET",   //请求方式
          success: function (req) {
             if (req.code == 200) {
-               fillProjectInfo(req.data)
+               //console.log(req);
+               fillProjectInfo(req.data[0])
             } else {
                layer.msg("网络异常，请稍后重试！")
             }
@@ -244,40 +245,43 @@
     * 填充当前项目数据
     * @param projectInfo
     */
-   var teacher;
+   //var teacher;
    function fillProjectInfo(projectInfo) {
       // 基本信息
-      $("#projectName").val(projectInfo[0].projectName);
-      $("#projectCreater").val(projectInfo[0].projectCreater);
-      $("#mainPeople").val(projectInfo[0].mainPeople);
-      $("#projectTeacher").val(projectInfo[0].projectTeacher);
-      $("#projectPeople").val(projectInfo[0].projectPeople);
-      $("#projectType").val(projectInfo[0].projectType);
-      $("#starttime").val(projectInfo[0].starttime);
-      $("#projectStatus").val(projectInfo[0].projectStatus);
-      $("#description").val(projectInfo[0].description);
-      $("#projectSupervisor").val(projectInfo[0].supervisorId); // 注意导师文本与值,这里是根据值选中来设置selected
+      $("#projectName").val(projectInfo.projectName);
+      $("#projectCreater").val(projectInfo.projectCreater);
+      $("#mainPeople").val(projectInfo.mainPeople);
+      //$("#projectTeacher").val(projectInfo.projectTeacher);
+      $("#projectPeople").val(projectInfo.projectPeople);
+      $("#projectType").val(projectInfo.projectType);
+      $("#starttime").val(projectInfo.starttime);
+      $("#projectStatus").val(projectInfo.projectStatus);
+      $("#description").val(projectInfo.description);
+      $("#projectSupervisor").val(projectInfo.supervisorId); // 注意导师文本与值,这里是根据值选中来设置selected
+      //$("#projectSupervisor").val(projectInfo.projectTeacher); // 注意导师文本与值,这里是根据值选中来设置selected
+      //console.log(projectInfo.projectTeacher);
+
 
       // 里程碑信息
-        $("#projectPeopleNew").val(projectInfo[0].projectPeopleNew),
-        $("#projectMatch").val(projectInfo[0].projectMatch),
-        $("#projectCooperation").val(projectInfo[0].projectCooperation),
-        $("#projectActivity").val(projectInfo[0].projectActivity),
-        $("#projectService").val(projectInfo[0].projectService),
-        $("#projectFinance").val(projectInfo[0].projectFinance),
-        $("#projectIncome").val(projectInfo[0].projectIncome),
-        $("#projectCompany").val(projectInfo[0].projectCompany),
-        $("#projectElseInfo").val(projectInfo[0].projectElseInfo)
+        $("#projectPeopleNew").val(projectInfo.projectPeopleNew),
+        $("#projectMatch").val(projectInfo.projectMatch),
+        $("#projectCooperation").val(projectInfo.projectCooperation),
+        $("#projectActivity").val(projectInfo.projectActivity),
+        $("#projectService").val(projectInfo.projectService),
+        $("#projectFinance").val(projectInfo.projectFinance),
+        $("#projectIncome").val(projectInfo.projectIncome),
+        $("#projectCompany").val(projectInfo.projectCompany),
+        $("#projectElseInfo").val(projectInfo.projectElseInfo)
 
-        $("#matchTime").val(projectInfo[0].matchTime)
-        $("#peopleTime").val(projectInfo[0].peopleTime)
-        $("#cooperationTime").val(projectInfo[0].cooperationTime)
-        $("#activityTime").val(projectInfo[0].activityTime)
-        $("#serviceTime").val(projectInfo[0].serviceTime)
-        $("#financeTime").val(projectInfo[0].financeTime)
-        $("#incomeTime").val(projectInfo[0].incomeTime)
-        $("#companyTime").val(projectInfo[0].companyTime)
-        $("#elseInfoTime").val(projectInfo[0].elseInfoTime)
+        $("#matchTime").val(projectInfo.matchTime)
+        $("#peopleTime").val(projectInfo.peopleTime)
+        $("#cooperationTime").val(projectInfo.cooperationTime)
+        $("#activityTime").val(projectInfo.activityTime)
+        $("#serviceTime").val(projectInfo.serviceTime)
+        $("#financeTime").val(projectInfo.financeTime)
+        $("#incomeTime").val(projectInfo.incomeTime)
+        $("#companyTime").val(projectInfo.companyTime)
+        $("#elseInfoTime").val(projectInfo.elseInfoTime)
    }
 
    /**
@@ -290,7 +294,7 @@
          projectId : projectId,
          projectName : $("#projectName").val(),
          mainPeople : $("#mainPeople").val(),
-         projectTeacher : $("#projectTeacher").val(),
+         //projectTeacher : $("#projectTeacher").val(),
          projectPeople : $("#projectPeople").val(),
          projectType : $("#projectType").val(),
          starttime : $("#starttime").val(),
@@ -301,7 +305,7 @@
          projectTeacher : $("#projectSupervisor").find("option:selected").text() // 获取导师选择框的文本
 
       }
-      console.log(updataProject)
+      //console.log(updataProject)
       $.ajax({
          url: "/vip/project/updateProject",
          dataType: "json",
@@ -310,7 +314,7 @@
          type: "POST",
          success: function(req) {
             if(req.code == 200){
-               top.layer.msg("修改成功！")
+               top.layer.msg("修改成功！",{icon: 1,shade: 0.05,time:1000})
                window.location.href = "/html/webui/personal/personal_project_list.html";
             }else{
                top.layer.msg("网络异常，请稍后重试！")
@@ -318,7 +322,7 @@
          },
          error: function(req) {
             //请求出错处理
-            console.log(req);
+            //console.log(req);
             layer.msg('参数异常');
          }
       });
@@ -417,8 +421,13 @@
    function fillProjectTeacher(supervisorInfo){
       //根据id查找对象，
       var obj=document.getElementById('projectSupervisor');
-      for(var i in supervisorInfo){
+     /* for(var i in supervisorInfo){
          obj.options[i]=new Option(supervisorInfo[i].supervisorName,supervisorInfo[i].supervisorId);    //第一个参数为文本，第二个从参数为值
+      }*/
+      var len=supervisorInfo.length;
+      for(var i=0;i<len;i++){
+         var option=document.createElement("option");
+         $("#projectSupervisor").append(('<option value='+supervisorInfo[i].supervisorId+'>'+supervisorInfo[i].supervisorName+'</option>'));
       }
    }
 
