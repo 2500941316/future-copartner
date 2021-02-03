@@ -26,7 +26,7 @@
 <div class="perRightcon">
         <div class="clear" style="margin-top: 15px"></div>
     <div class="commonTit">
-        <h1 class="fl">我的项目</h1>
+        <h1 class="fl">我的项目<span style="font-size: 10px;">(上传文件请使用doc,docx,pdf,mp4格式)</span></h1>
         <!--<div class="dqzt">
             <label>当前状态：</label>
             <span>目前处于离职状态，可即刻上岗</span>
@@ -161,21 +161,21 @@
                 /*  '                        <a href="#">下载</a> ]</div>\n' +*/
                   '                </td>\n' +
                   '            <td rowspan="2">\n' +
-                  '                       <div class="jlpart4">\n' +
+                  '                       <div class="jlpart4" id="'+5000+i+'">\n' +/*这里id从button移到div上了，使整个div都可被渲染成上传功能*/
                   '                          <div class="red"><i class="layui-icon layui-icon-video"></i>  </div>\n' +
-                  '                          <div class="tdname"><span id="currentVideoId" style="display:none;">'+projectData[i].projectId+'</span><button type="button" class="tdname1" style="border-style: none; outline: none;background: none; cursor: pointer" id="'+5+i+'">上传视频</button></div>\n' +
+                  '                          <div class="tdname"><span id="currentVideoId" style="display:none;">'+projectData[i].projectId+'</span><button type="button" class="tdname1" style="border-style: none; outline: none;background: none; cursor: pointer" >上传视频</button></div>\n' +
                   '                       </div>\n' +
                   '                </td>\n'+
                   '            <td rowspan="2">\n' +
-                  '                       <div class="jlpart4">\n' +
+                  '                       <div class="jlpart4" id="'+1000+i+'">\n' +/*这里id从button移到div上了，使整个div都可被渲染成上传功能*/
                   '                          <div class="red"><i class="layui-icon layui-icon-upload-drag"></i>  </div>\n' +
-                  '                          <div class="tdname"><span id="currentPlanId" style="display:none;">'+projectData[i].projectId+'</span> <button type="button"  class="tdname1" style="border-style: none; outline: none;background: none; cursor: pointer"  id="'+1+i+'" >上传计划书</button></div>\n' +
+                  '                          <div class="tdname"><span id="currentPlanId" style="display:none;">'+projectData[i].projectId+'</span> <button type="button"  class="tdname1" style="border-style: none; outline: none;background: none; cursor: pointer"   >上传计划书</button></div>\n' +
                   '                       </div>\n' +
                   '                </td>\n'+
                   '                <td rowspan="2">\n' +
-                  '                    <div class="jlpart4">\n' +
+                  '                    <div class="jlpart4" onclick="deleteProject('+projectData[i].projectId+')">\n' +/*onclick挪到上面来了*/
                   '                        <div class="delicon"></div>\n' +
-                  '                        <div class="tdname2" onclick="deleteProject('+projectData[i].projectId+')" style="cursor: pointer;">删除</div>\n' +
+                  '                        <div class="tdname2"  style="cursor: pointer;">删除</div>\n' +
                   '                    </div>\n' +
                   '                </td>\n' +
 
@@ -195,8 +195,8 @@
            );
               $active.append($children);
               // 将上传按钮渲染到每个循环的项目中,注意要与上传所在的button标签的id值对应
-              uploadPlan(1+i,projectData[i].projectId);
-              uploadVideo(5+i,projectData[i].projectId)
+              uploadPlan(1000+i,projectData[i].projectId);
+              uploadVideo(5000+i,projectData[i].projectId)
           }
     }
 
@@ -205,7 +205,7 @@
      * 动态绑定上传按钮，每个上传按钮都对应不同的id值
      */
     function uploadPlan(elemId,currentProjectId) {
-       // console.log(elemId+" : "+currentProjectId)
+        //console.log(elemId+" : "+currentProjectId)
         // 加上 # 作为动态绑定按钮的 elem值。
          elemId = "#"+elemId;
 
@@ -216,13 +216,15 @@
             upload.render({
                 elem: elemId
                 , url: '/vip/project/uploadPlan'
+                ,size: 1024*10
+                ,exts: 'pdf|doc|docx'// 设置允许上传的格式xls|xlsx|csv|zip|pdf|doc|docx|png|jpeg|jpg|gif
                 , data: {
                     projectId: currentProjectId
                 }
                 , accept: 'file' //普通文件
                 , done: function (res) {
                     if (res.code == 200) {
-                        top.layer.msg('上传成功，等待审批！');
+                        top.layer.msg('上传成功，等待审批！',{icon: 1,shade: 0.05,time: 1000});
                         console.log(res);
                     } else {
                         top.layer.msg('网络异常');
@@ -247,12 +249,14 @@
             //上传视频
             upload.render({
                 elem: elemId
+                ,exts: 'mp4'
+                ,size: 1024*80
                 ,url: '/vip/project/uploadVideo'
                 ,data: {projectId: currentProjectId}
                 ,accept: 'video' //视频
                 ,done: function(res){
                     if(res.code == 200){
-                        top.layer.msg('上传成功，等待审批！');
+                        top.layer.msg('上传成功，等待审批！',{icon: 1,shade: 0.05,time: 1000});
                         console.log(res);
                     }else{
                         top.layer.msg('网络异常');
@@ -296,7 +300,7 @@
                 type: "GET",
                 success: function (res) {
                     if(res.code == 200){
-                        top.layer.msg("删除成功");
+                        top.layer.msg("删除成功",{icon: 1,shade: 0.05,time: 1000});
                         window.location.href = "/html/webui/personal/personal_project_list.html";
                     }else{
                         top.layer.msg("网络异常")

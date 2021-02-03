@@ -1,5 +1,6 @@
 package com.shu.copartner.service;
 
+import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.utils.returnobj.TableModel;
 
 /**
@@ -9,4 +10,6 @@ import com.shu.copartner.utils.returnobj.TableModel;
  */
 public interface VipUserService {
     TableModel selectPersonalInfo(String username);
+
+    TableModel updatePersonalInfo(PublicRegistryInfoVO publicRegistryInfoVO);
 }

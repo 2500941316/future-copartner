@@ -125,4 +125,22 @@ public class ProTeacher implements Serializable {
     public void setAuth(String auth) {
         this.auth = auth == null ? null : auth.trim();
     }
+
+    @Override
+    public String toString() {
+        return "ProTeacher{" +
+                "teacherid=" + teacherid +
+                ", teachernumber='" + teachernumber + '\'' +
+                ", mail='" + mail + '\'' +
+                ", department='" + department + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", birthday=" + birthday +
+                ", majorname='" + majorname + '\'' +
+                ", logindate=" + logindate +
+                ", description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", auth='" + auth + '\'' +
+                '}';
+    }
 }

@@ -83,6 +83,10 @@ public class PublicRegistryInfoVO {
 
     private String labelother;
 
+    private String email;
+
+    private String address;
+
     PublicRegistryInfoVO() {
         this.applydate = new Date();
         this.applystatus = Constants.REGISTER_CODE[0];

@@ -21,11 +21,14 @@ $(function () {
  */
 function checkLogin() {
     if (localStorage.getItem("username") != null) {
-        document.getElementById("loginNow").innerText = "已登录";
-        document.getElementById("loginLabelA").onclick = function(){return "#"};
+        /*document.getElementById("loginNow").innerText = "已登录";
+        document.getElementById("loginLabelA").onclick = function(){return "#"};*/
+        document.getElementById("leftLoginDiv").style.display = "none";
 
         document.getElementById("login").innerText = "已登录，可申请项目>>";
-        document.getElementById("loginLabelRight").onclick = function(){ window.location.href =  "/html/webui/personal/person.html"};
+        document.getElementById("loginLabelRight").onclick = function(){
+            localStorage.setItem("project.html",1); // 设置标志位，用于跳转时判断
+            window.location.href =  "/html/webui/personal/person.html"};
     }
 }
 
@@ -115,8 +118,8 @@ function searchProject(pageConf) {
  * 请求所有项目数据
  */
 function getAllProjectData() {
-    $.get("/public/project/getAllProject", function (data) {
-        //console.log(data)
+    $.get("/public/project/getProjectOverview", function (data) {
+        console.log(data);
         fillProjectOverview(data.data);
     })
 }
@@ -146,7 +149,7 @@ function fillProjectOverview(projectData) {
     for(var i in projectData){
         if(projectData[i].projectType === "新零售"){
             var $children = $(
-                '<a onclick="viewProjectDetail('+projectData[i].projectId+')" style="margin-right: 8px">'+projectData[i].projectName+'</a>\n'
+                '<a href="#" onclick="viewProjectDetail('+projectData[i].projectId+')" style="margin-right: 8px;">'+projectData[i].projectName+'</a>\n'
             );
             $active.append($children);
         }else if(projectData[i].projectType === "文创"){

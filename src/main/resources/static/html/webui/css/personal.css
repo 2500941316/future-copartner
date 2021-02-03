@@ -107,6 +107,7 @@ a.Mobile:hover{background:url(../images/per6.png) 1px no-repeat;}
 .perRpart1_c .itemp{float: left;width: 202px;height: 35px;line-height: 36px;text-align: center;border-right: 1px solid #EDEEEE;cursor: pointer;}
 .perRpart1_c .itemp:last-child{ border-right:0}
 .perRpart1_c .itemp .Title{font-size: 14px;font-weight: bold; color:#222}
+.perRpart1_c .itemp .Title:hover{font-size: 14px;font-weight: bold; color:#F16100}
 .perRpart1_c .itemp .Num{font-size: 28px;color: #36A74A;vertical-align: -5px;font-family: "微软雅黑";}
 
 .jobSea{width: 813px;margin-top: 15px;background: #F9F9F9;float: left;height: 40px;}
@@ -231,9 +232,11 @@ h1.fl{ float:left; margin-right:10px}
 .jianliBox .jlpart3 a{color: #0f72a4;}
 .jianliBox .jlpart4{background-color: #F9F9F9;text-align: center;line-height: 22px;}
 .jianliBox .jlpart4 .red{color: #D84C09;font-weight: bold;height: 30px; line-height:30px}
+.jianliBox .jlpart4 .red:hover{color: #FF7A4D;font-weight: bold;height: 30px; line-height:30px;cursor: pointer}
 .jianliBox .jlpart4 .statusjl{background: url(../images/per23.png) 3px 6px no-repeat;width:60px;height: 30px; cursor:pointer; margin:0 auto}
 .jianliBox .jlpart4 .statusjl.on{background: url(../images/per24.png) 3px 6px no-repeat;width: 60px;height: 30px; cursor:pointer}
 .jianliBox .jlpart4 .delicon{background: url(../images/per35.png) 19px 6px no-repeat;width: 60px;height: 30px;margin:0 auto}   /*cursor:pointer;*/
+.jianliBox .jlpart4 .delicon:hover{background: url(../images/per35.png) 19px 6px no-repeat;width: 60px;height: 30px;margin:0 auto;cursor:pointer;}
 .jianliBox .divline{margin: 10px 0px;background: #E2E2E2;height: 1px;width: 100%;}
 
 

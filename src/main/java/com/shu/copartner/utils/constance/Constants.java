@@ -45,7 +45,7 @@ public final class Constants {
      * @Description 文件服务器的前缀
      */
     public static final String FILEURL_FIRSTNAME = "http://114.55.93.118/";
-
+/*   #114改24*/
 
     /**
      * @Description 用户注册流程码
@@ -106,6 +106,7 @@ public final class Constants {
      * @Description 新闻按照时间排序查询条件
      */
     public static final String NEW_DESCBYDATE = "news_publisTime desc";
+
 
     /**
      * @Description 新闻按照点击数量排序查询条件
@@ -249,4 +250,15 @@ public final class Constants {
     public static final String LIVE_AFTER_START = "已结束";
 
 
-}
+    /**
+     * @Description 项目按照时间排序查询条件
+     */
+    public static final String PROJECT_DESCBYDATE = "starttime desc";
+
+    /**
+     * @Description 项目类型
+     */
+    public static final String[] PROJECT_CATAGORIES = new String[]{"新零售", "文创", "科创", "K12", "校园行", "其他"};
+
+
+        }

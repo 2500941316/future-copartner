@@ -44,7 +44,8 @@
             </div>
             <ul>
                 <li><a onclick="redirecTo('/html/webui/personal/personal_activity_apply.html')" href="#">创建活动</a></li>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_activity_mycreated.html')" href="#">我的创建</a></li>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_activity_mycreated.html')" href="#">我的创建</a>
+                </li>
             </ul>
 
             <div class="NavLeftBox twoNav">
@@ -87,19 +88,19 @@
             <div class="perRpart1_c">
                 <div class="itemp">
                     <a href="#">
-                        <span class="Title">谁在关注我</span>
+                        <span class="Title" onclick="jumpToFollowMe()">谁在关注我</span>
                         <span class="Num" id="followMe">0</span>
                     </a>
                 </div>
                 <div class="itemp">
                     <a href="#">
-                        <span class="Title">我的项目</span>
+                        <span class="Title" onclick="jumpToMyProject()">我的项目</span>
                         <span class="Num" id="myProject">0</span>
                     </a>
                 </div>
                 <div class="itemp">
                     <a href="#">
-                        <span class="Title">我关注的项目</span>
+                        <span class="Title" onclick="jumpToMyFollow()">我关注的项目</span>
                         <span class="Num" id="myFollow">0</span>
                     </a>
                 </div>
@@ -127,6 +128,14 @@
 
     $(function () {
         redirecTo("/html/webui/personal/personal_info.html");
+
+        // 根据标志位来进行url监听，如果来自项目页，则直接跳转到创建项目页
+        var label = localStorage.getItem("project.html");
+        if (label === "1") {
+            redirecTo("/html/webui/personal/personal_project_apply.html");
+        }
+        localStorage.setItem("project.html", 0); // 复原标志位
+
         $("#header").load("/html/webui/header/header.html");
         $("#footer").load("/html/webui/footer/footer.html");
 
@@ -167,7 +176,7 @@
      * 填充个数
      * @param info
      */
-    function fillCount(info){
+    function fillCount(info) {
         document.getElementById("myFollow").innerText = info.countOfMyFollow;
         document.getElementById("myProject").innerText = info.countOfProject;
         document.getElementById("followMe").innerText = info.countOFFollowMe;
@@ -183,8 +192,8 @@
             type: "GET",   //请求方式
             success: function (req) {
                 if (req.code == 200) {
-                   // console.log(req);
-                    if(req.data != null){
+                    // console.log(req);
+                    if (req.data != null) {
                         fillPersonalInfo(req.data[0]);
                     }
 
@@ -194,12 +203,25 @@
             }
         })
     }
-    function fillPersonalInfo(info){
+
+    function fillPersonalInfo(info) {
         document.getElementById("logindate").innerText = info.logindate;
         document.getElementById("name").innerText = info.name;
         document.getElementById("phone").innerText = info.phone;
     }
 
+    /**
+     * 跳转到相应的路径
+     */
+    function jumpToFollowMe(){
+        redirecTo("/html/webui/personal/personal_followedproject.html");
+    }
+    function jumpToMyProject(){
+        redirecTo("/html/webui/personal/personal_project_list.html");
+    }
+    function jumpToMyFollow(){
+        redirecTo("/html/webui/personal/personal_myfollow.html");
+    }
 
 
 </script>

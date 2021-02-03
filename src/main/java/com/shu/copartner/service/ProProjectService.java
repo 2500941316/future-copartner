@@ -28,6 +28,8 @@ public interface ProProjectService {
 
     TableModel searchAllProject();
 
+    TableModel getProjectBytype();
+
     TableModel deleteProject(String projectId);
 
     TableModel followProject(String projectId,String creater) throws ParseException;
