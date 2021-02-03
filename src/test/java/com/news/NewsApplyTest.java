@@ -46,13 +46,14 @@ public class NewsApplyTest extends BaseTest {
                 return text.findElement(By.linkText("个人工作台"));
             }
         }).click();
-
+        Thread.sleep(1500);
         wait.until(new ExpectedCondition<WebElement>() {
             @Override
             public WebElement apply(WebDriver text) {
                 return text.findElement(By.linkText("发布新闻"));
             }
         }).click();
+        Thread.sleep(1500);
         driver.switchTo().frame(0);
         /**
          * 设置标题
@@ -63,6 +64,7 @@ public class NewsApplyTest extends BaseTest {
                 return text.findElement(By.id("title"));
             }
         }).sendKeys(title);
+        Thread.sleep(1000);
         /**
          * 设置keywords
          */
@@ -72,13 +74,13 @@ public class NewsApplyTest extends BaseTest {
                 return text.findElement(By.id("keywords"));
             }
         }).sendKeys(keywords);
-
+        Thread.sleep(1000);
         /**
          * 设置种类
          */
         WebElement dropdown = driver.findElement(By.id("category"));
         dropdown.findElement(By.xpath(category)).click();
-
+        Thread.sleep(1000);
         /**
          * 点击发布按钮
          */

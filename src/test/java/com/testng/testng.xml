@@ -8,9 +8,14 @@
         <!--            <class name="com.news.NewsViewTest"/>-->
         <!--        </classes>-->
 
+        <!--        <classes>-->
+        <!--            &lt;!&ndash;            <class name="com.leassons.LeassonManageApply"></class>&ndash;&gt;-->
+        <!--            &lt;!&ndash;            <class name="com.leassons.LeassonVedioPptUpload"></class>&ndash;&gt;-->
+        <!--        </classes>-->
+
         <classes>
-            <!--            <class name="com.leassons.LeassonManageApply"></class>-->
-            <class name="com.leassons.LeassonVedioPptUpload"></class>
+            <class name="com.project.ProjectApplyTest"></class>
+            <class name="com.project.ProjectManageTest"></class>
         </classes>
     </test>
 </suite>
