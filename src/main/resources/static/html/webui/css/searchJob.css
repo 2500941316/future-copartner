@@ -45,7 +45,7 @@ input{ border:0; outline:0}
 .searchDiv .search1 .sea1_1{background: #FFF;border: 1px #C4C4C4 solid;width: 350px;height: 35px;float: left;cursor: pointer;margin-top: 10px;margin-left: 27px;}
 .searchDiv .search1 .sea1_1 input.keyword{color: #898989;padding-left: 35px;line-height: 33px;height: 33px;width: 275px;cursor: auto;} /*background: url(../images/7.png) 8px 8px no-repeat;*/
 .searchDiv .search1 span.jiantou{background: url(../images/8.png) 5px 13px no-repeat;width: 29px;height: 35px;float: right;}
-.searchDiv .search1 .sea1_2{background: #FFF;border: 1px #C4C4C4 solid;width: 228px;height: 35px;float: left;cursor: pointer;margin-top: 10px;margin-left: 15px;}
+.searchDiv .search1 .sea1_2{background: #FFF;border: 1px #C4C4C4 solid;width: 228px;height: 37px;float: left;cursor: pointer;margin-top: 10px;margin-left: 15px;}
 .searchDiv .search1 .sea1_2 input.addtxt{ width:220px;height: 35px; padding-left:15px}/*background: url(../images/8.png) right 13px no-repeat;*/
 .searchDiv .search1 .sea1_3{background: #FFF;border: 1px #C4C4C4 solid;width: 228px;height: 35px;float: left;cursor: pointer;margin-top: 10px;margin-left: 15px;}
 .searchDiv .search1 .sea1_3 input.hytxt{ width:203px;height: 35px; padding-left:15px}/*background: url(../images/8.png) right 13px no-repeat;*/

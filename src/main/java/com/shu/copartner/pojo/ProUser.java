@@ -24,6 +24,10 @@ public class ProUser implements Serializable {
 
     private String phone;
 
+    private String name;
+
+    private static final long serialVersionUID = 1L;
+
     public ProUser() {
         this.isdeleted = 0;
         this.islock = 0;
@@ -31,8 +35,6 @@ public class ProUser implements Serializable {
         this.logintime = 0;
         this.registrydate = new Date();
     }
-
-    private static final long serialVersionUID = 1L;
 
     public Long getUserid() {
         return userid;
@@ -112,5 +114,13 @@ public class ProUser implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 }

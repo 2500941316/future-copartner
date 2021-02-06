@@ -68,12 +68,12 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                <div class="jldiv">
+               <!-- <div class="jldiv">
                     <div class="nametxt">成 员：</div>
                     <div class="inputtxt">
                         <textarea id="projectPeople" name="" cols="" rows="" autocomplete="off"></textarea>
                     </div>
-                </div>
+                </div>-->
                 <div class="jldiv">
                     <div class="nametxt">项目简述：</div>
                     <div class="inputtxt">
@@ -126,7 +126,7 @@
             // endtime: $("#endtime").val(),
             var mainPeople =  $("#mainPeople").val()
             var supervisorId =  $("#projectSupervisor").val()
-            var projectTeacher = $("#projectSupervisor").find("option:selected").text();
+            //var projectTeacher = $("#projectSupervisor").find("option:selected").text();
             var projectPeople=$("#projectPeople").val()
             var description=$("#description").val()
 
@@ -144,7 +144,7 @@
             projectPeople: $("#projectPeople").val(),
             description: $("#description").val(),
             supervisorId: $("#projectSupervisor").val(),
-            projectTeacher: projectTeacher,
+            //projectTeacher: projectTeacher,
 
         }
         $.ajax({

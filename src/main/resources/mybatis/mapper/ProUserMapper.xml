@@ -12,6 +12,7 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="registryDate" jdbcType="TIMESTAMP" property="registrydate" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     userid, auth, followProject, isDeleted, isLock, lastDate, loginTime, password, registryDate, 
-    phone
+    phone, name
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProUserExample" resultMap="BaseResultMap">
     select
@@ -109,11 +110,11 @@
     insert into PRO_USER (userid, auth, followProject, 
       isDeleted, isLock, lastDate, 
       loginTime, password, registryDate, 
-      phone)
+      phone, name)
     values (#{userid,jdbcType=BIGINT}, #{auth,jdbcType=VARCHAR}, #{followproject,jdbcType=VARCHAR}, 
       #{isdeleted,jdbcType=INTEGER}, #{islock,jdbcType=INTEGER}, #{lastdate,jdbcType=TIMESTAMP}, 
       #{logintime,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{registrydate,jdbcType=TIMESTAMP}, 
-      #{phone,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProUser">
     insert into PRO_USER
@@ -148,6 +149,9 @@
       <if test="phone != null">
         phone,
       </if>
+      <if test="name != null">
+        name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userid != null">
@@ -179,6 +183,9 @@
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -221,6 +228,9 @@
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -237,7 +247,8 @@
       loginTime = #{record.logintime,jdbcType=INTEGER},
       password = #{record.password,jdbcType=VARCHAR},
       registryDate = #{record.registrydate,jdbcType=TIMESTAMP},
-      phone = #{record.phone,jdbcType=VARCHAR}
+      phone = #{record.phone,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,6 +283,9 @@
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
     </set>
     where userid = #{userid,jdbcType=BIGINT}
   </update>
@@ -285,7 +299,8 @@
       loginTime = #{logintime,jdbcType=INTEGER},
       password = #{password,jdbcType=VARCHAR},
       registryDate = #{registrydate,jdbcType=TIMESTAMP},
-      phone = #{phone,jdbcType=VARCHAR}
+      phone = #{phone,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
     where userid = #{userid,jdbcType=BIGINT}
   </update>
 </mapper>

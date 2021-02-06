@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,43 +43,8 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
     @Autowired
     private ProFollowMapper proFollowMapper;
 
-    /**
-     * 查询待审批项目
-     * @param page
-     * @return
-     */
-/*    @Override
-    public TableModel searchProject(int page) {
-        long count = taskService.createTaskQuery().taskAssignee("admin") // Constants.MANAGER_ROLE
-                .taskName(Constants.PROJECTAPPLY_PROCESS_MANAGERNAME).count();
-        List<Task> taskList = taskService.createTaskQuery()
-                .taskAssignee("admin") // Constants.MANAGER_ROLE
-                .taskName(Constants.PROJECTAPPLY_PROCESS_MANAGERNAME) // 查询处于'管理员审批项目申请'状态的task
-                .listPage(Constants.pageSize * (page - 1), Constants.pageSize);
-        log.info("task条数："+taskList.size());
-
-        List<ProjectInfoSo> arrayList = new ArrayList<>();
-        for (Task task : taskList) {
-            // 根据流程实例id 查询出variable表中的Long列数据，这一Long列数据是在创建流程是setVariable设置进去的
-           // Long starttime = System.currentTimeMillis(); // 获取开始时间
-            ActRuVariableExample actRuVariableExample = new ActRuVariableExample();
-            actRuVariableExample.createCriteria().andExecutionIdEqualTo(task.getProcessInstanceId()).andLongIsNotNull();
-            List<ActRuVariable> actRuVariables = actRuVariableMapper.selectByExample(actRuVariableExample);
-   *//* Long endtime = System.currentTimeMillis(); // 获取截止时间
-            log.info("程序运行时间："+(endtime-starttime)+" ms");*//*
-
-            if (actRuVariables.size() == 1) {
-                // 根据Long列存储的项目记录id查询出项目信息，
-                ProProject proProject = proProjectMapper.selectByPrimaryKey(actRuVariables.get(0).getLong());
-                ProjectInfoSo projectInfoSo = new ProjectInfoSo();
-                // 将taskId添加到该条项目的记录，传到前端，然后前端进行通过或驳回时，通过传入该taskId来判断该项目具体的流程
-                BeanUtils.copyProperties(proProject,projectInfoSo);
-                projectInfoSo.setTaskId(task.getId());
-                arrayList.add(projectInfoSo);
-            }
-        }
-        return TableModel.tableSuccess(arrayList, (int)count);
-    }*/
+    /*@Autowired
+    private ProMemberMapper proMemberMapper;*/
 
     /**
      * 查询待审批项目
@@ -126,6 +92,7 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
     @Override
     public TableModel searchProjectById(String projectId) {
         try{
+            Map<String,List> map = new HashMap<>();
             // 查询项目信息
             ProProject proProject = this.proProjectMapper.selectByPrimaryKey(Long.parseLong(projectId));
             // 取出planURL，videoUrl
@@ -138,10 +105,19 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
                     proProject.setPlanUrl(p.getPlanUrl());
                 }
             }
+
+            //查询该项目成员
+        /*    ProMemberExample proMemberExample02 = new ProMemberExample();
+            proMemberExample02.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId)).andIsAuditEqualTo(1);
+            List<ProMember> proMemberNames = proMemberMapper.selectByExample(proMemberExample02);
+            map.put("projectMember",proMemberNames);*/
+
+
             // 将项目信息加入到数组里面返回
             List<ProProject> proProjects = new ArrayList<>();
             proProjects.add(proProject);
-            return TableModel.success(proProjects,proProjects.size());
+            map.put("projectInfo",proProjects);
+            return TableModel.success(map,map.size());
         }catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
@@ -180,7 +156,7 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
         for(Map.Entry<String,String> entry : Constants.PROJECT_STATE_TOKEN.entrySet()){
             if(projectManagerOperationVO.getProjectStateToken().equals(entry.getKey())){
                 tempStateToken = entry.getKey();
-                log.info("审批："+tempStateToken);
+                //log.info("审批："+tempStateToken);
             }
         }
         if(tempStateToken.equals("21")){

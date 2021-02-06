@@ -119,14 +119,29 @@
                 <div class="jobsub">项目类型： <span id="projectType"></span></div>
                 <div class="jobsub">项目创建人： <span id="projectCreater"></span></div>
                 <div class="jobsub">项目负责人： <span id="mainPeople"> </span></div>
-                <div class="jobsub">项目成员： <span id="projectPeople"></span></div>
+                <div class="jobsub" style="max-width: 500px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">项目成员： <span id="projectPeople"></span></div>
                 <div class="jobsub">开始时间： <span id="starttime"></span></div>
-                <div class="jobsub">项目计划书： <a id="planUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
-                <div class="jobsub">项目视频： <a id="videoUrl" target="_blank" style="color: #0f72a4">点击查看</a></div>
+                <div class="jobsub">项目计划书： <a id="planUrl" onclick="lookPlan()" style="color: #0f72a4;cursor: pointer">点击查看</a></div>
+                <div class="jobsub">项目视频： <a id="videoUrl" target="_blank" style="color: #0f72a4;cursor: pointer;">点击查看</a></div>
                 <div class="jobsub">项目辅导老师： <span id="projectTeacher"></span></div>
-                <div class="jobsub">项目简述： <span id="description"></span><div>
+                <div class="jobsub" style="max-width: 500px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">项目简述： <span id="description"></span></div>
             </div>
         </div>
+    </div>
+
+    <!--视频播放界面-->
+    <div class="grid-demo grid-demo-bg1" style="display: none" id="lookVideo">
+        <video id="vedio_url" src="" preload="auto"  style="margin-left: 4%;margin-top: 15px"
+               width="90%" height="500px" controls>
+            <source type="video/ogg">
+            <source type="video/mp3">
+            您的浏览器不支持在线播放
+        </video>
+    </div>
+
+    <!--存放项目计划书路径-->
+    <div class="grid-demo grid-demo-bg1" style="display: none" id="lookPlan">
+        <span id="planSpan"></span>
     </div>
 </div>
 
@@ -150,13 +165,14 @@
                 url: "/manager/project/getProjectById",
                 contentType: "application/json",
                 data: "projectId=" + projectId,
-                success: function (data) {
-                    if (data.code === 200) {
-                        //console.log("通过projectId查询成功")
-                        fillPage(data.data[0]);
+                success: function (res) {
+                    if (res.code === 200) {
+                        console.log(res);
+                        fillPage(res.data.projectInfo[0]);// 填充项目信息
+                        fillProjectMember(res.data.projectMember);// 填充项目成员
                     }
                 },
-                error: function (data) {
+                error: function (res) {
                     layer.msg('网络异常');
                 }
             });
@@ -170,17 +186,71 @@
         document.getElementById("projectType").innerText = projectInfo.projectType;
         document.getElementById("projectCreater").innerText = projectInfo.projectCreater;
         document.getElementById("mainPeople").innerText = projectInfo.mainPeople;
-        document.getElementById("projectPeople").innerHTML = projectInfo.projectPeople;
+        //document.getElementById("projectPeople").innerHTML = projectInfo.projectPeople;
         document.getElementById("starttime").innerText = projectInfo.starttime;
-        projectInfo.planUrl == "null" ?
+        projectInfo.planUrl === "null" ?
             document.getElementById("planUrl").innerText = "无" :
-            document.getElementById("planUrl").href = projectInfo.planUrl;
-        projectInfo.videoUrl == "null" ?
+            document.getElementById("planSpan").innerText = projectInfo.planUrl;
+        projectInfo.videoUrl === "null" ?
             document.getElementById("videoUrl").innerText = "无" :
             document.getElementById("videoUrl").href = projectInfo.videoUrl;
         //document.getElementById("videoUrl").innerText = projectInfo.videoUrl;
         document.getElementById("projectTeacher").innerText = projectInfo.projectTeacher;
         document.getElementById("description").innerText = projectInfo.description;
+    }
+
+    /**
+     * 填充项目成员
+     * @param projectMember
+     */
+    function fillProjectMember(projectMember){
+        var member = "";
+        for(var i in projectMember){
+            member= member.concat(projectMember[i].memberName+",");
+        }
+        //console.log(member);
+        document.getElementById("projectPeople").innerText = member;
+    }
+
+    /**
+     * 查看项目视频
+     */
+    function lookVideo() {
+        layer.closeAll();
+        if(document.getElementById("videoUrl").innerText === "点击查看"){
+            // 获取选中的状态值
+            layer.open({
+                type:1,
+                area:['60%','80%'],
+                title: '项目视频',
+                content: $("#lookVideo"),
+                shade: 0.1,
+                cancel: function(layero,index){
+                    document.getElementById('vedio_url').pause();// 停止播放
+                    layer.closeAll();
+                }
+            });
+        }
+    }
+
+    /**
+     * 查看项目计划书
+     */
+    function lookPlan() {
+        var textFile = document.getElementById("planSpan").innerText;
+        if(document.getElementById("planUrl").innerText === "点击查看"){
+            // 获取选中的状态值
+            top.layer.open({
+                type:2,
+                area:['60%','90%'],
+                title: '项目计划书',
+                content: textFile,
+                shade: 0.1,
+                cancel: function(layero,index){
+                    layer.closeAll();
+                }
+            });
+        }
     }
 </script>
 </body>

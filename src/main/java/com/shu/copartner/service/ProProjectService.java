@@ -49,4 +49,18 @@ public interface ProProjectService {
     TableModel selectProjectBeFollowed(int currentPage,String username);
 
     TableModel applyJoinProject(String projectId,String username);
+
+    TableModel cancelExitProject(String projectId,String phone);
+
+    TableModel searchMemberApply(int page,String projectId);
+
+    TableModel searchMemberByNamePhone(int page,String name,String phone,String projectId);
+
+    TableModel handleMemberApply(String memberId,String isAudit);
+
+    TableModel handleMemberInvite(String name,String phone,String projectId,String currentUserPhone);
+
+    TableModel searchInvitationInfo(int page,String phone);
+
+    TableModel handleInvitationInfo(String memberId,String isAudit);
 }

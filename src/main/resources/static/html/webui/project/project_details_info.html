@@ -33,7 +33,7 @@
             <p>创建人：<span id="projectCreater2"></span></p>
             <p>负责人：<span id="mainPeople2"></span></p>
             <p>辅导老师：<span id="projectTeacher2"></span></p>
-            <p>成员：<span id="projectPeople2"></span></p>
+            <p style="max-width: 270px;display:inherit;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">成员人数：<span id="projectPeople2" ></span></p>
             <p>项目类型：<span id="projectType2"></span></p>
             <p>开始时间：<span id="starttime2"></span></p>
             <p>项目视频：<a id="videoUrl2" onclick="lookVideo()" style="color: #0f72a4;cursor: pointer">点击查看</a></p>
@@ -77,7 +77,7 @@
                <div class="jobsub">项目创建人： <span id="projectCreater"></span></div>
                <div class="jobsub">项目负责人： <span id="mainPeople"> </span></div>
                <div class="jobsub">项目辅导老师： <span id="projectTeacher"></span></div>
-               <div class="jobsub">项目成员： <span id="projectPeople"></span></div>
+               <div class="jobsub" style="max-width: 500px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">项目成员： <span id="projectPeople" ></span></div>
                <div class="jobsub">项目类型： <span id="projectType"></span></div>
                <div class="jobsub">开始时间： <span id="starttime"></span></div>
                <div class="jobsub">项目计划书： <a id="planUrl" onclick="lookPlan()" style="color: #0f72a4;cursor: pointer;">点击查看</a></div>
@@ -201,7 +201,8 @@
          success: function (req) {
             if (req.code == 200) {
                //console.log(req)
-               fillProjectInfo(req.data[0])
+               fillProjectInfo(req.data.projectInfo[0]);
+               fillProjectMember(req.data.projectMember);
             } else {
                layer.msg("网络异常，请稍后重试！")
             }
@@ -209,7 +210,7 @@
          error: function (req) {
             //请求出错处理
             //console.log(req);
-            layer.msg("参数异常");
+            layer.msg("网络异常，请稍后重试！");
          }
        })
    }
@@ -234,8 +235,8 @@
               document.getElementById("projectTeacher").innerText = "无" :
               document.getElementById("projectTeacher").innerText = projectInfo.projectTeacher;
 
-      document.getElementById("projectPeople").innerText = projectInfo.projectPeople;
-      document.getElementById("projectPeople2").innerText = projectInfo.projectPeople;
+      //document.getElementById("projectPeople").innerText = projectInfo.projectPeople;
+      //document.getElementById("projectPeople2").innerText = projectInfo.projectPeople;
 
       document.getElementById("projectType").innerText = projectInfo.projectType;
       document.getElementById("projectType2").innerText = projectInfo.projectType;
@@ -318,6 +319,20 @@
       }
    }
 
+   /**
+    * 填充项目成员
+    * @param projectMember
+    */
+   function fillProjectMember(projectMember){
+      var member = "";
+      for(var i in projectMember){
+         member= member.concat(projectMember[i].memberName+",");
+      }
+      //console.log(member);
+      document.getElementById("projectPeople").innerText = member;
+      document.getElementById("projectPeople2").innerText = projectMember.length;
+   }
+
    // 立即关注
    $('.DivLeft_1 .gz1, .divJob_2 .divJob_2_1').click(function () {
       if (localStorage.getItem("username") != null) {
@@ -359,10 +374,7 @@
          if(document.getElementById("join").innerText == "申请加入"){
             applyJoinProject(localStorage.getItem("projectId"));
          }else{
-            //comfirmCancelFollow(localStorage.getItem("projectId"),document.getElementById("projectCreater").innerText);
-             document.getElementById("join").innerText = "申请加入";
-             $('.divJob_2_4').css('background', '#0e7bfe');
-            //console.log("取消关注"+localStorage.getItem("projectId")+document.getElementById("projectCreater").innerText);
+            comfirmExitProject(localStorage.getItem("projectId"));
          }
       } else {
          layer.msg("请先完成登录！", {icon: 7,shade: 0.05,time: 2000});
@@ -394,7 +406,7 @@
          error: function (req) {
             //请求出错处理
             //console.log(req);
-            layer.msg("参数异常");
+            layer.msg("网络异常，请稍后重试！");
          }
       })
    }
@@ -601,6 +613,41 @@
                top.layer.msg("已申请",{icon:1,shade: 0.05,time: 1000});
                $('.divJob_2_4').css('background', 'grey');
                document.getElementById("join").innerText = "已申请";
+            }else{
+               top.layer.msg("网络异常");
+            }
+         }
+      })
+   }
+
+   /**
+    * 确认退出项目
+    */
+   function comfirmExitProject(projectId){
+      top.layer.confirm('确认退出项目？', {title: '提示'},function (index) {
+         cancelExitProject(projectId);
+         layer.close(index);
+      });
+   }
+
+   /**
+    * 退出项目
+    * @param projectId
+    */
+   function cancelExitProject(projectId,follower) {
+      var cancelInfo = {
+         projectId: projectId,
+      }
+      //console.log(cancelInfo);
+      $.ajax({
+         url: "/vip/project/cancelExitProject",
+         type: "GET",
+         data: cancelInfo,
+         success: function (res) {
+            if(res.code == 200){
+               top.layer.msg("已退出！",{icon:1,shade: 0.05,time: 1000});
+               document.getElementById("join").innerText = "申请加入";
+               $('.divJob_2_4').css('background', '#0e7bfe');
             }else{
                top.layer.msg("网络异常");
             }

@@ -18,6 +18,20 @@ public interface ProMemberMapper {
 
     List<ProMember> selectByExample(ProMemberExample example);
 
+    /**
+     * 查询邀请信息
+     * @param memberPhone
+     * @return
+     */
+    List<ProMember> selectInvitationInfo(@Param("memberPhone") String memberPhone);
+
+    /**
+     * 查询我的邀请函个数
+     * @param memberPhone
+     * @return
+     */
+    Long selectCountOfMyInvitation(@Param("memberPhone") String memberPhone);
+
     ProMember selectByPrimaryKey(Long memberId);
 
     int updateByExampleSelective(@Param("record") ProMember record, @Param("example") ProMemberExample example);

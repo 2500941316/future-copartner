@@ -236,4 +236,98 @@ public class VipProjectController {
         return proProjectService.applyJoinProject(projectId,principal.getName());
     }
 
+    /**
+     * 退出项目
+     * @param projectId
+     * @return
+     */
+    @GetMapping("cancelExitProject")
+    public TableModel cancelExitProject(@Size(min = 1) @RequestParam String projectId,Principal principal) {
+        return proProjectService.cancelExitProject(projectId,principal.getName());
+    }
+
+
+    /**
+     * 查询人员申请信息
+     * @param page
+     * @return
+     */
+    @GetMapping("searchMemberApply")
+    public TableModel searchMemberApply(@Size(min = 1) @RequestParam int page,@Size(min = 1) @RequestParam String projectId) {
+        if (page <= 0) {
+            throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
+        }
+        //log.info("projectId:"+projectId);
+        return proProjectService.searchMemberApply(page,projectId);
+    }
+
+    /**
+     * 根据姓名，联系方式搜索人员
+     * @param page
+     * @param name
+     * @param phone
+     * @return
+     */
+    @GetMapping("searchMemberByNamePhone")
+    public TableModel searchMemberByNamePhone(@Size(min = 1) @RequestParam int page,
+                                              @Size(min = 1) @RequestParam String name,
+                                              @Size(min = 1) @RequestParam String phone,
+                                              @Size(min = 1) @RequestParam String projectId) {
+        if (page <= 0) {
+            throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
+        }
+        //log.info("name:"+name+" phone:"+phone);
+        return proProjectService.searchMemberByNamePhone(page,name,phone,projectId);
+    }
+
+    /**
+     * 处理人员申请
+     * @param memberId
+     * @param isAudit 1代表已加入，2代表已拒绝
+     * @return
+     */
+    @GetMapping("handleMemberApply")
+    public TableModel handleMemberApply(@Size(min = 1) @RequestParam String memberId,@Size(min = 1) @RequestParam String isAudit) {
+        return proProjectService.handleMemberApply(memberId,isAudit);
+    }
+
+    /**
+     * 处理人员邀请
+     * @param name 被邀请人信息
+     * @param phone 被邀请人信息
+     * @param projectId
+     * @param principal 用于查询邀请人姓名
+     * @return
+     */
+    @GetMapping("handleMemberInvite")
+    public TableModel handleMemberInvite(@Size(min = 1) @RequestParam String name,@Size(min = 1) @RequestParam String phone,@Size(min = 1) @RequestParam String projectId,Principal principal) {
+        return proProjectService.handleMemberInvite(name,phone,projectId,principal.getName());
+    }
+
+
+    /**
+     * 查询本人邀请函信息
+     * @param page
+     * @param principal
+     * @return
+     */
+    @GetMapping("searchInvitationInfo")
+    public TableModel searchInvitationInfo(@Size(min = 1) @RequestParam int page,Principal principal) {
+        if (page <= 0) {
+            throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
+        }
+        return proProjectService.searchInvitationInfo(page,principal.getName());
+    }
+
+    /**
+     * 处理邀请函信息，同意或者拒绝邀请
+     * @param memberId
+     * @param isAudit 1代表已加入，2代表已拒绝
+     * @return
+     */
+    @GetMapping("handleInvitationInfo")
+    public TableModel handleInvitationInfo(@Size(min = 1) @RequestParam String memberId,@Size(min = 1) @RequestParam String isAudit) {
+        return proProjectService.handleInvitationInfo(memberId,isAudit);
+    }
+
 }

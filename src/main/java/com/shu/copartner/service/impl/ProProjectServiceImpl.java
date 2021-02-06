@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.Test;
 
 
+import java.awt.print.PrinterJob;
+import java.lang.reflect.Member;
 import java.security.PrivilegedExceptionAction;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -78,12 +80,29 @@ public class ProProjectServiceImpl implements ProProjectService {
     @Override
     public TableModel selectByCreater(int currentPage, String projectCreater) {
         try {
+            //查询我的项目
             ProProjectExample proProjectExample = new ProProjectExample();
             proProjectExample.setOrderByClause(Constants.PROJECT_DESCBYDATE);
             PageHelper.startPage(currentPage, 4);
             proProjectExample.createCriteria().andProjectCreaterEqualTo(projectCreater).andIsDeletedEqualTo(0).andIsGoingIsNotNull();
             List<ProProject> proProjectsList = proProjectMapper.selectByExample(proProjectExample);
             PageInfo<ProProject> pageInfo = new PageInfo<>(proProjectsList);
+
+            //查询申请加入项目的人数
+            ProMemberExample proMemberExample = new ProMemberExample();
+            proMemberExample.createCriteria().andIsAuditEqualTo(0).andIsDeletedEqualTo(0);
+            List<ProMember> proMembers = proMemberMapper.selectByExample(proMemberExample);
+            for (ProProject pp : proProjectsList) {
+                int applyJoinCount = 0;
+                for (ProMember pm : proMembers) {
+                    if (pm.getProjectId() == pp.getProjectId()) {
+                        applyJoinCount++;
+                    }
+                }
+                pp.setPrimaryJob(applyJoinCount + "");// 代表申请该项目的人数，临时用primaryJob存储
+                //log.info(pp.getProjectId()+"："+applyJoinCount);
+            }
+
             return TableModel.success(proProjectsList, (int) pageInfo.getTotal());
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -168,6 +187,7 @@ public class ProProjectServiceImpl implements ProProjectService {
     @Override
     public TableModel searchProjectById(String projectId, String currentUser) {
         try {
+            Map<String, List> map = new HashMap<>();
             //根据id查询出数据添加到数组返回, 并判断当前用户关注该项目与否
             ProProject proProject = this.proProjectMapper.selectByPrimaryKey(Long.parseLong(projectId));
             ProFollow proFollow = proFollowMapper.selectByPidFollower(Long.parseLong(projectId), currentUser);
@@ -177,16 +197,24 @@ public class ProProjectServiceImpl implements ProProjectService {
             }
             ProMemberExample proMemberExample = new ProMemberExample();
             proMemberExample.createCriteria().andMemberPhoneEqualTo(currentUser).andProjectIdEqualTo(Long.parseLong(projectId))
-                    .andIsDeletedEqualTo(0).andIsAuditBetween(0,1);
+                    .andIsDeletedEqualTo(0).andIsAuditBetween(0, 1);
             List<ProMember> members = proMemberMapper.selectByExample(proMemberExample);
-            if(members.size()>0){
+            if (members.size() > 0) {
                 //代表 已经申请或者加入该项目
                 proProject.setPrimaryJob(members.get(0).getJoinStatus());
             }
+
+            //查询该项目成员
+            ProMemberExample proMemberExample02 = new ProMemberExample();
+            proMemberExample02.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId)).andIsAuditEqualTo(1);
+            List<ProMember> proMemberNames = proMemberMapper.selectByExample(proMemberExample02);
+            map.put("projectMember", proMemberNames);
+
             // 将项目信息加入到数组里面返回
             List<ProProject> proProjects = new ArrayList<>();
             proProjects.add(proProject);
-            return TableModel.success(proProjects, proProjects.size());
+            map.put("projectInfo", proProjects);
+            return TableModel.success(map, map.size());
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
@@ -249,7 +277,7 @@ public class ProProjectServiceImpl implements ProProjectService {
     @Override
     public TableModel searchOtherProjectById(String projectId) {
         try {
-            Map<String,List<ProProject>> map = new HashMap<>();
+            Map<String, List<ProProject>> map = new HashMap<>();
             //根据id查询出数据添加到数组返回
             ProProjectExample proProjectExample = new ProProjectExample();
             PageHelper.startPage(1, 3);
@@ -258,11 +286,11 @@ public class ProProjectServiceImpl implements ProProjectService {
                     .andIsDeletedEqualTo(0).andIsGoingIsNotNull();
             List<ProProject> otherProject = proProjectMapper.selectByExample(proProjectExample);
             //PageInfo<ProProject> pageInfo = new PageInfo<>(topNewsList);
-            map.put("otherProject",otherProject);
+            map.put("otherProject", otherProject);
 
             //随机查询3个项目
             List<ProProject> guessProject = proProjectMapper.selectRandom();
-            map.put("guessProject",guessProject);
+            map.put("guessProject", guessProject);
             return TableModel.success(map, map.size());
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -289,26 +317,27 @@ public class ProProjectServiceImpl implements ProProjectService {
 
     /**
      * 根据项目类型分别查询项目
+     *
      * @return
      */
     @Override
     public TableModel getProjectBytype() {
-        try{
+        try {
             List<ProProject> finalProjectList = new ArrayList<>();
             // 每种type都循环一次
-            for(int i =0;i<Constants.PROJECT_CATAGORIES.length;i++){
+            for (int i = 0; i < Constants.PROJECT_CATAGORIES.length; i++) {
                 String type = Constants.PROJECT_CATAGORIES[i];
                 ProProjectExample proProjectExample = new ProProjectExample();
                 proProjectExample.setOrderByClause(Constants.PROJECT_DESCBYDATE);// 按照时间倒序
                 proProjectExample.createCriteria().andProjectTypeEqualTo(type);
-                PageHelper.startPage(1,6); // 每种类型最多查询6个
+                PageHelper.startPage(1, 6); // 每种类型最多查询6个
                 List<ProProject> proProjects = proProjectMapper.selectByExample(proProjectExample);
-                for(ProProject p : proProjects){
+                for (ProProject p : proProjects) {
                     finalProjectList.add(p);
                 }
             }
-            return TableModel.success(finalProjectList,finalProjectList.size());
-        }catch (Exception e) {
+            return TableModel.success(finalProjectList, finalProjectList.size());
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
@@ -437,7 +466,7 @@ public class ProProjectServiceImpl implements ProProjectService {
      */
     @Override
     public boolean uploadProjectPlan(String planUrl, String projectId) {
-        try{
+        try {
             //log.info("上传项目计划书");
             ProProject proProject = new ProProject();
             // 设置项目的状态
@@ -568,8 +597,13 @@ public class ProProjectServiceImpl implements ProProjectService {
             countMap.put("countOfMyFollow", countOfMyFollow);
 
             // 关注我的项目 个数
-            Long countOFFollowMe = proFollowMapper.selectCountOfFollowMe(username);
-            countMap.put("countOFFollowMe", countOFFollowMe);
+            Long countOfFollowMe = proFollowMapper.selectCountOfFollowMe(username);
+            countMap.put("countOfFollowMe", countOfFollowMe);
+
+            Long countOfMyInvitation = proMemberMapper.selectCountOfMyInvitation(username);
+            countMap.put("countOfMyInvitation", countOfMyInvitation);
+
+
 
             return TableModel.success(countMap, countMap.size());
         } catch (Exception e) {
@@ -581,16 +615,17 @@ public class ProProjectServiceImpl implements ProProjectService {
 
     /**
      * 查询我被关注的项目
+     *
      * @param username
      * @return
      */
     @Override
-    public TableModel selectProjectBeFollowed(int currentPage,String username) {
-        try{
-            PageHelper.startPage(currentPage,4);
+    public TableModel selectProjectBeFollowed(int currentPage, String username) {
+        try {
+            PageHelper.startPage(currentPage, 4);
             List<ProProject> proProjectList = proProjectMapper.selectProjectBeFollowed(username);
             PageInfo pageInfo = new PageInfo(proProjectList);
-            return TableModel.success(proProjectList,proProjectList.size());
+            return TableModel.success(proProjectList, proProjectList.size());
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
@@ -600,13 +635,14 @@ public class ProProjectServiceImpl implements ProProjectService {
 
     /**
      * 申请加入项目
+     *
      * @param projectId
      * @param username
      * @return
      */
     @Override
     public TableModel applyJoinProject(String projectId, String username) {
-        try{
+        try {
             // 根据phone查询我的角色
             ProUserExample proUserExample = new ProUserExample();
             proUserExample.createCriteria().andPhoneEqualTo(username);
@@ -614,7 +650,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             String auth = proUsers.get(0).getAuth();
             // 根据角色及phone查询我的个人信息
             String myname = null;
-            switch(auth){
+            switch (auth) {
                 case "ROLE_STUDENT":
                     ProStudentExample proStudentExample = new ProStudentExample();
                     proStudentExample.createCriteria().andPhoneEqualTo(username);
@@ -642,7 +678,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             ProMemberExample proMemberExample = new ProMemberExample();
             proMemberExample.createCriteria().andMemberPhoneEqualTo(username).andProjectIdEqualTo((Long.parseLong(projectId)));
             List<ProMember> proMembers = proMemberMapper.selectByExample(proMemberExample);
-            if(proMembers.size() > 0){
+            if (proMembers.size() > 0) {
                 // 如果之前加入过该项目，则直接置is_deleted为o
                 ProMember proMemberCurrent = proMembers.get(0);
                 proMemberCurrent.setIsDeleted(0);
@@ -650,14 +686,14 @@ public class ProProjectServiceImpl implements ProProjectService {
                 proMemberCurrent.setIsAudit(0);
                 proMemberCurrent.setJoinStatus(Constants.MEMBER_PROJECT_STAUTS[0]);
                 proMemberMapper.updateByPrimaryKeySelective(proMemberCurrent);
-            }else{
+            } else {
                 //第一次申请加入该项目，设置成员申请信息
                 ProMember proMember = new ProMember();
                 proMember.setMemberName(myname);
                 proMember.setMemberPhone(username);
                 proMember.setProjectId(Long.parseLong(projectId));
                 proMember.setApplyDate(new Date());
-                proMember.setIsAudit(0);
+                proMember.setIsAudit(0); // 0带代表'已申请状态'
                 proMember.setIsDeleted(0);
                 proMember.setJoinStatus(Constants.MEMBER_PROJECT_STAUTS[0]);
                 proMemberMapper.insertSelective(proMember);
@@ -668,6 +704,233 @@ public class ProProjectServiceImpl implements ProProjectService {
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
 
+    }
+
+    /**
+     * 退出项目
+     *
+     * @param projectId
+     * @return
+     */
+    @Override
+    public TableModel cancelExitProject(String projectId, String phone) {
+        try {
+            //设置成员信息
+            ProMember proMember = new ProMember();
+            proMember.setProjectId(Long.parseLong(projectId));
+            proMember.setMemberPhone(phone);
+            proMember.setExitDate(new Date());
+            proMember.setIsAudit(3); // 3代表已退出
+            proMember.setJoinStatus(Constants.MEMBER_PROJECT_STAUTS[3]);
+            proMember.setIsDeleted(1);
+            // 更新到数据库中
+            ProMemberExample proMemberExample = new ProMemberExample();
+            proMemberExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId)).andMemberPhoneEqualTo(phone);
+            proMemberMapper.updateByExampleSelective(proMember, proMemberExample);
+            return TableModel.success();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 查询人员申请信息
+     *
+     * @param page
+     * @return
+     */
+    @Override
+    public TableModel searchMemberApply(int page, String projectId) {
+        try {
+            //log.info(projectId);
+            if (StringUtils.isEmpty(projectId)) {
+                projectId = Integer.toString(0);
+            }
+            ProMemberExample proMemberExample = new ProMemberExample();
+            proMemberExample.createCriteria().andIsAuditEqualTo(0).andIsDeletedEqualTo(0)
+                    .andProjectIdEqualTo(Long.parseLong(projectId));
+            PageHelper.startPage(page, 10);
+            List<ProMember> proMembers = proMemberMapper.selectByExample(proMemberExample);
+            PageInfo pageInfo = new PageInfo(proMembers);
+            return TableModel.tableSuccess(proMembers, (int)pageInfo.getTotal());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 根据name，phone查询人员
+     *
+     * @param page
+     * @param name
+     * @param phone
+     * @return
+     */
+    @Override
+    public TableModel searchMemberByNamePhone(int page, String name, String phone,String projectId) {
+        try {
+            // 首先在成员表member中查询该项目已加入的成员，搜索时需要排除
+            ProMemberExample proMemberExample = new ProMemberExample();
+            // 查询出 已申请，已加入，已邀请的人员，在后面查询条件下排除
+            proMemberExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId)).andIsAuditNotBetween(2,3);
+            List<ProMember> proMembers = proMemberMapper.selectByExample(proMemberExample);
+
+            //在用户表中查询用户人员
+            PageHelper.startPage(page, 10);
+            ProUserExample proUserExample = new ProUserExample();
+            ProUserExample.Criteria criteria= proUserExample.createCriteria();
+            if(proMembers.size()>0){
+                // 排除 已申请，已加入，已邀请的人员
+                List<String> memberPhoneList = new ArrayList<>();
+                for(ProMember pm : proMembers){
+                    memberPhoneList.add(pm.getMemberPhone());
+                }
+                criteria.andPhoneNotIn(memberPhoneList);
+            }
+            if(StringUtils.isNotEmpty(name)){
+                // 按姓名模糊查询
+                criteria.andNameLike("%" + name + "%");
+            }
+            if(StringUtils.isNotEmpty(phone)){
+                // 按手机号模糊查询
+                criteria.andPhoneLike("%" + phone + "%");
+            }
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            PageInfo pageInfo = new PageInfo(proUsers);
+            return TableModel.tableSuccess(proUsers, (int)pageInfo.getTotal());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 处理人员申请
+     *
+     * @param memberId
+     * @param isAudit
+     * @return
+     */
+    @Override
+    public TableModel handleMemberApply(String memberId, String isAudit) {
+        try {
+            ProMember proMember = new ProMember();
+            proMember.setMemberId(Long.parseLong(memberId));
+            proMember.setIsAudit(Integer.parseInt(isAudit));
+            proMember.setJoinStatus(Constants.MEMBER_PROJECT_STAUTS[Integer.parseInt(isAudit)]);
+            if("1".equals(isAudit)){
+                //同意该申请
+                proMember.setJoinDate(new Date());
+            }else if("2".equals(isAudit)){
+                //拒绝该申请
+                proMember.setExitDate(new Date());
+            }
+            proMemberMapper.updateByPrimaryKeySelective(proMember);
+            return TableModel.success();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+
+    }
+
+    /**
+     * 处理人员邀请
+     * @param name
+     * @param phone
+     * @param projectId
+     * @param currentUserPhone
+     * @return
+     */
+    @Override
+    public TableModel handleMemberInvite(String name,String phone,String projectId,String currentUserPhone) {
+        try{
+            // 先查询出当前邀请人姓名，后面添加到邀请信息中
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(currentUserPhone);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String inviterName = proUsers.get(0).getName();
+            //如果是之前 拒绝或者退出 的该项目的人员，则直接将表状态更新为 ‘已邀请’
+            ProMemberExample proMemberExample = new ProMemberExample();
+            proMemberExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId)).andMemberPhoneEqualTo(phone);
+            List<ProMember> proMembers = proMemberMapper.selectByExample(proMemberExample);
+            if(proMembers.size()>0){
+                // 一次操作只邀请一个人，所以处理完直接返回即可，循环就一次
+                for(ProMember pm : proMembers){
+                    pm.setIsAudit(4); // 4代表 已邀请
+                    pm.setJoinStatus(Constants.MEMBER_PROJECT_STAUTS[4]);
+                    pm.setInviteDate(new Date(System.currentTimeMillis()));
+                    pm.setInviterName(inviterName);// 设置邀请人名称
+                    proMemberMapper.updateByPrimaryKeySelective(pm);
+                    return TableModel.success();
+                }
+            }
+            // 如果邀请的人员是第一次加入该项目，则在表中新增一条贾璐
+            ProMember proMember = new ProMember();
+            proMember.setMemberName(name);
+            proMember.setMemberPhone(phone);
+            proMember.setInviterName(inviterName);// 设置邀请人名称
+            proMember.setProjectId(Long.parseLong(projectId));
+            proMember.setIsAudit(4); // 4代表 已邀请
+            proMember.setJoinStatus(Constants.MEMBER_PROJECT_STAUTS[4]);// 已邀请 状态
+            proMember.setInviteDate(new Date(System.currentTimeMillis()));
+            proMember.setIsDeleted(0);
+            proMemberMapper.insertSelective(proMember);
+            return TableModel.success();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+
+    /**
+     * 查询本人被邀请的信息
+     * @param page
+     * @param phone 本人手机号
+     * @return
+     */
+    @Override
+    public TableModel searchInvitationInfo(int page, String phone) {
+        try{
+            PageHelper.startPage(page,10);// 表格每页10条
+            List<ProMember> proMembers = proMemberMapper.selectInvitationInfo(phone);
+            PageInfo pageInfo = new PageInfo(proMembers);
+            return TableModel.tableSuccess(proMembers,(int)pageInfo.getTotal());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 处理邀请函信息，同意或者拒绝该邀请
+     * @param memberId
+     * @param isAudit
+     * @return
+     */
+    @Override
+    public TableModel handleInvitationInfo(String memberId, String isAudit) {
+        try {
+            ProMember proMember = new ProMember();
+            proMember.setMemberId(Long.parseLong(memberId));
+            proMember.setIsAudit(Integer.parseInt(isAudit));
+            proMember.setJoinStatus(Constants.MEMBER_PROJECT_STAUTS[Integer.parseInt(isAudit)]);
+            if("1".equals(isAudit)){
+                //同意该邀请
+                proMember.setJoinDate(new Date());
+            }else if("2".equals(isAudit)){
+                //拒绝该邀请
+                proMember.setExitDate(new Date());
+            }
+            proMemberMapper.updateByPrimaryKeySelective(proMember);
+            return TableModel.success();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
 

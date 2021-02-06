@@ -1,6 +1,5 @@
 package com.shu.copartner.service.impl.publics;
 
-import com.alibaba.fastjson.JSON;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProRegisterMapper;
@@ -11,8 +10,6 @@ import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.service.PublicAuthService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
-import com.shu.copartner.utils.smstool.SmSender;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

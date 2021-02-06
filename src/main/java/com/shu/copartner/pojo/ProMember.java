@@ -12,6 +12,8 @@ public class ProMember implements Serializable {
 
     private Long projectId;
 
+    private String inviterName;
+
     private Date applyDate;
 
     private Date inviteDate;
@@ -26,7 +28,17 @@ public class ProMember implements Serializable {
 
     private Integer isDeleted;
 
+    private String projectName;
+
     private static final long serialVersionUID = 1L;
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
     public Long getMemberId() {
         return memberId;
@@ -50,6 +62,14 @@ public class ProMember implements Serializable {
 
     public void setMemberPhone(String memberPhone) {
         this.memberPhone = memberPhone == null ? null : memberPhone.trim();
+    }
+
+    public String getInviterName() {
+        return inviterName;
+    }
+
+    public void setInviterName(String inviterName) {
+        this.inviterName = inviterName;
     }
 
     public Long getProjectId() {

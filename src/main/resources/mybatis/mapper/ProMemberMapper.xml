@@ -6,6 +6,7 @@
     <result column="member_name" jdbcType="VARCHAR" property="memberName" />
     <result column="member_phone" jdbcType="VARCHAR" property="memberPhone" />
     <result column="project_id" jdbcType="BIGINT" property="projectId" />
+    <result column="inviter_name" jdbcType="VARCHAR" property="inviterName" />
     <result column="apply_date" jdbcType="TIMESTAMP" property="applyDate" />
     <result column="invite_date" jdbcType="TIMESTAMP" property="inviteDate" />
     <result column="join_date" jdbcType="TIMESTAMP" property="joinDate" />
@@ -13,6 +14,8 @@
     <result column="is_audit" jdbcType="INTEGER" property="isAudit" />
     <result column="join_status" jdbcType="VARCHAR" property="joinStatus" />
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    member_id, member_name, member_phone, project_id, apply_date, invite_date, join_date, 
-    exit_date, is_audit, join_status, is_deleted
+    member_id, member_name, member_phone, project_id, inviter_name, apply_date, invite_date,
+    join_date, exit_date, is_audit, join_status, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProMemberExample" resultMap="BaseResultMap">
     select
@@ -96,6 +99,23 @@
     from PRO_MEMBER
     where member_id = #{memberId,jdbcType=BIGINT}
   </select>
+
+  <!--查询邀请函信息，isAudit：4 代表已邀请状态-->
+  <select id="selectInvitationInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select pm.*,pp.project_name from PRO_MEMBER pm
+		LEFT JOIN PRO_PROJECT pp ON pm.project_id = pp.project_id
+		where pm.member_phone = #{memberPhone}
+		    and pm.is_audit = 4
+  </select>
+
+  <!--查询我的邀请函个数，即我被别人邀请的个数-->
+  <select id="selectCountOfMyInvitation" parameterType="java.lang.String" resultType="java.lang.Long">
+    SELECT count(*) FROM PRO_MEMBER pm
+	where pm.is_audit = 4
+		and pm.member_phone = #{memberPhone}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_MEMBER
     where member_id = #{memberId,jdbcType=BIGINT}
@@ -108,13 +128,15 @@
   </delete>
   <insert id="insert" parameterType="com.shu.copartner.pojo.ProMember">
     insert into PRO_MEMBER (member_id, member_name, member_phone, 
-      project_id, apply_date, invite_date, 
-      join_date, exit_date, is_audit, 
-      join_status, is_deleted)
+      project_id, inviter_name, apply_date,
+      invite_date, join_date, exit_date, 
+      is_audit, join_status, is_deleted
+      )
     values (#{memberId,jdbcType=BIGINT}, #{memberName,jdbcType=VARCHAR}, #{memberPhone,jdbcType=VARCHAR}, 
-      #{projectId,jdbcType=BIGINT}, #{applyDate,jdbcType=TIMESTAMP}, #{inviteDate,jdbcType=TIMESTAMP}, 
-      #{joinDate,jdbcType=TIMESTAMP}, #{exitDate,jdbcType=TIMESTAMP}, #{isAudit,jdbcType=INTEGER}, 
-      #{joinStatus,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER})
+      #{projectId,jdbcType=BIGINT}, #{inviterName,jdbcType=VARCHAR}, #{applyDate,jdbcType=TIMESTAMP},
+      #{inviteDate,jdbcType=TIMESTAMP}, #{joinDate,jdbcType=TIMESTAMP}, #{exitDate,jdbcType=TIMESTAMP}, 
+      #{isAudit,jdbcType=INTEGER}, #{joinStatus,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProMember">
     insert into PRO_MEMBER
@@ -130,6 +152,9 @@
       </if>
       <if test="projectId != null">
         project_id,
+      </if>
+      <if test="inviterName != null">
+        inviter_name,
       </if>
       <if test="applyDate != null">
         apply_date,
@@ -165,6 +190,9 @@
       </if>
       <if test="projectId != null">
         #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="inviterName != null">
+        #{inviterName,jdbcType=VARCHAR},
       </if>
       <if test="applyDate != null">
         #{applyDate,jdbcType=TIMESTAMP},
@@ -210,6 +238,9 @@
       <if test="record.projectId != null">
         project_id = #{record.projectId,jdbcType=BIGINT},
       </if>
+      <if test="record.inviterName != null">
+        inviter_name = #{record.inviterName,jdbcType=VARCHAR},
+      </if>
       <if test="record.applyDate != null">
         apply_date = #{record.applyDate,jdbcType=TIMESTAMP},
       </if>
@@ -242,6 +273,7 @@
       member_name = #{record.memberName,jdbcType=VARCHAR},
       member_phone = #{record.memberPhone,jdbcType=VARCHAR},
       project_id = #{record.projectId,jdbcType=BIGINT},
+      inviter_name = #{record.inviterName,jdbcType=VARCHAR},
       apply_date = #{record.applyDate,jdbcType=TIMESTAMP},
       invite_date = #{record.inviteDate,jdbcType=TIMESTAMP},
       join_date = #{record.joinDate,jdbcType=TIMESTAMP},
@@ -264,6 +296,9 @@
       </if>
       <if test="projectId != null">
         project_id = #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="inviterName != null">
+        inviter_name = #{inviterName,jdbcType=VARCHAR},
       </if>
       <if test="applyDate != null">
         apply_date = #{applyDate,jdbcType=TIMESTAMP},
@@ -294,6 +329,7 @@
     set member_name = #{memberName,jdbcType=VARCHAR},
       member_phone = #{memberPhone,jdbcType=VARCHAR},
       project_id = #{projectId,jdbcType=BIGINT},
+      inviter_name = #{inviterName,jdbcType=VARCHAR},
       apply_date = #{applyDate,jdbcType=TIMESTAMP},
       invite_date = #{inviteDate,jdbcType=TIMESTAMP},
       join_date = #{joinDate,jdbcType=TIMESTAMP},

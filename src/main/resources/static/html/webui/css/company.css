@@ -134,7 +134,7 @@ body{ width:100%; min-width:1200px; margin:0 auto; font-size:12px; font-family:"
 .jobtypeBox .DivRight .DivRight_2 .divJob_l .tit .ly a{color: #F95E0E;}
 .jobtypeBox .DivRight .DivRight_2 .divJob_l .bqbox{padding: 10px 0px;line-height: 40px;}
 .jobtypeBox .DivRight .DivRight_2 .divJob_l .bqbox label{float: left;padding: 0px 10px;color: #898989;background: #edf9ff;border: 1px solid #BFE7D5;margin-right: 5px;margin-bottom: 8px;line-height: 21px;}
-.jobtypeBox .DivRight .DivRight_2 .divJob_l .jobsub{ min-width:245px; float:left; height:40px; line-height:40px;border-bottom: 1px dotted #E2E2E2; padding-left:5px;white-space: nowrap;font-size: 14px;font-family: "微软雅黑"; padding-right:30px; overflow:hidden}
+.jobtypeBox .DivRight .DivRight_2 .divJob_l .jobsub{ min-width:245px; float:left; height:40px; line-height:40px;border-bottom: 1px dotted #E2E2E2; padding-left:5px;white-space: nowrap;font-size: 14px;font-family: "微软雅黑"; padding-right:30px; overflow:hidden; text-overflow: ellipsis;}
 
 .jobtypeBox .DivRight .DivRight_2 .divJob_r{ float:left;width: 170px;height: 170px;text-align: center;padding: 5px 0;}
 .jobtypeBox .DivRight .DivRight_2 .divJob_r .JobShare{width: 170px;height: 170px;text-align: center;padding: 5px 0;}

@@ -60,12 +60,12 @@
                </div>
             </div>
             <div class="clear"></div>
-            <div class="jldiv">
+            <!--<div class="jldiv">
                <div class="nametxt">成 员：</div>
                <div class="inputtxt">
                   <textarea id="projectPeople" name="" cols="" rows="" autocomplete="off"></textarea>
                </div>
-            </div>
+            </div>-->
             <div class="jldiv">
                <div class="nametxt">项目简述：</div>
                <div class="inputtxt">
@@ -80,13 +80,13 @@
       <div class="JlBoxCon">
          <h1><span>项目里程碑</span><div><a onclick="updateLandmark()" href="#" class="update">提交修改</a></div></h1>
          <div class="JlBoxLeft">
-            <div class="jldiv">
+            <!--<div class="jldiv">
                <div class="nametxt">新加入成员：</div>
                <div class="inputtxt">
                   <input name="" id="projectPeopleNew" type="text" class="txt3"/>
                   <input name="" id="peopleTime" type="text" class="txt2" placeHolder="加入时间" autocomplete="off"/>
                </div>
-            </div>
+            </div>-->
             <div class="clear"></div>
             <div class="jldiv">
                <div class="nametxt">项目比赛：</div>
@@ -176,10 +176,10 @@
    layui.use('laydate', function(){
       var laydate = layui.laydate;
       //执行一个laydate实例
-      laydate.render({
+     /* laydate.render({
          elem: '#peopleTime' //指定元素
          ,trigger: 'click'
-      });
+      });*/
       laydate.render({
          elem: '#matchTime'
          ,trigger: 'click'
@@ -236,7 +236,7 @@
          error: function (req) {
             //请求出错处理
             console.log(req);
-            layer.msg("参数异常");
+            layer.msg("网络异常，请稍后重试！");
          }
       })
    }
@@ -252,7 +252,7 @@
       $("#projectCreater").val(projectInfo.projectCreater);
       $("#mainPeople").val(projectInfo.mainPeople);
       //$("#projectTeacher").val(projectInfo.projectTeacher);
-      $("#projectPeople").val(projectInfo.projectPeople);
+      //$("#projectPeople").val(projectInfo.projectPeople);
       $("#projectType").val(projectInfo.projectType);
       $("#starttime").val(projectInfo.starttime);
       $("#projectStatus").val(projectInfo.projectStatus);
@@ -263,7 +263,7 @@
 
 
       // 里程碑信息
-        $("#projectPeopleNew").val(projectInfo.projectPeopleNew),
+        //$("#projectPeopleNew").val(projectInfo.projectPeopleNew),
         $("#projectMatch").val(projectInfo.projectMatch),
         $("#projectCooperation").val(projectInfo.projectCooperation),
         $("#projectActivity").val(projectInfo.projectActivity),
@@ -295,7 +295,7 @@
          projectName : $("#projectName").val(),
          mainPeople : $("#mainPeople").val(),
          //projectTeacher : $("#projectTeacher").val(),
-         projectPeople : $("#projectPeople").val(),
+         //projectPeople : $("#projectPeople").val(),
          projectType : $("#projectType").val(),
          starttime : $("#starttime").val(),
          projectStatus : $("#projectStatus").val(),
@@ -323,7 +323,7 @@
          error: function(req) {
             //请求出错处理
             //console.log(req);
-            layer.msg('参数异常');
+            layer.msg('网络异常，请稍后重试！');
          }
       });
    }
@@ -342,7 +342,7 @@
          projectType : $("#projectType").val(),
          starttime : $("#starttime").val(),
          // 里程碑信息
-         projectPeopleNew: $("#projectPeopleNew").val(),
+         //projectPeopleNew: $("#projectPeopleNew").val(),
          projectMatch: $("#projectMatch").val(),
          projectCooperation: $("#projectCooperation").val(),
          projectActivity: $("#projectActivity").val(),
@@ -362,7 +362,7 @@
          companyTime: $("#companyTime").val(),
          elseInfoTime: $("#elseInfoTime").val(),
       }
-      console.log(landmarkData)
+      //console.log(landmarkData)
       // 如果全为空，则提示
       if(landmarkData.projectPeopleNew.length === 0 && landmarkData.projectMatch.length === 0 && landmarkData.projectCooperation.length === 0
               && landmarkData.projectActivity.length === 0 && landmarkData.projectService.length === 0
@@ -390,7 +390,7 @@
          error: function(req) {
             //请求出错处理
             console.log(req);
-            layer.msg('参数异常');
+            layer.msg('网络异常，请稍后重试！');
          }
       });
    }

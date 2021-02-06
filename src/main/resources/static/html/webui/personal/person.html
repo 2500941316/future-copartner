@@ -105,13 +105,23 @@
                     </a>
                 </div>
                 <div class="itemp">
-                    <a href="#">
+                    <a onclick="viewInvitation()" href="#">
                         <span class="Title">邀请函</span>
-                        <span class="Num">0</span>
+                        <span class="Num" id="myInvitation">0</span>
                     </a>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!--查看邀请函信息表格-->
+    <div id="invitationInfo" style="display: none;text-align: center" >
+        <table id="invitationTable" lay-filter="invitationTable"></table>
+
+        <script type="text/html" id="invitationOperate">
+            <a class="layui-btn layui-btn-xs" lay-event="pass">同意</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reject">拒绝</a>
+        </script>
     </div>
 </div>
 
@@ -179,7 +189,8 @@
     function fillCount(info) {
         document.getElementById("myFollow").innerText = info.countOfMyFollow;
         document.getElementById("myProject").innerText = info.countOfProject;
-        document.getElementById("followMe").innerText = info.countOFFollowMe;
+        document.getElementById("followMe").innerText = info.countOfFollowMe;
+        document.getElementById("myInvitation").innerText = info.countOfMyInvitation;
     }
 
     /**
@@ -196,7 +207,6 @@
                     if (req.data != null) {
                         fillPersonalInfo(req.data[0]);
                     }
-
                 } else {
                     layer.msg("网络异常，请稍后重试！")
                 }
@@ -223,6 +233,86 @@
         redirecTo("/html/webui/personal/personal_myfollow.html");
     }
 
+    /**
+     * 查询邀请函
+     */
+    function viewInvitation() {
+        //邀请函信息
+        var table = layui.table;
+      /*  var data = [{
+            projectId: "1",
+            projectName: '张三',
+            inviterName: '11011011011',
+            inviteDate: '2021-01-01'
+        }];*/
+        // 邀请函信息表格
+        table.render({
+            elem: '#invitationTable',
+            url: '/vip/project/searchInvitationInfo',
+            //where: {projectId: localStorage.getItem("projectIdForMember")},
+            //   , height: 580
+            //data: data,
+            title: '邀请信息',
+            cols: [[
+                {field: 'memberId', title: 'ID', fixed: 'left', width: 60,unresize: true, sort: true, align: 'center', type: 'numbers'},
+                {field: 'projectName', title: '项目名', width: 150,align: 'center'},
+                {field: 'inviterName', title: '邀请人', width: 150,align: 'center'},
+                {field: 'inviteDate', title: '邀请时间',width: 150, align: 'center'},
+                {fixed: 'right', title: '操作', toolbar: '#invitationOperate', width: 150, align: 'center'}
+
+            ]],
+            page: true,
+            limits: [10],
+            width: 669,
+        });
+        //监听工具条
+        table.on('tool(invitationTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'pass') {
+                handleInvitationInfo(data.memberId,1); // 1代表同意
+                obj.del();
+            } else if (obj.event === 'reject') {
+                handleInvitationInfo(data.memberId,2); // 2代表拒绝
+                obj.del();
+            }
+        });
+
+        //打开弹出框表格信息
+        layer.open({
+            type:1,
+            area:['670px','70%'],
+            title: '项目邀请加入信息',
+            content: $("#invitationInfo"),
+            shade: 0.01,
+            cancel: function(layero,index){
+                layer.closeAll();
+            }
+        });
+    }
+
+    /**
+     * 处理邀请函信息，同意或者拒绝
+     * @param memberId
+     * @param isAudit
+     */
+    function handleInvitationInfo(memberId,mark) {
+        var handleInfo={
+            memberId : memberId,
+            isAudit: mark
+        }
+        $.ajax({
+            url: '/vip/project/handleInvitationInfo',
+            data: handleInfo,
+            type: "GET",
+            success: function (res) {
+                if(res.code == 200){
+                    top.layer.msg("已处理",{icon: 1,shade: 0.05,time: 1000});
+                }else{
+                    top.layer.msg("网络异常")
+                }
+            }
+        })
+    }
 
 </script>
 
