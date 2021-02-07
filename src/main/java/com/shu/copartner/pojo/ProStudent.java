@@ -34,7 +34,18 @@ public class ProStudent implements Serializable {
 
     private String description;
 
+    // 表中没有该字段，临时使用该变量，将数据传到前端
+    private String imageUrl;
+
     private static final long serialVersionUID = 1L;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public Long getStudentid() {
         return studentid;

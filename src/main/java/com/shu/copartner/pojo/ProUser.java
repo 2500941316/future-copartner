@@ -26,15 +26,13 @@ public class ProUser implements Serializable {
 
     private String name;
 
-    private static final long serialVersionUID = 1L;
+    private String newAuth;
 
-    public ProUser() {
-        this.isdeleted = 0;
-        this.islock = 0;
-        this.followproject = "";
-        this.logintime = 0;
-        this.registrydate = new Date();
-    }
+    private Date newAuthDate;
+
+    private String imageUrl;
+
+    private static final long serialVersionUID = 1L;
 
     public Long getUserid() {
         return userid;
@@ -122,5 +120,29 @@ public class ProUser implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getNewAuth() {
+        return newAuth;
+    }
+
+    public void setNewAuth(String newAuth) {
+        this.newAuth = newAuth == null ? null : newAuth.trim();
+    }
+
+    public Date getNewAuthDate() {
+        return newAuthDate;
+    }
+
+    public void setNewAuthDate(Date newAuthDate) {
+        this.newAuthDate = newAuthDate;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl == null ? null : imageUrl.trim();
     }
 }

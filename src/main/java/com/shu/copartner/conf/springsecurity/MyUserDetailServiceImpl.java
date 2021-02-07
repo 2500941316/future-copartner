@@ -63,6 +63,10 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
             newProUserExample.createCriteria().andPhoneEqualTo(username).andIsdeletedEqualTo(Integer.parseInt(Constants.NO_DELETED));
             List<ProUser> proUsers = proUserMapper.selectByExample(newProUserExample);
             String auth = proUsers.get(0).getAuth();
+            if(Constants.USER_AUTH_MANAGER.equals(proUsers.get(0).getNewAuth())){
+                // 如果该人员有被设置为管理员，则将auth置为 管理员，并传到前端
+                auth = proUsers.get(0).getNewAuth();
+            }
             String password = String.valueOf(proVerifies.get(0).getVerifycode());
             List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
             grantedAuthorities.add(new SimpleGrantedAuthority(auth));

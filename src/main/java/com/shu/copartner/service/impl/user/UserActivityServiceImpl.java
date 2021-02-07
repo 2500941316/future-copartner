@@ -188,12 +188,14 @@ public class UserActivityServiceImpl implements UserActivityService {
             proUserExample.createCriteria().andPhoneEqualTo(creater);
             List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
             Long userId = proUsers.get(0).getUserid();
+            String username = proUsers.get(0).getName();
             log.info("用户id："+userId);
 
             // 将活动id与当前用户信息写到报名表中
             ProEnroll proEnroll001 = proEnrollMapper.selectEnrollByPersonActivityId(userId, Long.parseLong(activityId));
             if (proEnroll001!=null) {
                 // 如果之前已经取消报名该活动，再次报名时就直接置is_deleted为0
+                proEnroll001.setPersonName(username);// 设置报名人名字，不是phone
                 proEnroll001.setIsDeleted(0);
                 proEnroll001.setEnrollTime(new Date());
                 this.proEnrollMapper.updateByPrimaryKeySelective(proEnroll001);
@@ -203,7 +205,7 @@ public class UserActivityServiceImpl implements UserActivityService {
                 proEnroll.setIsDeleted(0);
                 proEnroll.setActivityId(Long.parseLong(activityId));
                 proEnroll.setPersonId(userId);
-                proEnroll.setPersonName(creater);
+                proEnroll.setPersonName(username); // 设置报名人名字，不是phone
                 proEnroll.setEnrollTime(new Date());
                 proEnrollMapper.insert(proEnroll);
             }
@@ -218,12 +220,18 @@ public class UserActivityServiceImpl implements UserActivityService {
      * 取消报名活动,活动表is_deleted置 1
      *
      * @param activityId
-     * @param username
+     * @param phone
      * @return
      */
     @Override
-    public TableModel cancelEnrollActivity(String activityId, String username) {
+    public TableModel cancelEnrollActivity(String activityId, String phone) {
         try {
+            //先根据用户名查询出其userId
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(phone);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String username = proUsers.get(0).getName(); // 获取报名人名字
+
             // 将活动id与当前用户信息写到报名表中
             ProEnroll proEnroll = new ProEnroll();
             proEnroll.setIsDeleted(1);
@@ -231,7 +239,7 @@ public class UserActivityServiceImpl implements UserActivityService {
             proEnroll.setPersonName(username);
             proEnroll.setUnerollTime(new Date()); // 取消关注的时间
             ProEnrollExample proEnrollExample = new ProEnrollExample();
-            proEnrollExample.createCriteria().andActivityIdEqualTo(Long.parseLong(activityId)).andPersonNameEqualTo(username);
+            proEnrollExample.createCriteria().andActivityIdEqualTo(Long.parseLong(activityId)).andPersonNameEqualTo(phone);
             this.proEnrollMapper.updateByExampleSelective(proEnroll, proEnrollExample);
             return TableModel.success();
         } catch (Exception e) {
@@ -251,6 +259,7 @@ public class UserActivityServiceImpl implements UserActivityService {
         try{
             PageHelper.startPage(currentPage,4);
             ProActivityExample proActivityExample = new ProActivityExample();
+            proActivityExample.setOrderByClause(Constants.ACTIVITY_DESCBYDATE);// 按照开始时间倒序
             proActivityExample.createCriteria().andActivityAuthorEqualTo(username).andIsDeletedEqualTo(0);
             List<ProActivity> proActivityList = proActivityMapper.selectByExample(proActivityExample);
             PageInfo pageInfo = new PageInfo(proActivityList);

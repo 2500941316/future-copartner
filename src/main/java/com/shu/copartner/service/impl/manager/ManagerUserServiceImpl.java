@@ -13,9 +13,11 @@ import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -110,5 +112,43 @@ public class ManagerUserServiceImpl implements ManagerUserService {
         }
 
         return TableModel.success();
+    }
+
+    /**
+     * 查询非管理员用户
+     * @param page
+     * @return
+     */
+    @Override
+    public TableModel searchUserExceptManager(int page) {
+        try {
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andAuthNotEqualTo(Constants.USER_AUTH_MANAGER).andNewAuthNotEqualTo(Constants.USER_AUTH_MANAGER);
+            PageHelper.startPage(page,10);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            PageInfo pageInfo = new PageInfo(proUsers);
+            return TableModel.tableSuccess(proUsers,(int)pageInfo.getTotal());
+        } catch (Exception e) {
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 设置管理员
+     * @param userid
+     * @return
+     */
+    @Override
+    public TableModel setManager(String userid) {
+        try{
+            ProUser proUser = new ProUser();
+            proUser.setUserid(Long.parseLong(userid));
+            proUser.setNewAuth(Constants.USER_AUTH_MANAGER);
+            proUser.setNewAuthDate(new Date(System.currentTimeMillis()));
+            proUserMapper.updateByPrimaryKeySelective(proUser);
+            return TableModel.success();
+        } catch (Exception e) {
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 }

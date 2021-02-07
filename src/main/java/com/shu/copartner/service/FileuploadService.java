@@ -52,4 +52,11 @@ public interface FileuploadService {
      */
     TableModel activityImageUpload(MultipartFile uploadfile);
 
+    /**
+     * 上传个人头像
+     * @param uploadfile
+     * @return
+     */
+    TableModel uploadPersonalImage(MultipartFile uploadfile,String phone);
+
 }

@@ -4,12 +4,14 @@ import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.pojo.request.ProjectApplyVO;
 import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
+import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.VipUserService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -27,6 +29,9 @@ public class VipUserController {
 
     @Autowired
     private VipUserService vipUserService;
+
+    @Autowired
+    private FileuploadService fileuploadService;
 
     /**
      * 查询我的信息
@@ -52,5 +57,16 @@ public class VipUserController {
         }
         return vipUserService.updatePersonalInfo(publicRegistryInfoVO);
     }
+
+    /**
+     * 上传个人头像
+     * @param file
+     * @return
+     */
+    @PostMapping(value = "uploadPersonalImage")
+    public TableModel uploadPersonalImage(MultipartFile file,Principal principal) {
+        return fileuploadService.uploadPersonalImage(file,principal.getName());
+    }
+
 
 }

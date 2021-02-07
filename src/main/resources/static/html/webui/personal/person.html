@@ -67,8 +67,8 @@
     </div>
     <div class="perRightcon">
         <div class="perRpart1">
-            <div class="perRpart1_l">
-                <img src="/html/webui/images/per1.jpg" width="80" height="100"/>
+            <div class="perRpart1_l" id="personalImage">
+                <img src="/html/webui/images/per1.jpg" id="imageUrl" width="80" height="100"/>
             </div>
             <div class="perRpart1_r">
                 <div class="PaName">您好！</div>
@@ -163,6 +163,26 @@
         iframe.src = url;
     }
 
+    //上传个人图片
+    layui.use('upload', function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#personalImage'
+            , url: '/vip/user/uploadPersonalImage'
+            ,accept: 'images'
+            ,done: function (res) {
+                if (res.code === 200) {
+                     top.layer.msg('上传成功');
+                }else{
+                    layer.msg("网络异常！");
+                }
+            }, error: function () {
+            }
+        });
+    })
+
     /**
      * 查询我的项目，我的关注，关注我的个数
      */
@@ -218,6 +238,9 @@
         document.getElementById("logindate").innerText = info.logindate;
         document.getElementById("name").innerText = info.name;
         document.getElementById("phone").innerText = info.phone;
+        if(info.imageUrl != null){
+            document.getElementById("imageUrl").src = info.imageUrl;
+        }
     }
 
     /**

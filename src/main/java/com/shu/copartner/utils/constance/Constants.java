@@ -265,4 +265,14 @@ public final class Constants {
      */
     public static final String[] MEMBER_PROJECT_STAUTS = new String[]{"已申请", "已加入", "已拒绝","已退出","已邀请"};
 
+    /**
+     * 管理员角色
+     */
+    public static final String USER_AUTH_MANAGER = "ROLE_MANAGER";
+
+    /**
+     * 活动按照开始时间倒序
+     */
+    public static final String ACTIVITY_DESCBYDATE = "start_time desc";
+
 }

@@ -8,6 +8,7 @@ import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.service.VipUserService;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,16 +52,16 @@ public class VipUserServiceImpl implements VipUserService {
     @Override
     public TableModel selectPersonalInfo(String username) {
         try{
-            //根据phone查询出登陆时间，直接用验证码时间代替
-            ProVerifyExample proVerifyExample = new ProVerifyExample();
-            proVerifyExample.createCriteria().andPhoneEqualTo(username);
-            List<ProVerify> proVerifies = proVerifyMapper.selectByExample(proVerifyExample);
-            Date logindate = proVerifies.get(0).getVerifydate();
-            // 根据phone查询我的角色
+            // 根据phone查询我的角色 和 登录时间
             ProUserExample proUserExample = new ProUserExample();
             proUserExample.createCriteria().andPhoneEqualTo(username);
             List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
-            String auth = proUsers.get(0).getAuth();
+            String auth = proUsers.get(0).getAuth();//获取角色类型
+            Date logindate = proUsers.get(0).getLastdate();// 获取登录时间
+            String imageUrl = null;
+            if(StringUtils.isNotEmpty(proUsers.get(0).getImageUrl())){
+                imageUrl = proUsers.get(0).getImageUrl(); // 获取个人头像路径
+            }
 
             // 根据角色及phone查询我的个人信息
             switch(auth){
@@ -70,6 +71,7 @@ public class VipUserServiceImpl implements VipUserService {
                     List<ProStudent> proStudentList = proStudentMapper.selectByExample(proStudentExample);
                     proStudentList.get(0).setAuth("ROLE_STUDENT");// 设置角色
                     proStudentList.get(0).setLogindate(logindate);// 设置登陆时间
+                    proStudentList.get(0).setImageUrl(imageUrl); // 设置图像路径，临时使用该变量
                     return TableModel.success(proStudentList,proStudentList.size());
                 case "ROLE_TEACHER":
                     ProTeacherExample proTeacherExample = new ProTeacherExample();
@@ -77,6 +79,7 @@ public class VipUserServiceImpl implements VipUserService {
                     List<ProTeacher> proTeacherList = proTeacherMapper.selectByExample(proTeacherExample);
                     proTeacherList.get(0).setAuth("ROLE_TEACHER");// 设置角色
                     proTeacherList.get(0).setLogindate(logindate);// 设置登陆时间
+                    proTeacherList.get(0).setImageUrl(imageUrl); // 设置图像路径，临时使用该变量
                     return TableModel.success(proTeacherList,proTeacherList.size());
                 case "ROLE_PERSON":
                     ProPersonExample proPersonExample = new ProPersonExample();
@@ -84,6 +87,7 @@ public class VipUserServiceImpl implements VipUserService {
                     List<ProPerson> proPersonList = proPersonMapper.selectByExample(proPersonExample);
                     proPersonList.get(0).setAuth("ROLE_PERSON");// 设置角色
                     proPersonList.get(0).setLogindate(logindate);// 设置登陆时间
+                    proPersonList.get(0).setImageUrl(imageUrl); // 设置图像路径，临时使用该变量
                     return TableModel.success(proPersonList,proPersonList.size());
                 default:
                     break;

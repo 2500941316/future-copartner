@@ -3,7 +3,10 @@ package com.shu.copartner.service.impl;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProLeassonVedioMapper;
+import com.shu.copartner.mapper.ProUserMapper;
 import com.shu.copartner.pojo.ProLeassonVedio;
+import com.shu.copartner.pojo.ProUser;
+import com.shu.copartner.pojo.ProUserExample;
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.ProProjectService;
 import com.shu.copartner.utils.constance.Constants;
@@ -19,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +39,9 @@ public class FileuploadServiceImpl implements FileuploadService {
 
     @Autowired
     ProLeassonVedioMapper proLeassonVedioMapper;
+
+    @Autowired
+    ProUserMapper proUserMapper;
 
     @Override
     public String uploadFile(MultipartFile uploadfile) {
@@ -192,6 +199,29 @@ public class FileuploadServiceImpl implements FileuploadService {
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_FILEUPLOAD_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 上传个人图像
+     * @param uploadfile
+     * @return
+     */
+    @Override
+    public TableModel uploadPersonalImage(MultipartFile uploadfile,String phone) {
+        try {
+            //获取图片的存放路径
+            String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //将该路径写到数据库表中
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(phone);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            proUsers.get(0).setImageUrl(fileUrl);
+            proUserMapper.updateByPrimaryKeySelective(proUsers.get(0));
+            return TableModel.success();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
     }
 }

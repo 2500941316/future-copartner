@@ -61,4 +61,29 @@ public class ManageUserController {
         }
         return managerUserService.passRegistry(passRegistryVO);
     }
+
+    /**
+     * 查询非管理员用户
+     * @param page
+     * @return
+     */
+    @GetMapping(value = "searchUserExceptManager")
+    public TableModel searchUserExceptManager(@Size(min = 1) @RequestParam int page) {
+        if (page <= 0) {
+            throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
+        }
+        return managerUserService.searchUserExceptManager(page);
+    }
+
+    /**
+     * 设置成为管理员
+     * @param userid
+     * @return
+     */
+    @GetMapping(value = "setManager")
+    public TableModel setManager(@Size(min = 1) @RequestParam String userid) {
+        return managerUserService.setManager(userid);
+    }
+
+
 }

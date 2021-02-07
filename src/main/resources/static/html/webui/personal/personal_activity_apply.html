@@ -94,7 +94,7 @@
         //普通图片上传
         var uploadInst = upload.render({
             elem: '#upImageBtn'
-            , url: '/user/activity/activityImgUpload'
+            , url: '/vip/activity/activityImgUpload'
             , before: function (obj) {
                 obj.preview(function (index, file, result) {
                     $('#imgId').attr('src', result); //图片链接（base64）
@@ -118,7 +118,7 @@
         //富文本图片上传接口
         layedit.set({
             uploadImage: {
-                url: '/user/activity/activityImagesUpload' //接口url
+                url: '/vip/activity/activityImagesUpload' //接口url
                 , type: 'POST' //默认post
             }
         });
@@ -156,19 +156,19 @@
             layer.load(2);
             $.ajax({
                 type: "POST",
-                url: "/user/activity/applyActivity",
+                url: "/vip/activity/applyActivity",
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (data) {
                     layer.closeAll('loading');
                     if (data.code === 200) {
-                        layer.msg('提交成功！', {icon: 1,time: 2000});
+                        layer.msg('提交成功，等待管理员发布！', {icon: 1,time: 2000});
                     } else
                         layer.msg('网络异常，请稍后重试');
                 },
                 error: function (data) {
                     layer.closeAll('loading');
-                    layer.msg('参数异常');
+                    layer.msg('网络异常，请稍后重试');
                 }
             });
         })

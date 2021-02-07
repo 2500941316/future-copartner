@@ -22,7 +22,7 @@ public interface UserActivityService {
 
     TableModel enrollInActivity(String activityId,String creater);
 
-    TableModel cancelEnrollActivity(String activityId,String username);
+    TableModel cancelEnrollActivity(String activityId,String phone);
 
     TableModel searchMyCreatedActivity(int currentPage,String username);
 

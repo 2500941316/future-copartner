@@ -91,6 +91,7 @@ a.Mobile:hover{background:url(../images/per6.png) 1px no-repeat;}
 .perRightcon .perRT .spr{ float:right;background:url(../images/per18.png) 0px center no-repeat; padding-left:20px;color: #434343; font-weight: bold;}
 .perRpart1{height: 162px;width: 811px;background: url(../images/per.jpg) no-repeat;border: 1px solid #EDEEEE;}
 .perRpart1 .perRpart1_l{float: left;width: 80px;height: 100px;margin: 8px 0px 0px 10px;border: 1px solid #D4E9EC;}
+.perRpart1 .perRpart1_l:hover {float: left;width: 80px;height: 100px;margin: 8px 0px 0px 10px;border: 1px solid #D4E9EC;cursor: pointer}
 .perRpart1 .perRpart1_r{ float:left;margin-left: 15px;margin-top: 20px;width: 690px;}
 .PaName{font-size: 20px;float: left;font-family: "微软雅黑";}
 .PaStatus{width: 220px;height: 27px;background: #FFF; cursor: pointer;float: right;}

@@ -84,6 +84,12 @@
         const $active = $("#contentsqzw");
         $active.html("");
         for(var i in myCreatedActivityInfo) {
+            // 设置是否发布
+            if(myCreatedActivityInfo[i].isPublish === 0){
+                myCreatedActivityInfo[i].isPublish = "未发布";
+            }else if(myCreatedActivityInfo[i].isPublish === 1){
+                myCreatedActivityInfo[i].isPublish = "已发布";
+            }
             var $children = $(
                 ' <ul style="display:block;">\n' +
                 '               <div class="mygzCom">\n' +
@@ -92,7 +98,7 @@
                 '                           <a href="#" onclick="viewActivityDetail('+myCreatedActivityInfo[i].activityId+',\''+myCreatedActivityInfo[i].isPublish+'\' )">'+myCreatedActivityInfo[i].activityTitle+'</a>&nbsp;&nbsp;&nbsp;\n' +/*onclick="viewActivityDetail('+myCreatedActivityInfo[i].activityId+',\''+myCreatedActivityInfo[i].activityStatus+'\' )"*/
                 '                           <span> <span >'+myCreatedActivityInfo[i].activityAuthor+'</span> | ' +
                 '                                  <span >'+myCreatedActivityInfo[i].activityStatus+'</span> | ' +
-                '                                  <span id="'+myCreatedActivityInfo[i].activityId+'"></span> | ' +
+                '                                  <span id="'+myCreatedActivityInfo[i].activityId+'">'+myCreatedActivityInfo[i].isPublish+'</span> | ' +
                 '                                   <span>'+myCreatedActivityInfo[i].startTime+'</span> </span>\n' +
                 '                       </div>\n' +
                 '                       <div class="company1R">\n' +
@@ -104,12 +110,12 @@
             );
             $active.append($children);
 
-            // 是否发布
+            /*// 是否发布
             if(myCreatedActivityInfo[i].isPublish === "0"){
                 document.getElementById(myCreatedActivityInfo[i].activityId).innerText = "未发布";
-            }else{
+            }else if(myCreatedActivityInfo[i].isPublish === "1"){
                 document.getElementById(myCreatedActivityInfo[i].activityId).innerText = "已发布";
-            }
+            }*/
         }
     }
 

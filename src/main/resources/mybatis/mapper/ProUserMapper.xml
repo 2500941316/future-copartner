@@ -13,6 +13,9 @@
     <result column="registryDate" jdbcType="TIMESTAMP" property="registrydate" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="new_auth" jdbcType="VARCHAR" property="newAuth" />
+    <result column="new_auth_date" jdbcType="TIMESTAMP" property="newAuthDate" />
+    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     userid, auth, followProject, isDeleted, isLock, lastDate, loginTime, password, registryDate, 
-    phone, name
+    phone, name, new_auth, new_auth_date, image_url
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProUserExample" resultMap="BaseResultMap">
     select
@@ -110,11 +113,13 @@
     insert into PRO_USER (userid, auth, followProject, 
       isDeleted, isLock, lastDate, 
       loginTime, password, registryDate, 
-      phone, name)
+      phone, name, new_auth, 
+      new_auth_date, image_url)
     values (#{userid,jdbcType=BIGINT}, #{auth,jdbcType=VARCHAR}, #{followproject,jdbcType=VARCHAR}, 
       #{isdeleted,jdbcType=INTEGER}, #{islock,jdbcType=INTEGER}, #{lastdate,jdbcType=TIMESTAMP}, 
       #{logintime,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{registrydate,jdbcType=TIMESTAMP}, 
-      #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{newAuth,jdbcType=VARCHAR}, 
+      #{newAuthDate,jdbcType=TIMESTAMP}, #{imageUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProUser">
     insert into PRO_USER
@@ -152,6 +157,15 @@
       <if test="name != null">
         name,
       </if>
+      <if test="newAuth != null">
+        new_auth,
+      </if>
+      <if test="newAuthDate != null">
+        new_auth_date,
+      </if>
+      <if test="imageUrl != null">
+        image_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userid != null">
@@ -186,6 +200,15 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="newAuth != null">
+        #{newAuth,jdbcType=VARCHAR},
+      </if>
+      <if test="newAuthDate != null">
+        #{newAuthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imageUrl != null">
+        #{imageUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,6 +254,15 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.newAuth != null">
+        new_auth = #{record.newAuth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newAuthDate != null">
+        new_auth_date = #{record.newAuthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.imageUrl != null">
+        image_url = #{record.imageUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +280,10 @@
       password = #{record.password,jdbcType=VARCHAR},
       registryDate = #{record.registrydate,jdbcType=TIMESTAMP},
       phone = #{record.phone,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR}
+      name = #{record.name,jdbcType=VARCHAR},
+      new_auth = #{record.newAuth,jdbcType=VARCHAR},
+      new_auth_date = #{record.newAuthDate,jdbcType=TIMESTAMP},
+      image_url = #{record.imageUrl,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +321,15 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="newAuth != null">
+        new_auth = #{newAuth,jdbcType=VARCHAR},
+      </if>
+      <if test="newAuthDate != null">
+        new_auth_date = #{newAuthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imageUrl != null">
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where userid = #{userid,jdbcType=BIGINT}
   </update>
@@ -300,7 +344,10 @@
       password = #{password,jdbcType=VARCHAR},
       registryDate = #{registrydate,jdbcType=TIMESTAMP},
       phone = #{phone,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR}
+      name = #{name,jdbcType=VARCHAR},
+      new_auth = #{newAuth,jdbcType=VARCHAR},
+      new_auth_date = #{newAuthDate,jdbcType=TIMESTAMP},
+      image_url = #{imageUrl,jdbcType=VARCHAR}
     where userid = #{userid,jdbcType=BIGINT}
   </update>
 </mapper>

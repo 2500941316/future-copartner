@@ -12,4 +12,8 @@ public interface ManagerUserService {
     TableModel rejectRegistry(Long id, String value);
 
     TableModel passRegistry(PassRegistryVO passRegistryVO);
+
+    TableModel searchUserExceptManager(int page);
+
+    TableModel setManager(String userid);
 }

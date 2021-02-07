@@ -31,6 +31,7 @@
             <div class="layui-tab" lay-filter="demo">
                 <ul class="layui-tab-title">
                     <li class="layui-this">注册审批</li>
+                    <li class="layui-this" onclick="viewPeopleTable()">用户管理</li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
@@ -41,6 +42,16 @@
                             <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
                             <a class="layui-btn layui-btn-xs" lay-event="pass">通过</a>
                             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reject">驳回</a>
+                        </script>
+                    </div>
+
+                    <!--用户管理模块，主要功能是设置为管理员-->
+                    <div class="layui-tab-item">
+                        <!--引入layui表格-->
+                        <table id="peopleManage" lay-filter="peopleTable"></table>
+
+                        <script type="text/html" id="peopleOperate">
+                            <a class="layui-btn layui-btn-xs" lay-event="manage">设置为管理员</a>
                         </script>
                     </div>
                 </div>
@@ -460,6 +471,73 @@
                 if (res.code === 200) {
                     layer.msg("审批成功！", {shade: 0.01})
                     obj.del();
+                } else {
+                    layer.msg("网络异常！");
+                }
+            }
+        })
+    }
+
+    function viewPeopleTable() {
+        layui.use('table', function () {
+            var table = layui.table;
+            /*var data = [{
+                userid: "1",
+                name: '张三',
+                phone: "18019178233",
+                auth: 'ROLE_STUDENT',
+                registryDate: '2020-01-06'
+            }];*/
+            // 用户管理表格
+            table.render({
+                elem: '#peopleManage'
+                , url: '/manager/user/searchUserExceptManager'
+                //,data: data
+                , title: '用户信息表格'
+                , cols: [[
+                    {
+                        field: 'userid', title: 'ID', fixed: 'left', width: 80,unresize: true, sort: true, align: 'center',type:'numbers'
+                    }
+                    , {field: 'name', title: '用户名称', align: 'center'}
+                    , {field: 'phone', title: '联系方式', align: 'center'}
+                    , {field: 'auth', title: '用户类型',width: 150, sort: true, align: 'center',templet: function(res){
+                            if(res.auth === 'ROLE_STUDENT'){return '学生';}
+                            else if(res.auth === 'ROLE_TEACHER'){return '教师';}
+                            else if(res.auth === 'ROLE_PERSON'){return '校外人员';}
+                        }}
+                    , {field: 'registrydate', title: '注册时间', align: 'center'}
+                    , {fixed: 'right', title: '操作', toolbar: '#peopleOperate', width: 190, align: 'center'}
+                ]]
+                , page: true
+                ,limits: [10]
+            });
+            //监听操作栏
+            table.on('tool(peopleTable)', function (obj) {
+              if(obj.event === 'manage'){
+                  layer.confirm('确认设置为管理员？', function (index) {
+                      setManager(obj.data.userid);
+                      layer.close(index);
+                      obj.del();
+                  });
+
+                }
+            });
+        })
+    }
+
+
+    /**
+     * 设置为管理员
+     * @param userid
+     */
+    function setManager(userid) {
+        $.ajax({
+            url: "/manager/user/setManager",
+            type: "GET",
+            data: "userid="+userid,
+            success: function (res) {
+                if (res.code === 200) {
+                    layer.msg("已处理！", {icon:1,shade: 0.01,time:1000})
                 } else {
                     layer.msg("网络异常！");
                 }
