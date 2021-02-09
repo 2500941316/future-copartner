@@ -89,7 +89,7 @@ public class ManageProjectController {
             log.error(result.getAllErrors().toString());
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
-        log.info(projectManagerOperationVO.toString());
+        //log.info(projectManagerOperationVO.toString());
         return managerProjectService.operateProjectApply(projectManagerOperationVO);
     }
 

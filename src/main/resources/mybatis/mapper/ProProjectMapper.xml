@@ -209,7 +209,8 @@
 		INNER JOIN PRO_FOLLOW pf ON pp.project_id = pf.project_id
 		WHERE pp.project_creater = #{projectCreater}
 					and pp.is_deleted = 0
-					and is_going is NOT NULL
+					and pp.is_going is NOT NULL
+					and pf.is_delete = 0
   </select>
 
 

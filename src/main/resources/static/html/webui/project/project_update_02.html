@@ -221,14 +221,14 @@
    function getProjectData() {
       var projectId = localStorage.getItem("projectId");
       $.ajax({
-         url: "/public/project/getProjectById",
+         url: "/vip/project/getProjectById",
          async: true,
          data: "projectId=" + projectId,
          type: "GET",   //请求方式
          success: function (req) {
             if (req.code == 200) {
                //console.log(req);
-               fillProjectInfo(req.data[0])
+               fillProjectInfo(req.data.projectInfo[0])
             } else {
                layer.msg("网络异常，请稍后重试！")
             }

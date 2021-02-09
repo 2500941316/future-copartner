@@ -80,11 +80,17 @@ public class ProProjectServiceImpl implements ProProjectService {
     @Override
     public TableModel selectByCreater(int currentPage, String projectCreater) {
         try {
+            // 先根据phone查询当前人姓名
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(projectCreater);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String name = proUsers.get(0).getName();
+
             //查询我的项目
             ProProjectExample proProjectExample = new ProProjectExample();
             proProjectExample.setOrderByClause(Constants.PROJECT_DESCBYDATE);
             PageHelper.startPage(currentPage, 4);
-            proProjectExample.createCriteria().andProjectCreaterEqualTo(projectCreater).andIsDeletedEqualTo(0).andIsGoingIsNotNull();
+            proProjectExample.createCriteria().andProjectCreaterEqualTo(name).andIsDeletedEqualTo(0);//.andIsGoingIsNotNull()
             List<ProProject> proProjectsList = proProjectMapper.selectByExample(proProjectExample);
             PageInfo<ProProject> pageInfo = new PageInfo<>(proProjectsList);
 
@@ -126,9 +132,16 @@ public class ProProjectServiceImpl implements ProProjectService {
         projectApplyVO.setIsDeleted(0); // 默认未删除
         projectApplyVO.setPlanUrl("null"); // 项目计划书初始为空
         projectApplyVO.setVideoUrl("null");// 项目视频初始为空
-        projectApplyVO.setProjectCreater(creater); // 设置当前项目申请者
+        //projectApplyVO.setProjectCreater(creater); // 设置当前项目申请者
 
         try {
+            // 先通过phone查询出当前项目申请者姓名,然后进行设置
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(creater);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String name = proUsers.get(0).getName();
+            projectApplyVO.setProjectCreater(name); // 设置当前项目申请者
+
             //将项目信息插入到项目表中，另外也将项目id等信息写到申请管理表中
             ProProject proProject = new ProProject();
             BeanUtils.copyProperties(projectApplyVO, proProject);
@@ -138,6 +151,17 @@ public class ProProjectServiceImpl implements ProProjectService {
             proProject.setUpdateTime(new Date());
             //插入项目信息
             proProjectMapper.insert(proProject);
+
+            //将当前申请者作为项目成员加入到成员表中
+            ProMember proMember = new ProMember();
+            proMember.setMemberName(name);
+            proMember.setMemberPhone(creater);
+            proMember.setProjectId(proProject.getProjectId());
+            proMember.setJoinDate(new Date());
+            proMember.setIsAudit(1); // 1带代表'已加入状态'
+            proMember.setIsDeleted(0);
+            proMember.setJoinStatus(Constants.MEMBER_PROJECT_STAUTS[1]); // 已加入状态
+            proMemberMapper.insertSelective(proMember);
 
             // 写到申请管理表中
             ProApplication proApplication = new ProApplication();
@@ -181,22 +205,22 @@ public class ProProjectServiceImpl implements ProProjectService {
      * 根据id查询该项目
      *
      * @param projectId
-     * @param currentUser 用于判断当前用户是否已经关注该项目
+     * @param phone 用于判断当前用户是否已经关注该项目
      * @return
      */
     @Override
-    public TableModel searchProjectById(String projectId, String currentUser) {
+    public TableModel searchProjectById(String projectId, String phone) {
         try {
             Map<String, List> map = new HashMap<>();
             //根据id查询出数据添加到数组返回, 并判断当前用户关注该项目与否
             ProProject proProject = this.proProjectMapper.selectByPrimaryKey(Long.parseLong(projectId));
-            ProFollow proFollow = proFollowMapper.selectByPidFollower(Long.parseLong(projectId), currentUser);
+            ProFollow proFollow = proFollowMapper.selectByPidFollower(Long.parseLong(projectId), phone);
             if (proFollow != null) {
                 // 代表已关注该项目
                 proProject.setProjectFollowers("1");
             }
             ProMemberExample proMemberExample = new ProMemberExample();
-            proMemberExample.createCriteria().andMemberPhoneEqualTo(currentUser).andProjectIdEqualTo(Long.parseLong(projectId))
+            proMemberExample.createCriteria().andMemberPhoneEqualTo(phone).andProjectIdEqualTo(Long.parseLong(projectId))
                     .andIsDeletedEqualTo(0).andIsAuditBetween(0, 1);
             List<ProMember> members = proMemberMapper.selectByExample(proMemberExample);
             if (members.size() > 0) {
@@ -380,10 +404,16 @@ public class ProProjectServiceImpl implements ProProjectService {
                 proFollow001.setIsDelete(0);
                 proFollowMapper.updateByPrimaryKeySelective(proFollow001);
             } else {
+                // 先通过phone查询出当前项目关注者姓名
+                ProUserExample proUserExample = new ProUserExample();
+                proUserExample.createCriteria().andPhoneEqualTo(creater);
+                List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+                String name = proUsers.get(0).getName();
+
                 // 第一次关注该项目，将当前用户及关注的项目id写到follow表
                 ProFollow proFollow = new ProFollow();
                 proFollow.setProjectId(Long.parseLong(projectId));
-                proFollow.setFollower(creater);
+                proFollow.setFollower(name);
                 proFollow.setFollowTime(new Date());
                 proFollow.setIsDelete(0);
                 proFollowMapper.insert(proFollow);
@@ -402,8 +432,14 @@ public class ProProjectServiceImpl implements ProProjectService {
      * @return
      */
     @Override
-    public TableModel searchMyFollowProject(int currentPage, String follower) {
+    public TableModel searchMyFollowProject(int currentPage, String phone) {
         try {
+            // 先通过phone查询出当前项目关注者姓名
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(phone);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String follower = proUsers.get(0).getName();
+
             // 每次查询4条
             PageHelper.startPage(currentPage, 4);
             List<ProProject> proProjects = proProjectMapper.selectMyFollowProject(follower);
@@ -581,12 +617,18 @@ public class ProProjectServiceImpl implements ProProjectService {
     /**
      * 分别查询我的项目，我的关注，关注我的个数
      *
-     * @param username
+     * @param phone
      * @return
      */
     @Override
-    public TableModel selectCount(String username) {
+    public TableModel selectCount(String phone) {
         try {
+            // 先通过phone查询出当前人姓名
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(phone);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String username = proUsers.get(0).getName();
+
             Map<String, Long> countMap = new HashMap<>();
             //我的项目 个数
             Long countOfProject = proProjectMapper.selectCountOfProject(username);
@@ -600,10 +642,8 @@ public class ProProjectServiceImpl implements ProProjectService {
             Long countOfFollowMe = proFollowMapper.selectCountOfFollowMe(username);
             countMap.put("countOfFollowMe", countOfFollowMe);
 
-            Long countOfMyInvitation = proMemberMapper.selectCountOfMyInvitation(username);
+            Long countOfMyInvitation = proMemberMapper.selectCountOfMyInvitation(phone);
             countMap.put("countOfMyInvitation", countOfMyInvitation);
-
-
 
             return TableModel.success(countMap, countMap.size());
         } catch (Exception e) {
@@ -616,12 +656,18 @@ public class ProProjectServiceImpl implements ProProjectService {
     /**
      * 查询我被关注的项目
      *
-     * @param username
+     * @param phone
      * @return
      */
     @Override
-    public TableModel selectProjectBeFollowed(int currentPage, String username) {
+    public TableModel selectProjectBeFollowed(int currentPage, String phone) {
         try {
+            // 先通过phone查询出当前人姓名
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(phone);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String username = proUsers.get(0).getName();
+
             PageHelper.startPage(currentPage, 4);
             List<ProProject> proProjectList = proProjectMapper.selectProjectBeFollowed(username);
             PageInfo pageInfo = new PageInfo(proProjectList);

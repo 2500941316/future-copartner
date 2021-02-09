@@ -26,7 +26,7 @@
          <h1><a href="project_details_info.html"><span id="projectName2"><!--项目名称--></span></a><img src="/html/webui/images/16.png" /></h1>
          <div class="DivLeft_1">
             <div class="gz1"><span  id="follow">+关注</span></div>  <!--onclick="clickFollow()"-->
-            <div class="gz2">答复率<span>100.0%</span></div>
+          <!--  <div class="gz2">答复率<span>100.0%</span></div>-->
          </div>
          <div class="clear"></div>
          <div class="DivLeft_2">
@@ -220,9 +220,11 @@
     * @param projectInfo
     */
    function fillProjectInfo(projectInfo) {
+      //项目创建人从
       document.getElementById("projectName").innerText = projectInfo.projectName;
       document.getElementById("projectName2").innerText = projectInfo.projectName;
 
+      localStorage.setItem("projectCreater",projectInfo.projectCreater);// 没有成员的时候用
       document.getElementById("projectCreater").innerText = projectInfo.projectCreater;
       document.getElementById("projectCreater2").innerText = projectInfo.projectCreater;
 
@@ -330,7 +332,10 @@
       }
       //console.log(member);
       document.getElementById("projectPeople").innerText = member;
-      document.getElementById("projectPeople2").innerText = projectMember.length;
+      document.getElementById("projectPeople2").innerText = projectMember.length+1;
+      if(projectMember.length === 0){
+         document.getElementById("projectPeople").innerText = localStorage.getItem("projectCreater");
+      }
    }
 
    // 立即关注

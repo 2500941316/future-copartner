@@ -34,6 +34,16 @@ public class ProUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public ProUser() {
+        this.isdeleted = 0;
+        this.islock = 0;
+        this.followproject = "";
+        this.logintime = 0;
+        this.registrydate = new Date();
+        this.newAuth = "";
+    }
+
+
     public Long getUserid() {
         return userid;
     }

@@ -167,7 +167,7 @@
                 data: "projectId=" + projectId,
                 success: function (res) {
                     if (res.code === 200) {
-                        console.log(res);
+                        //console.log(res);
                         fillPage(res.data.projectInfo[0]);// 填充项目信息
                         fillProjectMember(res.data.projectMember);// 填充项目成员
                     }

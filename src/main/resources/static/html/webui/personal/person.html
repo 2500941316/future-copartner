@@ -71,17 +71,17 @@
                 <img src="/html/webui/images/per1.jpg" id="imageUrl" width="80" height="100"/>
             </div>
             <div class="perRpart1_r">
-                <div class="PaName">您好！</div>
+                <div class="PaName"><span id="name01"></span>您好！</div>
                 <div class="PaStatus">
-                    <span class="spStatus">上次登录时间：<span id="logindate">2020-12-17 15:03:11</span></span>
+                    <span class="spStatus">上次登录时间：<span id="logindate"><!--2020-12-17 15:03:11--></span></span>
                 </div>
                 <div class="clear"></div>
                 <div class="PaCon">
-                    <span class="span1">用户名：<span id="name">2500941316@qq.com</span> <!--<a href="#" class="a1">[未认证]</a> <a
-                        href="#" class="a2">修改密码</a-->></span>
+                    <span class="span1">用户名：<span id="name"><!--2500941316@qq.com--></span> <!--<a href="#" class="a1">[未认证]</a> <a
+                        href="#" class="a2">修改密码</a>--></span>
                     <span class="span2">微信： <a href="" class="a1">[未绑定]</a></span><br/>
-                    <span class="span3">手机号：<span id="phone">177*******12</span> <a href="" class="a3">[已认证]</a> <a
-                            href="#" class="a2">修改</a></span>
+                    <span class="span3">手机号：<span id="phone"><!--177*******12--></span> <a href="" class="a3">[已认证]</a>
+                        <a href="#" onclick="updatePhone()" class="a2">修改</a></span>
                 </div>
             </div>
             <div class="clear"></div>
@@ -123,6 +123,7 @@
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reject">拒绝</a>
         </script>
     </div>
+
 </div>
 
 <iframe scrolling="no" name="aa" id="iframe" width="900px" frameborder="0"
@@ -237,6 +238,7 @@
     function fillPersonalInfo(info) {
         document.getElementById("logindate").innerText = info.logindate;
         document.getElementById("name").innerText = info.name;
+        document.getElementById("name01").innerText = info.name+",";
         document.getElementById("phone").innerText = info.phone;
         if(info.imageUrl != null){
             document.getElementById("imageUrl").src = info.imageUrl;
@@ -247,13 +249,25 @@
      * 跳转到相应的路径
      */
     function jumpToFollowMe(){
-        redirecTo("/html/webui/personal/personal_followedproject.html");
+        if(document.getElementById("followMe").innerText === "0"){
+            layer.msg("无数据",{icon: 7,shade: 0.01,time: 1000})
+        }else{
+            redirecTo("/html/webui/personal/personal_followedproject.html");
+        }
     }
     function jumpToMyProject(){
-        redirecTo("/html/webui/personal/personal_project_list.html");
+        if(document.getElementById("myProject").innerText  === "0"){
+            layer.msg("无数据",{icon: 7,shade: 0.01,time: 1000})
+        }else{
+            redirecTo("/html/webui/personal/personal_project_list.html");
+        }
     }
     function jumpToMyFollow(){
-        redirecTo("/html/webui/personal/personal_myfollow.html");
+        if( document.getElementById("myFollow").innerText === "0"){
+            layer.msg("无数据",{icon: 7,shade: 0.01,time: 1000})
+        }else{
+            redirecTo("/html/webui/personal/personal_myfollow.html");
+        }
     }
 
     /**
@@ -337,6 +351,70 @@
         })
     }
 
+    /**
+     * 输入字数限制
+     * @param thisArea
+     * @param maxLength
+     */
+    function textLimitCheck(thisArea, maxLength) {
+        if (thisArea.value.length > maxLength) {
+            thisArea.value = thisArea.value.substring(0, 11);
+            thisArea.focus();
+        }
+        messageCount.innerText = thisArea.value.length;
+    }
+
+    /**
+     * 修改手机号弹出框
+     */
+    function updatePhone(){
+        //打开弹出框
+        layer.prompt({
+            formType: 0,
+            value: '',
+            title: '请输入新的手机号',
+            maxlength: 11
+            // area: ['800px', '350px'] //自定义文本域宽高
+        }, function (value, index) {
+            if(isNaN(value)){
+                layer.msg("请输入正确的数字！",{icon: 7,shade: 0.05,time: 1000});
+                return;
+            }else{
+                if(value.length < 11){
+                    layer.msg("请输入11位手机号！",{icon: 7,shade: 0.05,time: 1000})
+                    return;
+                }else{
+                    //console.log(value);
+                    handleUpdatePhone(value);
+                }
+            }
+            layer.close(index);
+        });
+    }
+
+    /**
+     * 修改手机号处理
+     * @param phone
+     */
+    function handleUpdatePhone(phone) {
+        $.ajax({
+            url: '/vip/user/handleUpdatePhone',
+            data: 'newPhone='+phone,
+            type: "GET",
+            success: function (res) {
+                if(res.code == 200){
+                    top.layer.msg("修改成功！请重新登录生效",{icon: 1,shade: 0.05,time: 2000});
+                }else{
+                    top.layer.msg("网络异常!");
+                }
+            },
+            error: function (res) {
+                console.log(res);
+                top.layer.msg("网络异常！");
+            }
+        })
+
+    }
 </script>
 
 </body>

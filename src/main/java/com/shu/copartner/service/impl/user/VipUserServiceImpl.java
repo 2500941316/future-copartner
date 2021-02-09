@@ -11,9 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -142,5 +144,68 @@ public class VipUserServiceImpl implements VipUserService {
         }
 
         return TableModel.success();
+    }
+
+    /**
+     * 处理手机号修改
+     * @param newPhone
+     * @param username
+     * @return
+     */
+    @Override
+    public TableModel handleUpdatePhone(String newPhone, String username) {
+        try{
+            //1 先根据手机号查询出用户信息
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(username);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String auth = proUsers.get(0).getAuth(); // 获取用户类型
+            //2 先修改user表中手机号
+            proUsers.get(0).setPhone(newPhone);
+            proUserMapper.updateByPrimaryKeySelective(proUsers.get(0));
+
+            //3 再修改verify表中的手机号,由于verify表中phone是主键不能修改，所以先删掉，然后再新增
+            ProVerify proVerify = proVerifyMapper.selectByPrimaryKey(username);
+            ProVerify proVerifyNew = new ProVerify();
+            BeanUtils.copyProperties(proVerify,proVerifyNew);
+            proVerifyNew.setPhone(newPhone);
+            proVerifyMapper.deleteByPrimaryKey(username);
+            proVerifyMapper.insert(proVerifyNew);
+            /*ProVerifyExample proVerifyExample = new ProVerifyExample();
+            proUserExample.createCriteria().andPhoneEqualTo(username);
+            proVerifyMapper.updateByExampleSelective(proVerify,proVerifyExample);*/
+
+            //4 后根据用户类型修改具体表中的手机号
+            switch(auth){
+                case "ROLE_STUDENT":
+                    ProStudent proStudent = new ProStudent();
+                    proStudent.setPhone(newPhone); // 设置新的手机号
+                    ProStudentExample proStudentExample = new ProStudentExample();
+                    proStudentExample.createCriteria().andPhoneEqualTo(username);
+                    proStudentMapper.updateByExampleSelective(proStudent,proStudentExample);
+                    break;
+                case "ROLE_TEACHER":
+                    ProTeacher proTeacher = new ProTeacher();
+                    proTeacher.setPhone(newPhone); // 设置新的手机号
+                    ProTeacherExample proTeacherExample = new ProTeacherExample();
+                    proTeacherExample.createCriteria().andPhoneEqualTo(username);
+                    proTeacherMapper.updateByExampleSelective(proTeacher,proTeacherExample);
+                    break;
+                case "ROLE_PERSON":
+                    ProPerson proPerson = new ProPerson();
+                    proPerson.setPhone(newPhone); // 设置新的手机号
+                    ProPersonExample proPersonExample = new ProPersonExample();
+                    proPersonExample.createCriteria().andPhoneEqualTo(username);
+                    proPersonMapper.updateByExampleSelective(proPerson,proPersonExample);
+                    break;
+                default:
+                    break;
+            }
+            return TableModel.success();
+        } catch(Exception e){
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+
     }
 }

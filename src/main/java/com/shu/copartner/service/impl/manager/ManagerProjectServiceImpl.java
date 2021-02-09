@@ -7,6 +7,7 @@ import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.*;
 import com.shu.copartner.mapper.ProProjectMapper;
 import com.shu.copartner.pojo.ProApplication;
+import com.shu.copartner.pojo.ProMember;
 import com.shu.copartner.pojo.ProProject;
 import com.shu.copartner.pojo.request.ProjectManagerOperationVO;
 import com.shu.copartner.service.ManagerProjectService;
@@ -18,10 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author
@@ -43,8 +41,8 @@ public class ManagerProjectServiceImpl implements ManagerProjectService {
     @Autowired
     private ProFollowMapper proFollowMapper;
 
-    /*@Autowired
-    private ProMemberMapper proMemberMapper;*/
+    @Autowired
+    private ProMemberMapper proMemberMapper;
 
     /**
      * 查询待审批项目

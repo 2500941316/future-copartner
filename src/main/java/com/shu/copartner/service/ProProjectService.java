@@ -20,7 +20,7 @@ public interface ProProjectService {
 
     TableModel updateProject(ProjectApplyVO projectApplyVO);
 
-    TableModel searchProjectById(String projectId,String currentUser);
+    TableModel searchProjectById(String projectId,String phone);
 
     TableModel searchProjectByFour(int currentPage, String projectName, String projectType, String projectCreater, String projectTwoStatus);
 
@@ -34,7 +34,7 @@ public interface ProProjectService {
 
     TableModel followProject(String projectId,String creater) throws ParseException;
 
-    TableModel searchMyFollowProject(int currentPage,String follower);
+    TableModel searchMyFollowProject(int currentPage,String phone);
 
     TableModel cancelFollowProject(String projectId,String follower);
 
@@ -44,9 +44,9 @@ public interface ProProjectService {
 
     boolean uploadProjectVideo(String videoUrl, String projectId);
 
-    TableModel selectCount(String username);
+    TableModel selectCount(String phone);
 
-    TableModel selectProjectBeFollowed(int currentPage,String username);
+    TableModel selectProjectBeFollowed(int currentPage,String phone);
 
     TableModel applyJoinProject(String projectId,String username);
 

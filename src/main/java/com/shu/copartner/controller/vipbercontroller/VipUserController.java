@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.security.Principal;
 
 /**
@@ -68,5 +69,15 @@ public class VipUserController {
         return fileuploadService.uploadPersonalImage(file,principal.getName());
     }
 
+    /**
+     * 修改手机号
+     * @param newPhone
+     * @param principal
+     * @return
+     */
+    @GetMapping(value = "handleUpdatePhone")
+    public TableModel handleUpdatePhone(@Size(min = 11) @RequestParam String newPhone,Principal principal) {
+        return vipUserService.handleUpdatePhone(newPhone,principal.getName());
+    }
 
 }

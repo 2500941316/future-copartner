@@ -12,4 +12,6 @@ public interface VipUserService {
     TableModel selectPersonalInfo(String username);
 
     TableModel updatePersonalInfo(PublicRegistryInfoVO publicRegistryInfoVO);
+
+    TableModel handleUpdatePhone(String newPhone, String username);
 }
