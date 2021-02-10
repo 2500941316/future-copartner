@@ -39,7 +39,7 @@
                             <option value="科创">科创</option>
                             <option value="K12">K12</option>
                             <option value="校园行">校园行</option>
-                            <option value="">其他</option>
+                            <option value="其他">其他</option>
                         </select>
                     </div>
                 </div>
@@ -144,9 +144,10 @@
             projectPeople: $("#projectPeople").val(),
             description: $("#description").val(),
             supervisorId: $("#projectSupervisor").val(),
-            //projectTeacher: projectTeacher,
+            projectTeacher : $("#projectSupervisor").find("option:selected").text() // 获取导师选择框的文本
 
         }
+        //console.log(data);
         $.ajax({
             url: "/vip/project/projectApply",    //请求的url地址
             dataType: "json",   //返回格式为json
