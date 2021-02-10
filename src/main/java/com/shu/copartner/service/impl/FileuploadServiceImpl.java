@@ -63,6 +63,7 @@ public class FileuploadServiceImpl implements FileuploadService {
         try {
             TableModel tableModel = new TableModel();
             String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            log.info("新闻图片上传路径" + imageUrl);
             Map<String, String> map = new HashMap<>();
             map.put("src", Constants.FILEURL_FIRSTNAME + imageUrl);
             map.put("title", uploadfile.getOriginalFilename());
@@ -158,6 +159,7 @@ public class FileuploadServiceImpl implements FileuploadService {
 
     /**
      * 上传导师照片
+     *
      * @param uploadfile
      * @return
      */
@@ -181,6 +183,7 @@ public class FileuploadServiceImpl implements FileuploadService {
 
     /**
      * 上传活动照片
+     *
      * @param uploadfile
      * @return
      */
@@ -204,14 +207,16 @@ public class FileuploadServiceImpl implements FileuploadService {
 
     /**
      * 上传个人图像
+     *
      * @param uploadfile
      * @return
      */
     @Override
-    public TableModel uploadPersonalImage(MultipartFile uploadfile,String phone) {
+    public TableModel uploadPersonalImage(MultipartFile uploadfile, String phone) {
         try {
             //获取图片的存放路径
             String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            log.info("上传图片的路径为：" + fileUrl);
             //将该路径写到数据库表中
             ProUserExample proUserExample = new ProUserExample();
             proUserExample.createCriteria().andPhoneEqualTo(phone);
