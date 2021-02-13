@@ -11,6 +11,7 @@ import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.ProProjectService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
+import com.shu.copartner.utils.fastdfs.FileDfsUtil;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -211,7 +212,10 @@ public class FileuploadServiceImpl implements FileuploadService {
     public TableModel uploadPersonalImage(MultipartFile uploadfile,String phone) {
         try {
             //获取图片的存放路径
-            String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            FileDfsUtil fileDfsUtil = new FileDfsUtil();
+            String fileUrl = Constants.FILEURL_FIRSTNAME + fileDfsUtil.upload(uploadfile);
+            System.out.println(fileUrl);
             //将该路径写到数据库表中
             ProUserExample proUserExample = new ProUserExample();
             proUserExample.createCriteria().andPhoneEqualTo(phone);
@@ -221,7 +225,10 @@ public class FileuploadServiceImpl implements FileuploadService {
             return TableModel.success();
         } catch (Exception e) {
             log.error(e.getMessage());
+            log.error("e= "+e);
+            e.printStackTrace();
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
     }
+
 }

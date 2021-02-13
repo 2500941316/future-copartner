@@ -44,7 +44,7 @@ public final class Constants {
     /**
      * @Description 文件服务器的前缀
      */
-    public static final String FILEURL_FIRSTNAME = "http://10.10.0.24/";
+    public static final String FILEURL_FIRSTNAME = "http://114.55.93.118/";
 /*   http://114.55.93.118/改10.10.0.24*/
 
     /**
