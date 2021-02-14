@@ -2,20 +2,31 @@ package com.shu.copartner.controller.vipbercontroller;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
+import com.shu.copartner.mapper.ProUserMapper;
+import com.shu.copartner.pojo.ProUser;
+import com.shu.copartner.pojo.ProUserExample;
 import com.shu.copartner.pojo.request.ProjectApplyVO;
 import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.VipUserService;
+import com.shu.copartner.utils.constance.Constants;
+import com.shu.copartner.utils.fastdfs.FastDfsClient;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
+import org.csource.common.MyException;
+import org.csource.fastdfs.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.testng.annotations.Test;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 /**
  * @author
@@ -33,6 +44,9 @@ public class VipUserController {
 
     @Autowired
     private FileuploadService fileuploadService;
+
+    @Autowired
+    private ProUserMapper proUserMapper;
 
     /**
      * 查询我的信息
@@ -65,7 +79,7 @@ public class VipUserController {
      * @return
      */
     @PostMapping(value = "uploadPersonalImage")
-    public TableModel uploadPersonalImage(MultipartFile file,Principal principal) {
+    public TableModel uploadPersonalImage(MultipartFile file,Principal principal) throws IOException, MyException {
         return fileuploadService.uploadPersonalImage(file,principal.getName());
     }
 

@@ -54,6 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable().headers().frameOptions().sameOrigin()
                 .and().exceptionHandling().authenticationEntryPoint(new EntryPoint())
                 .and().authorizeRequests()
+
+                .antMatchers("/**").permitAll()
                 /**
                  * 前端权限
                  */
