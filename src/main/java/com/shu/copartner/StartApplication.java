@@ -1,8 +1,6 @@
 package com.shu.copartner;
 
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
-import org.csource.common.MyException;
-import org.csource.fastdfs.*;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +19,7 @@ import java.io.IOException;
 @MapperScan("com.shu.copartner.mapper")
 public class StartApplication {
 
-    public static void main(String[] args) throws IOException, MyException {
+    public static void main(String[] args) throws IOException {
         SpringApplication.run(StartApplication.class, args);
     }
 }

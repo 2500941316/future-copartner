@@ -13,8 +13,6 @@ import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
-import org.csource.common.MyException;
-import org.csource.fastdfs.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -79,7 +77,7 @@ public class VipUserController {
      * @return
      */
     @PostMapping(value = "uploadPersonalImage")
-    public TableModel uploadPersonalImage(MultipartFile file,Principal principal) throws IOException, MyException {
+    public TableModel uploadPersonalImage(MultipartFile file,Principal principal) throws IOException {
         return fileuploadService.uploadPersonalImage(file,principal.getName());
     }
 

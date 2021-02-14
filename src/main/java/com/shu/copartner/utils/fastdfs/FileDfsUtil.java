@@ -5,16 +5,17 @@ import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import sun.rmi.runtime.Log;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author cxy
+ */
 @Component
 public class FileDfsUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileDfsUtil.class);

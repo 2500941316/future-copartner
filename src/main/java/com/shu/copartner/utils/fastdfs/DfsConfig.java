@@ -7,9 +7,11 @@ import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.context.annotation.Import;
 import org.springframework.jmx.support.RegistrationPolicy;
 
+/**
+ * @author cxy
+ */
 @Configuration
 @Import(FdfsClientConfig.class)
-// Jmx重复注册bean的问题
 @EnableMBeanExport(registration = RegistrationPolicy.IGNORE_EXISTING)
 public class DfsConfig {
 }
