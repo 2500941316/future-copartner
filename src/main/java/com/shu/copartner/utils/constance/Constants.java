@@ -45,7 +45,7 @@ public final class Constants {
      * @Description 文件服务器的前缀
      */
     public static final String FILEURL_FIRSTNAME = "http://114.55.93.118/";
-/*   http://114.55.93.118/改10.10.0.24*/
+/*   http://114.55.93.118/ 改 10.10.0.24*/
 
     /**
      * @Description 用户注册流程码
@@ -60,7 +60,7 @@ public final class Constants {
      */
     public static final List<String> ROUTE_URL = Arrays.asList("/html/managerui/index.html", "/html/webui/personal/person.html");
 
-    public static final String ERROR_URL = "http://localhost:8080/html/webui/header/login/error.html";
+    public static final String ERROR_URL = "http://47.99.244.66:8080/html/webui/header/login/error.html";
 
     /**
      * @Description 新闻发布流程processKey

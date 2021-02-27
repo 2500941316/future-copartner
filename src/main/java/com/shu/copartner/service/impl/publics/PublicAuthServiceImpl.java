@@ -10,6 +10,7 @@ import com.shu.copartner.pojo.request.PublicRegistryInfoVO;
 import com.shu.copartner.service.PublicAuthService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
+import com.shu.copartner.utils.smstool.SmSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         }
         //生成验证码
         int code = (int) ((Math.random() * 9 + 1) * 100000);
-        code = 111111;
+        //code = 111111;
         //设置验证码过期时间
         Calendar beforeTime = Calendar.getInstance();
         beforeTime.add(Calendar.MINUTE, +5);
@@ -79,7 +80,7 @@ public class PublicAuthServiceImpl implements PublicAuthService {
             proVerifyMapper.updateByPrimaryKeySelective(proVerify);
         }
         //调用短信发送服务
-        //SmSender.sendSmCode(phone, code);
+        SmSender.sendSmCode(phone, code);
 
         return TableModel.success();
     }
@@ -102,7 +103,7 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         }
 
         int code = (int) ((Math.random() * 9 + 1) * 100000);
-        code = 111111;
+        //code = 111111;
 
         //将最新的验证码和过期时间存入数据库
         Calendar beforeTime = Calendar.getInstance();
@@ -111,7 +112,7 @@ public class PublicAuthServiceImpl implements PublicAuthService {
         ProVerify proVerify = new ProVerify(phone, code, beforeTime.getTime(), Constants.TRUE);
         proVerifyMapper.updateByPrimaryKeySelective(proVerify);
         //调用短信发送服务
-        // SmSender.sendSmCode(phone, code);
+        SmSender.sendSmCode(phone, code);
 
         return TableModel.success();
     }

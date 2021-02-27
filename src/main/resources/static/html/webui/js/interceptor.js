@@ -11,7 +11,7 @@ $.ajaxSetup({
     complete: function (xhr, status) {
         var responseData = xhr.responseJSON;
         if (responseData != null && responseData.code === 405) {
-            window.location.href = "http://localhost:8080/index.html";
+            window.location.href = "http://47.99.244.66:8080/index.html";
             openLogin();
         }
     },
@@ -111,7 +111,7 @@ function logout() {
         success: function (data) {
             if (data.code === 200) {
                 localStorage.clear();
-                window.location.href = "http://localhost:8080/";
+                window.location.href = "http://47.99.244.66:8080/";
             }
         },
         error: function (data) {

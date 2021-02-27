@@ -15,11 +15,11 @@
 <div class="perRightcon">
     <div class="clear" style="margin-top: 15px"></div>
     <div class="commonTit">
-        <h1 class="fl">我的关注</h1>
+        <h1 class="fl">我的加入</h1>
     </div>
     <div class="sqzwBox">
         <ul id="tabsqzw">
-            <li class="currentsqzw">关注的项目</li>
+            <li class="currentsqzw">我加入的项目</li>
         </ul>
         <div id="contentsqzw">
             <!--<ul style="display:block;">
@@ -49,20 +49,20 @@
     var $ = layui.jquery;
 
     $(function () {
-        searchMyFollowProject();
+        searchMyJoinProject();
     })
 
     /**
-     * 查询我关注的项目信息
+     * 查询我加入的项目信息
      * @param pageConf
      */
-    function searchMyFollowProject(pageConf) {
+    function searchMyJoinProject(pageConf) {
         if (!pageConf) {
             pageConf = {};
             pageConf.pageSize = 4; // 每页显示条数
             pageConf.currentPage = 1; // 当前页
         }
-        $.get("/vip/project/searchMyFollowProject", pageConf, function (data) {
+        $.get("/vip/project/searchMyJoinProject", pageConf, function (data) {
             layui.use(['laypage', 'layer'], function () {
                 var page = layui.laypage;
                 page.render({
@@ -77,9 +77,9 @@
                         if (!first) {
                             pageConf.currentPage = obj.curr;
                             pageConf.pageSize = obj.limit;
-                            searchMyFollowProject(pageConf);
+                            searchMyJoinProject(pageConf);
                         }
-                        fillMyFollowProject(data.data); //页面填充
+                        fillMyJoinProject(data.data); //页面填充
                     }
                 });
             })
@@ -88,25 +88,26 @@
 
     /**
      * 填充信息
-     * @param myFollowProjectInfo
+     * @param myJoinProjectInfo
      */
-    function fillMyFollowProject(myFollowProjectInfo) {
+    function fillMyJoinProject(myJoinProjectInfo) {
+        console.log(myJoinProjectInfo);
         const $active = $("#contentsqzw");
         $active.html("");
-        for(var i in myFollowProjectInfo) {
+        for(var i in myJoinProjectInfo) {
             var $children = $(
                 '<ul style="display:block;">\n' +
                 '                <div class="mygzCom">\n' +
                 '                    <div class="company1">\n' +
                 '                        <div class="company1L">\n' +
-                '                            <a onclick="viewProjectDetail('+myFollowProjectInfo[i].projectId+')" href="#">'+myFollowProjectInfo[i].projectName+'</a>&nbsp;&nbsp;&nbsp;\n' +
-                '                            <span> <span id="follower">'+myFollowProjectInfo[i].projectCreater+'</span> | ' +
-                '                            <span id="projectType">'+myFollowProjectInfo[i].projectType+'</span> | ' +
-                '                            <span id="description">'+myFollowProjectInfo[i].description+'</span> </span>\n' +
+                '                            <a onclick="viewProjectDetail('+myJoinProjectInfo[i].projectId+')" href="#">'+myJoinProjectInfo[i].projectName+'</a>&nbsp;&nbsp;&nbsp;\n' +
+                '                            <span> <span id="follower">'+myJoinProjectInfo[i].projectCreater+'</span> | ' +
+                '                            <span id="projectType">'+myJoinProjectInfo[i].projectType+'</span> | ' +
+                '                            <span id="description">'+myJoinProjectInfo[i].description+'</span> </span>\n' +
                 '                        </div>\n' +
                 '                        <div class="company1R">\n' +
-                '                            <span>关注时间：<span id="followTime">'+myFollowProjectInfo[i].followTime+'</span></span>\n' +
-                '                            <a onclick="comfirmCancelFollow('+myFollowProjectInfo[i].projectId+',\''+myFollowProjectInfo[i].follower+'\' )" href="#">取消关注</a>\n' +
+                '                            <span>加入时间：<span id="joinDate">'+myJoinProjectInfo[i].joinDate+'</span></span>\n' +
+                '                            <a onclick="comfirmCancelJoin('+myJoinProjectInfo[i].projectId+')" href="#">退出项目</a>\n' +
                 '                        </div>\n' +
                 '                    </div>\n' +
                 '                </div>\n' +
@@ -117,33 +118,32 @@
     }
 
     /**
-     * 确认取消关注
+     * 确认退出项目
      */
-    function comfirmCancelFollow(projectId,follower){
-        top.layer.confirm('确认取消关注？', {shade:0,title: '提示'},function (index) {
-            cancelFollowProject(projectId,follower);
+    function comfirmCancelJoin(projectId){
+        top.layer.confirm('确认退出项目？', {title: '提示'},function (index) {
+            cancelExitProject(projectId);
             layer.close(index);
         });
     }
+
     /**
-     * 取消关注
+     * 退出项目
      * @param projectId
-     * @param follower
      */
-    function cancelFollowProject(projectId,follower) {
+    function cancelExitProject(projectId) {
         var cancelInfo = {
             projectId: projectId,
-            follower: follower
         }
-
+        //console.log(cancelInfo);
         $.ajax({
-            url: "/vip/project/cancelFollowProject",
+            url: "/vip/project/cancelExitProject",
             type: "GET",
             data: cancelInfo,
             success: function (res) {
                 if(res.code == 200){
-                    top.layer.msg("已取消关注！");
-                    window.location.href = "/html/webui/personal/personal_myfollow.html";
+                    top.layer.msg("已退出该项目！");
+                    window.location.href = "/html/webui/personal/personal_myjoin.html";
                 }else{
                     top.layer.msg("网络异常");
                 }

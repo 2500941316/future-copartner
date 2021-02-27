@@ -36,6 +36,8 @@ public interface ProProjectService {
 
     TableModel searchMyFollowProject(int currentPage,String phone);
 
+    TableModel searchMyJoinProject(int currentPage,String phone);
+
     TableModel cancelFollowProject(String projectId,String follower);
 
     TableModel searchUserOfFollowMe(String projectId);

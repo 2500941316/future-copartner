@@ -212,9 +212,16 @@ public class ProProjectServiceImpl implements ProProjectService {
     public TableModel searchProjectById(String projectId, String phone) {
         try {
             Map<String, List> map = new HashMap<>();
+
+            //根据phone查询出姓名
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(phone);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String name = proUsers.get(0).getName();
+
             //根据id查询出数据添加到数组返回, 并判断当前用户关注该项目与否
             ProProject proProject = this.proProjectMapper.selectByPrimaryKey(Long.parseLong(projectId));
-            ProFollow proFollow = proFollowMapper.selectByPidFollower(Long.parseLong(projectId), phone);
+            ProFollow proFollow = proFollowMapper.selectByPidFollower(Long.parseLong(projectId), name);
             if (proFollow != null) {
                 // 代表已关注该项目
                 proProject.setProjectFollowers("1");
@@ -427,22 +434,15 @@ public class ProProjectServiceImpl implements ProProjectService {
     }
 
     /**
-     * 根据当前用户 查询我的关注
-     *
+     * 根据当前用户手机号 查询我加入的项目
      * @return
      */
     @Override
-    public TableModel searchMyFollowProject(int currentPage, String phone) {
+    public TableModel searchMyJoinProject(int currentPage, String phone) {
         try {
-            // 先通过phone查询出当前项目关注者姓名
-            ProUserExample proUserExample = new ProUserExample();
-            proUserExample.createCriteria().andPhoneEqualTo(phone);
-            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
-            String follower = proUsers.get(0).getName();
-
             // 每次查询4条
             PageHelper.startPage(currentPage, 4);
-            List<ProProject> proProjects = proProjectMapper.selectMyFollowProject(follower);
+            List<ProProject> proProjects = proProjectMapper.selectMyJoinProject(phone);
             PageInfo pageInfo = new PageInfo(proProjects);
             return TableModel.success(proProjects, (int) pageInfo.getTotal());
         } catch (Exception e) {
@@ -474,6 +474,31 @@ public class ProProjectServiceImpl implements ProProjectService {
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
 
+    }
+
+    /**
+     * 根据当前用户 查询我的关注
+     *
+     * @return
+     */
+    @Override
+    public TableModel searchMyFollowProject(int currentPage, String phone) {
+        try {
+            // 先通过phone查询出当前项目关注者姓名
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(phone);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String follower = proUsers.get(0).getName();
+
+            // 每次查询4条
+            PageHelper.startPage(currentPage, 4);
+            List<ProProject> proProjects = proProjectMapper.selectMyFollowProject(follower);
+            PageInfo pageInfo = new PageInfo(proProjects);
+            return TableModel.success(proProjects, (int) pageInfo.getTotal());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 
     /**

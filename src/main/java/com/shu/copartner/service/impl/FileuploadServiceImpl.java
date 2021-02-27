@@ -44,12 +44,17 @@ public class FileuploadServiceImpl implements FileuploadService {
     @Autowired
     ProUserMapper proUserMapper;
 
+    @Autowired
+    private FileDfsUtil fileDfsUtil;
+
     @Override
     public String uploadFile(MultipartFile uploadfile) {
         try {
-            return FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
-        } catch (IOException e) {
+            //return FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            return fileDfsUtil.upload(uploadfile);
+        } catch (Exception e) {
             log.error(e.getMessage());
+            e.printStackTrace();
             throw new BusinessException(Exceptions.SERVER_FILEUPLOAD_ERROR.getEcode());
         }
     }
@@ -63,14 +68,15 @@ public class FileuploadServiceImpl implements FileuploadService {
     public TableModel managerImageUploadFile(MultipartFile uploadfile) {
         try {
             TableModel tableModel = new TableModel();
-            String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String imageUrl = fileDfsUtil.upload(uploadfile);
             Map<String, String> map = new HashMap<>();
             map.put("src", Constants.FILEURL_FIRSTNAME + imageUrl);
             map.put("title", uploadfile.getOriginalFilename());
             tableModel.setCode(0);
             tableModel.setData(map);
             return tableModel;
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_FILEUPLOAD_ERROR.getEcode());
         }
@@ -79,7 +85,8 @@ public class FileuploadServiceImpl implements FileuploadService {
     @Override
     public TableModel leassonVedioUpload(MultipartFile file, Long courseVedioId, String fileUploadType) {
         try {
-            String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(file.getInputStream(), file.getOriginalFilename());
+            //String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(file.getInputStream(), file.getOriginalFilename());
+            String fileUrl = Constants.FILEURL_FIRSTNAME + fileDfsUtil.upload(file);
 
             //更新数据库
             ProLeassonVedio proLeassonVedio = new ProLeassonVedio();
@@ -106,10 +113,11 @@ public class FileuploadServiceImpl implements FileuploadService {
     @Override
     public TableModel managerPlanUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
         if (StringUtils.isNotEmpty(projectId)) {
-            log.info("文件名：" + uploadfile.getOriginalFilename());
-            log.info("projectId:" + projectId);
+            //log.info("文件名：" + uploadfile.getOriginalFilename());
+            //log.info("projectId:" + projectId);
             // 上传计划书，返回其存放路径
-            String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String planUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String planUrl = fileDfsUtil.upload(uploadfile);
             //String planUrl = uploadfile.getOriginalFilename();
             // 文件存储路径加上服务器前缀
             String finalPlanUrl = Constants.FILEURL_FIRSTNAME + planUrl;
@@ -137,10 +145,11 @@ public class FileuploadServiceImpl implements FileuploadService {
     public TableModel managerVideoUploadFile(MultipartFile uploadfile, String projectId) throws IOException {
         //TableModel tableModel = new TableModel();
         if (StringUtils.isNotEmpty(projectId)) {
-            log.info("文件名：" + uploadfile.getOriginalFilename());
-            log.info("projectId:" + projectId);
+            //log.info("文件名：" + uploadfile.getOriginalFilename());
+            //log.info("projectId:" + projectId);
             // 上传视频，返回其存放路径
-            String videoUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String videoUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String videoUrl = fileDfsUtil.upload(uploadfile);
             //String planUrl = uploadfile.getOriginalFilename();
             // 文件存储路径加上服务器前缀
             String finalPlanUrl = Constants.FILEURL_FIRSTNAME + videoUrl;
@@ -166,7 +175,8 @@ public class FileuploadServiceImpl implements FileuploadService {
     public TableModel supervisorImageUpload(MultipartFile uploadfile) {
         try {
             TableModel tableModel = new TableModel();
-            String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String imageUrl = fileDfsUtil.upload(uploadfile);
             //String imageUrl = "imageUrl";
             Map<String, String> map = new HashMap<>();
             map.put("src", Constants.FILEURL_FIRSTNAME + imageUrl);
@@ -189,7 +199,8 @@ public class FileuploadServiceImpl implements FileuploadService {
     public TableModel activityImageUpload(MultipartFile uploadfile) {
         try {
             TableModel tableModel = new TableModel();
-            String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            //String imageUrl = FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String imageUrl = fileDfsUtil.upload(uploadfile);
             //String imageUrl = "imageUrl";
             Map<String, String> map = new HashMap<>();
             map.put("src", Constants.FILEURL_FIRSTNAME + imageUrl);
@@ -213,7 +224,6 @@ public class FileuploadServiceImpl implements FileuploadService {
         try {
             //获取图片的存放路径
             //String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
-            FileDfsUtil fileDfsUtil = new FileDfsUtil();
             String fileUrl = Constants.FILEURL_FIRSTNAME + fileDfsUtil.upload(uploadfile);
             System.out.println(fileUrl);
             //将该路径写到数据库表中
@@ -224,8 +234,6 @@ public class FileuploadServiceImpl implements FileuploadService {
             proUserMapper.updateByPrimaryKeySelective(proUsers.get(0));
             return TableModel.success();
         } catch (Exception e) {
-            log.error(e.getMessage());
-            log.error("e= "+e);
             e.printStackTrace();
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }

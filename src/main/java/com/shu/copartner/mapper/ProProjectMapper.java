@@ -58,6 +58,12 @@ public interface ProProjectMapper {
     List<ProProject> selectMyFollowProject(@Param("follower") String follower);
 
     /**
+     *查询我加入的项目
+     * @return
+     */
+    List<ProProject> selectMyJoinProject(@Param("phone") String phone);
+
+    /**
      *查询我的被关注的项目
      * @return
      */

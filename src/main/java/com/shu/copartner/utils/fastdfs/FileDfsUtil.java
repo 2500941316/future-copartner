@@ -36,11 +36,11 @@ public class FileDfsUtil {
                     multipartFile.getInputStream(),
                     multipartFile.getSize(), originalFilename, null);*/
             fis = multipartFile.getInputStream();
-            System.out.println("enter1");
+            //System.out.println("enter1");
             StorePath storePath = this.storageClient.uploadFile(fis,
                     multipartFile.getSize(), originalFilename, null);
             System.out.println(storePath);
-            System.out.println("enter2");
+            //System.out.println("enter2");
             return "group1/"+storePath.getPath();
         } catch (Exception ex) {
             LOGGER.info(ex.getMessage());

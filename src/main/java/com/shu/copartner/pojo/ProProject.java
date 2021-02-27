@@ -100,6 +100,12 @@ public class ProProject implements Serializable {
 
     private String follower;
 
+    // 加入项目的时间
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date joinDate;
+
+    private static final long serialVersionUID = 1L;
+
     public Date getFollowTime() {
         return followTime;
     }
@@ -116,7 +122,13 @@ public class ProProject implements Serializable {
         this.follower = follower;
     }
 
-    private static final long serialVersionUID = 1L;
+    public Date getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
+    }
 
     public Long getProjectId() {
         return projectId;

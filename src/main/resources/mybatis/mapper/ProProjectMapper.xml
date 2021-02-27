@@ -50,6 +50,9 @@
     <!--pro_follow表中关注项目的时间-->
     <result column="follow_time" jdbcType="TIMESTAMP" property="followTime" />
     <result column="follower" jdbcType="VARCHAR" property="follower" />
+
+    <!--pro_member表中加入项目的时间-->
+    <result column="join_date" jdbcType="VARCHAR" property="joinDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -194,6 +197,15 @@
         WHERE f.project_id = p.project_id
                 and f.follower = #{follower}
                 and f.is_delete = 0
+  </select>
+
+  <!--根据当前用户手机号 查询我加入的项目信息-->
+  <select id="selectMyJoinProject" parameterType="java.lang.String" resultMap="BaseResultMap">
+     select m.join_date,m.member_name,m.member_phone,p.* FROM PRO_MEMBER m, PRO_PROJECT p
+        WHERE m.project_id = p.project_id
+                and m.member_phone = #{phone}
+                and m.is_deleted = 0
+                and m.is_audit = 1
   </select>
 
   <!--查询我的项目个数-->

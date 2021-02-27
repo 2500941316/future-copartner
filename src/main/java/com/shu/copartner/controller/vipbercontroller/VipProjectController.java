@@ -195,6 +195,17 @@ public class VipProjectController {
     }
 
     /**
+     * 查询我加入的项目
+     * @param currentPage
+     * @param principal
+     * @return
+     */
+    @GetMapping("searchMyJoinProject")
+    public TableModel searchMyJoinProject(@Size(min = 1) @RequestParam int currentPage,Principal principal){
+        return proProjectService.searchMyJoinProject(currentPage,principal.getName());
+    }
+
+    /**
      * 查询关注我的人
      * @param projectId
      * @return
