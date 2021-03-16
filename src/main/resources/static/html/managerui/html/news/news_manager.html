@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>个人工作台</title>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+
+    <script src='/html/webui/header/header.js'></script>
+   <!-- <script type="text/javascript" src="/html/webui/js/layui/layui.all.js"></script>-->
+   <!-- <script src="/html/webui/js/layui/layui.all.js"></script>-->
+</head>
+<body>
+<!--引入页头页面-->
+<div id="hy_con">
+    <div id="con_lf">
+        <h2>管理列表</h2>
+        <ul>
+            <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/user/user_manager.html">人员管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/project/project_manager.html">项目管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/news/news_manager.html">社区管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/activity/activity_manager.html">活动管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/activity/live_manager.html">直播管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/carousel/carousel_manager.html">广告管理</a></li>
+        </ul>
+    </div>
+    <div id="con_rh">
+        <div class="con_rh_con">
+            <p class="rh_title">社区管理</p>
+            <div class="layui-tab" lay-filter="demo">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">上大新闻发布</li>
+                    <li class="layui-this" onclick="searchAllNews()">社区信息管理</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+
+                        <div class="perRightcon">
+                            <div class="ydc-column ydc-column-8">
+                                <div class="ydc-release-content">
+                                    <div class="ydc-tabPanel ydc-tabPanel-release">
+
+                                        <div class="ydc-panes">
+                                            <div class="ydc-pane" style="display:block;">
+                                                <div class="ydc-release-form-group ">
+                                                    <div class="ydc-warning-default">
+                                                        <p>标题字数需在1字到30字之间。</p>
+                                                    </div>
+                                                    <div class="ydc-release-form-group-input">
+                                                        <input type="text" name="title" lay-verify="title"
+                                                               autocomplete="off" id="title"
+                                                               placeholder="请输入标题，建议字数在30个汉字以内"
+                                                               onkeyUp="textLimitCheck(this, 30);" class="layui-input">
+                                                        <div class="ydc-form-group-jl">
+                                                            <span id="messageCount">0</span>
+                                                            /30
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="ydc-release-form-text">
+                                <textarea class="layui-textarea" id="LAY_demo1"
+                                          style="display: none">新闻内容和图片放入即可</textarea>
+                                                </div>
+                                                <div class="ydc-release-form-group-input">
+                                                    <input type="text" name="title" lay-verify="title"
+                                                           autocomplete="off"
+                                                           placeholder="新闻关键词控制再30字以内，每个关键词用空格隔开" id="keywords"
+                                                           class="layui-input">
+
+                                                </div>
+                                                <div class="ydc-form-city" style="margin-top: 5px">
+
+                                                    <div class="layui-row">
+                                                        <div class="layui-col-xs6">
+                                                            <div class="grid-demo grid-demo-bg1">
+
+                                                                <div class="ydc-btn">
+                                                                    <button id="publish" class="btn">发布</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--课程视频管理模块-->
+                    <div class="layui-tab-item">
+                        <!--引入layui表格-->
+                        <table id="manageNews" lay-filter="manageNewsTable"></table>
+
+                        <script type="text/html" id="manageNewsOperate">
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="manage">发布/撤回</a>
+                           <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>-->
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+                        </script>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--引入尾部页面-->
+<div id="footer"></div>
+
+<script type="application/javascript">
+    var $ = layui.jquery;
+    layui.use(['layer', 'layedit'], function () {
+        var layedit = layui.layedit;
+        var layer = layui.layer;
+        layedit.set({
+            uploadImage: {
+                url: '/vip/news/newImagesUpload' //接口url
+                , type: 'POST' //默认post
+            }
+        });
+        var editor = layedit.build('LAY_demo1', {
+            height: 300
+        })
+
+        //点击发布按钮的操作
+        $("#publish").click(function () {
+            var title = $("#title").val();
+            var keywords = $("#keywords").val();
+            var content = layedit.getContent(editor);
+            //var category = $("#category option:selected").val();
+            //var isTop = $("#isTop option:selected").val();
+
+            if (title.length === 0 || title.length > 30 || keywords.length === 0 || keywords.length > 30
+                || content.length === 0  ) {// || isTop.length === 0 || category.length === 0
+                layer.msg('请填写完整信息！');
+                return;
+            }
+            var data = {
+                "newsTitle": title,
+                "newsAuthor": localStorage.getItem("username"),
+                "newsKeywords": keywords,
+                "newsContent": content,
+               // "newsCategory": category,
+                // "istopping": isTop
+            };
+            layer.load(2);
+            $.ajax({
+                type: "POST",
+                url: "/manager/news/publisSHUNews",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    layer.closeAll('loading');
+                    if (data.code === 200) {
+                        layer.msg('发布成功！');
+                    } else
+                        layer.msg('网络异常，请稍后重试');
+                },
+                error: function (data) {
+                    layer.closeAll('loading');
+                    layer.msg('参数异常');
+                }
+            });
+        })
+    });
+
+    $(function () {
+        $("#header").load("/html/webui/header/header.html");
+        $("#footer").load("/html/webui/footer/footer.html");
+    });
+
+    function textLimitCheck(thisArea, maxLength) {
+        if (thisArea.value.length > maxLength) {
+            thisArea.value = thisArea.value.substring(0, 30);
+            thisArea.focus();
+        }
+        messageCount.innerText = thisArea.value.length;
+    }
+
+function searchAllNews(){
+
+
+    layui.use('table', function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#manageNews'
+            , url: '/manager/news/searchAllNews'
+            //,data: data
+            , title: '帖子新闻管理表'
+            , cols: [[
+                {
+                    field: 'newsId', title: 'ID', fixed: 'left', width: 80,unresize: true, sort: true, align: 'center',type:'numbers'
+                }
+                , {field: 'newsTitle', title: '标题', align: 'center'}
+                , {field: 'newsAuthor', title: '发表人', align: 'center'}
+                , {field: 'istopping', title: '类型', sort: true, align: 'center',templet: function (res) {
+                    if(res.istopping === "0"){return "帖子";}
+                    else if(res.istopping === "1"){return "新闻";}
+                    }}
+                , {field: 'isaudit', title: '状态', sort: true, align: 'center',templet: function (res) {
+                    if(res.isaudit === "1"){return "已发表";}
+                    else if(res.isaudit === "3"){return "已撤回";}
+                    }}
+                , {field: 'newsPublistime', title: '发表时间',sort: true, align: 'center'}
+                , {fixed: 'right', title: '操作', toolbar: '#manageNewsOperate', width: 210, align: 'center'}
+            ]]
+            , page: true
+        });
+        //监听操作栏
+        table.on('tool(manageNewsTable)', function (obj) {
+            var newsData = obj.data;
+            if (obj.event === 'detail') {
+                viewNew(obj.data.newsId);
+            } else if (obj.event === 'delete') {
+                layer.confirm('确认删除？', function (index) {
+                    updateNewsAuditOrdelete(newsData.newsId,"9");
+                    layer.close(index);
+                    obj.del();
+                });
+            } else if(obj.event === 'manage'){
+                manageNewsInfo(obj.data);
+            }
+        });
+    })
+}
+
+    //点击查看新闻按钮，打开一个对话框
+    function viewNew(newsId) {
+        localStorage.setItem("newId", newsId);
+        layui.use("layer", function () {
+            var layer = layui.layer;
+            layer.open({
+                type: 2,
+                area: ["90%", "100%"],
+                fixed: false, //不固定
+                maxmin: true,
+                content: "/html/webui/news/news_content.html"
+            });
+        });
+    }
+
+    /**
+     * 发布，撤回新闻
+     * @param info
+     */
+    function manageNewsInfo(info) {
+        if(info.isaudit === "1"){
+            layer.confirm('确认撤回？', function (index) {
+                updateNewsAuditOrdelete(info.newsId,"3");
+                layer.close(index);
+                obj.del();
+            });
+        }else if(info.isaudit === "3"){
+            layer.confirm('确认发表？', function (index) {
+                updateNewsAuditOrdelete(info.newsId,"1");
+                layer.close(index);
+                obj.del();
+            });
+        }
+    }
+
+    /**
+     * 更新状态
+     * @param newsId
+     * @param isaudit
+     */
+    function updateNewsAuditOrdelete(newsId,isaudit) {
+        var updateData = {
+            newsId: newsId,
+            isaudit: isaudit
+        }
+        $.ajax({
+            url: "/manager/news/updateNewsAudit",
+            type: "GET",
+            data: updateData,
+            success: function (res) {
+                if(res.code = 200){
+                    layer.msg("操作成功！",{icon: 1,shade: 0.1,time: 2000})
+                    searchAllNews(); // 刷新表格
+                }else{
+                    layer.msg("网络异常！");
+                }
+            },
+            error: function (res) {
+                layer.msg("网络异常！");
+
+            }
+        })
+    }
+
+
+</script>
+
+</body>
+</html>

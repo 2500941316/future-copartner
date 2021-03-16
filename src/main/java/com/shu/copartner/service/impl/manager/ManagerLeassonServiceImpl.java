@@ -5,14 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProLeassonMapper;
+import com.shu.copartner.mapper.ProLeassonTaskMapper;
 import com.shu.copartner.mapper.ProLeassonVedioMapper;
-import com.shu.copartner.pojo.ProLeasson;
-import com.shu.copartner.pojo.ProLeassonExample;
-import com.shu.copartner.pojo.ProLeassonVedio;
-import com.shu.copartner.pojo.ProLeassonVedioExample;
+import com.shu.copartner.pojo.*;
 import com.shu.copartner.pojo.request.LeassonApplyVO;
 import com.shu.copartner.pojo.request.LeassonVedioUpdateVO;
 import com.shu.copartner.pojo.response.LeassonVedioInfoSo;
+import com.shu.copartner.pojo.response.LessonTaskInfoSo;
 import com.shu.copartner.service.ManagerLeassonService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.fastdfs.FastDfsClient;
@@ -24,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,6 +36,9 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
 
     @Autowired
     ProLeassonVedioMapper proLeassonVedioMapper;
+
+    @Autowired
+    ProLeassonTaskMapper proLeassonTaskMapper;
 
     @Override
     public TableModel applyLeasson(LeassonApplyVO leassonApplyVO) {
@@ -145,10 +148,10 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
             //删除课程对应的视频
             List<ProLeassonVedio> proLeassonVedios = proLeassonVedioMapper.selectByExample(proLeassonVedioExample);
             for (ProLeassonVedio leassonVedio : proLeassonVedios) {
-                if (leassonVedio.getCourseVedioUrl()!=null) {
+                if (leassonVedio.getCourseVedioUrl() != null) {
                     FastDfsClient.deleteFile(Constants.FASTDFSGROUPNAME, leassonVedio.getCourseVedioUrl().substring(Constants.FASTDFSSUBSTRLEN));
                 }
-                if (leassonVedio.getCourseVedioPptUrl()!=null) {
+                if (leassonVedio.getCourseVedioPptUrl() != null) {
                     FastDfsClient.deleteFile(Constants.FASTDFSGROUPNAME, leassonVedio.getCourseVedioPptUrl().substring(Constants.FASTDFSSUBSTRLEN));
                 }
             }
@@ -157,5 +160,120 @@ public class ManagerLeassonServiceImpl implements ManagerLeassonService {
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
         return TableModel.success();
+    }
+
+    /**
+     * 获取作业信息
+     *
+     * @param page
+     * @return
+     */
+    @Override
+    public TableModel getLeassonTask(int page) {
+        PageHelper.startPage(page, Constants.PAGESIZE);
+        try {
+            int index = 0;
+            ProLeassonExample newProLeassonExample = new ProLeassonExample();
+            newProLeassonExample.createCriteria().andCourseIsdeletedEqualTo(Constants.NO_DELETED);
+            List<ProLeasson> proLeassons = proLeassonMapper.selectByExample(newProLeassonExample);
+            List<LessonTaskInfoSo> lessonTaskInfoSoList = new ArrayList<>();
+            PageInfo pageInfo = new PageInfo(proLeassons);
+            for (ProLeasson proLeasson : proLeassons) {
+                LessonTaskInfoSo lessonTaskInfoSo = new LessonTaskInfoSo();
+                BeanUtils.copyProperties(proLeasson, lessonTaskInfoSo);
+                lessonTaskInfoSo.setId(++index);
+                lessonTaskInfoSo.setPid(-1);
+
+                lessonTaskInfoSoList.add(lessonTaskInfoSo);
+
+                //根据leasson列表去获取每个课程下面的作业信息
+                ProLeassonTaskExample proLeassonTaskExample = new ProLeassonTaskExample();
+                //按照添加时间排序
+                proLeassonTaskExample.setOrderByClause(Constants.LEASSON_ASCBYPUBLISHDATE);
+                proLeassonTaskExample.createCriteria().andCourseIdEqualTo(lessonTaskInfoSo.getCourseId()).andIsDeletedEqualTo(0);
+                List<ProLeassonTask> proLeassonTasks = proLeassonTaskMapper.selectByExample(proLeassonTaskExample);
+
+                for (ProLeassonTask proLeassonTask : proLeassonTasks) {
+                    LessonTaskInfoSo taskInfoSo = new LessonTaskInfoSo();
+                    BeanUtils.copyProperties(lessonTaskInfoSo, taskInfoSo);
+                    BeanUtils.copyProperties(proLeassonTask, taskInfoSo);
+
+                    taskInfoSo.setPid(index);
+                    taskInfoSo.setId(null);
+                    lessonTaskInfoSoList.add(taskInfoSo);
+                }
+            }
+            return TableModel.tableSuccess(lessonTaskInfoSoList, (int) pageInfo.getTotal());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 添加作业
+     * @param courseId
+     * @param courseTaskContent
+     * @return
+     */
+    @Override
+    public TableModel addCourseTask(String courseId,String courseName, String courseTaskContent) {
+        try{
+            ProLeassonTask proLeassonTask = new ProLeassonTask();
+            proLeassonTask.setCourseId(Long.parseLong(courseId));
+            proLeassonTask.setCourseName(courseName);
+            proLeassonTask.setCourseTaskContent(courseTaskContent);
+            proLeassonTask.setIsDeleted(0);
+            proLeassonTask.setPublishDate(new Date());
+            proLeassonTask.setUpdateDate(new Date());
+            proLeassonTaskMapper.insertSelective(proLeassonTask);
+            return TableModel.success();
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+       }
+
+    }
+
+    /**
+     * 修改作业内容
+     * @param courseTaskId
+     * @param courseTaskContent
+     * @return
+     */
+    @Override
+    public TableModel updateCourseTask(String courseTaskId, String courseTaskContent) {
+        try{
+            ProLeassonTask proLeassonTask = new ProLeassonTask();
+            proLeassonTask.setCourseTaskId(Long.parseLong(courseTaskId));
+            proLeassonTask.setCourseTaskContent(courseTaskContent);
+            proLeassonTask.setUpdateDate(new Date());
+            proLeassonTaskMapper.updateByPrimaryKeySelective(proLeassonTask);
+            return TableModel.success();
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+
+    }
+
+    /**
+     * 删除作业
+     * @param courseTaskId
+     * @return
+     */
+    @Override
+    public TableModel deleteCourseTask(String courseTaskId) {
+        try{
+            ProLeassonTask proLeassonTask = new ProLeassonTask();
+            proLeassonTask.setCourseTaskId(Long.parseLong(courseTaskId));
+            proLeassonTask.setDeleteDate(new Date());
+            proLeassonTask.setIsDeleted(1);
+            proLeassonTaskMapper.updateByPrimaryKeySelective(proLeassonTask);
+            return TableModel.success();
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
     }
 }

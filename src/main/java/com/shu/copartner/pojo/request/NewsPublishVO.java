@@ -17,7 +17,7 @@ public class NewsPublishVO implements Serializable {
     private String newsTitle;
     @NotBlank(message = "新闻作者不能为空")
     private String newsAuthor;
-    @NotBlank(message = "新闻类别不能为空")
+    //@NotBlank(message = "新闻类别不能为空")
     private String newsCategory;
     @NotBlank(message = "新闻内容不能为空")
     private String newsContent;
@@ -25,7 +25,7 @@ public class NewsPublishVO implements Serializable {
     private Date newsPublistime;
 
     private Integer newsBrowsecount;
-    @NotBlank(message = "新闻是否置顶不能为空")
+   // @NotBlank(message = "新闻是否置顶不能为空")
     private String istopping;
 
     private String isdeleted;

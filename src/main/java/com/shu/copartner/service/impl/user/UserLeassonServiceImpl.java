@@ -4,11 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProLeassonMapper;
+import com.shu.copartner.mapper.ProLeassonTaskMapper;
 import com.shu.copartner.mapper.ProLeassonVedioMapper;
-import com.shu.copartner.pojo.ProLeasson;
-import com.shu.copartner.pojo.ProLeassonExample;
-import com.shu.copartner.pojo.ProLeassonVedio;
-import com.shu.copartner.pojo.ProLeassonVedioExample;
+import com.shu.copartner.pojo.*;
 import com.shu.copartner.pojo.response.LeassonCourse_Vedio_InfoSo;
 import com.shu.copartner.service.UserLeassonService;
 import com.shu.copartner.utils.constance.Constants;
@@ -16,6 +14,7 @@ import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +30,9 @@ public class UserLeassonServiceImpl implements UserLeassonService {
 
     @Autowired
     private ProLeassonVedioMapper proLeassonVedioMapper;
+
+    @Autowired
+    private ProLeassonTaskMapper proLeassonTaskMapper;
 
     @Override
     public TableModel getLeassonInfo() {
@@ -62,7 +64,7 @@ public class UserLeassonServiceImpl implements UserLeassonService {
             //查询所有子目录的信息
             ProLeassonVedioExample proLeassonVedioExample = new ProLeassonVedioExample();
             proLeassonVedioExample.setOrderByClause(Constants.LEASSON_ASCBYNUMBER);
-            proLeassonVedioExample.createCriteria().andCourseIdEqualTo(courseId).andCourseVedioUrlIsNotNull().andCourseVedioPptUrlIsNotNull();
+            proLeassonVedioExample.createCriteria().andCourseIdEqualTo(courseId).andCourseVedioUrlIsNotNull();// .andCourseVedioPptUrlIsNotNull()
             List<ProLeassonVedio> proLeassonVedios = proLeassonVedioMapper.selectByExample(proLeassonVedioExample);
             leassonCourseVedioInfoSo.setVedioList(proLeassonVedios);
 
@@ -77,6 +79,13 @@ public class UserLeassonServiceImpl implements UserLeassonService {
             PageHelper.startPage(1, Constants.LEASSON_CLICKNUMBER);
             List<ProLeasson> proLeassons = proLeassonMapper.selectByExample(proLeassonExample);
             leassonCourseVedioInfoSo.setClickCourseList(proLeassons);
+
+            //查询作业信息
+            ProLeassonTaskExample proLeassonTaskExample = new ProLeassonTaskExample();
+            proLeassonTaskExample.setOrderByClause(Constants.LEASSON_ASCBYPUBLISHDATE);
+            proLeassonTaskExample.createCriteria().andIsDeletedEqualTo(0).andCourseIdEqualTo(courseId);
+            List<ProLeassonTask> proLeassonTasks = proLeassonTaskMapper.selectByExample(proLeassonTaskExample);
+            leassonCourseVedioInfoSo.setTaskList(proLeassonTasks);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());

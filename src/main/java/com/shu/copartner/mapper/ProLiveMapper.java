@@ -24,6 +24,7 @@ public interface ProLiveMapper {
      */
     List<ProLive> selectAllLives();
 
+
     ProLive selectByPrimaryKey(Long liveId);
 
     int updateByExampleSelective(@Param("record") ProLive record, @Param("example") ProLiveExample example);

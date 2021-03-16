@@ -24,18 +24,18 @@
                 <span class="up"></span>
             </div>
             <ul>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_project_apply.html')" href="#">创建项目</a></li>
                 <li><a onclick="redirecTo('/html/webui/personal/personal_project_list.html')" href="#">我的项目</a></li>
                 <li><a onclick="redirecTo('/html/webui/personal/personal_myjoin.html')" href="#">我的加入</a></li>
                 <li><a onclick="redirecTo('/html/webui/personal/personal_myfollow.html')" href="#">我的关注</a></li>
                 <li><a onclick="redirecTo('/html/webui/personal/personal_followedproject.html')" href="#">谁关注我</a></li>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_project_apply.html')" href="#">创建项目</a></li>
             </ul>
             <div class="NavLeftBox twoNav">
-                <a class="a6">新闻</a>
+                <a class="a6">帖子</a>
                 <span class="up"></span>
             </div>
             <ul>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_news_apply.html')" href="#">发布新闻</a></li>
+                <li><a onclick="redirecTo('/html/webui/personal/personal_news_apply.html')" href="#">发布帖子</a></li>
                 <li><a onclick="redirecTo('/html/webui/personal/personal_mynews.html')" href="#">我的发布</a></li>
             </ul>
 
@@ -174,7 +174,11 @@
             elem: '#personalImage'
             , url: '/vip/user/uploadPersonalImage'
             ,accept: 'images'
+            , before: function(obj) {
+                layer.load();
+            }
             ,done: function (res) {
+                layer.closeAll('loading');
                 if (res.code === 200) {
                      top.layer.msg('上传成功');
                 }else{

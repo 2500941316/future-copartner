@@ -12,4 +12,12 @@ public interface ManagerLeassonService {
     TableModel updateLeasson(LeassonVedioUpdateVO leassonVedioUpdateVO);
 
     TableModel deleteLeasson(String courseId);
+
+    TableModel getLeassonTask(int page);
+
+    TableModel addCourseTask(String courseId,String courceName,String courseTaskContent);
+
+    TableModel updateCourseTask(String courseTaskId,String courseTaskContent);
+
+    TableModel deleteCourseTask(String courseTaskId);
 }

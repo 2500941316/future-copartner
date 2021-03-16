@@ -34,7 +34,8 @@ public class PublicProjectController {
      */
     @GetMapping("getProjectById")
     public TableModel getProjectById(@Size(min = 1) String projectId) {
-        return this.proProjectService.searchProjectById(projectId,creater);
+        //return this.proProjectService.searchProjectById(projectId,creater);
+        return this.proProjectService.searchProjectByIdPublic(projectId);
     }
 
     /**

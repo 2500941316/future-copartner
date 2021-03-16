@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProNewsMapper;
+import com.shu.copartner.mapper.ProUserMapper;
 import com.shu.copartner.pojo.*;
 import com.shu.copartner.pojo.request.NewsPublishVO;
 import com.shu.copartner.service.UserNewsService;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,10 +35,21 @@ public class UserNewsServiceImpl implements UserNewsService {
     @Autowired
     ProNewsMapper proNewsMapper;
 
+    @Autowired
+    private ProUserMapper proUserMapper;
+
     @Override
     public TableModel publisNews(NewsPublishVO newsPublishVO) {
+        // 根据用户手机号查询出其姓名
+        ProUserExample proUserExample = new ProUserExample();
+        proUserExample.createCriteria().andPhoneEqualTo(newsPublishVO.getNewsAuthor());
+        List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+        String authorName = proUsers.get(0).getName();
+
         //补全用户提交的信息和时间
         newsPublishVO.setNewsPublistime(new Date());
+        newsPublishVO.setNewsAuthor(authorName);
+        newsPublishVO.setIstopping("0"); // 代表发表的是帖子 ，而不是精彩上大新闻
         //将前端接收的对象之间转为map，map中的参数开启流程
         Map<String, Object> map = new HashMap<>();
         map.put(Constants.NEWSAPPLY_PROCESS_USERALIGN, newsPublishVO.getNewsAuthor());
@@ -99,7 +112,8 @@ public class UserNewsServiceImpl implements UserNewsService {
             PageHelper.startPage(1, 2);
             proNewsExample.createCriteria()
                     .andIsauditEqualTo(Constants.NEW_AUTHED)
-                    .andIstoppingEqualTo(Constants.NEW_ISTOP)
+                   // .andIstoppingEqualTo(Constants.NEW_ISTOP)
+                    .andIstoppingEqualTo("1") //  1 代表是上大新闻，而不是帖子
                     .andIsdeletedEqualTo(Constants.NO_DELETED);
             topNewsList = proNewsMapper.selectByExampleWithBLOBs(proNewsExample);
 
@@ -192,10 +206,16 @@ public class UserNewsServiceImpl implements UserNewsService {
 
     @Override
     public TableModel searchMyNews(int page, String phone) {
+        // 根据手机号查询出姓名，然后用作者姓名查询
+        ProUserExample proUserExample = new ProUserExample();
+        proUserExample.createCriteria().andPhoneEqualTo(phone);
+        List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+        String authorName = proUsers.get(0).getName();
+
         List<ProNews> proNews;
         //根据电话号码查询用户发布的所有新闻并且返回
         ProNewsExample proNewsExample = new ProNewsExample();
-        proNewsExample.createCriteria().andNewsAuthorEqualTo(phone).andIsdeletedEqualTo(Constants.NO_DELETED);
+        proNewsExample.createCriteria().andNewsAuthorEqualTo(authorName).andIsdeletedEqualTo(Constants.NO_DELETED);
         PageHelper.startPage(page, Constants.PAGESIZE);
         try {
             proNews = proNewsMapper.selectByExample(proNewsExample);

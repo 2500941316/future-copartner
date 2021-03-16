@@ -37,11 +37,11 @@
                         </div>
                         <div class="ydc-release-form-text">
                                 <textarea class="layui-textarea" id="LAY_demo1"
-                                          style="display: none">新闻内容和图片放入即可</textarea>
+                                          style="display: none">帖子内容和图片放入即可</textarea>
                         </div>
                         <div class="ydc-release-form-group-input">
                             <input type="text" name="title" lay-verify="title" autocomplete="off"
-                                   placeholder="文章关键词控制再30字以内，每个关键词用空格隔开" id="keywords"
+                                   placeholder="帖子关键词控制再30字以内，每个关键词用空格隔开" id="keywords"
                                    class="layui-input"/>
 
                         </div>
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
 
-                            <div class="aui-card-form-item">
+                        <!--    <div class="aui-card-form-item">
                                 <label class="aui-card-form-label">是否置顶:</label>
                                 <div class="aui-card-form-input">
                                     <select id="isTop">
@@ -69,7 +69,7 @@
                                         <option>否</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div>-->
 
                             <div class="ydc-btn">
                                 <button id="publish" class="btn">发布</button>
@@ -104,10 +104,10 @@
             var keywords = $("#keywords").val();
             var content = layedit.getContent(editor);
             var category = $("#category option:selected").val();
-            var isTop = $("#isTop option:selected").val();
+            //var isTop = $("#isTop option:selected").val();
 
-            if (title.length === 5 || title.length > 30 || keywords.length === 0 || keywords.length > 30
-                || content.length === 0 || category.length === 0 || isTop.length === 0) {
+            if (title.length === 0 || title.length > 30 || keywords.length === 0 || keywords.length > 30
+                || content.length === 0 || category.length === 0 ) {// || isTop.length === 0
                 layer.msg('请填写完整信息！');
                 return;
             }
@@ -117,7 +117,7 @@
                 "newsKeywords": keywords,
                 "newsContent": content,
                 "newsCategory": category,
-                "istopping": isTop
+               // "istopping": isTop
             };
             layer.load(2);
             $.ajax({

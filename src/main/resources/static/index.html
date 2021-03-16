@@ -7,12 +7,62 @@
     <link rel='shortcut icon' href='/html/webui/images/favicon.ico'>
     <link rel="stylesheet" type="text/css" href="/html/webui/css/index_style.css"/>
     <link rel="stylesheet" type="text/css" href="/html/webui/js/layui/css/layui.css"/>
+
+    <link href='/html/webui/images/favicon.ico' rel='shortcut icon' type='text/css'/>
+    <link href='/html/webui/css/head_style.css' rel='stylesheet' type='text/css'/>
+
     <script type="text/javascript" src="/html/webui/js/layui/layui.all.js"></script>
     <script src="/html/webui/js/index.js" type="text/javascript" charset="utf-8"></script>
+
+
+    <script type='text/javascript' src='/html/webui/js/interceptor.js'></script>
+
 </head>
 
 <body>
-<div class="yun-solution-slider-content">
+
+<div class='aui-header-nav moveDown'>
+    <div class='wrapper'>
+        <img src="/html/webui/images/header_img/banner004.png" style="margin-left: 0;"  width="130px" height="100%">
+        <img src="/html/webui/images/header_img/banner004.png" style="margin-left: 10px"  width="130px" height="100%">
+        <img src="/html/webui/images/header_img/banner004.png" style="margin-left: 10px" width="130px" height="100%">
+
+      <!--  <a href='#'>
+            <div class='aui-logo'>
+                <span class='aui-logo'></span>
+            </div>
+        </a>-->
+
+        <div class='aui-top-nav' style="margin-right: 100px">
+            <ul class='menu'>
+
+                <li id='person' class='qa'>
+                    <a href='#'>
+                        个人工作台
+                        <span class='u-icon-caret'></span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <div id='layerDemo' class='m-login' style="right: 100px">
+            <a id='loginBtn' style='display: none'  onclick='openLogin()' class='u-btn  sign'>登录</a>
+            <i onmouseover='showUser()' id='userIcon' style='display: none;font-size: 28px;color: #1E9FFF;'   class='layui-icon  layui-icon-username'></i>
+            <a id='logoutBtn' style='display: none'  onclick='logout()' class='u-btn  sign'>注销</a>
+             <a id='manager' style='display: none'  href='#' class='u-btn  free'>管理端</a>
+        </div>
+    </div>
+</div>
+
+<div class="layui-carousel" id="test10" style="position: relative;height: 576px;">
+    <div carousel-item="" id="indexCarousel">
+        <!--轮播图-->
+        <!--<div><img src="/html/webui/images/index_img/dsy.jpg" id="001" style="height: 576px;width: 100%" ></div>
+        <div><img src="/html/webui/images/index_img/sjy.jpg" style="height: 576px"></div>-->
+
+    </div>
+</div>
+<!--<div class="yun-solution-slider-content">
     <ul class="yun-solution-wrap">
         <li class="yun-solution-item  wapSolution current"
             style="background: url(/html/webui/images/index_img/dsy.jpg) center center no-repeat;">
@@ -23,7 +73,7 @@
             <div class="yun-solution-item-content">
                 <div class="yun-solution-text-wrap">
                     <dl>
-                        <dt class="yun-solution-title"><em>项目合作</em></dt>
+                        <dt class="yun-solution-title"><em>精彩上大</em></dt>
                         <dd class="yun-solution-des">
                             提供时政新闻,国内新闻,国际新闻,社会新闻,时事评论,新闻图片,新闻专题,新闻论坛,军事,历史等最热门一手的新闻资讯
                         </dd>
@@ -40,7 +90,7 @@
             <div class="yun-solution-item-content">
                 <div class="yun-solution-text-wrap">
                     <dl>
-                        <dt class="yun-solution-title"><em>新闻资讯</em></dt>
+                        <dt class="yun-solution-title"><em>项目合作</em></dt>
                         <dd class="yun-solution-des">
                             我们处于一个时刻变化的业务环境中，对于国内组织而言，革新工作模式，提升工作效率成为当务之急。高效 便捷 成为当务之急！
                         </dd>
@@ -74,7 +124,7 @@
             <div class="yun-solution-item-content">
                 <div class="yun-solution-text-wrap">
                     <dl>
-                        <dt class="yun-solution-title"><em>热点论坛</em></dt>
+                        <dt class="yun-solution-title"><em>热点直播</em></dt>
                         <dd class="yun-solution-des">
                             我们处于一个时刻变化的业务环境中，对于国内组织而言，革新工作模式，提升工作效率成为当务之急。高效 便捷 成为当务之急！
                         </dd>
@@ -108,7 +158,7 @@
             <div class="yun-solution-item-content">
                 <div class="yun-solution-text-wrap">
                     <dl>
-                        <dt class="yun-solution-title"><em>个人管理</em></dt>
+                        <dt class="yun-solution-title"><em>活动信息</em></dt>
                         <dd class="yun-solution-des">
                             我们处于一个时刻变化的业务环境中，对于国内组织而言，革新工作模式，提升工作效率成为当务之急。高效 便捷 成为当务之急！
                         </dd>
@@ -125,7 +175,7 @@
             <div class="yun-solution-item-content">
                 <div class="yun-solution-text-wrap">
                     <dl>
-                        <dt class="yun-solution-title"><em>活动信息</em></dt>
+                        <dt class="yun-solution-title"><em>个人管理</em></dt>
                         <dd class="yun-solution-des">
                             我们处于一个时刻变化的业务环境中，对于国内组织而言，革新工作模式，提升工作效率成为当务之急。高效 便捷 成为当务之急！
                         </dd>
@@ -157,38 +207,38 @@
         <div class="yun-arrow-item yun-arrow-triangle"></div>
         <div class="yun-arrow-item"></div>
     </div>
-</div>
+</div>-->
 <div id="js-sliderBox" class="w yun-solution-list-wrap hidden-xs" style="position: relative;">
-    <ul class="yun-solution-list" style="width: 1200px; left: 0px; position: absolute;">
+    <ul class="yun-solution-list" style="width: 1200px; left: 0px; position: absolute;text-align: center">
         <li class="yun-solution-list-item current" data-slider-idx="0"
-            style="width: 150px; height: 77px; float: left;">
+            style="width: 150px; height: 77px; float: initial;">
             <div class="img-wrap"
                  style="background-image: url(/html/webui/images/index_img/dsy.png); background-position: 0px 0px;"></div>
-            <p class="yun-solution-text">精彩上大
+            <p class="yun-solution-text">课程
             </p>
         </li>
-        <li class="yun-solution-list-item" data-slider-idx="1" style="width: 150px; height: 77px; float: left;">
+        <li class="yun-solution-list-item" data-slider-idx="1" style="width: 150px; height: 77px; float: initial;">
             <div class="img-wrap"
                  style="background-image: url(/html/webui/images/index_img/tgy.png); background-position: 0px 0px;"></div>
-            <p class="yun-solution-text">项目合作
+            <p class="yun-solution-text">项目
             </p>
         </li>
-        <li class="yun-solution-list-item" data-slider-idx="2" style="width: 150px; height: 77px; float: left;">
+        <li class="yun-solution-list-item" data-slider-idx="2" style="width: 150px; height: 77px; float: initial;">
             <div class="img-wrap"
                  style="background-image: url(/html/webui/images/index_img/sjy.png); background-position: 0px 0px;"></div>
-            <p class="yun-solution-text">导师牛人
+            <p class="yun-solution-text">活动
             </p>
         </li>
-        <li class="yun-solution-list-item" data-slider-idx="3" style="width: 150px; height: 77px; float: left;">
+        <li class="yun-solution-list-item" data-slider-idx="3" style="width: 150px; height: 77px; float: initial;">
             <div class="img-wrap"
-                 style="background-image: url(/html/webui/images/index_img/wly.png); background-position: 0px 0px;"></div>
-            <p class="yun-solution-text">热门直播
+                 style="background-image: url(/html/webui/images/index_img/api.png); background-position: 0px 0px;"></div>
+            <p class="yun-solution-text">直播
             </p>
         </li>
-        <li class="yun-solution-list-item" data-slider-idx="4" style="width: 150px; height: 77px; float: left;">
+        <li class="yun-solution-list-item" data-slider-idx="4" style="width: 150px; height: 77px; float: initial;">
             <div class="img-wrap"
                  style="background-image: url(/html/webui/images/index_img/zny.png); background-position: 0px 0px;"></div>
-            <p class="yun-solution-text">课程中心
+            <p class="yun-solution-text">上大社区
             </p>
         </li>
       <!--  <li class="yun-solution-list-item" data-slider-idx="5" style="width: 150px; height: 77px; float: left;">
@@ -197,10 +247,10 @@
             <p class="yun-solution-text">个人管理
             </p>
         </li>-->
-        <li class="yun-solution-list-item" data-slider-idx="5" style="width: 150px; height: 77px; float: left;">
+        <li class="yun-solution-list-item" data-slider-idx="5" style="width: 150px; height: 77px; float: initial;">
             <div class="img-wrap"
-                 style="background-image: url(/html/webui/images/index_img/jry.png); background-position: 0px 0px;"></div>
-            <p class="yun-solution-text">活动信息
+                 style="background-image: url(/html/webui/images/index_img/cyy.png); background-position: 0px 0px;"></div>
+            <p class="yun-solution-text">导师
             </p>
         </li>
       <!--  <li class="yun-solution-list-item" data-slider-idx="7" style="width: 150px; height: 77px; float: left;">
@@ -216,6 +266,79 @@
 
 <!--引入页脚页面-->
 <div id="footer"></div>
+<script type='text/javascript'>
 
+    $(function () {
+      searchCarouselImage();
+    })
+
+    $(window).on('scroll', function () {
+        if ($(document).scrollTop() > 10) {
+            $('.aui-header-nav').addClass('solid').removeClass('moveDown');
+            $('.aui-header-top').addClass('moveUp');
+        } else {
+            $('.aui-header-nav').removeClass('solid').addClass('moveDown');
+            $('.aui-header-top').removeClass('moveUp');
+        }
+    });
+
+    var insCarousel;
+    layui.use(['carousel', 'form'], function() {
+        var carousel = layui.carousel
+
+        //图片轮播
+        insCarousel = carousel.render({
+            elem: '#test10'
+            ,width: '100%'
+            ,height: '546px'
+            ,interval: 3000
+        });
+    })
+
+    /**
+     * 查询首页轮播图片
+     */
+    function searchCarouselImage() {
+        $.ajax({
+            url: "/public/carousel/searchIndexCarousel",
+            type: "GET",
+            //data: "supervisorName="+supervisorName,
+            success: function (res) {
+                if(res.code == 200){
+                    fillIndexCarousel(res.data);
+                }else{
+                    layer.msg("网络异常！");
+                }
+            },
+            error: function () {
+                layer.msg("网络异常");
+            }
+        })
+    }
+
+    /**
+     * 填充首页轮播图
+     * @param carouselImages
+     */
+    function fillIndexCarousel(carouselImages) {
+        const $active =  $("#indexCarousel");
+        $active.html("");
+        for(var i in carouselImages){
+            const $children = (
+               '<div><img src="'+carouselImages[i].carouselUrl+'" style="height: 576px;width: 100%" ></div>'
+            );
+            $active.append($children);
+        }
+        // 循环后需要再次加载已渲染的轮播图
+        insCarousel.reload({
+            elem: '#test10'
+            ,width: '100%'
+            ,height: '546px'
+            ,interval: 3000
+        });
+    }
+
+
+</script>
 </body>
 </html>

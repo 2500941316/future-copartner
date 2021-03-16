@@ -5,8 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
 import com.shu.copartner.mapper.ProLiveMapper;
-import com.shu.copartner.pojo.ProActivity;
 import com.shu.copartner.pojo.ProLive;
+import com.shu.copartner.pojo.ProLiveExample;
 import com.shu.copartner.service.UserLiveService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -42,12 +44,32 @@ public class UserLiveServiceImpl implements UserLiveService {
     @Override
     public TableModel searchLiveList(int currentPage) {
         try{
-            PageHelper.startPage(currentPage,8);
-            List<ProLive> proLiveList = proLiveMapper.selectAllLives();
-            PageInfo pageInfo = new PageInfo(proLiveList);
-            this.fixTimeRun();// 定时任务
+            Map<String,List<ProLive>> map = new HashMap<>();
+            // 查询正在直播
+            PageHelper.startPage(currentPage,4);
+            ProLiveExample livingExample = new ProLiveExample();
+            livingExample.setOrderByClause(Constants.START_TIME_DESCBYDATE);// 按照直播开始时间倒序
+            // 查看正在直播 和 未开始直播
+            livingExample.createCriteria().andIsDeletedEqualTo(0).andLiveStatusNotEqualTo(Constants.LIVE_AFTER_START);
+            List<ProLive> living = proLiveMapper.selectByExample(livingExample);
 
-            return TableModel.success(proLiveList,(int)pageInfo.getTotal());
+            this.fixTimeRun();// 定时任务
+            map.put("living",living);
+
+            // 查询以往直播视频
+            PageHelper.startPage(currentPage,4);
+            ProLiveExample proLiveExample = new ProLiveExample();
+            proLiveExample.setOrderByClause(Constants.START_TIME_DESCBYDATE); // 按照开始时间倒序
+            proLiveExample.createCriteria().andIsDeletedEqualTo(0).andLiveVideoUrlIsNotNull();
+            List<ProLive> previousLives = proLiveMapper.selectByExample(proLiveExample);
+            map.put("previousLives",previousLives);
+            PageInfo pageInfo;
+            if(living.size() > previousLives.size()){
+                pageInfo = new PageInfo(living);
+            }else{
+                pageInfo = new PageInfo(previousLives);
+            }
+            return TableModel.success(map,(int)pageInfo.getTotal());
         }catch(Exception e){
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());

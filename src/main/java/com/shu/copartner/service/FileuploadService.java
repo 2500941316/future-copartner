@@ -59,4 +59,19 @@ public interface FileuploadService {
      */
     TableModel uploadPersonalImage(MultipartFile uploadfile,String phone);
 
+    /**
+     * 上传广告图片
+     * @param uploadfile
+     * @return
+     */
+    TableModel uploadCarouselImage(MultipartFile uploadfile,String carouselType,String phone);
+
+    /**
+     * 上传直播视频
+     * @param uploadfile
+     * @param liveId
+     * @return
+     */
+    TableModel liveVideoUpload(MultipartFile uploadfile,String liveId);
+
 }

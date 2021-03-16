@@ -10,6 +10,7 @@ import com.shu.copartner.pojo.request.PassRegistryVO;
 import com.shu.copartner.service.ManagerUserService;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
+import com.shu.copartner.utils.smstool.SmSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,12 +62,16 @@ public class ManagerUserServiceImpl implements ManagerUserService {
 
 
     @Override
-    public TableModel rejectRegistry(Long id, String value) {
+    public TableModel rejectRegistry(Long id, String phone,String value) {
         //将注册表中的申请状态设置为驳回
         ProRegister proRegister = new ProRegister();
         proRegister.setId(id);
         proRegister.setAdvice(value);
         proRegister.setApplystatus(Constants.REGISTER_CODE[2]);
+        //log.info(phone);
+
+        // 发送短信告知注册被驳回
+        SmSender.sendSmRejectRegister(phone);
 
         try {
             proRegisterMapper.updateByPrimaryKeySelective(proRegister);

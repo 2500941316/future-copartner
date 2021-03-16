@@ -70,6 +70,7 @@ function getCourseInfoById(courseId) {
 
             renderVedioPage(data.data);
             renderClicksVedio(data.data.clickCourseList);
+            renderTaskInfo(data.data.taskList);
         }
     });
 }
@@ -143,7 +144,7 @@ function renderVedioPage(data) {
             '                                                                                ></i></span>' + obj.courseVedioName + '</a>\n' +
             '                                                                                    </div>\n' +
             '                                                                                    <div  class="pull-right" >\n' +
-            '                                                                                        <a style="color: red" href="' + obj.courseVedioPptUrl + '"> 下载ppt</a>\n' +
+            '                                                                                        <a style="color: red;" href="' + obj.courseVedioPptUrl + '" id="' + obj.courseVedioId + '"> 下载资料</a>\n' +
             '                                                                                    </div>\n' +
             '                                                                                    <div class="pull-right" style="margin-right: 20px">\n' +
             '                                                                                        <div>' + obj.courseVedioDuringtime + 'min</div>\n' +
@@ -152,6 +153,10 @@ function renderVedioPage(data) {
             '                                                                            </div>'
         );
         $active1.append($children);
+        if(obj.courseVedioPptUrl === null){
+            document.getElementById(obj.courseVedioId ).innerText = '暂无资料';
+            document.getElementById(obj.courseVedioId ).style.pointerEvents = 'none';
+        }
     });
 }
 
@@ -208,4 +213,25 @@ function getQueryVariable(variable) {
         }
     }
     return (false);
+}
+
+/**
+ * 渲染作业信息
+ * @param taskList
+ */
+function renderTaskInfo(taskList) {
+    //渲染章节列表
+    const $active1 = $("#task");
+    $active1.html("");
+    $.each(taskList, function (i, obj) {
+        const $children = $(
+            '<div class="content">\n' +
+            '                                        <div class="clearfix">\n' +
+            '                                               <i class="layui-icon layui-icon-note"></i>\n' +
+            '                                                <span>'+taskList[i].courseTaskContent+'</span>\n' +
+            '                                        </div>\n' +
+            '                                    </div>'
+        )
+        $active1.append($children);
+    });
 }

@@ -135,7 +135,7 @@ a:hover {
     top: 0;
     width: 100%;
     background-color: transparent;
-    border-bottom: 1px solid transparent;
+    /*border-bottom: 1px solid transparent;*/
     z-index: 999;
     transition: all 0.45s ease-in-out;
 }
@@ -147,7 +147,8 @@ a:hover {
 
 .aui-header-nav .wrapper {
     position: relative;
-    width: 1180px;
+    /*width: 1180px;*/
+    width: 100%;
     /* padding: 0 10px; */
     height: 60px;
     margin: 0 auto;
@@ -179,6 +180,7 @@ a:hover {
 .aui-header-nav .wrapper .aui-top-nav {
     position: absolute;
     right: 200px;
+   /*left: 30%;*/
     top: 0;
 }
 

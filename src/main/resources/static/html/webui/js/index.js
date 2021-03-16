@@ -18,22 +18,22 @@ $(function () {
 
         switch (index) {
             case 0:
-                window.location.href = "/html/webui/news/news.html";
+                window.location.href = "/html/webui/leasson/leasson.html";
                 break;
             case 1:
                 window.location.href = "/html/webui/project/project.html";
                 break;
             case 2:
-                window.location.href = "/html/webui/supervisor/supervisor.html";
+                window.location.href = "/html/webui/activity/activity02.html";
                 break;
             case 3:
                 window.location.href = "/html/webui/live/live.html";
                 break;
             case 4:
-                window.location.href = "/html/webui/leasson/leasson.html";
+                window.location.href = "/html/webui/news/news.html";
                 break;
             case 5:
-                window.location.href = "/html/webui/activity/activity.html";
+                window.location.href = "/html/webui/supervisor/supervisor.html";
                 break;
            /* case 6:
                 window.location.href = "/html/webui/activity/activity.html";

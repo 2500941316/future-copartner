@@ -15,6 +15,7 @@
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="is_issue" jdbcType="INTEGER" property="isIssue" />
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="live_video_url" jdbcType="VARCHAR" property="liveVideoUrl" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     live_id, live_title, live_url, live_description, live_duration, live_status, live_image, 
-    click_times, start_time, update_time, end_time, is_issue, is_deleted
+    click_times, start_time, update_time, end_time, is_issue, is_deleted, live_video_url
   </sql>
   <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProLiveExample" resultMap="BaseResultMap">
     select
@@ -97,19 +98,19 @@
     <include refid="Base_Column_List" />
     from PRO_LIVE
     where live_id = #{liveId,jdbcType=BIGINT}
-        and is_deleted = 0
   </select>
 
-  <!--查询直播列表-->
-  <select id="selectAllLives" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from PRO_LIVE
-    where is_deleted = 0
-    order by start_time desc
-  </select>
+    <!--查询直播列表-->
+    <select id="selectAllLives" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from PRO_LIVE
+        where is_deleted = 0
+        order by start_time desc
+    </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from PRO_LIVE
     where live_id = #{liveId,jdbcType=BIGINT}
   </delete>
@@ -119,19 +120,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.shu.copartner.pojo.ProLive" keyProperty="liveId" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProLive">
     insert into PRO_LIVE (live_id, live_title, live_url, 
       live_description, live_duration, live_status, 
       live_image, click_times, start_time, 
       update_time, end_time, is_issue, 
-      is_deleted)
+      is_deleted, live_video_url)
     values (#{liveId,jdbcType=BIGINT}, #{liveTitle,jdbcType=VARCHAR}, #{liveUrl,jdbcType=VARCHAR}, 
       #{liveDescription,jdbcType=VARCHAR}, #{liveDuration,jdbcType=INTEGER}, #{liveStatus,jdbcType=VARCHAR}, 
       #{liveImage,jdbcType=VARCHAR}, #{clickTimes,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isIssue,jdbcType=INTEGER}, 
-      #{isDeleted,jdbcType=INTEGER})
+      #{isDeleted,jdbcType=INTEGER}, #{liveVideoUrl,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLive" keyProperty="liveId" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProLive">
     insert into PRO_LIVE
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="liveId != null">
@@ -173,6 +174,9 @@
       <if test="isDeleted != null">
         is_deleted,
       </if>
+      <if test="liveVideoUrl != null">
+        live_video_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="liveId != null">
@@ -213,6 +217,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="liveVideoUrl != null">
+        #{liveVideoUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -264,6 +271,9 @@
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=INTEGER},
       </if>
+      <if test="record.liveVideoUrl != null">
+        live_video_url = #{record.liveVideoUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,7 +293,8 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       is_issue = #{record.isIssue,jdbcType=INTEGER},
-      is_deleted = #{record.isDeleted,jdbcType=INTEGER}
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      live_video_url = #{record.liveVideoUrl,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -327,6 +338,9 @@
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=INTEGER},
       </if>
+      <if test="liveVideoUrl != null">
+        live_video_url = #{liveVideoUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where live_id = #{liveId,jdbcType=BIGINT}
   </update>
@@ -343,7 +357,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       is_issue = #{isIssue,jdbcType=INTEGER},
-      is_deleted = #{isDeleted,jdbcType=INTEGER}
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      live_video_url = #{liveVideoUrl,jdbcType=VARCHAR}
     where live_id = #{liveId,jdbcType=BIGINT}
   </update>
 </mapper>

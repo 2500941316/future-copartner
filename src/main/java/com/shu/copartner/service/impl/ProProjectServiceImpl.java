@@ -192,7 +192,37 @@ public class ProProjectServiceImpl implements ProProjectService {
             BeanUtils.copyProperties(projectApplyVO, proProject);
             // 每次修改就设置当前更新的时间
             proProject.setUpdateTime(new Date());
-            proProject.setSupervisorId(Long.parseLong(projectApplyVO.getSupervisorId()));
+            if(StringUtils.isNotEmpty(projectApplyVO.getSupervisorId())){
+                proProject.setSupervisorId(Long.parseLong(projectApplyVO.getSupervisorId()));
+            }
+            ProProject oldProject = proProjectMapper.selectByPrimaryKey(proProject.getProjectId());
+            // 里程碑信息叠加
+            if(StringUtils.isNoneEmpty(oldProject.getProjectMatch(),proProject.getProjectMatch())){
+                // 项目比赛
+                proProject.setProjectMatch(oldProject.getProjectMatch()+"; "+proProject.getProjectMatch());
+            }
+            if(StringUtils.isNoneEmpty(oldProject.getProjectCooperation(),proProject.getProjectCooperation())){
+                // 项目合作
+                proProject.setProjectCooperation(oldProject.getProjectCooperation()+"; "+proProject.getProjectCooperation());
+            }if(StringUtils.isNoneEmpty(oldProject.getProjectActivity(),proProject.getProjectActivity())){
+                // 项目重要市场活动
+                proProject.setProjectActivity(oldProject.getProjectActivity()+"; "+proProject.getProjectActivity());
+            }if(StringUtils.isNoneEmpty(oldProject.getProjectService(),proProject.getProjectService())){
+                // 项目服务产品开发
+                proProject.setProjectService(oldProject.getProjectService()+"; "+proProject.getProjectService());
+            }if(StringUtils.isNoneEmpty(oldProject.getProjectFinance(),proProject.getProjectFinance())){
+                // 项目融资
+                proProject.setProjectFinance(oldProject.getProjectFinance()+"; "+proProject.getProjectFinance());
+            }if(StringUtils.isNoneEmpty(oldProject.getProjectIncome(),proProject.getProjectIncome())){
+                // 项目产生营收
+                proProject.setProjectIncome(oldProject.getProjectIncome()+"; "+proProject.getProjectIncome());
+            }if(StringUtils.isNoneEmpty(oldProject.getProjectCompany(),proProject.getProjectCompany())){
+                // 项目注册公司
+                proProject.setProjectCompany(oldProject.getProjectCompany()+"; "+proProject.getProjectCompany());
+            }if(StringUtils.isNoneEmpty(oldProject.getProjectElseInfo(),proProject.getProjectElseInfo())){
+                // 其他
+                proProject.setProjectElseInfo(oldProject.getProjectElseInfo()+"; "+proProject.getProjectElseInfo());
+            }
             proProjectMapper.updateByPrimaryKeySelective(proProject);
             return TableModel.success();
         } catch (Exception e) {
@@ -234,6 +264,31 @@ public class ProProjectServiceImpl implements ProProjectService {
                 //代表 已经申请或者加入该项目
                 proProject.setPrimaryJob(members.get(0).getJoinStatus());
             }
+
+            //查询该项目成员
+            ProMemberExample proMemberExample02 = new ProMemberExample();
+            proMemberExample02.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId)).andIsAuditEqualTo(1);
+            List<ProMember> proMemberNames = proMemberMapper.selectByExample(proMemberExample02);
+            map.put("projectMember", proMemberNames);
+
+            // 将项目信息加入到数组里面返回
+            List<ProProject> proProjects = new ArrayList<>();
+            proProjects.add(proProject);
+            map.put("projectInfo", proProjects);
+            return TableModel.success(map, map.size());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    @Override
+    public TableModel searchProjectByIdPublic(String projectId) {
+        try {
+            Map<String, List> map = new HashMap<>();
+
+            //根据id查询出数据添加到数组返回, 并判断当前用户关注该项目与否
+            ProProject proProject = this.proProjectMapper.selectByPrimaryKey(Long.parseLong(projectId));
 
             //查询该项目成员
             ProMemberExample proMemberExample02 = new ProMemberExample();
@@ -309,12 +364,14 @@ public class ProProjectServiceImpl implements ProProjectService {
     public TableModel searchOtherProjectById(String projectId) {
         try {
             Map<String, List<ProProject>> map = new HashMap<>();
-            //根据id查询出数据添加到数组返回
+            //根据id查询出数据添加到数组返回,查询出的其他项目要与当前项目同类别
+            ProProject proProjectCurrent = proProjectMapper.selectByPrimaryKey(Long.parseLong(projectId));
+            String projectCurrentType = proProjectCurrent.getProjectType();
             ProProjectExample proProjectExample = new ProProjectExample();
             PageHelper.startPage(1, 3);
             proProjectExample.setOrderByClause(Constants.PROJECT_DESCBYDATE);
             proProjectExample.createCriteria().andProjectIdNotEqualTo(Long.parseLong(projectId))
-                    .andIsDeletedEqualTo(0).andIsGoingIsNotNull();
+                    .andIsDeletedEqualTo(0).andIsGoingIsNotNull().andProjectTypeEqualTo(projectCurrentType);
             List<ProProject> otherProject = proProjectMapper.selectByExample(proProjectExample);
             //PageInfo<ProProject> pageInfo = new PageInfo<>(topNewsList);
             map.put("otherProject", otherProject);
@@ -549,6 +606,7 @@ public class ProProjectServiceImpl implements ProProjectService {
                 proAppPlan.setPlanUrl(planUrl);
                 proAppPlan.setVideoUrl("null");
                 proAppPlan.setProjectStateToken("51");
+                proAppPlan.setApplicationTime(new Date());
                 proAppPlan.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
                 int insert = proApplicationMapper.insert(proAppPlan);
                 return insert > 0 ? true : false;
@@ -558,6 +616,7 @@ public class ProProjectServiceImpl implements ProProjectService {
                 ProApplication proApp = proApplicationList.get(0);
                 proApp.setPlanUrl(planUrl);
                 proApp.setProjectStateToken("51");
+                proApp.setApplicationTime(new Date());
                 proApp.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
                 ProApplicationExample proApplicationExample = new ProApplicationExample();
                 proApplicationExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId));
@@ -569,6 +628,7 @@ public class ProProjectServiceImpl implements ProProjectService {
                 for (ProApplication p : proApplicationList) {
                     if (!p.getPlanUrl().equals("null")) {
                         p.setPlanUrl(planUrl);
+                        p.setApplicationTime(new Date());
                         p.setProjectStateToken("51");
                         p.setProjectState(Constants.PROJECT_STATE_TOKEN.get("51"));
                         int updatePlan = proApplicationMapper.updateByPrimaryKeySelective(p);
@@ -611,6 +671,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             proAppVideo.setPlanUrl("null");
             proAppVideo.setVideoUrl(videoUrl);
             proAppVideo.setProjectStateToken("41");
+            proAppVideo.setApplicationTime(new Date());
             proAppVideo.setProjectState(Constants.PROJECT_STATE_TOKEN.get("41"));
             int insert = proApplicationMapper.insert(proAppVideo);
             return insert > 0 ? true : false;
@@ -620,6 +681,7 @@ public class ProProjectServiceImpl implements ProProjectService {
             proApp.setVideoUrl(videoUrl);
             proApp.setProjectStateToken("41");
             proApp.setProjectState(Constants.PROJECT_STATE_TOKEN.get("41"));
+            proApp.setApplicationTime(new Date());
             ProApplicationExample proApplicationExample = new ProApplicationExample();
             proApplicationExample.createCriteria().andProjectIdEqualTo(Long.parseLong(projectId));
             int updateAudit = proApplicationMapper.updateByExampleSelective(proApp, proApplicationExample);
@@ -631,6 +693,7 @@ public class ProProjectServiceImpl implements ProProjectService {
                     p.setVideoUrl(videoUrl);
                     p.setProjectStateToken("41");
                     p.setProjectState(Constants.PROJECT_STATE_TOKEN.get("41"));
+                    p.setApplicationTime(new Date());
                     int updateVideo = proApplicationMapper.updateByPrimaryKeySelective(p);
                     return updateVideo > 0 ? true : false;
                 }

@@ -50,8 +50,10 @@ public class UserActivityServiceImpl implements UserActivityService {
     public TableModel searchActivityListPublic(int currentPage) {
         try {
             // 当没有登录查询活动时直接查询出全部活动
-            PageHelper.startPage(currentPage, 5);
+            PageHelper.startPage(currentPage, 6);
             List<ProActivity> proActivityList = this.proActivityMapper.selectAllActivityPublished();
+            // 定时任务
+            this.fixTimeRun();
             PageInfo pageInfo = new PageInfo(proActivityList);
             return TableModel.success(proActivityList, (int) pageInfo.getTotal());
         } catch (Exception e) {
@@ -77,7 +79,7 @@ public class UserActivityServiceImpl implements UserActivityService {
                 Long userId = proUsers.get(0).getUserid();
 
                 // 分页查询活动信息
-                PageHelper.startPage(currentPage, 5);
+                PageHelper.startPage(currentPage, 6);
                 List<ProActivity> proActivityList = this.proActivityMapper.selectAllActivityPublished();
                 // 去除活动内容的html标签
                 for (ProActivity pa : proActivityList) {
@@ -86,7 +88,9 @@ public class UserActivityServiceImpl implements UserActivityService {
 
                 // 查询报名表 设置当前用户的报名活动
                 List<ProEnroll> proEnrolls = this.proEnrollMapper.selectEnrollByPersonId(userId);
-                this.fixTimeRun();// 定时任务
+
+                // 定时任务
+                this.fixTimeRun();
                 for (ProActivity pa : proActivityList) {
                     for (ProEnroll pe : proEnrolls) {
                         if (pa.getActivityId() == pe.getActivityId()) {
@@ -100,7 +104,7 @@ public class UserActivityServiceImpl implements UserActivityService {
             }
 
             // 当没有登录查询活动时直接查询出全部活动
-            PageHelper.startPage(currentPage, 5);
+            PageHelper.startPage(currentPage, 6);
             List<ProActivity> proActivityList = this.proActivityMapper.selectAllActivityPublished();
             PageInfo pageInfo = new PageInfo(proActivityList);
             return TableModel.success(proActivityList, (int) pageInfo.getTotal());
@@ -138,10 +142,16 @@ public class UserActivityServiceImpl implements UserActivityService {
      * @return
      */
     @Override
-    public TableModel operateActivityApply(ActivityPublishVO activityPublishVO, String cteater) {
+    public TableModel operateActivityApply(ActivityPublishVO activityPublishVO, String phone) {
         try {
+            // 先通过phone查询出当前人姓名
+            ProUserExample proUserExample = new ProUserExample();
+            proUserExample.createCriteria().andPhoneEqualTo(phone);
+            List<ProUser> proUsers = proUserMapper.selectByExample(proUserExample);
+            String username = proUsers.get(0).getName();
+
             //补全活动参数信息
-            activityPublishVO.setActivityAuthor(cteater);// 设置当前申请人
+            activityPublishVO.setActivityAuthor(username);// 设置当前申请人
             activityPublishVO.setIsPublish(0); // 默认未发布
             activityPublishVO.setActivityStatus(Constants.ACTIVITY_BEFORE_START); // '未开始'
 
@@ -239,7 +249,7 @@ public class UserActivityServiceImpl implements UserActivityService {
             proEnroll.setPersonName(username);
             proEnroll.setUnerollTime(new Date()); // 取消关注的时间
             ProEnrollExample proEnrollExample = new ProEnrollExample();
-            proEnrollExample.createCriteria().andActivityIdEqualTo(Long.parseLong(activityId)).andPersonNameEqualTo(phone);
+            proEnrollExample.createCriteria().andActivityIdEqualTo(Long.parseLong(activityId)).andPersonNameEqualTo(username);
             this.proEnrollMapper.updateByExampleSelective(proEnroll, proEnrollExample);
             return TableModel.success();
         } catch (Exception e) {
@@ -259,7 +269,7 @@ public class UserActivityServiceImpl implements UserActivityService {
         try{
             PageHelper.startPage(currentPage,4);
             ProActivityExample proActivityExample = new ProActivityExample();
-            proActivityExample.setOrderByClause(Constants.ACTIVITY_DESCBYDATE);// 按照开始时间倒序
+            proActivityExample.setOrderByClause(Constants.START_TIME_DESCBYDATE);// 按照开始时间倒序
             proActivityExample.createCriteria().andActivityAuthorEqualTo(username).andIsDeletedEqualTo(0);
             List<ProActivity> proActivityList = proActivityMapper.selectByExample(proActivityExample);
             PageInfo pageInfo = new PageInfo(proActivityList);
@@ -316,7 +326,7 @@ public class UserActivityServiceImpl implements UserActivityService {
 
 
     /**
-     * 定时任务
+     * 定时任务，更新activity状态
      */
     public void fixTimeRun() {
         ScheduledExecutorService service = Executors.newScheduledThreadPool(10);

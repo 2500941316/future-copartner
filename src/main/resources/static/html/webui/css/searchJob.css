@@ -200,7 +200,7 @@ table.listtab tr.xxdetail.none{ display:none}
 .jobnewsDiv .part4 .part4L{width: 800px;float: left; padding-bottom: 10px;}
 .jobnewsDiv .part4 .part4L .part4div{ border: 1px solid #e3e7ea;margin-bottom:15px}
 .jobnewsDiv .part4 .part4L .part4L_1{}
-.jobnewsDiv .part4 .part4L .part4L_1 .tit{border-bottom: 1px solid #e3e7ea; height:32px; font-size:14px}
+.jobnewsDiv .part4 .part4L .part4L_1 .tit{border-bottom: 1px solid #e3e7ea; height:32px; font-size:14px; background: rgb(250,250,250);}
 .jobnewsDiv .part4 .part4L .part4L_1 .tit span{width: 70px;height: 26px;margin-left: 30px;margin-top: 6px;display: inline;float: left; font-family:"微软雅黑"; color: black;}
 .jobnewsDiv .part4 .part4L .part4L_1 .tit a{width: 55px;height: 26px;margin-right: 20px;font-size: 12px;margin-top: 6px;display: inline;float: right;line-height: 20px; color: #3364cb;}
 .jobnewsDiv .part4 .part4L .part4L_1 .con1{}

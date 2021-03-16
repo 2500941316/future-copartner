@@ -236,9 +236,10 @@
                       '                       </div>\n' +
                       '                </td>\n'+
                       '                <td rowspan="2">\n' +
-                      '                    <div class="jlpart4" onclick="deleteProject('+projectData[i].projectId+')">\n' +/*onclick挪到上面来了*/
-                      '                        <div class="delicon"></div>\n' +
-                      '                        <div class="tdname2"  style="cursor: pointer;">删除</div>\n' +
+                      '                    <div class="jlpart4" style="background-color: transparent">\n' +/*onclick挪到上面来了 onclick="deleteProject('+projectData[i].projectId+')"*/
+                      '                        <div style="height: 50px;width: 50px;visibility: hidden;"></div>\n' +
+/*                      '                        <div class="delicon"></div>\n' +
+                      '                        <div class="tdname2"  style="cursor: pointer;">删除</div>\n' +*/
                       '                    </div>\n' +
                       '                </td>\n' +
 
@@ -283,6 +284,9 @@
         layui.use(['upload','layer'], function() {
             var layer = layui.layer;
             var upload = layui.upload;
+            element = layui.element
+            element.render();
+
             // 上传计划书
             upload.render({
                 elem: elemId
@@ -293,7 +297,11 @@
                     projectId: currentProjectId
                 }
                 , accept: 'file' //普通文件
+                , before: function(obj) {
+                    layer.load();
+                }
                 , done: function (res) {
+                    layer.closeAll('loading'); //关闭loading
                     if (res.code == 200) {
                         top.layer.msg('上传成功，等待审批！',{icon: 1,shade: 0.05,time: 1000});
                         console.log(res);
@@ -301,6 +309,11 @@
                         top.layer.msg('网络异常');
                         console.log(res);
                     }
+                }
+                , error: function () {
+                    //请求异常回调
+                    layer.closeAll(); //关闭loading
+                    layer.msg("请求异常");
                 }
             });
         });
@@ -321,11 +334,34 @@
             upload.render({
                 elem: elemId
                 ,exts: 'mp4'
-                ,size: 1024*80
+                ,size: 1024*100
                 ,url: '/vip/project/uploadVideo'
                 ,data: {projectId: currentProjectId}
                 ,accept: 'video' //视频
+                , before: function (obj) {
+                    //自定页
+                    layer.open({
+                        type: 1,
+                        title: "上传进度", //不显示标题
+                        //closeBtn: 0, //不显示关闭按钮
+                        skin: 'layui-layer-demo', //样式类名
+                        area: ['420px', 'auto'], //宽高
+                        content: '<div style="margin: 10px 20px;"><div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="uploadfile"><div class="layui-progress-bar" lay-percent="" id="uploadfile"></div></div><p><span id="uploadfilemsg">正在上传</span></p></div>',
+                        success: function (layero, index) {
+                            layer.setTop(layero); //重点2
+                        }
+                    });
+                    element.render();
+                }
+                , progress: function (n, elem) {
+                    //上传进度回调
+                    var percent = n + '%'; //获取进度百分比
+                    $("#uploadfile").attr("lay-percent", percent);
+                    element.render();
+                }
                 ,done: function(res){
+                    $("#uploadfilemsg").text("上传完成");
+                    layer.closeAll();
                     if(res.code == 200){
                         top.layer.msg('上传成功，等待审批！',{icon: 1,shade: 0.05,time: 1000});
                         console.log(res);
@@ -369,7 +405,7 @@
      * 删除项目
      * @param projectId
      */
-    function deleteProject(projectId) {
+   /* function deleteProject(projectId) {
         top.layer.confirm('确认删除？', function (index) {
             $.ajax({
                 url: '/vip/project/deleteProject',
@@ -386,7 +422,7 @@
             })
             top.layer.close(index);
         });
-    }
+    }*/
 
 
     /**

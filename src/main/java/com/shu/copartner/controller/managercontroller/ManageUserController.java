@@ -42,11 +42,11 @@ public class ManageUserController {
      * 驳回注册申请
      */
     @GetMapping(value = "rejectRegistry")
-    public TableModel rejectRegistry(@RequestParam Long id, String value) {
+    public TableModel rejectRegistry(@RequestParam Long id,String phone, String value) {
         if (value.isEmpty()) {
             throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
         }
-        return managerUserService.rejectRegistry(id, value);
+        return managerUserService.rejectRegistry(id, phone,value);
     }
 
 

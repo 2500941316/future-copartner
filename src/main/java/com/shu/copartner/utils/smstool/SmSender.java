@@ -15,10 +15,18 @@ public class SmSender {
     private static final String appkey = "1346155136202101302021099965008";
     private static final String appsecret = "4adeb8285793ed1461f3d83f9d6a8c5e";
 
+    // 短信发送验证码
     public static void sendSmCode(String phone, Integer code) {
 
         String finalUrl = url + "appkey=" + appkey + "&&appsecret=" + appsecret +
                 "&mobile=" + phone + "&content=【短信验证】尊敬的未来合伙人用户,您的验证码为:" + code + ",五分钟内有效,不要告诉别人奥!";
+        doPost(finalUrl);
+    }
+
+    // 短信发送注册被驳回信息
+    public static void sendSmRejectRegister(String phone) {
+        String finalUrl = url + "appkey=" + appkey + "&&appsecret=" + appsecret +
+                "&mobile=" + phone + "&content=【未来合伙人】尊敬的未来合伙人申请用户,很遗憾您的注册已被驳回，请重新注册并登陆未来合伙人网站！";
         doPost(finalUrl);
     }
 

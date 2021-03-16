@@ -1,6 +1,7 @@
 package com.shu.copartner.pojo.response;
 
 import com.shu.copartner.pojo.ProLeasson;
+import com.shu.copartner.pojo.ProLeassonTask;
 import com.shu.copartner.pojo.ProLeassonVedio;
 import lombok.Data;
 
@@ -30,7 +31,11 @@ public class LeassonCourse_Vedio_InfoSo {
 
     private String status;
 
+    private String course_task_content;
+
     private List<ProLeassonVedio> vedioList;
 
     private List<ProLeasson> clickCourseList;
+
+    private List<ProLeassonTask> taskList;
 }

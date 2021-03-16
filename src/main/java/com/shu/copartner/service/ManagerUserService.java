@@ -9,7 +9,7 @@ import com.shu.copartner.utils.returnobj.TableModel;
 public interface ManagerUserService {
     TableModel searchRegistry(int page);
 
-    TableModel rejectRegistry(Long id, String value);
+    TableModel rejectRegistry(Long id, String phone,String value);
 
     TableModel passRegistry(PassRegistryVO passRegistryVO);
 

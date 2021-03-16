@@ -17,11 +17,12 @@
         <ul>
             <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/project/project_manager.html">项目管理</a></li>
-            <!--<li class="lf_li1"><a href="#">新闻管理</a></li>-->
+            <li class="lf_li1"><a href="/html/managerui/html/news/news_manager.html">社区管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/activity/activity_manager.html">活动管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/live/live_manager.html">直播管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/carousel/carousel_manager.html">广告管理</a></li>
         </ul>
     </div>
     <div id="con_rh">
@@ -144,12 +145,14 @@
                         <script type="text/html" id="liveOperate">
                           <!--  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
                             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="manage">管理</a>-->
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" id="videoBtn" lay-event="video">视频</a>
                             <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
                             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
                         </script>
 
                     </div>
-
+                    <!--作为一个标签用于绑定上传视频的目标-->
+                    <button type="button" style="display: none" class="layui-btn" lay-event="video" id="video"></button>
                 </div>
             </div>
         </div>
@@ -162,6 +165,10 @@
 
 <script type="application/javascript">
 
+    $(function () {
+        $("#footer").load("/html/webui/footer/footer.html");
+    })
+
     // 时间组件
     layui.use('laydate', function(){
         var laydate = layui.laydate;
@@ -172,6 +179,64 @@
             trigger: 'click'
         });
     });
+
+    // 视频上传初始化
+    var vedioUploadInst = null;
+    layui.use(['element', 'layer', 'upload',], function () {
+        element = layui.element
+            , layer = layui.layer
+            , upload = layui.upload;
+        element.render();
+
+        //上传视频初始化
+        vedioUploadInst = upload.render({
+            elem: '#video' //绑定元素
+            , url: '/manager/live/liveVideoUpload'//上传接口
+           /* , data: {
+                courseVedioId: 56,
+                fileUploadType: "vedio"
+            }*/
+            , accept: 'file' //允许上传的文件类型
+            , choose: function (obj) {
+                //选择文件后的回调函数
+                //console.log(obj);
+            }
+            , before: function (obj) {
+                //自定页
+                layer.open({
+                    type: 1,
+                    title: "上传进度", //不显示标题
+                    closeBtn: 0, //不显示关闭按钮
+                    skin: 'layui-layer-demo', //样式类名
+                    area: ['420px', 'auto'], //宽高
+                    content: '<div style="margin: 10px 20px;"><div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="uploadfile"><div class="layui-progress-bar" lay-percent="" id="uploadfile"></div></div><p><span id="uploadfilemsg">正在上传</span></p></div>',
+                    success: function (layero, index) {
+                        layer.setTop(layero); //重点2
+                    }
+                });
+                element.render();
+            }
+            , progress: function (n, elem) {
+                //上传进度回调
+                var percent = n + '%'; //获取进度百分比
+                console.log(percent)
+                $("#uploadfile").attr("lay-percent", percent);
+                element.render();
+            }
+            , done: function (res, index, upload) {
+                //上传完毕回调
+                $("#uploadfilemsg").text("上传完成");
+                layer.closeAll(); //关闭loading
+                layer.msg("上传成功");
+            }
+            , error: function () {
+                //请求异常回调
+                layer.closeAll(); //关闭loading
+                layer.msg("请求异常");
+            }
+        });
+    });
+
 
     //直播图片上传方法
     layui.use('upload', function () {
@@ -191,6 +256,7 @@
                     return layer.msg('上传成功');
                 }
             }, error: function () {
+                layer.msg('网络异常');
             }
         });
     })
@@ -245,13 +311,13 @@
     function liveInfoManage(){
         layui.use('table', function () {
             var table = layui.table;
-            var data = [{
+           /* var data = [{
                 liveId: "1",
                 liveTitle: '上海大学',
                 liveUrl: "htttps://shu.edu.cn",
                 startTime: '2021-01-19',
                 liveDuration: '1小时'
-            }];
+            }];*/
             table.render({
                 elem: '#live'
                 , url: '/manager/live/searchAllLives'
@@ -261,14 +327,18 @@
                     {
                         field: 'liveId', title: 'ID', fixed: 'left', width: 80,unresize: true, sort: true, align: 'center',type:'numbers'
                     }
-                    , {field: 'liveTitle', title: '直播标题', align: 'center'}
-                    , {field: 'liveUrl', title: '直播链接', align: 'center'}
-                    , {field: 'startTime', title: '开始时间',width: 150, sort: true, align: 'center'}
+                    , {field: 'liveTitle', title: '直播标题',width: 80, align: 'center'}
+                    , {field: 'liveUrl', title: '直播链接',width: 80, align: 'center'}
+                    , {field: 'startTime', title: '开始时间',width: 130, sort: true, align: 'center'}
                     , {field: 'liveDuration', title: '直播时长',width: 80, align: 'center',templet: function (res) {
                                 return res.liveDuration+"h";
                         }}
-                    , {field: 'liveStatus', title: '状态',  align: 'center'}
-                    , {fixed: 'right', title: '操作', toolbar: '#liveOperate', width: 150, align: 'center'}
+                    , {field: 'liveStatus', title: '状态',width: 80, align: 'center'}
+                    , {field: 'liveVideoUrl', title: '视频',width: 80,  align: 'center',templet: function (res) {
+                                if(res.liveVideoUrl != null){ return res.liveVideoUrl;}
+                                else {return '未上传';}
+                         }}
+                    , {fixed: 'right', title: '操作',fixed: 'right', toolbar: '#liveOperate', width: 180, align: 'center'}
                 ]]
                 , page: true
                 ,limits: [10]
@@ -283,7 +353,23 @@
                         layer.close(index);
                         obj.del();
                     });
-                }
+                }else if(obj.event === 'video'){
+                   if(obj.data.liveStatus != '已结束'){
+                        layer.msg("直播还未结束！",{icon: 7,shade: 0.01,time: 1000});
+                   }else{
+                       vedioUploadInst.reload({
+                           url: '/manager/live/liveVideoUpload'
+                           , data: {
+                               liveId: obj.data.liveId,
+                           }
+                           , elem: '#video' //绑定元素
+                           , accept: 'video' //只允许上传图片
+                           , exts: 'mp4'
+                           , size: 1024 * 1024 * 300 //限定大小
+                       });
+                       $("#video").click();
+                   }
+               }
             });
         })
     }

@@ -15,6 +15,13 @@
 <div class="jobnewsDiv" id="app" v-if="isLoad">
     <div class="part2">
         <div class="part2L" id="topNews">
+            <div class="part4L_1">
+                <div class="tit" style="border-bottom: 1px solid #e3e7ea; height:32px; font-size:14px;color: black">
+                    <span>精彩上大</span>
+                    <a href="#" @click="redirecTo('精彩上大')" style="float: right;color: #3364cb;font-size: 12px;">更多>></a>
+                </div>
+                <div class="clear"></div>
+            </div>
             <div class="newsbox" v-for="news in topNews" @click="toNew_content(news.newsId)">
                 <div class="tit"><a href="#">{{news.newsTitle}}</a></div>
                 <div class="con">{{news.newsContent}}…… <a
@@ -33,14 +40,14 @@
             <div class="part4div" id="categories_News">
                 <div class="part4L_1">
                     <div class="tit">
-                        <span>最新新闻</span>
+                        <span>社区热帖</span>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="part4L_2">
                     <div class="tit">
                         <span>人文社科</span>
-                        <a href="#" @click="redirecTo('人文社科')">更多>></a>
+                        <a href="#" @click="redirecTo('人文社科')" >更多>></a>
                     </div>
                     <div class="con" v-for="news in categoryNews[3]" @click="toNew_content(news.newsId)">
                         <span><img src="\html\webui\images\hot.png" style="width: 13px"/><a
@@ -73,7 +80,7 @@
                         <span>活动咨询</span>
                         <a href="#" @click="redirecTo('活动咨询')">更多>></a>
                     </div>
-                    <div class="con" v-for="news in categoryNews[3]" @click="toNew_content(news.newsId)">
+                    <div class="con" v-for="news in categoryNews[4]" @click="toNew_content(news.newsId)">
                         <span><img src="\html\webui\images\hot.png" style="width: 13px"/><a
                                 href="#">{{news.newsTitle}}</a></span>
                     </div>
@@ -83,7 +90,7 @@
                         <span>精彩上大</span>
                         <a href="#" @click="redirecTo('精彩上大')">更多>></a>
                     </div>
-                    <div class="con" v-for="news in categoryNews[4]" @click="toNew_content(news.newsId)">
+                    <div class="con" v-for="news in categoryNews[0]" @click="toNew_content(news.newsId)">
                         <span><img src="\html\webui\images\hot.png" style="width: 13px"/><a
                                 href="#">{{news.newsTitle}}</a></span>
                     </div>
@@ -120,7 +127,7 @@
                 </div>
             </div>
             <div class="hotguanzhu">
-                <div class="tit">热点关注</div>
+                <div class="tit">热点帖子</div>
                 <div class="con">
                     <div class="conl"></div>
                     <div class="conr" id="click_TimesNews">
@@ -165,6 +172,7 @@
                     type: "GET",
                     url: "/public/news/getNewsIndexCategoryInfo",
                     success: res => {
+                        console.log(res.data);
                         this.categoryNews = res.data;
                         this.isLoad = true;
                         $("#footer").load("/html/webui/footer/footer.html");

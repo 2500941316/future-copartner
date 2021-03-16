@@ -1,6 +1,5 @@
 package com.shu.copartner.service.impl.manager;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shu.copartner.exceptions.BusinessException;
@@ -9,14 +8,11 @@ import com.shu.copartner.mapper.ProLiveMapper;
 import com.shu.copartner.pojo.ProLive;
 import com.shu.copartner.pojo.request.LivePublishVO;
 import com.shu.copartner.service.ManagerLiveService;
-import com.shu.copartner.service.impl.user.UserLiveServiceImpl;
 import com.shu.copartner.utils.constance.Constants;
 import com.shu.copartner.utils.returnobj.TableModel;
-import com.sun.codemodel.internal.writer.PrologCodeWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.Test;

@@ -28,7 +28,7 @@ function searchActivityInfo(){
                 }*/
                 {field: 'activityTitle', title: '活动标题',width:150, align: 'center'}
                 , {field: 'activityAuthor', title: '创建人', align: 'center'}
-                , {field: 'startTime', title: '开始时间',width:150,align: 'center'}
+                , {field: 'startTime', title: '开始时间', sort: true,width:150,align: 'center'}
                 , {field: 'isPublish', title: '状态', sort: true, align: 'center',templet: function(res){
                         if(res.isPublish === 0){ return  '未发布';}
                         else if(res.isPublish === 1){ return  '已发布';}
@@ -192,7 +192,7 @@ function viewEnrolledPeople(activityId) {
             ,smartReloadModel:true
             , cols: [[
                 {field: 'activityId',title: '序号', width: 100, align: 'center',type: 'numbers' },
-                {field: 'personId', title: '账号',width: 160, align: 'center'},
+                {field: 'personId', title: '账号ID',width: 160, align: 'center'},
                 {field: 'personName', title: '姓名',width: 160, align: 'center'},
                 {field: 'enrollTime', title: '报名时间',width: 160, align: 'center'}
             ]]

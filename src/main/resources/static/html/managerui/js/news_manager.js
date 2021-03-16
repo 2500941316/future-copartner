@@ -27,7 +27,7 @@ function searchNewsApplication() {
         table.on('tool(new)', function (obj) {
             var data = obj.data;
             if (obj.event === 'pass') {
-                layer.confirm('批准该新闻上线？', function (index) {
+                layer.confirm('批准该帖子上线？', function (index) {
                     operateNew(obj, 1, "");
                     layer.close(index);
                 });

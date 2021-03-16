@@ -114,6 +114,7 @@
     <foreach collection="tokens" item="token" open="(" close=")" separator=",">
       #{token}
     </foreach>
+    order by starttime desc
   </select>
 
   <!--根据标志值查询所有待审批项目-->

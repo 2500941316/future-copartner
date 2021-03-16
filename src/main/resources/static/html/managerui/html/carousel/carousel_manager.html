@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>个人工作台</title>
+    <script src='/html/webui/header/header.js'></script>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
+    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <script src="/html/webui/js/layui/layui.js"></script>
+
+
+</head>
+<body>
+<!--引入页头页面-->
+<div id="hy_con">
+    <div id="con_lf">
+        <h2>管理列表</h2>
+        <ul>
+            <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/user/user_manager.html">人员管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/project/project_manager.html">项目管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/news/news_manager.html">社区管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/activity/activity_manager.html">活动管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/live/live_manager.html">直播管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/carousel/carousel_manager.html">广告管理</a></li>
+        </ul>
+    </div>
+    <div id="con_rh">
+        <div class="con_rh_con">
+            <p class="rh_title">广告图管理</p>
+            <div class="layui-tab" lay-filter="demo">
+                <ul class="layui-tab-title">
+                    <li class="layui-this" onclick="">广告图上传</li>
+                    <li class="layui-this" onclick="carouselInfoManage()">广告图管理</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+
+                    <div class="perRightcon">
+                        <div class="ydc-column ydc-column-8">
+                            <div class="ydc-release-content">
+                                <div class="ydc-tabPanel ydc-tabPanel-release">
+                                    <div class="ydc-panes">
+                                        <div class="ydc-pane" style="display:block;">
+                                            <div class="ydc-form-city" style="margin-top: 5px">
+                                                <div class="layui-row">
+                                                    <div class="layui-col-xs12">
+
+                                                        <div class="aui-card-form-item">
+                                                            <label class="aui-card-form-label">轮播图类型:</label>
+                                                            <div class="aui-card-form-input" >
+                                                                <select id="carouselType" style="width: 400px">
+                                                                    <option value="0">首页广告图</option>
+                                                                    <option value="1">公共广告图</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="layui-upload" style="margin-left: 15%;margin-top: 50px">
+                                                            <div class="layui-upload-list">
+                                                                <img class="layui-upload-img"
+                                                                     style="height: 140px;width: 400px;"
+                                                                     id="imgId">
+                                                                <p id="demoText"></p>
+                                                            </div>
+                                                            <button type="button" class="layui-btn" id="upImageBtn">
+                                                                上传广告照片
+                                                            </button>
+                                                            <input id="picture" style="display: none"/>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <!--广告图管理模块-->
+                    <div class="layui-tab-item">
+                        <!--引入layui表格-->
+                        <table id="carousel" lay-filter="carouselTable"></table>
+
+                        <script type="text/html" id="carouselOperate">
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="manage">发布/撤回</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+                        </script>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--发布操作弹出框-->
+        <form class="layui-form" id="test" style="display:none">
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态：</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="type" value="1" title="发布" checked>
+                    <input type="radio" name="type" value="0" title="撤回">
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<!--引入尾部页面-->
+<div id="footer"></div>
+
+
+<script type="application/javascript">
+    $(function () {
+        $("#footer").load("/html/webui/footer/footer.html");
+    })
+
+    //广告图片上传方法
+    layui.use('upload', function () {
+        var upload = layui.upload;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#upImageBtn'
+            , url: '/manager/carousel/carouselImgUpload'
+            , accept: 'images'
+            , data: {
+                carouselType: $("#carouselType").val()
+            }
+            , before: function (obj) {
+                layer.load();
+                obj.preview(function (index, file, result) {
+                    $('#imgId').attr('src', result); //图片链接（base64）
+                });
+                this.data={carouselType:$("#carouselType").val()}; // 重新为参数赋值，传到后台
+            }, done: function (res) {
+                layer.closeAll();
+                if (res.data.src !== null) {
+                    $("#picture").val(res.data.src);
+                    return layer.msg('上传成功',{icon: 1,time: 1000});
+                }
+            }, error: function () {
+                layer.msg('网络异常');
+            }
+        });
+    })
+
+    // 广告图管理
+    function carouselInfoManage(){
+        layui.use('table', function () {
+            var table = layui.table;
+            // 广告图管理表格
+            table.render({
+                elem: '#carousel'
+                , url: '/manager/carousel/searchAllCarousel'
+               // ,data: data
+                , title: '广告图管理表'
+                , cols: [[
+                    {
+                        field: 'carouselId', title: 'ID', fixed: 'left', width: 80,unresize: true, sort: true, align: 'center',type:'numbers'
+                    }
+                    , {field: 'carouselType', title: '类型', align: 'center',sort: true,templet: function (res) {
+                            if(res.carouselType === 0){return "首页广告图";
+                            }else if(res.carouselType === 1){return "公共广告图";}
+                    }}
+                    ,{field: 'isIssue', title: '状态', align: 'center',sort: true,templet: function (res) {
+                            if(res.isIssue === 0){return "未发布";
+                            }else if(res.isIssue === 1){return "已发布";}
+                    }}
+                    , {field: 'uploadDate', title: '上传时间', align: 'center',sort: true}
+                    , {fixed: 'right', title: '操作', toolbar: '#carouselOperate',width: 210, align: 'center'}
+                ]]
+                , page: true
+                , limits: [10]
+            });
+            //监听操作栏
+            table.on('tool(carouselTable)', function (obj) {
+                var carouselData = obj.data;
+                if (obj.event === 'detail') {
+                    previewImg(obj.data.carouselUrl);
+                } else if (obj.event === 'delete') {
+                    layer.confirm('确认删除？', function (index) {
+                        deleteCarouselInfo(carouselData.carouselId);
+                        layer.close(index);
+                        obj.del();
+                    });
+                } else if(obj.event === 'manage'){
+                    // 发布撤回广告图
+                    manageCarouselInfo(carouselData);
+                }
+            });
+        })
+    }
+
+    /**
+     * 弹出层预览图片
+     * @param obj
+     */
+    function previewImg(carouselUrl) {
+        var img = new Image();
+        img.src = carouselUrl;
+        //var height = img.height + 50; // 原图片大小
+        var width = img.width; //原图片大小
+        var imgHtml = "<img src='" + carouselUrl + "'  height='350px'/>";
+        //弹出层
+        layer.open({
+            type: 1,
+            shade: 0.05,
+            offset: 'auto',
+            area: ['35%' , '50%'], // area: [width + 'px',height+'px'] //原图显示
+            shadeClose:true,
+            scrollbar: false,
+            title: "图片预览", //不显示标题
+            content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            cancel: function () {
+                //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+            }
+        });
+    }
+
+    /**
+     * 发布，撤回广告图
+     * @param projectId
+     */
+    function manageCarouselInfo(info) {
+        var $=layui.jquery;
+        var form = layui.form;
+        // 获取选中的状态值
+        layer.open({
+            type:1,
+            area:['30%','25%'],
+            title: '广告图状态设置',
+            content: $("#test"),
+            shade: 0.1,
+            btn: ['提交']
+            ,btn1: function(index, layero){
+                var typeValue = $('#test input[name="type"]:checked ').val()
+                if(typeValue == info.isIssue){
+                    layer.msg("状态重复", {icon: 2,shade: 0.1,time: 2000,shift: 6});
+                    layer.close(index);
+                    return;
+                }
+                updateCarouselStatus(info.carouselId,typeValue);
+                layer.close(index);
+            },
+            cancel: function(layero,index){
+                layer.closeAll();
+            }
+        });
+    }
+
+    /**
+     * 更新广告图状态
+     * @param activityId
+     * @param isPublish
+     */
+    function updateCarouselStatus(carouselId,isIssue){
+        var updateData = {
+            carouselId: carouselId,
+            isIssue: isIssue
+        }
+        $.ajax({
+            url: "/manager/carousel/updateCarouselStatus",
+            type: "GET",
+            data: updateData,
+            success: function (res) {
+                if(res.code = 200){
+                    layer.msg("设置成功！",{icon: 1,shade: 0.1,time: 2000})
+                    carouselInfoManage(); // 刷新表格
+                }else{
+                    layer.msg("网络异常！");
+                }
+            },
+            error: function (res) {
+                layer.msg("网络异常！");
+
+            }
+        })
+    }
+
+    /**
+     * 删除直播信息
+     * @param carouselId
+     */
+    function deleteCarouselInfo(carouselId) {
+        $.ajax({
+            url: "/manager/carousel/deleteCarouselById",
+            type: "GET",
+            data: "carouselId="+carouselId,
+            success: function (res) {
+                if(res.code = 200){
+                    layer.msg("删除成功！",{icon: 1,shade: 0.01})
+                }else{
+                    layer.msg("网络异常！");
+                }
+            },
+            error: function () {
+                layer.msg("网络异常！");
+            }
+        })
+    }
+
+
+</script>
+
+</body>
+</html>

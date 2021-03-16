@@ -236,6 +236,9 @@ a {
     font-size: 14px;
     cursor: pointer
 }
+.yun-solution-list .yun-solution-list-item p:hover {
+    color: #e63e3d;
+}
 
 .yun-solution-list .img-wrap {
     margin: 0 auto;

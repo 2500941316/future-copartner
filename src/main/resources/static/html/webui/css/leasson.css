@@ -90,10 +90,10 @@ a {
 }
 
 .floor-side-link img {
-    display: block;
-    width: 100%;
-    background-color: green;
-}
+     display: block;
+     width: 100%;
+     background-color: green;
+ }
 
 .floor-side-right {
     position: absolute;

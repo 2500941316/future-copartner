@@ -18,7 +18,7 @@ public interface UserActivityService {
 
     TableModel searchActivityById(String activityId);
 
-    TableModel operateActivityApply(ActivityPublishVO activityPublishVO,String creater);
+    TableModel operateActivityApply(ActivityPublishVO activityPublishVO,String phone);
 
     TableModel enrollInActivity(String activityId,String creater);
 

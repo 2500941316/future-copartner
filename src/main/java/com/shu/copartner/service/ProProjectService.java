@@ -22,6 +22,8 @@ public interface ProProjectService {
 
     TableModel searchProjectById(String projectId,String phone);
 
+    TableModel searchProjectByIdPublic(String projectId);
+
     TableModel searchProjectByFour(int currentPage, String projectName, String projectType, String projectCreater, String projectTwoStatus);
 
     TableModel searchOtherProjectById(String projectId);

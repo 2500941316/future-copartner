@@ -1,5 +1,8 @@
 var $ = layui.jquery;
 $(function () {
+    layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
     $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
     if(url === "/html/webui/supervisor/supervisor.html"){
@@ -22,6 +25,7 @@ function searchSupervisorList(pageConf) {
 
     }
     $.get("/public/supervisor/searchSupervisorList", pageConf, function (data) {
+        layer.closeAll();
         layui.use(['laypage', 'layer'], function () {
             var page = layui.laypage;
             page.render({
@@ -131,6 +135,7 @@ function searchSupervisorDetail() {
         type: "GET",
         data: "supervisorId="+supervisorId,
         success: function (res) {
+            layer.closeAll();
             if(res.code = 200){
                 //console.log(res);
                 // 填充导师详情

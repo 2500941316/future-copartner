@@ -1,6 +1,9 @@
 var $ = layui.jquery;
 var layer = layui.layer;
 $(function () {
+    layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
     $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
     if(url === "/html/webui/project/project.html" ){
@@ -91,6 +94,7 @@ function searchProject(pageConf) {
         pageConf.projectTwoStatus= projectTwoStatus === "" ? "在创" : projectTwoStatus
     }
     $.get("/public/project/searchProjectByFour", pageConf, function (data) {
+        layer.closeAll();
         layui.use(['laypage', 'layer'], function () {
             var page = layui.laypage;
             page.render({
@@ -119,7 +123,7 @@ function searchProject(pageConf) {
  */
 function getAllProjectData() {
     $.get("/public/project/getProjectOverview", function (data) {
-        console.log(data);
+        //console.log(data);
         fillProjectOverview(data.data);
     })
 }

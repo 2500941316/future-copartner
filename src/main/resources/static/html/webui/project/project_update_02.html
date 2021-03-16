@@ -262,9 +262,9 @@
       //console.log(projectInfo.projectTeacher);
 
 
-      // 里程碑信息
+      // 里程碑信息，里程碑信息不用填充，每次都是叠加
         //$("#projectPeopleNew").val(projectInfo.projectPeopleNew),
-        $("#projectMatch").val(projectInfo.projectMatch),
+      /*  $("#projectMatch").val(projectInfo.projectMatch),
         $("#projectCooperation").val(projectInfo.projectCooperation),
         $("#projectActivity").val(projectInfo.projectActivity),
         $("#projectService").val(projectInfo.projectService),
@@ -281,7 +281,7 @@
         $("#financeTime").val(projectInfo.financeTime)
         $("#incomeTime").val(projectInfo.incomeTime)
         $("#companyTime").val(projectInfo.companyTime)
-        $("#elseInfoTime").val(projectInfo.elseInfoTime)
+        $("#elseInfoTime").val(projectInfo.elseInfoTime)*/
    }
 
    /**
@@ -334,6 +334,31 @@
    function updateLandmark() {
       var projectId = localStorage.getItem("projectId");
 
+      var projectMatch;
+      var projectCooperation;
+      var projectActivity;
+      var projectService;
+      var projectFinance;
+      var projectIncome;
+      var projectCompany;
+      var projectElseInfo;
+      if($("#projectMatch").val().length>0){
+         projectMatch = $("#projectMatch").val();
+      }if($("#projectCooperation").val().length>0){
+         projectCooperation = $("#projectCooperation").val();
+      }if($("#projectActivity").val().length>0){
+         projectActivity = $("#projectActivity").val();
+      }if($("#projectService").val().length>0){
+         projectService = $("#projectService").val();
+      }if($("#projectFinance").val().length>0){
+         projectFinance = $("#projectFinance").val();
+      }if($("#projectIncome").val().length>0){
+         projectIncome = $("#projectIncome").val();
+      }if($("#projectCompany").val().length>0){
+         projectCompany = $("#projectCompany").val();
+      }if($("#projectElseInfo").val().length>0){
+         projectElseInfo = $("#projectElseInfo").val();
+      }
       var landmarkData = {
          projectId: projectId,
          // 基本信息
@@ -343,14 +368,14 @@
          starttime : $("#starttime").val(),
          // 里程碑信息
          //projectPeopleNew: $("#projectPeopleNew").val(),
-         projectMatch: $("#projectMatch").val(),
-         projectCooperation: $("#projectCooperation").val(),
-         projectActivity: $("#projectActivity").val(),
-         projectService: $("#projectService").val(),
-         projectFinance: $("#projectFinance").val(),
-         projectIncome: $("#projectIncome").val(),
-         projectCompany: $("#projectCompany").val(),
-         projectElseInfo: $("#projectElseInfo").val(),
+         projectMatch: projectMatch, //$("#projectMatch").val(),
+         projectCooperation: projectCooperation,//$("#projectCooperation").val(),
+         projectActivity: projectActivity,//$("#projectActivity").val(),
+         projectService: projectService,//$("#projectService").val(),
+         projectFinance: projectFinance,//$("#projectFinance").val(),
+         projectIncome: projectIncome,//$("#projectIncome").val(),
+         projectCompany: projectCompany,//$("#projectCompany").val(),
+         projectElseInfo: projectElseInfo,//$("#projectElseInfo").val(),
 
          peopleTime: $("#peopleTime").val(),
          matchTime: $("#matchTime").val(),
@@ -363,8 +388,8 @@
          elseInfoTime: $("#elseInfoTime").val(),
       }
       //console.log(landmarkData)
-      // 如果全为空，则提示
-      if(landmarkData.projectPeopleNew.length === 0 && landmarkData.projectMatch.length === 0 && landmarkData.projectCooperation.length === 0
+      // 如果全为空，则提示landmarkData.projectPeopleNew.length === 0 &&
+      if( landmarkData.projectMatch.length === 0 && landmarkData.projectCooperation.length === 0
               && landmarkData.projectActivity.length === 0 && landmarkData.projectService.length === 0
               && landmarkData.projectFinance.length === 0 && landmarkData.projectIncome.length === 0
               && landmarkData.projectCompany.length === 0 && landmarkData.projectElseInfo.length === 0){
@@ -382,7 +407,6 @@
                   icon: 16,
                   shade: 0.01
                })
-
             }else{
                top.layer.msg("网络异常，请稍后重试！")
             }

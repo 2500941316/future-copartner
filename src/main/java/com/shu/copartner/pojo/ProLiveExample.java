@@ -944,6 +944,76 @@ public class ProLiveExample {
             addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
+
+        public Criteria andLiveVideoUrlIsNull() {
+            addCriterion("live_video_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlIsNotNull() {
+            addCriterion("live_video_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlEqualTo(String value) {
+            addCriterion("live_video_url =", value, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlNotEqualTo(String value) {
+            addCriterion("live_video_url <>", value, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlGreaterThan(String value) {
+            addCriterion("live_video_url >", value, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("live_video_url >=", value, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlLessThan(String value) {
+            addCriterion("live_video_url <", value, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlLessThanOrEqualTo(String value) {
+            addCriterion("live_video_url <=", value, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlLike(String value) {
+            addCriterion("live_video_url like", value, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlNotLike(String value) {
+            addCriterion("live_video_url not like", value, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlIn(List<String> values) {
+            addCriterion("live_video_url in", values, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlNotIn(List<String> values) {
+            addCriterion("live_video_url not in", values, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlBetween(String value1, String value2) {
+            addCriterion("live_video_url between", value1, value2, "liveVideoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andLiveVideoUrlNotBetween(String value1, String value2) {
+            addCriterion("live_video_url not between", value1, value2, "liveVideoUrl");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

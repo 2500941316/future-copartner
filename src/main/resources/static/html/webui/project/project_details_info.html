@@ -88,19 +88,12 @@
                <div class="jobsub"> </div>-->
             </div>
          </div>
-         <div class="clear"></div>
-         <div class="divJob_2">
-            <div class="divJob_2_1"><span  id="follow2" href="#">立即关注</span></div> <!--onclick="clickFollow()"-->
-            <div class="divJob_2_4"><span  id="join" href="#">申请加入</span></div> <!--onclick="clickFollow()"-->
-            <!--<div class="divJob_2_2" class="divJob_2_3">关注</div>-->
-           <!-- <div style="margin-right: 20px"><button type="button" class="divJob_2_1" id="test3"><i class="layui-icon"></i>上传视频</button></div>-->
-            <!--<div ><button type="button" class="divJob_2_1" style="margin-left: 20px;" id="test4"><i class="layui-icon"></i>上传计划书</button></div>-->
-         </div>
+
          <div class="clear"></div>
          <div class="divJob_3">
-            <b style="font-size: large;font: bold;color: #FA6D01">项目里程碑：</b><br />
+            <b style="font-size: large;font: bold;color: #FA6D01">项目里程碑</b><br />
             <div id="projectLandmark" class="con">
-               <span  id="projectPeopleNew" style="display: none">新成员加入：<span id="new"></span></span>
+               <!--<span  id="projectPeopleNew" style="display: none">新成员加入：<span id="new"></span></span>-->
                <span  id="projectMatch" style="display: none">项目比赛：<span id="match"></span></span>
                <span  id="projectCooperation" style="display: none">项目合作：<span id="cooperation"></span></span>
                <span  id="projectActivity" style="display: none">项目重要市场活动：<span id="activity"></span></span>
@@ -113,7 +106,15 @@
             </div>
          </div>
          <div class="clear"></div>
-         <div class="jobotherlist">
+         <div class="divJob_2">
+            <div class="divJob_2_1"><span  id="follow2" href="#">立即关注</span></div> <!--onclick="clickFollow()"-->
+            <div class="divJob_2_4"><span  id="join" href="#">申请加入</span></div> <!--onclick="clickFollow()"-->
+            <!--<div class="divJob_2_2" class="divJob_2_3">关注</div>-->
+            <!-- <div style="margin-right: 20px"><button type="button" class="divJob_2_1" id="test3"><i class="layui-icon"></i>上传视频</button></div>-->
+            <!--<div ><button type="button" class="divJob_2_1" style="margin-left: 20px;" id="test4"><i class="layui-icon"></i>上传计划书</button></div>-->
+         </div>
+         <div class="clear"></div>
+         <div class="jobotherlist" style="margin-top: 20px">
             <div class="title" style="font-size: large;font: bold;color: #FA6D01">其他项目</div>
          </div>
          <div id="otherProject">
@@ -267,11 +268,11 @@
       document.getElementById("description").innerText = projectInfo.description;
       //document.getElementById("description2").innerText = projectInfo.description;
 
+      console.log(projectInfo);
       // 填充项目里程碑信息
       if(projectInfo.projectPeopleNew != null){
          document.getElementById("projectPeopleNew").style.display = "block";
          document.getElementById("new").innerText = projectInfo.projectPeopleNew;
-
       }
       if(projectInfo.projectMatch != null){
          document.getElementById("projectMatch").style.display = "block";
@@ -327,12 +328,17 @@
     */
    function fillProjectMember(projectMember){
       var member = "";
-      for(var i in projectMember){
-         member= member.concat(projectMember[i].memberName+",");
+      if(projectMember.length === 1){
+         member= member.concat(projectMember[0].memberName);
+      }else{
+         for(var i in projectMember){
+            member= member.concat(projectMember[i].memberName+" ");
+         }
       }
+
       //console.log(member);
       document.getElementById("projectPeople").innerText = member;
-      document.getElementById("projectPeople2").innerText = projectMember.length+1;
+      document.getElementById("projectPeople2").innerText = projectMember.length;
       if(projectMember.length === 0){
          document.getElementById("projectPeople").innerText = localStorage.getItem("projectCreater");
       }

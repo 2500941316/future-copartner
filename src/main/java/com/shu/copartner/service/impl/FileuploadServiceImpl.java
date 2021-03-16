@@ -2,15 +2,14 @@ package com.shu.copartner.service.impl;
 
 import com.shu.copartner.exceptions.BusinessException;
 import com.shu.copartner.exceptions.Exceptions;
+import com.shu.copartner.mapper.ProCarouselMapper;
 import com.shu.copartner.mapper.ProLeassonVedioMapper;
+import com.shu.copartner.mapper.ProLiveMapper;
 import com.shu.copartner.mapper.ProUserMapper;
-import com.shu.copartner.pojo.ProLeassonVedio;
-import com.shu.copartner.pojo.ProUser;
-import com.shu.copartner.pojo.ProUserExample;
+import com.shu.copartner.pojo.*;
 import com.shu.copartner.service.FileuploadService;
 import com.shu.copartner.service.ProProjectService;
 import com.shu.copartner.utils.constance.Constants;
-import com.shu.copartner.utils.fastdfs.FastDfsClient;
 import com.shu.copartner.utils.fastdfs.FileDfsUtil;
 import com.shu.copartner.utils.returnobj.TableModel;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,13 @@ public class FileuploadServiceImpl implements FileuploadService {
     ProUserMapper proUserMapper;
 
     @Autowired
+    private ProCarouselMapper proCarouselMapper;
+
+    @Autowired
     private FileDfsUtil fileDfsUtil;
+
+    @Autowired
+    private ProLiveMapper proLiveMapper;
 
     @Override
     public String uploadFile(MultipartFile uploadfile) {
@@ -235,6 +241,69 @@ public class FileuploadServiceImpl implements FileuploadService {
             return TableModel.success();
         } catch (Exception e) {
             e.printStackTrace();
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 上传广告图像
+     * @param uploadfile
+     * @param carouselType
+     * @param phone 上传人手机号
+     * @return
+     */
+    @Override
+    public TableModel uploadCarouselImage(MultipartFile uploadfile, String carouselType,String phone) {
+        try {
+            TableModel tableModel = new TableModel();
+            //获取图片的存放路径
+            //String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(uploadfile.getInputStream(), uploadfile.getOriginalFilename());
+            String fileUrl = Constants.FILEURL_FIRSTNAME + fileDfsUtil.upload(uploadfile);
+            System.out.println(fileUrl);
+
+            //将该路径写到数据库表中
+            ProCarousel proCarousel = new ProCarousel();
+            proCarousel.setCarouselType(Integer.valueOf(carouselType));
+            proCarousel.setCarouselUrl(fileUrl);
+            proCarousel.setUploadDate(new Date(System.currentTimeMillis()));
+            proCarousel.setPhone(phone);
+            proCarousel.setIsDeleted(0); // 0未删除
+            proCarousel.setIsIssue(1); //  1默认已发布
+            proCarouselMapper.insertSelective(proCarousel);
+
+            // 将数据封装传到前端
+            Map<String, String> map = new HashMap<>();
+            map.put("src", Constants.FILEURL_FIRSTNAME + fileUrl);
+            map.put("title", uploadfile.getOriginalFilename());
+            tableModel.setCode(0);
+            tableModel.setData(map);
+            return tableModel;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
+        }
+    }
+
+    /**
+     * 上传直播视频
+     * @param file
+     * @param liveId
+     * @return
+     */
+    @Override
+    public TableModel liveVideoUpload(MultipartFile file, String liveId) {
+        try {
+            //String fileUrl = Constants.FILEURL_FIRSTNAME + FastDfsClient.uploadFile(file.getInputStream(), file.getOriginalFilename());
+            String fileUrl = Constants.FILEURL_FIRSTNAME + fileDfsUtil.upload(file);
+
+            //更新数据库
+            ProLive proLive = new ProLive();
+            proLive.setLiveId(Long.parseLong(liveId));
+            proLive.setLiveVideoUrl(fileUrl);
+            proLiveMapper.updateByPrimaryKeySelective(proLive);
+            return TableModel.success();
+        } catch (Exception e) {
+            log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
     }

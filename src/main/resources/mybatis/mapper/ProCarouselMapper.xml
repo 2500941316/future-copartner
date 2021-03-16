@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.copartner.mapper.ProCarouselMapper">
+  <resultMap id="BaseResultMap" type="com.shu.copartner.pojo.ProCarousel">
+    <id column="carousel_id" jdbcType="BIGINT" property="carouselId" />
+    <result column="carousel_type" jdbcType="INTEGER" property="carouselType" />
+    <result column="carousel_url" jdbcType="VARCHAR" property="carouselUrl" />
+    <result column="carousel_href" jdbcType="VARCHAR" property="carouselHref" />
+    <result column="upload_date" jdbcType="TIMESTAMP" property="uploadDate" />
+    <result column="delete_date" jdbcType="TIMESTAMP" property="deleteDate" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="is_issue" jdbcType="INTEGER" property="isIssue" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    carousel_id, carousel_type, carousel_url, carousel_href, upload_date, delete_date, 
+    is_deleted, description, is_issue, name, phone
+  </sql>
+  <select id="selectByExample" parameterType="com.shu.copartner.pojo.ProCarouselExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRO_CAROUSEL
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_CAROUSEL
+    where carousel_id = #{carouselId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PRO_CAROUSEL
+    where carousel_id = #{carouselId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.copartner.pojo.ProCarouselExample">
+    delete from PRO_CAROUSEL
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.copartner.pojo.ProCarousel">
+    insert into PRO_CAROUSEL (carousel_id, carousel_type, carousel_url, 
+      carousel_href, upload_date, delete_date, 
+      is_deleted, description, is_issue, 
+      name, phone)
+    values (#{carouselId,jdbcType=BIGINT}, #{carouselType,jdbcType=INTEGER}, #{carouselUrl,jdbcType=VARCHAR}, 
+      #{carouselHref,jdbcType=VARCHAR}, #{uploadDate,jdbcType=TIMESTAMP}, #{deleteDate,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{isIssue,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.copartner.pojo.ProCarousel">
+    insert into PRO_CAROUSEL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="carouselId != null">
+        carousel_id,
+      </if>
+      <if test="carouselType != null">
+        carousel_type,
+      </if>
+      <if test="carouselUrl != null">
+        carousel_url,
+      </if>
+      <if test="carouselHref != null">
+        carousel_href,
+      </if>
+      <if test="uploadDate != null">
+        upload_date,
+      </if>
+      <if test="deleteDate != null">
+        delete_date,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="isIssue != null">
+        is_issue,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="carouselId != null">
+        #{carouselId,jdbcType=BIGINT},
+      </if>
+      <if test="carouselType != null">
+        #{carouselType,jdbcType=INTEGER},
+      </if>
+      <if test="carouselUrl != null">
+        #{carouselUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="carouselHref != null">
+        #{carouselHref,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDate != null">
+        #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteDate != null">
+        #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isIssue != null">
+        #{isIssue,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.copartner.pojo.ProCarouselExample" resultType="java.lang.Long">
+    select count(*) from PRO_CAROUSEL
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update PRO_CAROUSEL
+    <set>
+      <if test="record.carouselId != null">
+        carousel_id = #{record.carouselId,jdbcType=BIGINT},
+      </if>
+      <if test="record.carouselType != null">
+        carousel_type = #{record.carouselType,jdbcType=INTEGER},
+      </if>
+      <if test="record.carouselUrl != null">
+        carousel_url = #{record.carouselUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carouselHref != null">
+        carousel_href = #{record.carouselHref,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadDate != null">
+        upload_date = #{record.uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteDate != null">
+        delete_date = #{record.deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isIssue != null">
+        is_issue = #{record.isIssue,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update PRO_CAROUSEL
+    set carousel_id = #{record.carouselId,jdbcType=BIGINT},
+      carousel_type = #{record.carouselType,jdbcType=INTEGER},
+      carousel_url = #{record.carouselUrl,jdbcType=VARCHAR},
+      carousel_href = #{record.carouselHref,jdbcType=VARCHAR},
+      upload_date = #{record.uploadDate,jdbcType=TIMESTAMP},
+      delete_date = #{record.deleteDate,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      description = #{record.description,jdbcType=VARCHAR},
+      is_issue = #{record.isIssue,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.copartner.pojo.ProCarousel">
+    update PRO_CAROUSEL
+    <set>
+      <if test="carouselType != null">
+        carousel_type = #{carouselType,jdbcType=INTEGER},
+      </if>
+      <if test="carouselUrl != null">
+        carousel_url = #{carouselUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="carouselHref != null">
+        carousel_href = #{carouselHref,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDate != null">
+        upload_date = #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteDate != null">
+        delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isIssue != null">
+        is_issue = #{isIssue,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where carousel_id = #{carouselId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.copartner.pojo.ProCarousel">
+    update PRO_CAROUSEL
+    set carousel_type = #{carouselType,jdbcType=INTEGER},
+      carousel_url = #{carouselUrl,jdbcType=VARCHAR},
+      carousel_href = #{carouselHref,jdbcType=VARCHAR},
+      upload_date = #{uploadDate,jdbcType=TIMESTAMP},
+      delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      is_issue = #{isIssue,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR}
+    where carousel_id = #{carouselId,jdbcType=BIGINT}
+  </update>
+</mapper>

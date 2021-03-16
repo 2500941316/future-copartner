@@ -14,7 +14,7 @@ public class LeassonApplyVO {
     private String courseType;
 
     private String courseStatus;
-    @NotBlank(message = "课程教师不能为空")
+    //@NotBlank(message = "课程教师不能为空")
     private String courseTeacher;
     @NotBlank(message = "课程总时长不能为空")
     private String courseTotaltime;

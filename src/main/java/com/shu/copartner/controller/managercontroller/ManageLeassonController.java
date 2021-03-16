@@ -116,4 +116,35 @@ public class ManageLeassonController {
 
         return uploadService.managerImageUploadFile(file);
     }
+
+    /**
+     * 获取课程作业信息
+     * @param page
+     * @return
+     */
+    @GetMapping(value = "getLeassonTask")
+    @ResponseBody
+    public TableModel getLeassonTask(@Size(min = 1) @RequestParam int page) {
+        return managerLeassonService.getLeassonTask(page);
+    }
+
+
+    @GetMapping("addCourseTask")
+    public TableModel addCourseTask(@Size(min = 1) @RequestParam String courseId,
+                                    @Size(min = 1) @RequestParam String courseName,
+                                    @Size(min = 1) @RequestParam String courseTaskContent){
+        return managerLeassonService.addCourseTask(courseId,courseName,courseTaskContent);
+    }
+
+    @GetMapping("updateCourseTask")
+    public TableModel updateCourseTask(@Size(min = 1) @RequestParam String courseTaskId,
+                                    @Size(min = 1) @RequestParam String courseTaskContent){
+        return managerLeassonService.updateCourseTask(courseTaskId,courseTaskContent);
+    }
+
+    @GetMapping("deleteCourseTask")
+    public TableModel deleteCourseTask(@Size(min = 1) @RequestParam String courseTaskId){
+        return managerLeassonService.deleteCourseTask(courseTaskId);
+    }
+
 }

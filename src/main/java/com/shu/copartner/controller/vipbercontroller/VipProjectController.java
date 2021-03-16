@@ -151,14 +151,14 @@ public class VipProjectController {
     }
 
     /**
-     * 删除项目
+     * 删除项目,暂时不允许删除项目
      * @param projectId
      * @return
      */
-    @GetMapping("deleteProject")
+   /* @GetMapping("deleteProject")
     public TableModel deleteProject(@Size(min = 1) @RequestParam String projectId){
         return proProjectService.deleteProject(projectId);
-    }
+    }*/
 
     /**
      * 关注项目

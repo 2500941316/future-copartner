@@ -21,11 +21,12 @@
             <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/user/user_manager.html">人员管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/project/project_manager.html">项目管理</a></li>
-            <!--<li class="lf_li1"><a href="#">新闻管理</a></li>-->
+            <li class="lf_li1"><a href="/html/managerui/html/news/news_manager.html">社区管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
             <li class="lf_li1"><a href="/html/managerui/html/activity/activity_manager.html">活动管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/activity/live_manager.html">直播管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/live/live_manager.html">直播管理</a></li>
+            <li class="lf_li1"><a href="/html/managerui/html/carousel/carousel_manager.html">广告管理</a></li>
         </ul>
     </div>
     <div id="con_rh">
@@ -35,6 +36,7 @@
                 <ul class="layui-tab-title">
                     <li class="layui-this">课程发布</li>
                     <li class="layui-this">课程管理</li>
+                    <li class="layui-this">作业管理</li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
@@ -65,13 +67,13 @@
                                 <textarea class="layui-textarea" id="LAY_demo1"
                                           style="display: none">填写课程概述，注意排版和布局</textarea>
                                                 </div>
-                                                <div class="ydc-release-form-group-input">
+                                               <!-- <div class="ydc-release-form-group-input">
                                                     <input type="text" name="title" lay-verify="title"
                                                            autocomplete="off"
                                                            placeholder="请输入上课老师" id="teacher"
                                                            class="layui-input">
 
-                                                </div>
+                                                </div>-->
                                                 <div class="ydc-form-city" style="margin-top: 5px">
 
                                                     <div class="layui-row">
@@ -145,6 +147,13 @@
                         <table id="table1" class="layui-table" lay-filter="table1"></table>
 
                     </div>
+
+                    <!--课程作业管理模块-->
+                    <div class="layui-tab-item">
+                        <table id="table2" class="layui-table" lay-filter="table2"></table>
+
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -157,12 +166,23 @@
 
 <script type="text/html" id="oper-col">
     {{#  if(d.pid!=-1){ }}
-    <a class="layui-btn layui-btn-primary layui-btn-xs" disabled="true" id="pptBtn" lay-event="ppt">ppt</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" disabled="true" id="pptBtn" lay-event="ppt">资料</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" id="vedioBtn" lay-event="vedio">视频</a>
     {{#  } else { }}
     <a class="layui-btn layui-btn-danger layui-btn-xs" id="deleteBtn" lay-event="del">删除</a>
     {{#  } }}
 
+
+
+</script>
+
+<script type="text/html" id="oper-col2">
+    {{#  if(d.pid!=-1){ }}
+    <a class="layui-btn layui-btn-primary layui-btn-xs" disabled="true" id="editTaskBtn" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" id="deleteTaskBtn" lay-event="delete">删除</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-danger layui-btn-xs" id="addTask" lay-event="add">添加作业</a>
+    {{#  } }}
 </script>
 
 </body>

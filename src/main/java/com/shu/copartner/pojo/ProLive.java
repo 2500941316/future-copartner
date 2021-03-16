@@ -33,6 +33,8 @@ public class ProLive implements Serializable {
 
     private Integer isDeleted;
 
+    private String liveVideoUrl;
+
     private static final long serialVersionUID = 1L;
 
     public Long getLiveId() {
@@ -137,5 +139,13 @@ public class ProLive implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public String getLiveVideoUrl() {
+        return liveVideoUrl;
+    }
+
+    public void setLiveVideoUrl(String liveVideoUrl) {
+        this.liveVideoUrl = liveVideoUrl == null ? null : liveVideoUrl.trim();
     }
 }

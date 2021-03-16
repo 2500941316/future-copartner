@@ -140,6 +140,11 @@ public final class Constants {
     public static final String LEASSON_DESCBYCLICKTIMES = "course_clickTime desc";
 
     /**
+     * @Description 课程页面作业按照时间来排序
+     */
+    public static final String LEASSON_ASCBYPUBLISHDATE = "publish_date asc";
+
+    /**
      * @Description 课程上传材料的类型
      */
     public static final String LEASSON_FILETYPE_PPT = "ppt";
@@ -271,8 +276,8 @@ public final class Constants {
     public static final String USER_AUTH_MANAGER = "ROLE_MANAGER";
 
     /**
-     * 活动按照开始时间倒序
+     * 活动,直播 按照开始时间倒序
      */
-    public static final String ACTIVITY_DESCBYDATE = "start_time desc";
+    public static final String START_TIME_DESCBYDATE = "start_time desc";
 
 }

@@ -58,7 +58,7 @@ layui.use(['element', 'layer', 'upload',], function () {
         }
     });
 
-    //上传ppt初始化
+    //上传ppt初始化（资料包括zip，rar）
     pptUploadInst = upload.render({
         elem: '#ppt' //绑定元素
         , url: '/manager/leasson/leassonVedioUpload'//上传接口
@@ -145,6 +145,8 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
     //一些事件监听
     element.on('tab(demo)', function (data) {
         if (data.index === 1) {
+            layer.load(1);
+            // 课程视频管理表格
             $.ajax({
                 type: "GET",
                 url: "/manager/leasson/getLeassonInfo",
@@ -152,6 +154,7 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
                     page: 1
                 },
                 success: function (data) {
+                    layer.closeAll('loading');
                     treetable.render({
                         height: 600,
                         treeColIndex: 0,
@@ -181,6 +184,43 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
                     });
                 },
                 error: function (data) {
+                    layer.closeAll('loading');
+                    layer.msg('参数异常');
+                }
+            });
+        }else if (data.index === 2) {
+            layer.load(1);
+            // 课程作业管理表格
+            $.ajax({
+                type: "GET",
+                url: "/manager/leasson/getLeassonTask",
+                data: {
+                    page: 1
+                },
+                success: function (data) {
+                    layer.closeAll('loading');
+                    treetable.render({
+                        height: 600,
+                        treeColIndex: 0,
+                        treeSpid: -1,
+                        treeIdName: 'name',
+                        treePidName: 'name',
+                        treeDefaultClose: true,
+                        treeLinkage: false,
+
+                        elem: '#table2',
+                        data: data.data,
+                        page: true,
+                        cols: [[
+                            {field: 'courseName', title: '课程名称'},
+                            {field: 'courseTaskContent', align: "center",title: '作业内容'},
+                            {field: 'updateDate', align: "center", width: 120, title: '更新时间'},
+                            {templet: '#oper-col2', width: 120, align: "center", title: '操作'},
+                        ]]
+                    });
+                },
+                error: function (data) {
+                    layer.closeAll('loading');
                     layer.msg('参数异常');
                 }
             });
@@ -201,8 +241,8 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
                         fileUploadType: "ppt"
                     }
                     , elem: '#ppt' //绑定元素
-                    , accept: 'file' //只允许上传图片
-                    , exts: 'pptx'
+                    , accept: 'file'
+                    , exts: 'pptx|zip|rar|7z' //允许上传资料的格式
                     , size: 1024 * 1024 * 20 //限定大小
                 });
                 $("#ppt").click();
@@ -258,6 +298,45 @@ layui.use(['layer', 'table', 'treetable', 'element', 'upload'], function () {
         updateTable(obj);
     });
 
+    table.on('tool(table2)', function (obj) {
+        var layEvent = obj.event;
+        courseId = obj.data.courseId;
+        courseName = obj.data.courseName;
+        courseTaskId = obj.data.courseTaskId;
+        if (obj.data.courseTaskId != null) {
+            if (layEvent === 'edit') {
+                layer.prompt({
+                    formType: 2,
+                    value: obj.data.courseTaskContent,
+                    title: '修改作业内容',
+                    area: ['500px', '100px'] //自定义文本域宽高
+                }, function (value, index) {
+                    updateCourseTask(courseTaskId,value);
+                    layer.close(index);
+                });
+            } else if (layEvent === 'delete') {
+                layer.confirm('确认删除？', function (index) {
+                    deleteLessonTask(courseTaskId);
+                    layer.close(index);
+                    obj.del();
+                });
+            }
+        } else if (obj.data.pid === -1) {
+            if (layEvent === 'add') {
+                layer.prompt({
+                    formType: 2,
+                    value: ' ',
+                    title: '请填写作业内容',
+                    area: ['500px', '100px'] //自定义文本域宽高
+                }, function (value, index) {
+                    addCourseTask(courseId,courseName,value);
+                    layer.close(index);
+                });
+            }
+        }
+    });
+
+
     function updateTable(obj) {
         if (obj.data.courseVedioId != null) {
             $.ajax({
@@ -299,22 +378,22 @@ layui.use('layedit', function () {
     //点击发布按钮的操作
     $("#publish").click(function () {
         var title = $("#title").val();
-        var teacher = $("#teacher").val();
+        //var teacher = $("#teacher").val();
         var introduction = layedit.getContent(editor);
         var category = $("#category option:selected").val();
         var number = $("#number").val();
         var time = $("#time").val();
         var picUrl = $("#pic").val();
 
-        if (title.length === 5 || title.length > 30 || teacher.length === 0 || teacher.length > 20
+        if (title.length === 5 || title.length > 30
             || introduction.length === 0 || category.length === 0 || number.length === 0 || time.length === 0 || picUrl.length === 0) {
             layer.msg('请填写完整信息！');
             return;
-        }
+        }// || teacher.length === 0 || teacher.length > 20
         var data = {
             "courseName": title,
             "courseTotalblocks": number,
-            "courseTeacher": teacher,
+            //"courseTeacher": teacher,
             "courseType": category,
             "courseTotaltime": time,
             "courseDescription": introduction,
@@ -349,3 +428,83 @@ function textLimitCheck(thisArea, maxLength) {
     }
     messageCount.innerText = thisArea.value.length;
 }
+
+function addCourseTask(courseId,courseName,taskContent) {
+    layer.load(1);
+    var taskData = {
+        courseId: courseId,
+        courseName: courseName,
+        courseTaskContent: taskContent
+    }
+    $.ajax({
+        type: "GET",
+        url: "/manager/leasson/addCourseTask",
+        data: taskData,
+        success: function (data) {
+            layer.closeAll('loading');
+            if (data.code === 200) {
+                layer.msg('添加成功', {
+                    icon: 1
+                    , shade: 0.01
+                });
+            } else
+                layer.msg('网络异常，请稍后重试');
+        },
+        error: function (data) {
+            layer.closeAll('loading');
+            layer.msg('网络异常！');
+        }
+    });
+}
+
+function updateCourseTask(courseTaskId,taskContent) {
+    var taskData = {
+        courseTaskId: courseTaskId,
+        courseTaskContent: taskContent
+    }
+    layer.load();
+    $.ajax({
+        type: "GET",
+        url: "/manager/leasson/updateCourseTask",
+        data: taskData,
+        success: function (data) {
+            layer.closeAll('loading');
+            if (data.code === 200) {
+                layer.msg('修改成功', {icon: 1, shade: 0.01
+                });
+            } else
+                layer.msg('网络异常，请稍后重试');
+        },
+        error: function (data) {
+            layer.closeAll('loading');
+            layer.msg('网络异常！');
+        }
+    });
+}
+
+function deleteLessonTask(courseTaskId) {
+    var taskData={
+        courseTaskId: courseTaskId
+    }
+    $.ajax({
+        type: "GET",
+        url: "/manager/leasson/deleteCourseTask",
+        data: taskData,
+        success: function (res) {
+            if(res.code === 200){
+                layer.msg('修改成功', {
+                    icon: 1
+                    , shade: 0.01
+                });
+            }else{
+                layer.msg("网络异常!");
+            }
+        },
+        error: function (data) {
+            layer.msg("网络异常!");
+        }
+    })
+
+}
+
+
