@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>我的关注</title>
-    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
-    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
-    <script src="/html/webui/js/layui/layui.all.js"></script>
- <!--   <script type="text/javascript" src="/html/webui/js/personal.js"></script>-->
+    <link type="text/css" rel="stylesheet" href="../css/personal.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/layui/css/layui.css"/>
+    <script src="../js/layui/layui.all.js"></script>
+ <!--   <script type="text/javascript" src="../js/personal.js"></script>-->
 
 
 </head>
@@ -143,7 +143,7 @@
             success: function (res) {
                 if(res.code == 200){
                     top.layer.msg("已退出该项目！");
-                    window.location.href = "/html/webui/personal/personal_myjoin.html";
+                    window.location.href = "../personal/personal_myjoin.html";
                 }else{
                     top.layer.msg("网络异常");
                 }
@@ -158,8 +158,8 @@
     function viewProjectDetail(projectId) {
        // layer.msg("projectId:"+projectId);
         localStorage.setItem("projectId",projectId);
-        //window.open("/html/webui/project/project_details_info.html");
-        window.location.href = "/html/webui/project/project_details_info.html";
+        //window.open("../project/project_details_info.html");
+        window.location.href = "../project/project_details_info.html";
 
     }
 

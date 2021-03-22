@@ -8,8 +8,9 @@ $(function () {
     } else if (url === "/html/webui/news/news_content.html") {
         news_content_init();
     } else if (url === "/html/webui/news/news_catalog.html") {
-        initPage();
-        initCatagoryNews(1);
+        //initPage();
+        //initCatagoryNews(1);
+        initCatagoryNews();
     }
 });
 
@@ -17,7 +18,7 @@ $(function () {
 //跳转到新闻内容页的方法
 function toNew_content(newId) {
     localStorage.setItem("newId", newId);
-    window.location.href = "/html/webui/news/news_content.html";
+    window.location.href = "../news/news_content.html";
 }
 
 //跳转到分类新闻页的方法
@@ -29,7 +30,7 @@ function redirecTo(catagory) {
         localStorage.setItem("news_catagory", document.getElementById("news_category").innerText)
     }
 
-    window.location.href = "/html/webui/news/news_catalog.html";
+    window.location.href = "../news/news_catalog.html";
 }
 
 //新闻搜索按钮跳转到新闻分类页
@@ -37,7 +38,7 @@ function searchNew() {
     var value = $("#keywords").val();
     if (value.length > 0) {
         localStorage.setItem("news_catagory", "s_" + value);
-        window.location.href = "/html/webui/news/news_catalog.html";
+        window.location.href = "../news/news_catalog.html";
     }
 }
 
@@ -106,7 +107,7 @@ function news_content_init() {
 }
 
 //初始化分类新闻页的方法
-function initCatagoryNews(page) {
+/*function initCatagoryNews(page) {
     var keyword = localStorage.getItem("news_catagory");
     $.ajax({
         type: "GET",
@@ -126,6 +127,45 @@ function initCatagoryNews(page) {
             layer.msg('网络异常');
         }
     });
+}*/
+/**
+ * 分页查询帖子列表
+ */
+function initCatagoryNews(pageConf) {
+    layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
+    var keyword = localStorage.getItem("news_catagory");
+    if (!pageConf) {
+        pageConf = {};
+        pageConf.pageSize = 10; // 每页显示条数
+        pageConf.page = 1; // 当前页
+        pageConf.keyword = keyword;
+    }
+    $.get("/public/news/searchNewsByKeywords", pageConf, function (data) {
+        layer.closeAll('loading');
+        layui.use(['laypage', 'layer'], function () {
+            var page = layui.laypage;
+            page.render({
+                elem: 'page',
+                count: data.count,
+                curr: pageConf.page,
+                limit: pageConf.pageSize,
+                first: "首页",
+                last: "尾页",
+                layout: ['prev', 'page', 'next'],//'count', 'count','limit', 'skip'
+                jump: function (obj, first) {
+                    if (!first) {
+                        pageConf.page = obj.curr;
+                        pageConf.pageSize = obj.limit;
+                        initCatagoryNews(pageConf);
+                    }
+                    renderNews_news(data.data[0]);
+                    renderNewsPage_mostClickTimes(data.data[1]);
+                }
+            });
+        })
+    })
 }
 
 //初始化分类新闻的页面号
@@ -181,12 +221,13 @@ function renderNewsPage_mostClickTimes(arrParO) {
 //新闻首页根据数据来渲染catagory_news
 function renderNewsPage_byCatagories(arrParO) {
     const catagory = [
-        "精彩上大", "每周一文", "项目风采", "人文社科", "活动咨询", "法律法规"
+        /*"精彩上大", "每周一文", "项目风采", "人文社科", "活动咨询", "法律法规"*/
+        "文创", "K12", "其他", "科创", "新媒体", "校园行"
     ];
     for (var i = 0; i < arrParO.length; i++) {
         const $active0 = $("#" + catagory[i]);
         $.each(arrParO[i], function (i, obj) {
-            const $children = $('<span onclick="toNew_content(' + obj.newsId + ')"><img src="/html/webui/images/01.gif"/><a href="#">' + obj.newsTitle + '</a></span>');
+            const $children = $('<span onclick="toNew_content(' + obj.newsId + ')"><img src="../images/01.gif"/><a href="#">' + obj.newsTitle + '</a></span>');
             $active0.append($children);
         });
     }

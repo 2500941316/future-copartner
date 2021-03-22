@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
-    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
-    <script src="/html/webui/js/layui/layui.all.js"></script>
-<!--    <script type="text/javascript" src="/html/webui/js/personal.js"></script>-->
+    <link type="text/css" rel="stylesheet" href="../css/personal.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/layui/css/layui.css"/>
+    <script src="../js/layui/layui.all.js"></script>
+<!--    <script type="text/javascript" src="../js/personal.js"></script>-->
 </head>
 <body>
 <div class="perRightcon">
@@ -164,8 +164,8 @@
     function viewProjectDetail(projectId) {
         layer.msg("projectId:"+projectId);
         localStorage.setItem("projectId",projectId);
-        //window.open("/html/webui/project/project_details_info.html");
-        window.location.href = "/html/webui/project/project_details_info.html";
+        //window.open("../project/project_details_info.html");
+        window.location.href = "../project/project_details_info.html";
 
     }
 

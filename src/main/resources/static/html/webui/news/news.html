@@ -6,9 +6,10 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>新闻</title>
-    <link href="/html/webui/css/searchJob.css" rel="stylesheet" type="text/css"/>
-    <script src="/html/webui/js/vue.js"></script>
-    <script src='/html/webui/header/header.js'></script>
+    <link href="../css/searchJob.css" rel="stylesheet" type="text/css"/>
+    <script src="../js/vue.js"></script>
+    <script src='../header/header.js'></script>
+
 </head>
 
 <body>
@@ -30,7 +31,7 @@
             </div>
         </div>
         <div class="part2R">
-            <img src="../images/img1.gif" width="430" height="163"/>
+            <img src="../images/news_img/3.png" width="430" height="163"/>
         </div>
         <div class="clear"></div>
     </div>
@@ -46,62 +47,62 @@
                 </div>
                 <div class="part4L_2">
                     <div class="tit">
-                        <span>人文社科</span>
-                        <a href="#" @click="redirecTo('人文社科')" >更多>></a>
+                        <span>科创</span>
+                        <a href="#" @click="redirecTo('科创')" >更多>></a>
                     </div>
                     <div class="con" v-for="news in categoryNews[3]" @click="toNew_content(news.newsId)">
-                        <span><img src="\html\webui\images\hot.png" style="width: 13px"/><a
+                        <span><img src="..\images\hot.png" style="width: 13px"/><a
                                 href="#">{{news.newsTitle}}</a></span>
                     </div>
                 </div>
                 <div class="part4L_2">
                     <div class="tit">
-                        <span>法律法规</span>
-                        <a href="#" @click="redirecTo('法律法规')">更多>></a>
+                        <span>校园行</span>
+                        <a href="#" @click="redirecTo('校园行')">更多>></a>
                     </div>
                     <div class="con" v-for="news in categoryNews[5]" @click="toNew_content(news.newsId)">
-                        <span><img src="\html\webui\images\hot.png" style="width: 13px"/><a
+                        <span><img src="..\images\hot.png" style="width: 13px"/><a
                                 href="#">{{news.newsTitle}}</a></span>
                     </div>
                 </div>
                 <div class="part4L_2">
                     <div class="tit">
-                        <span>每周一文</span>
-                        <a href="#" @click="redirecTo('每周一文')">更多>></a>
+                        <span>K12</span>
+                        <a href="#" @click="redirecTo('K12')">更多>></a>
                     </div>
                     <div class="con" v-for="news in categoryNews[1]" @click="toNew_content(news.newsId)">
-                        <span><img src="\html\webui\images\hot.png" style="width: 13px"/><a
+                        <span><img src="..\images\hot.png" style="width: 13px"/><a
                                 href="#">{{news.newsTitle}}</a></span>
                     </div>
                 </div>
 
                 <div class="part4L_2">
                     <div class="tit">
-                        <span>活动咨询</span>
-                        <a href="#" @click="redirecTo('活动咨询')">更多>></a>
+                        <span>新媒体</span>
+                        <a href="#" @click="redirecTo('新媒体')">更多>></a>
                     </div>
                     <div class="con" v-for="news in categoryNews[4]" @click="toNew_content(news.newsId)">
-                        <span><img src="\html\webui\images\hot.png" style="width: 13px"/><a
+                        <span><img src="..\images\hot.png" style="width: 13px"/><a
                                 href="#">{{news.newsTitle}}</a></span>
                     </div>
                 </div>
                 <div class="part4L_2">
                     <div class="tit">
-                        <span>精彩上大</span>
-                        <a href="#" @click="redirecTo('精彩上大')">更多>></a>
+                        <span>文创</span>
+                        <a href="#" @click="redirecTo('文创')">更多>></a>
                     </div>
                     <div class="con" v-for="news in categoryNews[0]" @click="toNew_content(news.newsId)">
-                        <span><img src="\html\webui\images\hot.png" style="width: 13px"/><a
+                        <span><img src="..\images\hot.png" style="width: 13px"/><a
                                 href="#">{{news.newsTitle}}</a></span>
                     </div>
                 </div>
                 <div class="part4L_2">
                     <div class="tit">
-                        <span>项目风采</span>
-                        <a href="#" @click="redirecTo('项目风采')">更多>></a>
+                        <span>其他</span>
+                        <a href="#" @click="redirecTo('其他')">更多>></a>
                     </div>
                     <div class="con" v-for="news in categoryNews[2]" @click="toNew_content(news.newsId)">
-                        <span><img src="\html\webui\images\hot.png" style="width: 13px"/><a
+                        <span><img src="..\images\hot.png" style="width: 13px"/><a
                                 href="#">{{news.newsTitle}}</a></span>
                     </div>
                 </div>
@@ -117,12 +118,12 @@
                     <input name="" type="button" @click="searchNew()" class="ssbtn" value="新闻搜索"/>
                 </div>
                 <div class="ss1">
-                    <div class="ssbox ssbox1"><a href="#">创新创业</a></div>
-                    <div class="ssbox ssbox2"><a href="#">简历</a></div>
-                    <div class="ssbox ssbox3"><a href="#">课程</a></div>
-                    <div class="ssbox ssbox4"><a href="#">上海大学</a></div>
-                    <div class="ssbox ssbox5"><a href="#">导师</a></div>
-                    <div class="ssbox ssbox6"><a href="#">招聘会</a></div>
+                    <div class="ssbox ssbox1"><a href="#">点子集市</a></div>
+                    <div class="ssbox ssbox2"><a href="#">论坛</a></div>
+                    <div class="ssbox ssbox3"><a href="#">项目集市</a></div>
+                    <div class="ssbox ssbox4"><a href="#">路演</a></div>
+                    <div class="ssbox ssbox5"><a href="#">比赛</a></div>
+                    <div class="ssbox ssbox6"><a href="#">项目</a></div>
                     <div class="clear"></div>
                 </div>
             </div>
@@ -172,10 +173,9 @@
                     type: "GET",
                     url: "/public/news/getNewsIndexCategoryInfo",
                     success: res => {
-                        console.log(res.data);
                         this.categoryNews = res.data;
                         this.isLoad = true;
-                        $("#footer").load("/html/webui/footer/footer.html");
+                        $("#footer").load("../footer/footer.html");
                         layer.closeAll();
                     },
                     error: res => {
@@ -200,7 +200,7 @@
              */
             toNew_content(newId) {
                 localStorage.setItem("newId", newId);
-                window.location.href = "/html/webui/news/news_content.html";
+                window.location.href = "../news/news_content.html";
             },
 
             /**
@@ -212,7 +212,7 @@
                 } else {
                     localStorage.setItem("news_catagory", document.getElementById("news_category").innerText)
                 }
-                window.location.href = "/html/webui/news/news_catalog.html";
+                window.location.href = "../news/news_catalog.html";
             },
 
             /**
@@ -222,7 +222,7 @@
                 var value = $("#keywords").val();
                 if (value.length > 0) {
                     localStorage.setItem("news_catagory", "s_" + value);
-                    window.location.href = "/html/webui/news/news_catalog.html";
+                    window.location.href = "../news/news_catalog.html";
                 }
             }
         },

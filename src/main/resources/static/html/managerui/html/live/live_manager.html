@@ -4,10 +4,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>个人工作台</title>
-    <script src='/html/webui/header/header.js'></script>
-    <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
-    <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
-    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
+    <script src='../../../webui/header/header.js'></script>
+    <link rel="stylesheet" type="text/css" href="../../css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/hyzx.css"/>
+    <link type="text/css" rel="stylesheet" href="../../../webui/css/home.css"/>
 </head>
 <body>
 <!--引入页头页面-->
@@ -15,14 +15,15 @@
     <div id="con_lf">
         <h2>管理列表</h2>
         <ul>
-            <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/project/project_manager.html">项目管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/news/news_manager.html">社区管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/activity/activity_manager.html">活动管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/live/live_manager.html">直播管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/carousel/carousel_manager.html">广告管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/index.html">申请审批</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/user/user_manager.html">人员管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/project/project_manager.html">项目管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/news/news_manager.html">社区管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/leasson/leasson_manager.html">课程管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/activity/activity_manager.html">活动管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/live/live_manager.html">直播管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/carousel/carousel_manager.html">广告管理</a></li>
         </ul>
     </div>
     <div id="con_rh">
@@ -166,7 +167,7 @@
 <script type="application/javascript">
 
     $(function () {
-        $("#footer").load("/html/webui/footer/footer.html");
+        $("#footer").load("../../../webui/footer/footer.html");
     })
 
     // 时间组件
@@ -409,9 +410,9 @@
                 title:"直播信息修改",
                 type: 2,
                 area: ["60%", "80%"],
-                fixed: false, //不固定
+                fixed: true, //固定
                 maxmin: true,
-                content: "/html/managerui/html/live/edit_live.html"
+                content: "edit_live.html"
             });
         });
     }

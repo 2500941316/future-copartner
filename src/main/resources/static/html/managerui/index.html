@@ -4,10 +4,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>个人工作台</title>
-    <script src='/html/webui/header/header.js'></script>
+    <script src='../webui/header/header.js'></script>
     <link rel="stylesheet" type="text/css" href="css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="css/hyzx.css"/>
-    <script type="text/javascript" src="/html/managerui/js/news_manager.js"></script>
+    <script type="text/javascript" src="js/news_manager.js"></script>
 
 </head>
 <body>
@@ -16,15 +16,15 @@
     <div id="con_lf">
         <h2>管理列表</h2>
         <ul>
-            <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/user/user_manager.html">人员管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/project/project_manager.html">项目管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/news/news_manager.html">社区管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/activity/activity_manager.html">活动管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/live/live_manager.html">直播管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/carousel/carousel_manager.html">广告管理</a></li>
+            <li class="lf_li1"><a href="../managerui/index.html">申请审批</a></li>
+            <li class="lf_li1"><a href="../managerui/html/user/user_manager.html">人员管理</a></li>
+            <li class="lf_li1"><a href="../managerui/html/project/project_manager.html">项目管理</a></li>
+            <li class="lf_li1"><a href="../managerui/html/news/news_manager.html">社区管理</a></li>
+            <li class="lf_li1"><a href="../managerui/html/leasson/leasson_manager.html">课程管理</a></li>
+            <li class="lf_li1"><a href="../managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
+            <li class="lf_li1"><a href="../managerui/html/activity/activity_manager.html">活动管理</a></li>
+            <li class="lf_li1"><a href="../managerui/html/live/live_manager.html">直播管理</a></li>
+            <li class="lf_li1"><a href="../managerui/html/carousel/carousel_manager.html">广告管理</a></li>
         </ul>
     </div>
     <div id="con_rh">
@@ -76,8 +76,8 @@
 <!--公告跳转模块-->
 <script type="text/javascript">
     $(function () {
-        $("#headers").load("/html/webui/header/header.html");
-        $("#footer").load("/html/webui/footer/footer.html");
+        $("#headers").load("../webui/header/header.html");
+        $("#footer").load("../webui/footer/footer.html");
 
         // 加载的时候直接打开一个tab标签
         searchProjectApplication();
@@ -167,7 +167,7 @@
             var index = layer.open({
                 type: 2,
                 title: ['项目详情', 'font-size:18px; color:orange;'],//数组第二项可以写任意css样式；如果你不想显示标题栏，你可以title: false
-                content: '/html/webui/project/project_apply_info.html',
+                content: '../webui/project/project_apply_info.html',
                 area: ["50%", "50%"],
                 btn: ['返回'],
                 yes: function (index, layero) {

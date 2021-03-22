@@ -88,7 +88,7 @@ function fillSupervisorList(supervisorInfo) {
  */
 function viewSupervisorDetail(supervisorId) {
     localStorage.setItem("supervisorId",supervisorId)
-    window.location.href = "/html/webui/supervisor/supervisor_detail.html";
+    window.location.href = "../supervisor/supervisor_detail.html";
 }
 
 /**
@@ -114,7 +114,7 @@ function searchSupervisorByName() {
 // supervisor_detail.html
 
 /*$(function () {
-    $("#footer").load("/html/webui/footer/footer.html")
+    $("#footer").load("../footer/footer.html")
 
     searchSupervisorDetail();
     //searchSupervisorProject();
@@ -215,7 +215,7 @@ function fillSupervisorProject(supervisorProject) {
  */
 function viewSupervisorProject(projectId) {
     localStorage.setItem("projectId",projectId);
-    window.location.href = "/html/webui/project/project_details_info.html";
+    window.location.href = "../project/project_details_info.html";
 }
 
 /**

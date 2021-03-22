@@ -172,7 +172,7 @@ public class UserNewsServiceImpl implements UserNewsService {
         List<ProNews> proNews = null;
         ProNewsExample proNewsExample = new ProNewsExample();
         proNewsExample.setOrderByClause(Constants.NEW_DESCBYDATE);
-        PageHelper.startPage(page, Constants.PAGESIZE);
+        PageHelper.startPage(page, Constants.PAGESIZE);//
 
         //判断keyword的前两个字符判断是根据种类查询还是根据关键字查询
         if (keywords != null && keywords.substring(0, 2).equals(Constants.NEW_FIRSTKEY)) {
@@ -196,11 +196,13 @@ public class UserNewsServiceImpl implements UserNewsService {
 
             resList.add(proNews);
             resList.add(recentlyNewsList);
+            PageInfo pageInfo = new PageInfo(proNews);
+            //TableModel.success(resList, resList.size())
+            return TableModel.success(resList, (int)pageInfo.getTotal());
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(Exceptions.SERVER_DATASOURCE_ERROR.getEcode());
         }
-        return TableModel.success(resList, resList.size());
     }
 
 

@@ -83,7 +83,7 @@ function renderLeassons(arrParO) {
         const $children = $('   <li onclick="redirecToVedio(' + obj.courseId + ')">\n' +
             '                                    <a href="#">\n' +
             '                                        <div class="image-ti">\n' +
-            '                                            <img src="/html/webui/images/ad020.jpg" alt="">\n' +
+            '                                            <img src="../images/ad020.jpg" alt="">\n' +
             '                                        </div>\n' +
             '                                        <p class="slide-title">' + obj.courseName + '</p>\n' +
             '                                        <p class="slide-body">\n' +
@@ -121,7 +121,7 @@ function renderVedioPage(data) {
         const $children = $('   <article class="post" onclick="redirecToVedio(' + obj.courseId + ')">\n' +
             '                                                                <div class="post-inner">\n' +
             '                                                                    <figure class="post-thumb"><img\n' +
-            '                                                                            src="/html/webui/images/post-thumb-1.jpg"\n' +
+            '                                                                            src="../images/post-thumb-1.jpg"\n' +
             '                                                                            alt=""><a href="#" class="overlay-box"></a>\n' +
             '                                                                    </figure>\n' +
             '                                                                    <div class="text"><a href="#">' + obj.courseName + '</a></div>\n' +
@@ -167,7 +167,7 @@ function renderClicksVedio(arrParO) {
     $.each(arrParO, function (i, obj) {
         const $children = $(' <li onclick="redirecToVedio(' + obj.courseId + ')"><a href="#">\n' +
             '                        <div class="image-ti">\n' +
-            '                            <img src="/html/webui/images/ad020.jpg" alt="">\n' +
+            '                            <img src="../images/ad020.jpg" alt="">\n' +
             '                        </div>\n' +
             '                        <p class="slide-title">' + obj.courseName + '</p>\n' +
             '                        <p class="slide-body">\n' +
@@ -188,7 +188,7 @@ function redirecToVedio(courseId) {
         var $ = layui.jquery
             , element = layui.element;
         //新打开一个页面开始放视频
-        window.open("/html/webui/leasson/leasson_vedio.html?courseId=" + courseId);
+        window.open("../leasson/leasson_vedio.html?courseId=" + courseId);
     });
 }
 

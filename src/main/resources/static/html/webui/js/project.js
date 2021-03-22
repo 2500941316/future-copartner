@@ -31,7 +31,7 @@ function checkLogin() {
         document.getElementById("login").innerText = "已登录，可申请项目>>";
         document.getElementById("loginLabelRight").onclick = function(){
             localStorage.setItem("project.html",1); // 设置标志位，用于跳转时判断
-            window.location.href =  "/html/webui/personal/person.html"};
+            window.location.href =  "../personal/person.html"};
     }
 }
 
@@ -74,8 +74,8 @@ function fillProjectInfo(projectInfo) {
  */
 function viewProjectDetail(projectId) {
     localStorage.setItem("projectId",projectId);
-    //window.open("/html/webui/project/project_details_info.html");
-    window.location.href = "/html/webui/project/project_details_info.html";
+    //window.open("../project/project_details_info.html");
+    window.location.href = "../project/project_details_info.html";
 
 }
 

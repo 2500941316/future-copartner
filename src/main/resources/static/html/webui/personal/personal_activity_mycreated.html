@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>我创建的活动</title>
-    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
-    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
-    <script src="/html/webui/js/layui/layui.all.js"></script>
- <!--   <script type="text/javascript" src="/html/webui/js/personal.js"></script>-->
+    <link type="text/css" rel="stylesheet" href="../css/personal.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/layui/css/layui.css"/>
+    <script src="../js/layui/layui.all.js"></script>
+ <!--   <script type="text/javascript" src="../js/personal.js"></script>-->
 
 
 </head>
@@ -145,7 +145,7 @@
             success: function (res) {
                 if(res.code == 200){
                     top.layer.msg("删除成功！",{icon: 1,shade: 0.05, time:1000});
-                    window.location.href = "/html/webui/personal/personal_activity_mycreated.html";
+                    window.location.href = "../personal/personal_activity_mycreated.html";
                 }else{
                     top.layer.msg("网络异常");
                 }
@@ -162,7 +162,7 @@
             top.layer.msg("活动未发布",{icon: 7,shade: 0.05, time:2000})
         }else{
             localStorage.setItem("activityId",activityId);
-            window.location.href = "/html/webui/activity/activity_detail.html";
+            window.location.href = "../activity/activity_detail.html";
         }
     }
 

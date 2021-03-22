@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css" />
-   <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
-   <script src="/html/webui/js/layui/layui.all.js"></script>
+<link type="text/css" rel="stylesheet" href="../css/personal.css" />
+   <link type="text/css" rel="stylesheet" href="../js/layui/css/layui.css"/>
+   <script src="../js/layui/layui.all.js"></script>
 
-   <!--<script type="text/javascript" src="/html/webui/js/personal.js"></script>-->
+   <!--<script type="text/javascript" src="../js/personal.js"></script>-->
 
 
 <title>修改项目信息</title>
@@ -315,7 +315,7 @@
          success: function(req) {
             if(req.code == 200){
                top.layer.msg("修改成功！",{icon: 1,shade: 0.05,time:1000})
-               window.location.href = "/html/webui/personal/personal_project_list.html";
+               window.location.href = "../personal/personal_project_list.html";
             }else{
                top.layer.msg("网络异常，请稍后重试！")
             }

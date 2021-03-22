@@ -44,7 +44,7 @@ public final class Constants {
     /**
      * @Description 文件服务器的前缀
      */
-    public static final String FILEURL_FIRSTNAME = "http://114.55.93.118/";
+    public static final String FILEURL_FIRSTNAME = "http://10.10.0.24/";
 /*   http://114.55.93.118/ 改 10.10.0.24*/
 
     /**
@@ -60,7 +60,7 @@ public final class Constants {
      */
     public static final List<String> ROUTE_URL = Arrays.asList("/html/managerui/index.html", "/html/webui/personal/person.html");
 
-    public static final String ERROR_URL = "http://47.99.244.66:8080/html/webui/header/login/error.html";
+    public static final String ERROR_URL = "http://10.10.0.24:8080/html/webui/header/login/error.html";
 
     /**
      * @Description 新闻发布流程processKey
@@ -85,7 +85,8 @@ public final class Constants {
     /**
      * @Description 新闻种类的列表
      */
-    public static final String[] NEWS_CATAGORIES = new String[]{"精彩上大", "每周一文", "项目风采", "人文社科", "活动咨询", "法律法规"};
+    public static final String[] NEWS_CATAGORIES = new String[]{"文创", "K12", "其他", "科创", "新媒体", "校园行"};
+            //{"精彩上大", "每周一文", "项目风采", "人文社科", "活动咨询", "法律法规"};
 
     /**
      * @Description 新闻是否审核标志位

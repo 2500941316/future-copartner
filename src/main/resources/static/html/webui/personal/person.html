@@ -5,9 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 
-    <script src='/html/webui/header/header.js'></script>
-    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
-    <!--<script src='/html/webui/js/personal.js'></script>-->
+    <script src='../header/header.js'></script>
+    <link type="text/css" rel="stylesheet" href="../css/personal.css"/>
+    <!--<script src='../js/personal.js'></script>-->
     <title>个人工作台</title>
 </head>
 
@@ -17,26 +17,26 @@
         <div class="NavLeftTop">个人中心</div>
         <div class="NavLeftMain">
             <div class="NavLeftBox active">
-                <a onclick="redirecTo('/html/webui/personal/personal_info.html')" class="a1" href="#">用户信息</a>
+                <a onclick="redirecTo('../personal/personal_info.html')" class="a1" href="#">用户信息</a>
             </div>
             <div class="NavLeftBox twoNav">
                 <a class="a5">项目</a>
                 <span class="up"></span>
             </div>
             <ul>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_project_apply.html')" href="#">创建项目</a></li>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_project_list.html')" href="#">我的项目</a></li>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_myjoin.html')" href="#">我的加入</a></li>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_myfollow.html')" href="#">我的关注</a></li>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_followedproject.html')" href="#">谁关注我</a></li>
+                <li><a onclick="redirecTo('../personal/personal_project_apply.html')" href="#">创建项目</a></li>
+                <li><a onclick="redirecTo('../personal/personal_project_list.html')" href="#">我的项目</a></li>
+                <li><a onclick="redirecTo('../personal/personal_myjoin.html')" href="#">我的加入</a></li>
+                <li><a onclick="redirecTo('../personal/personal_myfollow.html')" href="#">我的关注</a></li>
+                <li><a onclick="redirecTo('../personal/personal_followedproject.html')" href="#">谁关注我</a></li>
             </ul>
             <div class="NavLeftBox twoNav">
                 <a class="a6">帖子</a>
                 <span class="up"></span>
             </div>
             <ul>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_news_apply.html')" href="#">发布帖子</a></li>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_mynews.html')" href="#">我的发布</a></li>
+                <li><a onclick="redirecTo('../personal/personal_news_apply.html')" href="#">发布帖子</a></li>
+                <li><a onclick="redirecTo('../personal/personal_mynews.html')" href="#">我的发布</a></li>
             </ul>
 
             <div class="NavLeftBox twoNav">
@@ -44,8 +44,8 @@
                 <span class="up"></span>
             </div>
             <ul>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_activity_apply.html')" href="#">创建活动</a></li>
-                <li><a onclick="redirecTo('/html/webui/personal/personal_activity_mycreated.html')" href="#">我的创建</a>
+                <li><a onclick="redirecTo('../personal/personal_activity_apply.html')" href="#">创建活动</a></li>
+                <li><a onclick="redirecTo('../personal/personal_activity_mycreated.html')" href="#">我的创建</a>
                 </li>
             </ul>
 
@@ -69,7 +69,7 @@
     <div class="perRightcon">
         <div class="perRpart1">
             <div class="perRpart1_l" id="personalImage">
-                <img src="/html/webui/images/per1.jpg" id="imageUrl" width="80" height="100"/>
+                <img src="../images/per1.jpg" id="imageUrl" width="80" height="100"/>
             </div>
             <div class="perRpart1_r">
                 <div class="PaName"><span id="name01"></span>您好！</div>
@@ -139,17 +139,17 @@
     var $ = layui.jquery;
 
     $(function () {
-        redirecTo("/html/webui/personal/personal_info.html");
+        redirecTo("../personal/personal_info.html");
 
         // 根据标志位来进行url监听，如果来自项目页，则直接跳转到创建项目页
         var label = localStorage.getItem("project.html");
         if (label === "1") {
-            redirecTo("/html/webui/personal/personal_project_apply.html");
+            redirecTo("../personal/personal_project_apply.html");
         }
         localStorage.setItem("project.html", 0); // 复原标志位
 
-        $("#header").load("/html/webui/header/header.html");
-        $("#footer").load("/html/webui/footer/footer.html");
+        $("#header").load("../header/header.html");
+        $("#footer").load("../footer/footer.html");
 
         selectCount();
         selectPersonalInfo();
@@ -257,21 +257,21 @@
         if(document.getElementById("followMe").innerText === "0"){
             layer.msg("无数据",{icon: 7,shade: 0.01,time: 1000})
         }else{
-            redirecTo("/html/webui/personal/personal_followedproject.html");
+            redirecTo("../personal/personal_followedproject.html");
         }
     }
     function jumpToMyProject(){
         if(document.getElementById("myProject").innerText  === "0"){
             layer.msg("无数据",{icon: 7,shade: 0.01,time: 1000})
         }else{
-            redirecTo("/html/webui/personal/personal_project_list.html");
+            redirecTo("../personal/personal_project_list.html");
         }
     }
     function jumpToMyFollow(){
         if( document.getElementById("myFollow").innerText === "0"){
             layer.msg("无数据",{icon: 7,shade: 0.01,time: 1000})
         }else{
-            redirecTo("/html/webui/personal/personal_myfollow.html");
+            redirecTo("../personal/personal_myfollow.html");
         }
     }
 

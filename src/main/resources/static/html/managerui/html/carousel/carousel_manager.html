@@ -5,10 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>个人工作台</title>
     <script src='/html/webui/header/header.js'></script>
-    <link rel="stylesheet" type="text/css" href="/html/managerui/css/layout.css"/>
-    <link rel="stylesheet" type="text/css" href="/html/managerui/css/hyzx.css"/>
-    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
-    <script src="/html/webui/js/layui/layui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/hyzx.css"/>
+    <link type="text/css" rel="stylesheet" href="../../../webui/css/home.css"/>
+    <script src="../../../webui/js/layui/layui.js"></script>
 
 
 </head>
@@ -18,15 +18,15 @@
     <div id="con_lf">
         <h2>管理列表</h2>
         <ul>
-            <li class="lf_li1"><a href="/html/managerui/index.html">申请审批</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/user/user_manager.html">人员管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/project/project_manager.html">项目管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/news/news_manager.html">社区管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/leasson/leasson_manager.html">课程管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/activity/activity_manager.html">活动管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/live/live_manager.html">直播管理</a></li>
-            <li class="lf_li1"><a href="/html/managerui/html/carousel/carousel_manager.html">广告管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/index.html">申请审批</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/user/user_manager.html">人员管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/project/project_manager.html">项目管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/news/news_manager.html">社区管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/leasson/leasson_manager.html">课程管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/supervisor/supervisor_manager.html">导师管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/activity/activity_manager.html">活动管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/live/live_manager.html">直播管理</a></li>
+            <li class="lf_li1"><a href="../../../managerui/html/carousel/carousel_manager.html">广告管理</a></li>
         </ul>
     </div>
     <div id="con_rh">
@@ -124,7 +124,7 @@
 
 <script type="application/javascript">
     $(function () {
-        $("#footer").load("/html/webui/footer/footer.html");
+        $("#footer").load("../../../webui/footer/footer.html");
     })
 
     //广告图片上传方法
@@ -247,7 +247,7 @@
             ,btn1: function(index, layero){
                 var typeValue = $('#test input[name="type"]:checked ').val()
                 if(typeValue == info.isIssue){
-                    layer.msg("状态重复", {icon: 2,shade: 0.1,time: 2000,shift: 6});
+                    layer.msg("状态重复", {icon: 2,shade: 0.1,time: 1000,shift: 6});
                     layer.close(index);
                     return;
                 }
@@ -276,7 +276,7 @@
             data: updateData,
             success: function (res) {
                 if(res.code = 200){
-                    layer.msg("设置成功！",{icon: 1,shade: 0.1,time: 2000})
+                    layer.msg("设置成功！",{icon: 1,shade: 0.1,time: 1000})
                     carouselInfoManage(); // 刷新表格
                 }else{
                     layer.msg("网络异常！");
@@ -300,7 +300,7 @@
             data: "carouselId="+carouselId,
             success: function (res) {
                 if(res.code = 200){
-                    layer.msg("删除成功！",{icon: 1,shade: 0.01})
+                    layer.msg("删除成功！",{icon: 1,shade: 0.01,time: 1000})
                 }else{
                     layer.msg("网络异常！");
                 }

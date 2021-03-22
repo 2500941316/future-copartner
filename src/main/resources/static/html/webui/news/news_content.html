@@ -4,9 +4,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>新闻内容</title>
-    <link href="/html/webui/css/searchJob.css" rel="stylesheet" type="text/css"/>
-    <script src="/html/webui/js/vue.js"></script>
-    <script src='/html/webui/header/header.js'></script>
+    <link href="../css/searchJob.css" rel="stylesheet" type="text/css"/>
+    <script src="../js/vue.js"></script>
+    <script src='../header/header.js'></script>
 </head>
 
 <body>
@@ -67,7 +67,7 @@
         },
         mounted: function () {
             this.news_content_init();
-            $("#footer").load("/html/webui/footer/footer.html");
+            $("#footer").load("../footer/footer.html");
         },
         methods: {
 
@@ -81,7 +81,7 @@
                     //点了正文页分类条时
                     localStorage.setItem("news_catagory", document.getElementById("news_category").innerText)
                 }
-                window.location.href = "/html/webui/news/news_catalog.html";
+                window.location.href = "../news/news_catalog.html";
             },
 
             /**
@@ -89,10 +89,13 @@
              */
             toNew_content(newId) {
                 localStorage.setItem("newId", newId);
-                window.location.href = "/html/webui/news/news_content.html";
+                window.location.href = "../news/news_content.html";
             },
 
             news_content_init() {
+                layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
                 var newsId = localStorage.getItem("newId");
                 if (newsId != null) {
                     $.ajax({
@@ -100,6 +103,7 @@
                         url: "/public/news/searchNewsById",
                         data: "newsId=" + newsId,
                         success: data => {
+                            layer.closeAll('loading');
                             if (data.code === 200) {
                                 this.news = data.data[0];
                                 this.clickNews = data.data[1];
@@ -107,6 +111,7 @@
                             }
                         },
                         error: function (data) {
+                            layer.closeAll('loading');
                             layer.msg('网络异常');
                         }
                     });

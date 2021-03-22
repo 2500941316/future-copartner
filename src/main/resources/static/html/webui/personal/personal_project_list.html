@@ -3,12 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link type="text/css" rel="stylesheet" href="/html/webui/css/personal.css"/>
-    <link type="text/css" rel="stylesheet" href="/html/webui/css/home.css"/>
-    <link type="text/css" rel="stylesheet" href="/html/webui/js/layui/css/layui.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/personal.css"/>
+    <link type="text/css" rel="stylesheet" href="../css/home.css"/>
+    <link type="text/css" rel="stylesheet" href="../js/layui/css/layui.css"/>
 
-    <script src="/html/webui/js/layui/layui.all.js"></script>
-    <script type="text/javascript" src="/html/webui/js/personal.js"></script>
+    <script src="../js/layui/layui.all.js"></script>
+    <script type="text/javascript" src="../js/personal.js"></script>
     <title>我的项目</title>
 
     <style type="text/css">
@@ -378,7 +378,7 @@
      * 刷新项目
      * */
     function freshProject(){
-        window.location.href = "/html/webui/personal/personal_project_list.html";
+        window.location.href = "../personal/personal_project_list.html";
     }
 
     /**
@@ -388,8 +388,8 @@
     function viewProjectDetail(projectId) {
            //layer.msg("projectId:"+projectId);
         localStorage.setItem("projectId",projectId);
-        //window.open("/html/webui/project/project_details_info.html");
-        window.location.href = "/html/webui/project/project_details_info.html";
+        //window.open("../project/project_details_info.html");
+        window.location.href = "../project/project_details_info.html";
 
     }
 
@@ -398,7 +398,7 @@
      */
     function updateProjectInfo(projectId){
         localStorage.setItem("projectId", projectId);
-        window.location.href = "/html/webui/project/project_update_02.html";
+        window.location.href = "../project/project_update_02.html";
     }
 
     /**
@@ -414,7 +414,7 @@
                 success: function (res) {
                     if(res.code == 200){
                         top.layer.msg("删除成功",{icon: 1,shade: 0.05,time: 1000});
-                        window.location.href = "/html/webui/personal/personal_project_list.html";
+                        window.location.href = "../personal/personal_project_list.html";
                     }else{
                         top.layer.msg("网络异常")
                     }

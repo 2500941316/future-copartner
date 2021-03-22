@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <link type="text/css" rel="stylesheet" href="/html/webui/css/company.css" />
-   <script src='/html/webui/header/header.js'></script>
+   <link type="text/css" rel="stylesheet" href="../css/company.css" />
+   <script src='../header/header.js'></script>
 
 <title>项目详情</title>
 
@@ -22,8 +22,8 @@
 <div class="jobtypeBox">
    <div class="DivLeft">
       <div class="DivCompany">
-         <div class="DivCompany_img"><img src="/html/webui/images/sh02.jpg" width="180"/></div>
-         <h1><a href="project_details_info.html"><span id="projectName2"><!--项目名称--></span></a><img src="/html/webui/images/16.png" /></h1>
+         <div class="DivCompany_img"><img src="../images/sh02.jpg" width="180"/></div>
+         <h1><a href="project_details_info.html"><span id="projectName2"><!--项目名称--></span></a><img src="../images/16.png" /></h1>
          <div class="DivLeft_1">
             <div class="gz1"><span  id="follow">+关注</span></div>  <!--onclick="clickFollow()"-->
           <!--  <div class="gz2">答复率<span>100.0%</span></div>-->
@@ -53,7 +53,7 @@
    </div>
    <div class="DivRight">
       <div class="DivRight_1">
-         <a href="/html/webui/project/project.html">>>返回</a></div>
+         <a href="../project/project.html">>>返回</a></div>
       <div class="DivRight_2">
 
          <div class="divJob_1">
@@ -169,7 +169,7 @@
    if(top.location!=self.location)top.location=self.location;
 
    $(function () {
-      $("#footer").load("/html/webui/footer/footer.html");
+      $("#footer").load("../footer/footer.html");
 
       getProjectData();
      getOtherProjectData();
@@ -186,6 +186,9 @@
     * 根据id请求当前项目数据
     */
    function getProjectData() {
+      layer.load(1, {
+         shade: [0.1, '#fff'] //0.1透明度的白色背景
+      });
       // 先确定当前是否登录，
       var url;
       if(localStorage.getItem("username") != null){
@@ -200,6 +203,7 @@
          data: "projectId=" + projectId,
          type: "GET",   //请求方式
          success: function (req) {
+            layer.closeAll('loading');
             if (req.code == 200) {
                //console.log(req)
                fillProjectInfo(req.data.projectInfo[0]);
@@ -209,6 +213,7 @@
             }
          },
          error: function (req) {
+            layer.closeAll('loading');
             //请求出错处理
             //console.log(req);
             layer.msg("网络异常，请稍后重试！");
@@ -268,7 +273,7 @@
       document.getElementById("description").innerText = projectInfo.description;
       //document.getElementById("description2").innerText = projectInfo.description;
 
-      console.log(projectInfo);
+      //console.log(projectInfo);
       // 填充项目里程碑信息
       if(projectInfo.projectPeopleNew != null){
          document.getElementById("projectPeopleNew").style.display = "block";
@@ -469,8 +474,8 @@
     */
    function viewProjectDetail(projectId) {
       localStorage.setItem("projectId",projectId);
-      //window.open("/html/webui/project/project_details_info.html");
-      window.location.href = "/html/webui/project/project_details_info.html";
+      //window.open("../project/project_details_info.html");
+      window.location.href = "../project/project_details_info.html";
    }
 
    /**

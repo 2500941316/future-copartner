@@ -125,7 +125,7 @@ function fillActivityList(activityInfo) {
  */
 function viewActivityDetail(activityId) {
     localStorage.setItem("activityId",activityId);
-    window.location.href = "/html/webui/activity/activity_detail.html";
+    window.location.href = "../activity/activity_detail.html";
 }
 
 /**
@@ -215,7 +215,7 @@ function cancelEnrollActivity(activityId) {
 
 // activity_detail.html
 /*$(function () {
-    $("#footer").load("/html/webui/footer/footer.html");
+    $("#footer").load("../footer/footer.html");
 
     searchActivityDetail();
 })*/

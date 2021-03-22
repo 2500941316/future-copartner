@@ -1,7 +1,7 @@
 //var $ = layui.jquery;
 var form = layui.form;
 $(function () {
-    $("#footer").load("/html/webui/footer/footer.html");
+    $("#footer").load("../../../webui/footer/footer.html");
     var url = window.location.pathname;
     if(url === "/html/managerui/html/activity/activity_manager.html"){
         searchActivityInfo();
@@ -74,9 +74,9 @@ function viewActivityInfo(activityId) {
         layer.open({
             type: 2,
             area: ["90%", "100%"],
-            fixed: false, //不固定
+            fixed: true, //固定
             maxmin: true,
-            content: "/html/webui/activity/activity_detail.html"
+            content: "../../../webui/activity/activity_detail.html"
         });
     });
 }
@@ -114,7 +114,7 @@ function editActivityInfo(activityId) {
             area: ["70%", "100%"],
             fixed: false, //不固定
             maxmin: true,
-            content: "/html/managerui/html/activity/activity_edit.html"
+            content: "activity_edit.html"
         });
     });
 }
