@@ -1,13 +1,11 @@
 var $ = layui.jquery;
 $(function () {
-    layer.load(1, {
-        shade: [0.1, '#fff'] //0.1透明度的白色背景
-    });
     $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
-    if(url === "/html/webui/supervisor/supervisor.html"){
+    console.log(url);
+    if(url === "/partner/8080/html/webui/supervisor/supervisor.html"){
         searchSupervisorList();
-    }else if(url === "/html/webui/supervisor/supervisor_detail.html"){
+    }else if(url === "/partner/8080/html/webui/supervisor/supervisor_detail.html"){
         searchSupervisorDetail();
     }
 
@@ -18,6 +16,9 @@ $(function () {
  * 查询导师列表
  */
 function searchSupervisorList(pageConf) {
+    layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
     if (!pageConf) {
         pageConf = {};
         pageConf.pageSize = 6;
@@ -129,6 +130,9 @@ layui.use('layer',function () {
  * 根据id查询导师详细信息
  */
 function searchSupervisorDetail() {
+    layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
     var supervisorId = localStorage.getItem("supervisorId");
     $.ajax({
         url: "/public/supervisor/searchSuperviosrById",

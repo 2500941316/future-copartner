@@ -1,5 +1,6 @@
 var $ = layui.jquery;
 $(function () {
+
     $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
     //如果是首页

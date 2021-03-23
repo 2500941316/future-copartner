@@ -1,18 +1,13 @@
 var $ = layui.jquery;
 var layer = layui.layer;
 $(function () {
-    layer.load(1, {
-        shade: [0.1, '#fff'] //0.1透明度的白色背景
-    });
+
     $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
-    if(url === "/html/webui/project/project.html" ){
-        // 项目浏览页
-        searchProject();// 填充搜索的项目
-        getAllProjectData(); // 填充右侧项目总览
-    }
+    // 项目浏览页
+    searchProject();// 填充搜索的项目
+    getAllProjectData(); // 填充右侧项目总览
     checkLogin();
-
 })
 
 
@@ -83,6 +78,9 @@ function viewProjectDetail(projectId) {
  * 根据输入的值搜索项目
  */
 function searchProject(pageConf) {
+    layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
     if (!pageConf) {
         pageConf = {};
         pageConf.pageSize = 8;
@@ -94,7 +92,7 @@ function searchProject(pageConf) {
         pageConf.projectTwoStatus= projectTwoStatus === "" ? "在创" : projectTwoStatus
     }
     $.get("/public/project/searchProjectByFour", pageConf, function (data) {
-        layer.closeAll();
+        layer.closeAll('loading');
         layui.use(['laypage', 'layer'], function () {
             var page = layui.laypage;
             page.render({

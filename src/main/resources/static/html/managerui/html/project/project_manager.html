@@ -4,11 +4,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>个人工作台</title>
-    <script src='../../../webui/header/header.js'></script>
-    <link rel="stylesheet" type="text/css" href="./../css/layout.css"/>
-    <link rel="stylesheet" type="text/css" href="./../css/hyzx.css"/>
+   <!-- <script src='../../../webui/header/header.js'></script>-->
+    <script src='../../js/header.js'></script>
+    <link rel="stylesheet" type="text/css" href="../../css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/hyzx.css"/>
     <link type="text/css" rel="stylesheet" href="../../../webui/css/home.css"/>
     <script src="../../../webui/js/layui/layui.js"></script>
+
 </head>
 <body>
 <!--引入页头页面-->
@@ -70,6 +72,7 @@
 <script type="application/javascript">
 
     $(function () {
+        $("#footer").load("/html/webui/footer/footer.html");
         supervisorInfoManage();
     })
 
@@ -77,6 +80,7 @@
      *项目信息管理表格
      */
     function supervisorInfoManage(){
+        //var url = "http:10.10.0.24:8080/manager/project/searchAllProject"
         layui.use('table', function () {
             var table = layui.table;
 
@@ -127,7 +131,7 @@
             layer.open({
                 type: 2,
                 area: ["90%", "100%"],
-                fixed: ture, //固定
+                fixed: true, //固定
                 maxmin: true,
                 content: "../../../webui/project/project_details_info.html",
             });

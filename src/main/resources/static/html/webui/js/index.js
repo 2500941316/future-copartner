@@ -1,9 +1,9 @@
 var $ = layui.jquery;
 $(function () {
-    $("#footer").load("html/webui/footer/footer.html");
+    $("#footer").load("/html/webui/footer/footer.html");
 
     //清除localstorage
-    localStorage.clear();
+    //localStorage.clear();
 
     //鼠标悬停时动画
     $('ul.yun-solution-list li').hover(function () {

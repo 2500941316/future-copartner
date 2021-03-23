@@ -130,7 +130,9 @@
 <div id="footer"></div>
 
 <script type="application/javascript">
+    $("#footer").load("/html/webui/footer/footer.html");
     var projectTwoStatus = ''; // 保存当前是'在创'还是‘可选’
+
     $('.star').click(function () {
         if ($(this).attr("class") == "star current") {
             $('.star').addClass('current');

@@ -4,10 +4,11 @@ $(function () {
     $("#footer").load("/html/webui/footer/footer.html");
 
     var url = window.location.pathname;
+    console.log(url);
     //如果是首页
-    if (url === "/html/webui/leasson/leasson.html") {
+    if (url === "/partner/8080/html/webui/leasson/leasson.html") {
         getLeassonInfo();
-    } else if (url === "/html/webui/leasson/leasson_vedio.html") {
+    } else if (url === "/partner/8080/html/webui/leasson/leasson_vedio.html") {
         var courseId = getQueryVariable("courseId");
         getCourseInfoById(courseId);
     }

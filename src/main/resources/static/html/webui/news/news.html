@@ -168,7 +168,7 @@
              * 初始化新闻首页
              */
             initNewsIndex() {
-
+                $("#footer").load("/html/webui/footer/footer.html");
                 $.ajax({
                     type: "GET",
                     url: "/public/news/getNewsIndexCategoryInfo",

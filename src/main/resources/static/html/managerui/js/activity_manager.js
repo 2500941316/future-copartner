@@ -1,7 +1,7 @@
 //var $ = layui.jquery;
 var form = layui.form;
 $(function () {
-    $("#footer").load("../../../webui/footer/footer.html");
+    $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
     if(url === "/html/managerui/html/activity/activity_manager.html"){
         searchActivityInfo();

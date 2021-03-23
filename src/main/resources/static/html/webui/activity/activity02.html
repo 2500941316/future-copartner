@@ -82,6 +82,8 @@
         </div>
 
     </div>
+
+
 </section>
 <!--引入页脚页面-->
 <div id="footer"></div>
@@ -90,10 +92,7 @@
     var $ = layui.jquery;
     var layer = layui.layer;
     $(function () {
-        layer.load(1, {
-            shade: [0.1, '#fff'] //0.1透明度的白色背景
-        });
-        $("#footer").load("../footer/footer.html");
+        $("#footer").load("/html/webui/footer/footer.html");
 
         searchActivityList();
     })
@@ -105,6 +104,9 @@
      * @param pageConf
      */
     function searchActivityList(pageConf) {
+        layer.load(1, {
+            shade: [0.1, '#fff'] //0.1透明度的白色背景
+        });
         // 先确定当前是否登录，
         var url;
         if(localStorage.getItem("username") != null){
@@ -273,7 +275,7 @@
      */
     function cancelEnrollActivity(activityId) {
         $.ajax({
-            url: "/vip/activity/cancelEnrollActivity",
+            url: "vip/activity/cancelEnrollActivity",
             type: "GET",
             data: "activityId="+activityId,
             success: function (res) {
@@ -303,7 +305,7 @@
     function searchActivityDetail() {
         var activityId = localStorage.getItem("activityId");
         $.ajax({
-            url: "/public/activity/searchActivityById",
+            url: "public/activity/searchActivityById",
             type: "GET",
             data: "activityId="+activityId,
             success: function (res) {

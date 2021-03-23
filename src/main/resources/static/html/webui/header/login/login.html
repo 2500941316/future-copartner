@@ -7,9 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="/html/webui/css/login.css" media="all">
-    <link rel="stylesheet" href="/html/webui/js/layui/css/layui.css" media="all">
-    <script src="/html/webui/js/layui/layui.js"></script>
+
+    <link rel="stylesheet" href="../../../webui/css/login.css" media="all">
+    <link rel="stylesheet" href="../../../webui/js/layui/css/layui.css" media="all">
+    <script src="../../../webui/js/layui/layui.js"></script>
+
 </head>
 <body>
 
@@ -86,7 +88,7 @@
             , id: 'LA'
             , btnAlign: 'c'
             , moveType: 1
-            , content: '/html/webui/header/login/register.html'
+            , content: '/html/webui/header/login/register.html'  // ../../../../html/webui/header/login/register.html
         });
     }
 
@@ -120,9 +122,10 @@
 
         //监听提交
         form.on('submit(LAY-user-reg-submit)', function (data) {
+            var url = "http://10.10.0.24:8080/public/login"
             $.ajax({
                 type: "post",
-                url: "/public/login",
+                url: url, //"/public/login"
                 data: data.field,
                 success: function (data) {
                     if (data.code === 200) {
@@ -150,12 +153,13 @@
      * 获得短信验证码的方法
      */
     function getverifyCode(thisBtn) {
+        var url = "http://10.10.0.24:8080/public/loginGetVerifyCode"
         if ($('#LAY-user-login-cellphone').val().length !== 11) {
             return;
         }
         $.ajax({
             type: "get",
-            url: "/public/loginGetVerifyCode",
+            url: url,// "/public/loginGetVerifyCode"
             data: {
                 "phone": $('#LAY-user-login-cellphone').val()
             },

@@ -4,7 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>个人工作台</title>
-    <script src='../../../webui/header/header.js'></script>
+    <!--<script src='../../../webui/header/header.js'></script>-->
+    <script src='../../js/header.js'></script>
     <link rel="stylesheet" type="text/css" href="../../css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="../../css/hyzx.css"/>
     <link type="text/css" rel="stylesheet" href="../../../webui/css/home.css"/>
@@ -177,6 +178,10 @@
 <script type="application/javascript">
 
     var $ = layui.jquery;
+
+    $(function () {
+        $("#footer").load("/html/webui/footer/footer.html");
+    })
 
     //导师图片上传方法
     layui.use('upload', function () {

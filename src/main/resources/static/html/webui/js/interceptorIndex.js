@@ -88,11 +88,11 @@ window.onload = function () {
     var personBtn = document.getElementById("person");
     var managerBtn = document.getElementById("manager");
     personBtn.addEventListener('click', function () {
-        checkAuth("../../webui/personal/person.html");
+        checkAuth("../html/webui/personal/person.html");
     }, false);
 
     managerBtn.addEventListener('click', function () {
-        checkAuth("../../managerui/index.html");
+        checkAuth("../html/managerui/index.html");
     }, false);
 }
 
@@ -148,21 +148,6 @@ function checkAuth(url) {
 
 
 function openLogin() {
-    layer.open({
-        type: 2
-        , area: ['30%', '52%']
-        , btn: []
-        , anim: 1
-        , title: false
-        , closeBtn: true
-        , shade: 0.6
-        , id: 'LAY_layuipro'
-        , btnAlign: 'c'
-        , moveType: 1
-        , content: '../../webui/header/login/login.html'
-    });
-}
-function indexOpenLogin() {
     layer.open({
         type: 2
         , area: ['30%', '52%']

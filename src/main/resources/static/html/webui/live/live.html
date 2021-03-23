@@ -57,10 +57,7 @@
 <script type="application/javascript">
 
     $(function () {
-        layer.load(1, {
-            shade: [0.1, '#fff'] //0.1透明度的白色背景
-        });
-        $("#footer").load("../footer/footer.html");
+        $("#footer").load("/html/webui/footer/footer.html");
         searchLivesList();
     })
 
@@ -69,6 +66,9 @@
      * @param pageConf
      */
     function searchLivesList(pageConf) {
+        layer.load(1, {
+            shade: [0.1, '#fff'] //0.1透明度的白色背景
+        });
         if (!pageConf) {
             pageConf = {};
             pageConf.pageSize = 8; // 每页最多8条
@@ -76,7 +76,7 @@
 
         }
         $.get("/public/live/searchLiveList", pageConf, function (data) {
-            layer.closeAll();
+            layer.closeAll('loading');
             layui.use(['laypage', 'layer'], function () {
                 var page = layui.laypage;
                 page.render({
