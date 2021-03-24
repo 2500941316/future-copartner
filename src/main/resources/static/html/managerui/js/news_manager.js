@@ -56,7 +56,7 @@ function viewNew(newsId) {
             area: ["90%", "100%"],
             fixed: false, //不固定
             maxmin: true,
-            content: "../../../webui/news/news_content.html"
+            content: "../webui/news/news_content.html"
         });
     });
 }

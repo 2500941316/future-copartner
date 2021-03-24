@@ -1,6 +1,7 @@
 var $ = layui.jquery;
 var layer = layui.layer;
-var serverIp = "http://10.10.0.24:8080"
+//var serverIp = "http://10.10.0.24:8080"
+var serverIp = "http://202.120.117.251/partner/8080"
 $(function () {
     // 轮播图
     searchCarouselImage();
@@ -186,7 +187,8 @@ function logout() {
         success: function (data) {
             if (data.code === 200) {
                 localStorage.clear();
-                window.location.href = "http://10.10.0.24:8080/";
+                //window.location.href = "http://10.10.0.24:8080/";
+                window.location.href = "http://202.120.117.251/partner/8080/";
             }
         },
         error: function (data) {

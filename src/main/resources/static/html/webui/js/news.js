@@ -136,6 +136,7 @@ function initCatagoryNews(pageConf) {
     layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
+    var url = "http://202.120.117.251/partner/8080/public/news/searchNewsByKeywords"
     var keyword = localStorage.getItem("news_catagory");
     if (!pageConf) {
         pageConf = {};
@@ -143,7 +144,7 @@ function initCatagoryNews(pageConf) {
         pageConf.page = 1; // 当前页
         pageConf.keyword = keyword;
     }
-    $.get("/public/news/searchNewsByKeywords", pageConf, function (data) {
+    $.get(url, pageConf, function (data) {// "/public/news/searchNewsByKeywords"
         layer.closeAll('loading');
         layui.use(['laypage', 'layer'], function () {
             var page = layui.laypage;

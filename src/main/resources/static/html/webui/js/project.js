@@ -4,10 +4,13 @@ $(function () {
 
     $("#footer").load("/html/webui/footer/footer.html");
     var url = window.location.pathname;
-    // 项目浏览页
-    searchProject();// 填充搜索的项目
-    getAllProjectData(); // 填充右侧项目总览
+    //if(url === "/html/webui/project/project.html" ){ }
+        // 项目浏览页
+        searchProject();// 填充搜索的项目
+        getAllProjectData(); // 填充右侧项目总览
+
     checkLogin();
+
 })
 
 

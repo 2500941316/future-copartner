@@ -92,6 +92,7 @@ public class VipProjectController {
      */
     @GetMapping("getProjectById")
     public TableModel getProjectById(@Size(min = 1) String projectId,Principal principal) {
+        log.info("vipname:"+principal.getName());
         return this.proProjectService.searchProjectById(projectId,principal.getName());
     }
 

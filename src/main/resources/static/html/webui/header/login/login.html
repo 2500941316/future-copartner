@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../../webui/css/login.css" media="all">
     <link rel="stylesheet" href="../../../webui/js/layui/css/layui.css" media="all">
     <script src="../../../webui/js/layui/layui.js"></script>
+    <script src="../../../webui/js/interceptor.js"></script>
 
 </head>
 <body>
@@ -75,6 +76,7 @@
     });
 
     function toRegistry() {
+        var url = "http://202.120.117.251/partner/8080/html/webui/header/login/register.html"
         parent.layer.close(index);
         parent.layer.open({
             type: 2
@@ -88,7 +90,7 @@
             , id: 'LA'
             , btnAlign: 'c'
             , moveType: 1
-            , content: '/html/webui/header/login/register.html'  // ../../../../html/webui/header/login/register.html
+            , content: url //'/html/webui/header/login/register.html'  // ../../../../html/webui/header/login/register.html
         });
     }
 
@@ -122,7 +124,9 @@
 
         //监听提交
         form.on('submit(LAY-user-reg-submit)', function (data) {
-            var url = "http://10.10.0.24:8080/public/login"
+            //var url = "http://10.10.0.24:8080/public/login"
+            //var url = "http://localhost:8080/public/login"
+            var url = "http://202.120.117.251/partner/8080/public/login"
             $.ajax({
                 type: "post",
                 url: url, //"/public/login"
@@ -153,7 +157,9 @@
      * 获得短信验证码的方法
      */
     function getverifyCode(thisBtn) {
-        var url = "http://10.10.0.24:8080/public/loginGetVerifyCode"
+        //var url = "http://10.10.0.24:8080/public/loginGetVerifyCode"
+        //var url = "http://localhost:8080/public/loginGetVerifyCode"
+        var url = "http://202.120.117.251/partner/8080/public/loginGetVerifyCode"
         if ($('#LAY-user-login-cellphone').val().length !== 11) {
             return;
         }

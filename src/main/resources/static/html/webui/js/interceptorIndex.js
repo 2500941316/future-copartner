@@ -1,6 +1,7 @@
 var $ = layui.jquery;
 var layer = layui.layer;
-var serverIp = "http://10.10.0.24:8080"
+// var serverIp = "http://10.10.0.24:8080"
+var serverIp = "http://202.120.117.251/partner/8080/"
 $(function () {
     // 轮播图
     searchCarouselImage();
@@ -88,11 +89,11 @@ window.onload = function () {
     var personBtn = document.getElementById("person");
     var managerBtn = document.getElementById("manager");
     personBtn.addEventListener('click', function () {
-        checkAuth("../html/webui/personal/person.html");
+        checkAuth(serverIp+"html/webui/personal/person.html");// "../html/webui/personal/person.html"
     }, false);
 
     managerBtn.addEventListener('click', function () {
-        checkAuth("../html/managerui/index.html");
+        checkAuth(serverIp+"html/managerui/index.html"); //"../html/managerui/index.html"
     }, false);
 }
 
