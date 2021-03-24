@@ -8,7 +8,7 @@ $(function () {
         news_index_init();
     } else if (url === "/html/webui/news/news_content.html") {
         news_content_init();
-    } else if (url === "/html/webui/news/news_catalog.html") {
+    } else if (url === "/partner/8080/html/webui/news/news_catalog.html") {
         //initPage();
         //initCatagoryNews(1);
         initCatagoryNews();
@@ -136,7 +136,7 @@ function initCatagoryNews(pageConf) {
     layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-    var url = "http://202.120.117.251/partner/8080/public/news/searchNewsByKeywords"
+    var url = "/partner/8080/public/news/searchNewsByKeywords"
     var keyword = localStorage.getItem("news_catagory");
     if (!pageConf) {
         pageConf = {};

@@ -5,12 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>个人工作台</title>
    <!-- <script src='/html/webui/header/header.js'></script>-->
+    <script src="../../../webui/js/layui/layui.js"></script>
     <script src='../../js/header.js'></script>
     <link rel="stylesheet" type="text/css" href="../../css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="../../css/hyzx.css"/>
     <link type="text/css" rel="stylesheet" href="../../../webui/css/home.css"/>
-    <script src="../../../webui/js/layui/layui.js"></script>
-    <script src="../../../webui/js/interceptorPrefix.js"></script>
+
 
 </head>
 <body>
@@ -106,15 +106,14 @@
             </div>
         </div>
         <!--发布操作弹出框-->
-        <form class="layui-form" id="test" style="display:none">
-            <div class="layui-form-item">
+            <div class="layui-form-item"id="test" style="display:none">
                 <label class="layui-form-label">状态：</label>
                 <div class="layui-input-block">
                     <input type="radio" name="type" value="1" title="发布" checked>
                     <input type="radio" name="type" value="0" title="撤回">
                 </div>
             </div>
-        </form>
+
 
     </div>
 </div>
@@ -235,8 +234,8 @@
      * @param projectId
      */
     function manageCarouselInfo(info) {
-        var $=layui.jquery;
-        var form = layui.form;
+        //var $=layui.jquery;
+        //var form = layui.form;
         // 获取选中的状态值
         layer.open({
             type:1,
